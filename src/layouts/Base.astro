@@ -22,7 +22,14 @@ const {
   <body>
     <header>
       <nav>
-        <a href="/" class="logo">River of Life</a>
+        <a href="/" class="logo">
+          <img src="/logo.png" alt="River of Life" class="logo-img" />
+          <span class="logo-text">
+            <span class="river">RIVER</span>
+            <span class="of">of</span>
+            <span class="life">LIFE</span>
+          </span>
+        </a>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
@@ -58,13 +65,15 @@ const {
 
 <style is:global>
   :root {
-    --color-primary: #2c5282;
-    --color-primary-dark: #1a365d;
-    --color-accent: #4299e1;
-    --color-text: #2d3748;
-    --color-text-light: #718096;
+    --color-teal: #2d9cca;
+    --color-teal-dark: #1a7ba8;
+    --color-gold: #f5c542;
+    --color-navy: #1a3a4a;
+    --color-navy-light: #2a4a5a;
+    --color-text: #1a3a4a;
+    --color-text-light: #4a6a7a;
     --color-bg: #ffffff;
-    --color-bg-alt: #f7fafc;
+    --color-bg-alt: #f0f7fa;
     --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
@@ -91,16 +100,16 @@ const {
   }
 
   a {
-    color: var(--color-primary);
+    color: var(--color-teal-dark);
     text-decoration: none;
   }
 
   a:hover {
-    color: var(--color-accent);
+    color: var(--color-teal);
   }
 
   .btn {
-    background: var(--color-primary);
+    background: var(--color-teal);
     color: white !important;
     padding: 0.5rem 1rem;
     border-radius: 0.375rem;
@@ -108,7 +117,7 @@ const {
   }
 
   .btn:hover {
-    background: var(--color-primary-dark);
+    background: var(--color-teal-dark);
   }
 </style>
 
@@ -116,7 +125,7 @@ const {
   header {
     background: var(--color-bg);
     border-bottom: 1px solid #e2e8f0;
-    padding: 1rem 2rem;
+    padding: 0.75rem 2rem;
   }
 
   nav {
@@ -128,9 +137,37 @@ const {
   }
 
   .logo {
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .logo-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-text .river,
+  .logo-text .life {
     font-weight: 700;
-    color: var(--color-primary);
+    font-size: 1.1rem;
+    color: var(--color-navy);
+    letter-spacing: 0.05em;
+  }
+
+  .logo-text .of {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--color-navy);
   }
 
   nav ul {
@@ -140,12 +177,13 @@ const {
     align-items: center;
   }
 
-  nav a {
+  nav ul a {
     color: var(--color-text);
+    font-weight: 500;
   }
 
   footer {
-    background: var(--color-primary-dark);
+    background: var(--color-navy);
     color: white;
     padding: 3rem 2rem 1rem;
     margin-top: auto;
@@ -162,10 +200,15 @@ const {
   .footer-section h4 {
     margin-bottom: 0.5rem;
     font-size: 1rem;
+    color: var(--color-gold);
   }
 
   .footer-section a {
-    color: var(--color-accent);
+    color: var(--color-teal);
+  }
+
+  .footer-section a:hover {
+    color: white;
   }
 
   .copyright {
@@ -186,6 +229,9 @@ const {
       gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
+    }
+    .logo-text {
+      display: none;
     }
   }
 </style>
