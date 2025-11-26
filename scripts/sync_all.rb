@@ -16,8 +16,8 @@ puts "=" * 50
 puts
 
 # Check for required environment variables
-unless ENV["PCO_APP_ID"] && ENV["PCO_SECRET"]
-  puts "ERROR: Missing PCO_APP_ID or PCO_SECRET environment variables"
+unless ENV["ROL_PLANNING_CENTER_CLIENT_ID"] && ENV["ROL_PLANNING_CENTER_SECRET"]
+  puts "ERROR: Missing ROL_PLANNING_CENTER_CLIENT_ID or ROL_PLANNING_CENTER_SECRET environment variables"
   puts "Set these in GitHub Actions secrets or in scripts/.env for local development"
   exit 1
 end
@@ -26,6 +26,7 @@ end
 scripts = %w[
   sync_events.rb
   sync_groups.rb
+  sync_hero_images.rb
 ]
 
 scripts.each do |script|

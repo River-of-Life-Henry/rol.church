@@ -48,13 +48,16 @@ const { title, subtitle, image = '/hero/1.jpg' } = Astro.props;
   }
 
   .page-hero h1 {
+    font-family: var(--font-sans);
     font-size: 3rem;
-    font-weight: 400;
+    font-weight: 700;
     margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
   }
 
   .page-hero p {
-    font-size: 1.2rem;
+    font-family: var(--font-script);
+    font-size: 1.5rem;
     opacity: 0.9;
   }
 

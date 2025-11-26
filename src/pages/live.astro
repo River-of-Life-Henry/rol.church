@@ -43,6 +43,46 @@ import PageHero from '../components/PageHero.astro';
           <p>All our services are recorded and available on our YouTube channel. Watch anytime!</p>
         </div>
       </div>
+
+      <div class="phonelive-section">
+        <div class="phonelive-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          <h2>PhoneLive</h2>
+          <p class="subtitle">Listen to church on the phone</p>
+        </div>
+
+        <div class="phone-number">
+          <a href="tel:+13093643165">(309) 364-3165</a>
+        </div>
+
+        <div class="phonelive-features">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <h4>Listen Live</h4>
+            <p>Call during service to listen live on your phone</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM12 3v10l3-3h6V3h-9z"/></svg>
+            </div>
+            <h4>Get a Call</h4>
+            <p>Receive a call when service starts so you never miss it</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+            </div>
+            <h4>Recent Service</h4>
+            <p>Listen to the most recent service anytime you call</p>
+          </div>
+        </div>
+
+        <p class="phonelive-note">Perfect for those without internet access or who prefer to listen by phone.</p>
+      </div>
     </div>
   </section>
 </Base>
@@ -141,10 +181,99 @@ import PageHero from '../components/PageHero.astro';
     margin-top: 0.5rem;
   }
 
+  /* PhoneLive Section */
+  .phonelive-section {
+    margin-top: 4rem;
+    background: var(--color-navy);
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: white;
+  }
+
+  .phonelive-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .phonelive-header svg {
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .phonelive-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .phonelive-header .subtitle {
+    color: rgba(255,255,255,0.8);
+    font-family: var(--font-script);
+    font-size: 1.4rem;
+  }
+
+  .phone-number {
+    margin: 2rem 0;
+  }
+
+  .phone-number a {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-gold) !important;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .phone-number a:hover {
+    color: white !important;
+  }
+
+  .phonelive-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  .feature {
+    padding: 1rem;
+  }
+
+  .feature-icon {
+    color: var(--color-teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .feature h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+
+  .feature p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .phonelive-note {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: 1rem;
+  }
+
   @media (max-width: 768px) {
     .watch-options {
       flex-direction: column;
       align-items: center;
+    }
+
+    .phone-number a {
+      font-size: 1.75rem;
+    }
+
+    .phonelive-section {
+      padding: 2rem 1.5rem;
     }
   }
 </style>

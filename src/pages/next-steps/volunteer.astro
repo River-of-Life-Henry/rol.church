@@ -21,15 +21,15 @@ import PageHero from '../../components/PageHero.astro';
             <p>Be the first friendly face people see when they walk through our doors.</p>
           </div>
           <div class="team">
-            <h4>Worship Team</h4>
-            <p>Lead others in worship through music and creative arts.</p>
+            <h4>Hosting Team</h4>
+            <p>Help make and serve food, setup, run, and clean up from events.</p>
           </div>
           <div class="team">
             <h4>Kids Ministry</h4>
             <p>Help the next generation discover and grow in their faith.</p>
           </div>
           <div class="team">
-            <h4>Tech Team</h4>
+            <h4>AVL Team</h4>
             <p>Run sound, lights, and media to create an engaging worship experience.</p>
           </div>
         </div>
@@ -37,15 +37,20 @@ import PageHero from '../../components/PageHero.astro';
 
       <div class="signup-section">
         <h2>Get Started</h2>
-        <p>Ready to serve? Fill out the form below and we'll help you find the perfect fit.</p>
-        <div class="form-placeholder">
-          <!-- PCO Form Embed will go here -->
-          <p class="placeholder-text">Planning Center form coming soon</p>
-        </div>
+        <p>Ready to serve? Sign up and we'll help you find the perfect fit.</p>
+        <a
+          href="https://rolhenry.churchcenter.com/people/forms/1102447"
+          data-open-in-church-center-modal="true"
+          class="btn btn-large"
+        >
+          Sign Up to Volunteer
+        </a>
       </div>
     </div>
   </section>
 </Base>
+
+<script src="https://js.churchcenter.com/modal/v1"></script>
 
 <style>
   .page-content {
@@ -123,15 +128,20 @@ import PageHero from '../../components/PageHero.astro';
     margin-bottom: 2rem;
   }
 
-  .form-placeholder {
-    background: var(--color-bg-alt);
-    padding: 4rem 2rem;
+  .btn-large {
+    display: inline-block;
+    background: var(--color-teal);
+    color: white !important;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     border-radius: 0.5rem;
-    border: 2px dashed var(--color-teal);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
   }
 
-  .placeholder-text {
-    color: var(--color-text-light);
-    font-style: italic;
+  .btn-large:hover {
+    background: var(--color-teal-dark);
+    transform: translateY(-2px);
   }
 </style>

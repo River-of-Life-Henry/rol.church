@@ -28,8 +28,9 @@ jobs:
 
       - name: Run sync scripts
         env:
-          PCO_APP_ID: ${{ secrets.PCO_APP_ID }}
-          PCO_SECRET: ${{ secrets.PCO_SECRET }}
+          ROL_PLANNING_CENTER_CLIENT_ID: ${{ secrets.ROL_PLANNING_CENTER_CLIENT_ID }}
+          ROL_PLANNING_CENTER_SECRET: ${{ secrets.ROL_PLANNING_CENTER_SECRET }}
+          PCO_WEBSITE_HERO_MEDIA_ID: ${{ secrets.PCO_WEBSITE_HERO_MEDIA_ID }}
         run: |
           cd scripts
           ruby sync_all.rb
@@ -37,13 +38,13 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code src/data/ || echo "changes=true" >> $GITHUB_OUTPUT
+          git add src/data/ public/hero/
+          git diff --cached --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add src/data/
-          git commit -m "Update data from Planning Center [automated]"
+          git commit -m "Update data and hero images from Planning Center [automated]"
           git push

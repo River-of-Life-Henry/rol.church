@@ -3,30 +3,37 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 ---
 
-<Base title="Baptism" description="Ready to take the next step? Baptism is a public declaration of your faith in Jesus Christ.">
+<Base title="Baptism" description="Ready to take the next step? Water baptism in Jesus' name is essential for salvation and the remission of sins.">
   <PageHero title="Baptism" image="/hero/1.jpg" />
 
   <section class="page-content">
     <div class="container">
       <div class="intro">
         <h2>What is Baptism?</h2>
-        <p>Baptism is an outward expression of an inward change. It's a public declaration that you have accepted Jesus Christ as your Lord and Savior. Through baptism, we identify with the death, burial, and resurrection of Jesus.</p>
+        <p>Water baptism by full immersion in the name of Jesus Christ is a foundational experience for every believer. As Peter declared in Acts 2:38, "Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins." Through baptism, we are buried with Christ and raised to walk in newness of life.</p>
+      </div>
+
+      <div class="scripture-highlight">
+        <blockquote>
+          "Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost."
+          <cite>— Acts 2:38</cite>
+        </blockquote>
       </div>
 
       <div class="why-baptism">
         <h3>Why Get Baptized?</h3>
         <div class="reasons-grid">
           <div class="reason">
-            <h4>Jesus Commands It</h4>
-            <p>Jesus instructed His followers to be baptized as an act of obedience.</p>
+            <h4>For Remission of Sins</h4>
+            <p>Baptism in Jesus' name washes away our sins and gives us a fresh start in Christ.</p>
           </div>
           <div class="reason">
-            <h4>Public Declaration</h4>
-            <p>It's a way to publicly share your decision to follow Jesus with your community.</p>
+            <h4>In Jesus' Name</h4>
+            <p>We baptize in the name of Jesus Christ, following the pattern of the early church in the book of Acts.</p>
           </div>
           <div class="reason">
-            <h4>Spiritual Milestone</h4>
-            <p>Baptism marks a significant moment in your spiritual journey.</p>
+            <h4>Full Immersion</h4>
+            <p>Baptism represents being buried with Christ and raised to new life, symbolized through complete immersion in water.</p>
           </div>
         </div>
       </div>
@@ -73,6 +80,30 @@ import PageHero from '../../components/PageHero.astro';
     color: var(--color-text-light);
     font-size: 1.1rem;
     line-height: 1.8;
+  }
+
+  .scripture-highlight {
+    background: var(--color-navy);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .scripture-highlight blockquote {
+    color: white;
+    font-family: var(--font-script);
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .scripture-highlight cite {
+    display: block;
+    margin-top: 1rem;
+    color: var(--color-gold);
+    font-style: normal;
+    font-weight: 600;
   }
 
   .why-baptism {

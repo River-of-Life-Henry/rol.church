@@ -14,8 +14,7 @@ import PageHero from '../components/PageHero.astro';
 
           <div class="info-item">
             <h3>Location</h3>
-            <p>425 University Ave<br />Henry, IL 61537</p>
-            <a href="/directions">Get Directions →</a>
+            <a href="/directions" class="address-link">425 University Ave<br />Henry, IL 61537</a>
           </div>
 
           <div class="info-item">
@@ -32,24 +31,30 @@ import PageHero from '../components/PageHero.astro';
           <div class="social-section">
             <h3>Connect With Us</h3>
             <div class="social-buttons">
-              <a href="https://www.facebook.com/riveroflifehenry" target="_blank" class="social-btn">Facebook</a>
+              <a href="https://www.facebook.com/rolhenry" target="_blank" class="social-btn">Facebook</a>
               <a href="https://www.youtube.com/@rol-henry" target="_blank" class="social-btn">YouTube</a>
-              <a href="https://rolhenry.churchcenter.com/home" target="_blank" class="social-btn">Church Center</a>
+              <a href="https://rolhenry.churchcenter.com" target="_blank" class="social-btn">Church Center</a>
             </div>
           </div>
         </div>
 
         <div class="contact-form">
           <h2>Send a Message</h2>
-          <div class="form-placeholder">
-            <!-- PCO Form Embed will go here -->
-            <p class="placeholder-text">Planning Center form coming soon</p>
-          </div>
+          <p class="form-intro">Have a question or want to learn more? We'd love to hear from you!</p>
+          <a
+            href="https://rolhenry.churchcenter.com/people/forms/1102449"
+            data-open-in-church-center-modal="true"
+            class="btn btn-large"
+          >
+            Contact Us
+          </a>
         </div>
       </div>
     </div>
   </section>
 </Base>
+
+<script src="https://js.churchcenter.com/modal/v1"></script>
 
 <style>
   .contact-content {
@@ -95,6 +100,18 @@ import PageHero from '../components/PageHero.astro';
     font-weight: 500;
   }
 
+  .address-link {
+    display: block;
+    color: var(--color-text) !important;
+    font-weight: 400;
+    line-height: 1.6;
+    text-decoration: none;
+  }
+
+  .address-link:hover {
+    text-decoration: underline;
+  }
+
   .social-section h3 {
     color: var(--color-teal);
     font-size: 1rem;
@@ -122,17 +139,36 @@ import PageHero from '../components/PageHero.astro';
     color: white;
   }
 
-  .form-placeholder {
-    background: var(--color-bg-alt);
-    padding: 4rem 2rem;
-    border-radius: 0.5rem;
-    border: 2px dashed var(--color-teal);
+  .contact-form {
     text-align: center;
+    background: var(--color-bg-alt);
+    padding: 3rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .placeholder-text {
+  .form-intro {
     color: var(--color-text-light);
-    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .btn-large {
+    display: inline-block;
+    background: var(--color-teal);
+    color: white !important;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-large:hover {
+    background: var(--color-teal-dark);
+    transform: translateY(-2px);
   }
 
   @media (max-width: 768px) {

@@ -6,8 +6,8 @@ module PCO
   class Client
     def self.instance
       @instance ||= PCO::API.new(
-        basic_auth_token: ENV["PCO_APP_ID"],
-        basic_auth_secret: ENV["PCO_SECRET"]
+        basic_auth_token: ENV["ROL_PLANNING_CENTER_CLIENT_ID"],
+        basic_auth_secret: ENV["ROL_PLANNING_CENTER_SECRET"]
       )
     end
 
