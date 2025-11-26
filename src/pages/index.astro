@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>River of Life Church</h1>
+      <p class="tagline">A place to belong, believe, and become</p>
+      <div class="cta-buttons">
+        <a href="/about" class="btn btn-primary">Learn More</a>
+        <a href="https://rolhenry.churchcenter.com/home" target="_blank" class="btn btn-secondary">Visit Church Center</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-cards">
+    <div class="card">
+      <h3>Join Us Sunday</h3>
+      <p class="time">10:00 AM</p>
+      <p>Come as you are and experience community, worship, and a relevant message.</p>
+    </div>
+
+    <div class="card">
+      <h3>Location</h3>
+      <p>Henry, IL</p>
+      <a href="https://maps.google.com/?q=Henry,IL" target="_blank">Get Directions</a>
+    </div>
+
+    <div class="card">
+      <h3>Get Connected</h3>
+      <p>Find groups, events, and ways to serve.</p>
+      <a href="https://rolhenry.churchcenter.com/groups" target="_blank">Explore Groups</a>
+    </div>
+  </section>
+
+  <section class="quick-links">
+    <h2>Quick Links</h2>
+    <div class="links-grid">
+      <a href="https://rolhenry.churchcenter.com/giving" target="_blank" class="link-card">
+        <span class="icon">&#9829;</span>
+        <span>Give Online</span>
+      </a>
+      <a href="https://rolhenry.churchcenter.com/groups" target="_blank" class="link-card">
+        <span class="icon">&#9734;</span>
+        <span>Small Groups</span>
+      </a>
+      <a href="https://rolhenry.churchcenter.com/calendar" target="_blank" class="link-card">
+        <span class="icon">&#9998;</span>
+        <span>Events</span>
+      </a>
+      <a href="https://rolhenry.churchcenter.com/people" target="_blank" class="link-card">
+        <span class="icon">&#9997;</span>
+        <span>Update Info</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .tagline {
+    font-size: 1.5rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: white;
+    color: var(--color-primary) !important;
+  }
+
+  .btn-primary:hover {
+    background: #f0f0f0;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 2px solid white;
+    color: white !important;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--color-bg);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .card h3 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .card .time {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+  }
+
+  .quick-links {
+    background: var(--color-bg-alt);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .quick-links h2 {
+    margin-bottom: 2rem;
+    color: var(--color-primary-dark);
+  }
+
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: var(--color-text);
+  }
+
+  .link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: var(--color-primary);
+  }
+
+  .link-card .icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+    .tagline {
+      font-size: 1.25rem;
+    }
+  }
+</style>

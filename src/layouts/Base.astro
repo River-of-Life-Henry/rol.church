@@ -1,0 +1,191 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "River of Life Church",
+  description = "A welcoming church community in Henry, IL"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/" class="logo">River of Life</a>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://rolhenry.churchcenter.com/giving" target="_blank">Give</a></li>
+          <li><a href="https://rolhenry.churchcenter.com/home" target="_blank" class="btn">Church Center</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Service Times</h4>
+          <p>Sunday: 10:00 AM</p>
+        </div>
+        <div class="footer-section">
+          <h4>Location</h4>
+          <p>Henry, IL</p>
+        </div>
+        <div class="footer-section">
+          <h4>Connect</h4>
+          <a href="https://rolhenry.churchcenter.com/home" target="_blank">Church Center</a>
+        </div>
+      </div>
+      <p class="copyright">&copy; {new Date().getFullYear()} River of Life Church</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-primary: #2c5282;
+    --color-primary-dark: #1a365d;
+    --color-accent: #4299e1;
+    --color-text: #2d3748;
+    --color-text-light: #718096;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+  }
+
+  .btn {
+    background: var(--color-primary);
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: background 0.2s;
+  }
+
+  .btn:hover {
+    background: var(--color-primary-dark);
+  }
+</style>
+
+<style>
+  header {
+    background: var(--color-bg);
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 2rem;
+  }
+
+  nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  nav a {
+    color: var(--color-text);
+  }
+
+  footer {
+    background: var(--color-primary-dark);
+    color: white;
+    padding: 3rem 2rem 1rem;
+    margin-top: auto;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .footer-section h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .footer-section a {
+    color: var(--color-accent);
+  }
+
+  .copyright {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    nav ul {
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>
