@@ -1,0 +1,121 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Sync events from Planning Center Calendar API
+# Pulls upcoming events for the next 12 months
+# Usage: ruby sync_events.rb
+
+require_relative "pco_client"
+require "json"
+require "time"
+
+# Force immediate output
+$stdout.sync = true
+$stderr.sync = true
+
+OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "events.json")
+
+def sync_events
+  puts "INFO: Starting events sync from Planning Center Calendar"
+
+  api = PCO::Client.api
+  events = []
+
+  begin
+    now = Time.now
+    twelve_months_later = now + (365 * 24 * 60 * 60)
+
+    puts "INFO: Fetching future events..."
+
+    # Fetch future event instances from Calendar API (only published/visible events)
+    offset = 0
+    loop do
+      response = api.calendar.v2.event_instances.get(
+        per_page: 100,
+        offset: offset,
+        filter: "future,church_center_visible",
+        order: "starts_at"
+      )
+
+      instances = response["data"] || []
+      break if instances.empty?
+
+      instances.each do |instance|
+        attrs = instance["attributes"]
+        starts_at = attrs["starts_at"]
+        ends_at = attrs["ends_at"]
+        all_day = attrs["all_day_event"] || false
+
+        next if starts_at.nil?
+
+        # Parse and filter to next 12 months
+        event_time = Time.parse(starts_at) rescue nil
+        next if event_time.nil? || event_time > twelve_months_later
+
+        # Get the event (parent) to find tags/connections
+        event_id = instance.dig("relationships", "event", "data", "id")
+        tags = []
+
+        if event_id
+          begin
+            event_response = api.calendar.v2.events[event_id].get(include: "tags")
+            included = event_response["included"] || []
+            tags = included.select { |i| i["type"] == "Tag" }.map { |t| t.dig("attributes", "name") }.compact
+          rescue
+            # Continue if we can't get tags
+          end
+        end
+
+        events << {
+          id: instance["id"],
+          name: attrs["name"] || "Untitled Event",
+          description: attrs["description"] || "",
+          startsAt: starts_at,
+          endsAt: ends_at,
+          location: attrs["location"] || "",
+          allDay: all_day,
+          tags: tags
+        }
+      end
+
+      offset += 100
+      break unless response.dig("links", "next")
+      break if events.length >= 100 # Limit to 100 events
+    end
+
+    # Sort by start date
+    events.sort_by! { |e| e[:startsAt] }
+
+    puts "SUCCESS: Found #{events.length} upcoming events"
+
+    # Write events data JSON
+    data_dir = File.dirname(OUTPUT_PATH)
+    Dir.mkdir(data_dir) unless Dir.exist?(data_dir)
+
+    File.write(OUTPUT_PATH, JSON.pretty_generate({
+      updated_at: Time.now.iso8601,
+      events: events
+    }))
+    puts "INFO: Generated events.json"
+
+    return events.any?
+
+  rescue => e
+    puts "ERROR syncing events: #{e.message}"
+    puts "ERROR class: #{e.class}"
+    puts e.backtrace.first(10).join("\n")
+    return false
+  end
+end
+
+if __FILE__ == $0
+  puts "Syncing events from Planning Center Calendar..."
+  success = sync_events
+  if success
+    puts "Done!"
+    exit 0
+  else
+    puts "Failed to sync events (or no events found)"
+    exit 0
+  end
+end

@@ -11,6 +11,17 @@ const {
   image = "/logo-full.jpg"
 } = Astro.props;
 
+// Load groups for navigation dropdown
+let groups = [];
+try {
+  const groupsData = await import('../data/groups.json');
+  // Filter to only show ministry groups (exclude administrative groups)
+  const excludedGroups = ['all-church-events', 'leadership', 'maintenance'];
+  groups = (groupsData.groups || []).filter(g => !excludedGroups.includes(g.slug));
+} catch (e) {
+  console.log('Groups data not yet generated');
+}
+
 const siteUrl = "https://rol.church";
 const fullTitle = title === "River of Life" ? title : `${title} | River of Life`;
 
@@ -159,12 +170,20 @@ const churchSchema = {
         <ul class="nav-menu">
           <li><a href="/live">Watch Live</a></li>
           <li class="has-dropdown">
-            <a href="/next-steps">Next Steps</a>
+            <a href="/next-steps/visit">Next Steps</a>
             <ul class="dropdown">
               <li><a href="/next-steps/visit">Plan Your Visit</a></li>
               <li><a href="/next-steps/foundations">Foundations Class</a></li>
               <li><a href="/next-steps/baptism">Baptism</a></li>
               <li><a href="/next-steps/volunteer">Volunteer</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="/groups">Groups</a>
+            <ul class="dropdown">
+              {groups.map((group) => (
+                <li><a href={`/groups/${group.slug}`}>{group.name}</a></li>
+              ))}
             </ul>
           </li>
           <li><a href="/events">Events</a></li>

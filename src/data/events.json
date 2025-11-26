@@ -1,0 +1,1135 @@
+{
+  "updated_at": "2025-11-26T00:56:13-06:00",
+  "events": [
+    {
+      "id": "200859007",
+      "name": "No Midweek Bible Study",
+      "description": "",
+      "startsAt": "2025-11-27T01:00:00Z",
+      "endsAt": "2025-11-27T02:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "167673294",
+      "name": "Kids: Christian Education: Sunday School",
+      "description": "",
+      "startsAt": "2025-11-30T16:00:00Z",
+      "endsAt": "2025-11-30T16:45:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "163984513",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2025-12-03T00:00:00Z",
+      "endsAt": "2025-12-03T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984489",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2025-12-03T01:00:00Z",
+      "endsAt": "2025-12-03T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "175266493",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2025-12-04T01:15:00Z",
+      "endsAt": "2025-12-04T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "178701584",
+      "name": "Youth Christmas Party",
+      "description": "",
+      "startsAt": "2025-12-06T01:00:00Z",
+      "endsAt": "2025-12-06T05:30:00Z",
+      "location": "Plappert's Residence - Chillicothe, IL 61523, USA",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "167673295",
+      "name": "Kids: Christian Education: Sunday School",
+      "description": "",
+      "startsAt": "2025-12-07T16:00:00Z",
+      "endsAt": "2025-12-07T16:45:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "178702112",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2025-12-08T00:00:00Z",
+      "endsAt": "2025-12-08T03:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206492117",
+      "name": "All Day Test Event",
+      "description": "",
+      "startsAt": "2025-12-08T06:00:00Z",
+      "endsAt": "2025-12-09T05:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "175265866",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2025-12-11T01:15:00Z",
+      "endsAt": "2025-12-11T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "178702122",
+      "name": "Ladies Christmas Party",
+      "description": "",
+      "startsAt": "2025-12-12T00:00:00Z",
+      "endsAt": "2025-12-12T03:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "178702129",
+      "name": "Men's Christmas Breakfast",
+      "description": "",
+      "startsAt": "2025-12-13T15:00:00Z",
+      "endsAt": "2025-12-13T17:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "167673296",
+      "name": "Kids: Christian Education: Sunday School",
+      "description": "",
+      "startsAt": "2025-12-14T16:00:00Z",
+      "endsAt": "2025-12-14T16:45:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206262853",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2025-12-18T01:15:00Z",
+      "endsAt": "2025-12-18T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206325230",
+      "name": "Hyphen Christmas Coffee",
+      "description": "",
+      "startsAt": "2025-12-20T15:00:00Z",
+      "endsAt": "2025-12-20T17:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "167673297",
+      "name": "Kids: Christian Education: Sunday School",
+      "description": "",
+      "startsAt": "2025-12-21T16:00:00Z",
+      "endsAt": "2025-12-21T16:45:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "167673298",
+      "name": "Kids: Christian Education: Sunday School",
+      "description": "",
+      "startsAt": "2025-12-28T16:00:00Z",
+      "endsAt": "2025-12-28T16:45:00Z",
+      "location": "River of Life - Henry - 425 University Ave\nHenry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "178702145",
+      "name": "Varna/Toluca/Wenona Life Group",
+      "description": "",
+      "startsAt": "2025-12-29T00:00:00Z",
+      "endsAt": "2025-12-29T03:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206538549",
+      "name": "Youth Snow Tubing",
+      "description": "",
+      "startsAt": "2026-01-03T12:00:00Z",
+      "endsAt": "2026-01-03T20:00:00Z",
+      "location": "Snowstar - 9500 126th St W, Andalusia, IL 61232, USA",
+      "allDay": false,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257439",
+      "name": "Volunteer Appreciation Dinner",
+      "description": "",
+      "startsAt": "2026-01-04T06:00:00Z",
+      "endsAt": "2026-01-05T05:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "163984514",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2026-01-07T00:00:00Z",
+      "endsAt": "2026-01-07T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984490",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2026-01-07T01:00:00Z",
+      "endsAt": "2026-01-07T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206262856",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-01-08T01:15:00Z",
+      "endsAt": "2026-01-08T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257437",
+      "name": "Community Trivia Night",
+      "description": "",
+      "startsAt": "2026-01-09T06:00:00Z",
+      "endsAt": "2026-01-10T05:59:59Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257436",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2026-01-11T06:00:00Z",
+      "endsAt": "2026-01-12T05:59:59Z",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262857",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-01-15T01:15:00Z",
+      "endsAt": "2026-01-15T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206262858",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-01-22T01:15:00Z",
+      "endsAt": "2026-01-22T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206384834",
+      "name": "Hyphen Conference",
+      "description": "",
+      "startsAt": "2026-01-23T06:00:00Z",
+      "endsAt": "2026-01-25T05:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206257440",
+      "name": "Princeton Life Group",
+      "description": "",
+      "startsAt": "2026-01-25T06:00:00Z",
+      "endsAt": "2026-01-26T05:59:59Z",
+      "location": "Princeton, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257446",
+      "name": "Joe Randall Memorial",
+      "description": "",
+      "startsAt": "2026-01-27T06:00:00Z",
+      "endsAt": "2026-01-28T05:59:59Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262859",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-01-29T01:15:00Z",
+      "endsAt": "2026-01-29T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206330208",
+      "name": "Winter Revival",
+      "description": "",
+      "startsAt": "2026-01-30T06:00:00Z",
+      "endsAt": "2026-02-02T05:59:59Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "163984515",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2026-02-04T00:00:00Z",
+      "endsAt": "2026-02-04T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984491",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2026-02-04T01:00:00Z",
+      "endsAt": "2026-02-04T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206257443",
+      "name": "Business Meeting",
+      "description": "",
+      "startsAt": "2026-02-04T06:00:00Z",
+      "endsAt": "2026-02-05T05:59:59Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262860",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-02-05T01:15:00Z",
+      "endsAt": "2026-02-05T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257441",
+      "name": "Section 9 Youth Rally",
+      "description": "",
+      "startsAt": "2026-02-06T06:00:00Z",
+      "endsAt": "2026-02-07T05:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257442",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2026-02-08T06:00:00Z",
+      "endsAt": "2026-02-09T05:59:59Z",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262861",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-02-12T01:15:00Z",
+      "endsAt": "2026-02-12T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206262862",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-02-19T01:15:00Z",
+      "endsAt": "2026-02-19T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206372462",
+      "name": "Ladies Dinner & Bowling",
+      "description": "",
+      "startsAt": "2026-02-21T00:00:00Z",
+      "endsAt": "2026-02-21T03:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206257447",
+      "name": "Men's Breakfast",
+      "description": "",
+      "startsAt": "2026-02-21T06:00:00Z",
+      "endsAt": "2026-02-22T05:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257448",
+      "name": "Henry Life Group",
+      "description": "",
+      "startsAt": "2026-02-22T06:00:00Z",
+      "endsAt": "2026-02-23T05:59:59Z",
+      "location": "Henry, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262863",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-02-26T01:15:00Z",
+      "endsAt": "2026-02-26T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206372465",
+      "name": "Hyphen Bowling & Dinner",
+      "description": "",
+      "startsAt": "2026-02-28T23:00:00Z",
+      "endsAt": "2026-03-01T02:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984516",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2026-03-04T00:00:00Z",
+      "endsAt": "2026-03-04T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984492",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2026-03-04T01:00:00Z",
+      "endsAt": "2026-03-04T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206262864",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-03-05T01:15:00Z",
+      "endsAt": "2026-03-05T02:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206339431",
+      "name": "Section 9 Ladies Event",
+      "description": "",
+      "startsAt": "2026-03-06T06:00:00Z",
+      "endsAt": "2026-03-07T05:59:59Z",
+      "location": "River of Life Church - Henry, IL - 425 University Ave",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257450",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2026-03-08T06:00:00Z",
+      "endsAt": "2026-03-09T04:59:59Z",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262865",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-03-12T00:15:00Z",
+      "endsAt": "2026-03-12T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206339441",
+      "name": "Youth Roller Skating",
+      "description": "",
+      "startsAt": "2026-03-13T05:00:00Z",
+      "endsAt": "2026-03-14T04:59:59Z",
+      "location": "Morton Roller Rink - 216 S First Ave, Morton, IL 61550, USA",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257454",
+      "name": "Leadership Meeting",
+      "description": "",
+      "startsAt": "2026-03-15T05:00:00Z",
+      "endsAt": "2026-03-16T04:59:59Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262866",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-03-19T00:15:00Z",
+      "endsAt": "2026-03-19T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206384950",
+      "name": "Future Generations (Children's Ministry)",
+      "description": "",
+      "startsAt": "2026-03-20T05:00:00Z",
+      "endsAt": "2026-03-22T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206257451",
+      "name": "Varna/Wenona Life Group",
+      "description": "",
+      "startsAt": "2026-03-22T05:00:00Z",
+      "endsAt": "2026-03-23T04:59:59Z",
+      "location": "Varna/Wenona, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262867",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-03-26T00:15:00Z",
+      "endsAt": "2026-03-26T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257452",
+      "name": "Section 9 MM Banquet & Conference",
+      "description": "",
+      "startsAt": "2026-03-26T05:00:00Z",
+      "endsAt": "2026-03-27T04:59:59Z",
+      "location": "TBD",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206384076",
+      "name": "March Madness (Revival)",
+      "description": "",
+      "startsAt": "2026-03-27T05:00:00Z",
+      "endsAt": "2026-03-30T04:59:59Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "205649794",
+      "name": "2026 IL Youth Convention",
+      "description": "",
+      "startsAt": "2026-04-01T05:00:00Z",
+      "endsAt": "2026-04-05T04:59:59Z",
+      "location": "BOS Center -  Convention Center Plaza\nSpringfield, IL 62701",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262868",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-04-02T00:15:00Z",
+      "endsAt": "2026-04-02T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "163984517",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2026-04-07T23:00:00Z",
+      "endsAt": "2026-04-08T00:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984493",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2026-04-08T00:00:00Z",
+      "endsAt": "2026-04-08T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206262869",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-04-09T00:15:00Z",
+      "endsAt": "2026-04-09T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257463",
+      "name": "Men's Breakfast",
+      "description": "",
+      "startsAt": "2026-04-11T05:00:00Z",
+      "endsAt": "2026-04-12T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257456",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2026-04-12T05:00:00Z",
+      "endsAt": "2026-04-13T04:59:59Z",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262870",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-04-16T00:15:00Z",
+      "endsAt": "2026-04-16T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206384960",
+      "name": "Leadership Seminar",
+      "description": "",
+      "startsAt": "2026-04-17T05:00:00Z",
+      "endsAt": "2026-04-19T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262871",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-04-23T00:15:00Z",
+      "endsAt": "2026-04-23T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206384973",
+      "name": "Young Mens Encounter",
+      "description": "",
+      "startsAt": "2026-04-24T05:00:00Z",
+      "endsAt": "2026-04-26T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206257475",
+      "name": "Princeton Life Group",
+      "description": "",
+      "startsAt": "2026-04-26T05:00:00Z",
+      "endsAt": "2026-04-27T04:59:59Z",
+      "location": "Princeton, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262872",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-04-30T00:15:00Z",
+      "endsAt": "2026-04-30T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257464",
+      "name": "Youth Escape Room",
+      "description": "",
+      "startsAt": "2026-05-01T05:00:00Z",
+      "endsAt": "2026-05-02T04:59:59Z",
+      "location": "TBD",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257467",
+      "name": "Children's Revival",
+      "description": "",
+      "startsAt": "2026-05-02T05:00:00Z",
+      "endsAt": "2026-05-03T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "163984518",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2026-05-05T23:00:00Z",
+      "endsAt": "2026-05-06T00:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984494",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2026-05-06T00:00:00Z",
+      "endsAt": "2026-05-06T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206262875",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-05-07T00:15:00Z",
+      "endsAt": "2026-05-07T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257458",
+      "name": "SOC Fundraiser",
+      "description": "",
+      "startsAt": "2026-05-09T05:00:00Z",
+      "endsAt": "2026-05-10T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262877",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-05-14T00:15:00Z",
+      "endsAt": "2026-05-14T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257465",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2026-05-17T05:00:00Z",
+      "endsAt": "2026-05-18T04:59:59Z",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206262882",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-05-21T00:15:00Z",
+      "endsAt": "2026-05-21T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257466",
+      "name": "SOC Fundraiser (Make Up Date)",
+      "description": "",
+      "startsAt": "2026-05-23T05:00:00Z",
+      "endsAt": "2026-05-24T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206372546",
+      "name": "Hyphen Hangout",
+      "description": "",
+      "startsAt": "2026-05-23T22:00:00Z",
+      "endsAt": "2026-05-23T23:00:00Z",
+      "location": "",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206372540",
+      "name": "Memorial Day Picnic",
+      "description": "",
+      "startsAt": "2026-05-25T05:00:00Z",
+      "endsAt": "2026-05-26T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262884",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-05-28T00:15:00Z",
+      "endsAt": "2026-05-28T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206267837",
+      "name": "Men's Camping",
+      "description": "",
+      "startsAt": "2026-05-29T05:00:00Z",
+      "endsAt": "2026-05-31T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257474",
+      "name": "Henry Life Group",
+      "description": "",
+      "startsAt": "2026-05-31T05:00:00Z",
+      "endsAt": "2026-06-01T04:59:59Z",
+      "location": "Henry, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "163984519",
+      "name": "Music Practice",
+      "description": "",
+      "startsAt": "2026-06-02T23:00:00Z",
+      "endsAt": "2026-06-03T00:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "163984495",
+      "name": "Family Prayer",
+      "description": "",
+      "startsAt": "2026-06-03T00:00:00Z",
+      "endsAt": "2026-06-03T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": []
+    },
+    {
+      "id": "206385015",
+      "name": "Hyphen Camp",
+      "description": "",
+      "startsAt": "2026-06-03T05:00:00Z",
+      "endsAt": "2026-06-06T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262886",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-06-04T00:15:00Z",
+      "endsAt": "2026-06-04T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257473",
+      "name": "Chillicothe Life Group",
+      "description": "",
+      "startsAt": "2026-06-07T05:00:00Z",
+      "endsAt": "2026-06-08T04:59:59Z",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206385031",
+      "name": "Jr. High Camp",
+      "description": "",
+      "startsAt": "2026-06-08T05:00:00Z",
+      "endsAt": "2026-06-13T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262887",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-06-11T00:15:00Z",
+      "endsAt": "2026-06-11T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206385081",
+      "name": "Sr. High Camp",
+      "description": "",
+      "startsAt": "2026-06-15T05:00:00Z",
+      "endsAt": "2026-06-20T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262888",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-06-18T00:15:00Z",
+      "endsAt": "2026-06-18T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206385126",
+      "name": "Kids Camp",
+      "description": "",
+      "startsAt": "2026-06-22T05:00:00Z",
+      "endsAt": "2026-06-27T04:59:59Z",
+      "location": "",
+      "allDay": true,
+      "tags": []
+    },
+    {
+      "id": "206262889",
+      "name": "Youth: Youth Class",
+      "description": "",
+      "startsAt": "2026-06-25T00:15:00Z",
+      "endsAt": "2026-06-25T01:00:00Z",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [
+        "Hidden"
+      ]
+    },
+    {
+      "id": "206257472",
+      "name": "Men's Fishing",
+      "description": "",
+      "startsAt": "2026-06-27T05:00:00Z",
+      "endsAt": "2026-06-28T04:59:59Z",
+      "location": "TBD",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    },
+    {
+      "id": "206257469",
+      "name": "Varna/Wenona Life Group",
+      "description": "",
+      "startsAt": "2026-06-28T05:00:00Z",
+      "endsAt": "2026-06-29T04:59:59Z",
+      "location": "Varna/Wenona, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ]
+    }
+  ]
+}

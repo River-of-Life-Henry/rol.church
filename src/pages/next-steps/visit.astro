@@ -24,8 +24,8 @@ import PageHero from '../../components/PageHero.astro';
             <p>Our messages are Bible-based and practical, designed to help you grow in your faith and daily life.</p>
           </div>
           <div class="expect-item">
-            <h3>Kids Programs</h3>
-            <p>We have age-appropriate programs for children so the whole family can grow together.</p>
+            <h3>Kids & Youth</h3>
+            <p>Sunday School for kids through age 11 meets at 10AM every Sunday. Students ages 12-18 have a special time every Wednesday at 7PM.</p>
           </div>
         </div>
       </div>
@@ -41,9 +41,10 @@ import PageHero from '../../components/PageHero.astro';
         </div>
         <div class="info-card">
           <h3>Location</h3>
-          <p>425 University Ave</p>
-          <p>Henry, IL 61537</p>
-          <a href="/directions" class="btn" style="margin-top: 1rem;">Get Directions</a>
+          <a href="/directions" class="address-link">
+            <p>425 University Ave</p>
+            <p>Henry, IL 61537</p>
+          </a>
         </div>
       </div>
 
@@ -132,6 +133,21 @@ import PageHero from '../../components/PageHero.astro';
 
   .info-card p {
     margin-bottom: 0.25rem;
+  }
+
+  .address-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .address-link:hover {
+    color: var(--color-teal);
+  }
+
+  .address-link:hover p {
+    text-decoration: underline;
   }
 
   .signup-section {

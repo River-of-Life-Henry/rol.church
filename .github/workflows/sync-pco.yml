@@ -38,7 +38,7 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git add src/data/ public/hero/ public/team/
+          git add src/data/ public/hero/ public/team/ public/groups/
           git diff --cached --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
@@ -46,5 +46,5 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "Update data, hero images, and team photos from Planning Center [automated]"
+          git commit -m "Update data from Planning Center [automated]"
           git push

@@ -8,6 +8,10 @@ import PageHero from '../components/PageHero.astro';
 
   <section class="directions-content">
     <div class="container">
+      <div class="building-photo">
+        <img src="/building.jpg" alt="River of Life Church Building" />
+      </div>
+
       <div class="address">
         <h2>425 University Ave</h2>
         <p>Henry, IL 61537</p>
@@ -44,6 +48,19 @@ import PageHero from '../components/PageHero.astro';
   .directions-content .container {
     max-width: 900px;
     margin: 0 auto;
+  }
+
+  .building-photo {
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .building-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .address {
