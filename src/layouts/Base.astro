@@ -189,8 +189,14 @@ const churchSchema = {
         </div>
         <div class="footer-section">
           <h4>Location</h4>
-          <p>425 University Ave<br />Henry, IL 61537</p>
-          <a href="/directions">Get Directions</a>
+          <div class="location-info">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <div>
+              <span class="street">425 University Ave</span>
+              <span class="city">Henry, IL 61537</span>
+            </div>
+          </div>
+          <a href="/directions" class="directions-btn">Get Directions</a>
         </div>
         <div class="footer-section">
           <h4>Contact</h4>
@@ -572,6 +578,49 @@ const churchSchema = {
   .time-block .service .time {
     color: var(--color-teal);
     font-weight: 600;
+  }
+
+  .location-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .location-info svg {
+    flex-shrink: 0;
+    color: var(--color-teal);
+    margin-top: 2px;
+  }
+
+  .location-info div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .location-info .street {
+    color: white;
+    font-weight: 500;
+  }
+
+  .location-info .city {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+  }
+
+  .directions-btn {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .directions-btn:hover {
+    background: var(--color-teal);
   }
 
   .contact-links {

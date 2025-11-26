@@ -1,0 +1,49 @@
+name: Sync Planning Center Data
+
+on:
+  schedule:
+    # Run daily at 6:00 AM UTC (midnight CST)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: scripts
+
+      - name: Install dependencies
+        run: |
+          cd scripts
+          bundle install
+
+      - name: Run sync scripts
+        env:
+          PCO_APP_ID: ${{ secrets.PCO_APP_ID }}
+          PCO_SECRET: ${{ secrets.PCO_SECRET }}
+        run: |
+          cd scripts
+          ruby sync_all.rb
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code src/data/ || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/data/
+          git commit -m "Update data from Planning Center [automated]"
+          git push
