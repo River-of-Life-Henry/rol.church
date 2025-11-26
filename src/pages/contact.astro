@@ -1,0 +1,144 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Base title="Contact" description="Get in touch with River of Life. We'd love to hear from you.">
+  <PageHero title="Contact Us" subtitle="We'd love to hear from you" image="/hero/7.jpg" />
+
+  <section class="contact-content">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Get In Touch</h2>
+
+          <div class="info-item">
+            <h3>Location</h3>
+            <p>425 University Ave<br />Henry, IL 61537</p>
+            <a href="https://maps.google.com/?q=425+University+Ave,+Henry,+IL+61537" target="_blank">Get Directions →</a>
+          </div>
+
+          <div class="info-item">
+            <h3>Phone</h3>
+            <p><a href="tel:+13093643165">(309) 364-3165</a></p>
+          </div>
+
+          <div class="info-item">
+            <h3>Service Times</h3>
+            <p><strong>Sunday</strong><br />Christian Education: 10:00am<br />Main Service: 11:00am</p>
+            <p><strong>Wednesday</strong><br />Bible Study: 7:00pm</p>
+          </div>
+
+          <div class="social-section">
+            <h3>Connect With Us</h3>
+            <div class="social-buttons">
+              <a href="https://www.facebook.com/riveroflifehenry" target="_blank" class="social-btn">Facebook</a>
+              <a href="https://www.youtube.com/@rol-henry" target="_blank" class="social-btn">YouTube</a>
+              <a href="https://rolhenry.churchcenter.com/home" target="_blank" class="social-btn">Church Center</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <h2>Send a Message</h2>
+          <div class="form-placeholder">
+            <!-- PCO Form Embed will go here -->
+            <p class="placeholder-text">Planning Center form coming soon</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-content {
+    padding: 4rem 2rem;
+  }
+
+  .contact-content .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .contact-info h2,
+  .contact-form h2 {
+    color: var(--color-navy);
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-item {
+    margin-bottom: 2rem;
+  }
+
+  .info-item h3 {
+    color: var(--color-teal);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-item p {
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-item a {
+    color: var(--color-teal);
+    font-weight: 500;
+  }
+
+  .social-section h3 {
+    color: var(--color-teal);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .social-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .social-btn {
+    background: var(--color-bg-alt);
+    color: var(--color-navy);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+
+  .social-btn:hover {
+    background: var(--color-teal);
+    color: white;
+  }
+
+  .form-placeholder {
+    background: var(--color-bg-alt);
+    padding: 4rem 2rem;
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-teal);
+    text-align: center;
+  }
+
+  .placeholder-text {
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

@@ -1,0 +1,278 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+
+const leadership = [
+  {
+    name: "Andrew & Chelsea Coffield",
+    role: "Senior Pastor",
+    image: "/team/coffield.jpg",
+  },
+];
+
+const sundaySchool = {
+  leader: {
+    name: "Ann Elliott",
+    role: "Sunday School Dept. Leader",
+    image: "/team/elliott.jpg",
+  },
+  teachers: [
+    { name: "Jenny Hawk", image: "/team/hawk.jpg" },
+    { name: "Annette Serpette", image: "/team/serpette.jpg" },
+    { name: "Heather Huff", image: "/team/huff.jpg" },
+    { name: "Cris Jensen", image: "/team/jensen.jpg" },
+  ]
+};
+
+const youth = {
+  leaders: {
+    name: "David & Tiffany Plappert",
+    role: "Youth Leaders (Ages 12-18)",
+    image: "/team/plappert.jpg",
+  }
+};
+
+const hyphen = {
+  leaders: {
+    name: "Isaac & Kristin Ummel",
+    role: "Hyphen Leaders (Ages 18-30)",
+    image: "/team/ummel.jpg",
+  }
+};
+---
+
+<Base title="Our Team" description="Meet the leadership team at River of Life who are dedicated to serving our community.">
+  <PageHero title="Our Team" subtitle="Meet the people who lead and serve at ROL" image="/hero/5.jpg" />
+
+  <section class="team-content">
+    <div class="container">
+      <div class="intro">
+        <p>Our team is passionate about helping people find and follow Jesus. We'd love to connect with you!</p>
+      </div>
+
+      <!-- Senior Leadership -->
+      <div class="team-section">
+        <div class="team-grid centered">
+          {leadership.map((member) => (
+            <div class="team-card featured">
+              <div class="team-photo" style={`background-image: url('${member.image}')`}></div>
+              <div class="team-info">
+                <h2>{member.name}</h2>
+                <p class="role">{member.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Youth -->
+      <div class="team-section">
+        <h3 class="section-title">Youth (Ages 12-18)</h3>
+        <div class="team-grid centered">
+          <div class="team-card">
+            <div class="team-photo" style={`background-image: url('${youth.leaders.image}')`}></div>
+            <div class="team-info">
+              <h2>{youth.leaders.name}</h2>
+              <p class="role">{youth.leaders.role}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hyphen (Young Adults) -->
+      <div class="team-section">
+        <h3 class="section-title">Hyphen (Ages 18-30)</h3>
+        <div class="team-grid centered">
+          <div class="team-card">
+            <div class="team-photo" style={`background-image: url('${hyphen.leaders.image}')`}></div>
+            <div class="team-info">
+              <h2>{hyphen.leaders.name}</h2>
+              <p class="role">{hyphen.leaders.role}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sunday School -->
+      <div class="team-section">
+        <h3 class="section-title">Sunday School</h3>
+
+        <div class="team-grid centered">
+          <div class="team-card">
+            <div class="team-photo" style={`background-image: url('${sundaySchool.leader.image}')`}></div>
+            <div class="team-info">
+              <h2>{sundaySchool.leader.name}</h2>
+              <p class="role">{sundaySchool.leader.role}</p>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="subsection-title">Teachers</h4>
+        <div class="team-grid">
+          {sundaySchool.teachers.map((teacher) => (
+            <div class="team-card small">
+              <div class="team-photo" style={`background-image: url('${teacher.image}')`}></div>
+              <div class="team-info">
+                <h2>{teacher.name}</h2>
+                <p class="role">Teacher</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="connect-cta">
+        <h3>Want to Connect?</h3>
+        <p>We'd love to hear from you. Reach out anytime!</p>
+        <a href="/contact" class="btn">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .team-content {
+    padding: 4rem 2rem;
+  }
+
+  .team-content .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .intro p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+  }
+
+  .team-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    text-align: center;
+    color: var(--color-navy);
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-bg-alt);
+  }
+
+  .subsection-title {
+    text-align: center;
+    color: var(--color-teal);
+    font-size: 1.1rem;
+    margin: 2rem 0 1.5rem;
+    font-weight: 600;
+  }
+
+  .team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .team-grid.centered {
+    justify-content: center;
+  }
+
+  .team-card {
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 280px;
+  }
+
+  .team-card.featured {
+    width: 350px;
+  }
+
+  .team-card.small {
+    width: 220px;
+  }
+
+  .team-photo {
+    height: 280px;
+    background-size: cover;
+    background-position: center top;
+    background-color: var(--color-bg-alt);
+  }
+
+  .team-card.featured .team-photo {
+    height: 320px;
+  }
+
+  .team-card.small .team-photo {
+    height: 220px;
+  }
+
+  .team-info {
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .team-info h2 {
+    color: var(--color-navy);
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .team-card.featured .team-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .team-card.small .team-info h2 {
+    font-size: 1.1rem;
+  }
+
+  .team-info .role {
+    color: var(--color-teal);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+  }
+
+  .connect-cta {
+    text-align: center;
+    background: var(--color-navy);
+    color: white;
+    padding: 3rem;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .connect-cta h3 {
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .connect-cta p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+
+  .connect-cta .btn {
+    background: white;
+    color: var(--color-navy) !important;
+  }
+
+  .connect-cta .btn:hover {
+    background: var(--color-gold);
+  }
+
+  @media (max-width: 768px) {
+    .team-card,
+    .team-card.featured,
+    .team-card.small {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

@@ -1,0 +1,132 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+
+<Base title="Baptism" description="Ready to take the next step? Baptism is a public declaration of your faith in Jesus Christ.">
+  <PageHero title="Baptism" subtitle="Declare your faith publicly" image="/hero/1.jpg" />
+
+  <section class="page-content">
+    <div class="container">
+      <div class="intro">
+        <h2>What is Baptism?</h2>
+        <p>Baptism is an outward expression of an inward change. It's a public declaration that you have accepted Jesus Christ as your Lord and Savior. Through baptism, we identify with the death, burial, and resurrection of Jesus.</p>
+      </div>
+
+      <div class="why-baptism">
+        <h3>Why Get Baptized?</h3>
+        <div class="reasons-grid">
+          <div class="reason">
+            <h4>Jesus Commands It</h4>
+            <p>Jesus instructed His followers to be baptized as an act of obedience.</p>
+          </div>
+          <div class="reason">
+            <h4>Public Declaration</h4>
+            <p>It's a way to publicly share your decision to follow Jesus with your community.</p>
+          </div>
+          <div class="reason">
+            <h4>Spiritual Milestone</h4>
+            <p>Baptism marks a significant moment in your spiritual journey.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="signup-section">
+        <h2>Ready to Be Baptized?</h2>
+        <p>We'd love to celebrate this step with you! Sign up below and we'll reach out with next steps.</p>
+        <div class="form-placeholder">
+          <!-- PCO Form Embed will go here -->
+          <p class="placeholder-text">Planning Center form coming soon</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-content {
+    padding: 4rem 2rem;
+  }
+
+  .page-content .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .intro h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .intro p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .why-baptism {
+    margin-bottom: 3rem;
+  }
+
+  .why-baptism h3 {
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .reason {
+    background: var(--color-bg-alt);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+  }
+
+  .reason h4 {
+    color: var(--color-teal);
+    margin-bottom: 0.5rem;
+  }
+
+  .reason p {
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .signup-section {
+    text-align: center;
+  }
+
+  .signup-section h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .signup-section > p {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+  }
+
+  .form-placeholder {
+    background: var(--color-bg-alt);
+    padding: 4rem 2rem;
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-teal);
+  }
+
+  .placeholder-text {
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+</style>

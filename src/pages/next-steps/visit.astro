@@ -1,0 +1,158 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+
+<Base title="Plan Your Visit" description="Planning to visit River of Life? Let us know you're coming so we can make your first visit special.">
+  <PageHero title="Plan Your Visit" subtitle="We can't wait to meet you!" image="/hero/3.jpg" />
+
+  <section class="visit-content">
+    <div class="container">
+      <div class="info-section">
+        <h2>What to Expect</h2>
+        <div class="expect-grid">
+          <div class="expect-item">
+            <h3>Welcoming Atmosphere</h3>
+            <p>Come as you are - there's no dress code. You'll be greeted with a friendly smile and someone to help you find your way.</p>
+          </div>
+          <div class="expect-item">
+            <h3>Engaging Worship</h3>
+            <p>Experience meaningful worship through contemporary music that helps us connect with God together.</p>
+          </div>
+          <div class="expect-item">
+            <h3>Relevant Teaching</h3>
+            <p>Our messages are Bible-based and practical, designed to help you grow in your faith and daily life.</p>
+          </div>
+          <div class="expect-item">
+            <h3>Kids Programs</h3>
+            <p>We have age-appropriate programs for children so the whole family can grow together.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="times-location">
+        <div class="info-card">
+          <h3>Service Times</h3>
+          <p><strong>Sunday</strong></p>
+          <p>10:00 - 10:45 AM &middot; Christian Education</p>
+          <p>11:00 AM - 12:30 PM &middot; Main Service</p>
+          <p style="margin-top: 1rem;"><strong>Wednesday</strong></p>
+          <p>7:00 - 8:00 PM &middot; Bible Study</p>
+        </div>
+        <div class="info-card">
+          <h3>Location</h3>
+          <p>425 University Ave</p>
+          <p>Henry, IL 61537</p>
+          <a href="https://maps.google.com/?q=425+University+Ave,+Henry,+IL+61537" target="_blank" class="btn" style="margin-top: 1rem;">Get Directions</a>
+        </div>
+      </div>
+
+      <div class="signup-section">
+        <h2>Let Us Know You're Coming</h2>
+        <p>Fill out the form below and we'll have someone ready to greet you!</p>
+        <div class="form-placeholder">
+          <!-- PCO Form Embed will go here -->
+          <p class="placeholder-text">Planning Center form coming soon</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .visit-content {
+    padding: 4rem 2rem;
+  }
+
+  .visit-content .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .info-section {
+    margin-bottom: 4rem;
+  }
+
+  .info-section h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .expect-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .expect-item {
+    background: var(--color-bg-alt);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .expect-item h3 {
+    color: var(--color-teal);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .expect-item p {
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .times-location {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .info-card {
+    background: var(--color-navy);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+  }
+
+  .info-card h3 {
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+
+  .info-card p {
+    margin-bottom: 0.25rem;
+  }
+
+  .signup-section {
+    text-align: center;
+  }
+
+  .signup-section h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .signup-section > p {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+  }
+
+  .form-placeholder {
+    background: var(--color-bg-alt);
+    padding: 4rem 2rem;
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-teal);
+  }
+
+  .placeholder-text {
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+</style>

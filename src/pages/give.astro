@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Base title="Give" description="Support the mission of River of Life through online giving.">
+  <PageHero title="Give" subtitle="Your generosity makes an eternal difference" image="/hero/3.jpg" />
+
+  <section class="give-content">
+    <div class="container">
+      <div id="give"></div>
+    </div>
+  </section>
+</Base>
+
+<script src="https://js.churchcenter.com/modal/v1"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    ChurchCenter.Modal.open({
+      url: 'https://rolhenry.churchcenter.com/giving',
+      target: document.getElementById('give')
+    });
+  });
+</script>
+
+<style>
+  .give-content {
+    padding: 3rem 2rem;
+    background: white;
+  }
+
+  .give-content .container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  #give {
+    min-height: 600px;
+  }
+</style>

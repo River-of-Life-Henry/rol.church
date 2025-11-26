@@ -1,233 +1,223 @@
 ---
 import Base from '../layouts/Base.astro';
+import HeroSlider from '../components/HeroSlider.astro';
 ---
 
 <Base>
-  <section class="hero">
-    <div class="hero-content">
-      <p class="welcome">Welcome</p>
-      <h1>TO RIVER OF LIFE</h1>
-      <div class="welcome-bar">
-        <span>WE'RE GLAD YOU'RE HERE</span>
+  <HeroSlider>
+    <div class="hero-cards">
+      <a href="/next-steps/visit" class="hero-card">
+        <h2>PLAN YOUR VISIT</h2>
+        <p>We'd love to meet you! Plan your visit and let us help make your first experience welcoming and memorable.</p>
+        <span class="card-btn">Plan Your Visit</span>
+      </a>
+      <a href="https://rolhenry.churchcenter.com/live" target="_blank" class="hero-card">
+        <h2>WATCH LIVE</h2>
+        <p>Can't make it in person? Join us online for our live stream every Sunday at 10:00 AM.</p>
+        <span class="card-btn">Watch Now</span>
+      </a>
+    </div>
+  </HeroSlider>
+
+  <section class="service-info">
+    <div class="container">
+      <div class="service-block">
+        <span class="label">Sunday</span>
+        <span class="time">10am & 11am</span>
       </div>
-      <div class="cta-buttons">
-        <a href="/about" class="btn btn-primary">Learn More</a>
-        <a href="https://rolhenry.churchcenter.com/home" target="_blank" class="btn btn-secondary">Visit Church Center</a>
+      <div class="divider"></div>
+      <div class="service-block">
+        <span class="label">Wednesday</span>
+        <span class="time">7:00 PM</span>
+      </div>
+      <div class="divider"></div>
+      <div class="service-block">
+        <span class="label">Location</span>
+        <span class="location">425 University Ave, Henry IL</span>
       </div>
     </div>
   </section>
 
-  <section class="info-cards">
-    <div class="card">
-      <h3>Join Us Sunday</h3>
-      <p class="time">10:00 AM</p>
-      <p>Come as you are and experience community, worship, and a relevant message.</p>
-    </div>
-
-    <div class="card">
-      <h3>Location</h3>
-      <p>Henry, IL</p>
-      <a href="https://maps.google.com/?q=Henry,IL" target="_blank">Get Directions</a>
-    </div>
-
-    <div class="card">
-      <h3>Get Connected</h3>
-      <p>Find groups, events, and ways to serve.</p>
-      <a href="https://rolhenry.churchcenter.com/groups" target="_blank">Explore Groups</a>
+  <section class="about-section">
+    <div class="container">
+      <h2>Where life begins</h2>
+      <p>ROL is a loving community of Christ-followers dedicated to serving people on their spiritual journey. Whether you're exploring faith for the first time or have been walking with God for years, there's a place for you here.</p>
+      <a href="/about" class="text-link">Learn more about us &rarr;</a>
     </div>
   </section>
 
-  <section class="quick-links">
-    <h2>Quick Links</h2>
-    <div class="links-grid">
-      <a href="https://rolhenry.churchcenter.com/giving" target="_blank" class="link-card">
-        <span class="icon">&#9829;</span>
-        <span>Give Online</span>
-      </a>
-      <a href="https://rolhenry.churchcenter.com/groups" target="_blank" class="link-card">
-        <span class="icon">&#9734;</span>
-        <span>Small Groups</span>
-      </a>
-      <a href="https://rolhenry.churchcenter.com/calendar" target="_blank" class="link-card">
-        <span class="icon">&#128197;</span>
-        <span>Events</span>
-      </a>
-      <a href="https://rolhenry.churchcenter.com/people" target="_blank" class="link-card">
-        <span class="icon">&#128100;</span>
-        <span>Update Info</span>
-      </a>
-    </div>
-  </section>
-</Base>
+  </Base>
 
 <style>
-  .hero {
-    background: linear-gradient(180deg, var(--color-teal) 0%, var(--color-teal-dark) 100%);
+  /* Hero cards */
+  .hero-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    width: 100%;
+    padding: 0 2rem;
+  }
+
+  .hero-card {
+    background: rgba(45, 156, 202, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    text-decoration: none;
     color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  .hero-card:hover {
+    transform: translateY(-4px);
+    background: rgba(45, 156, 202, 0.85);
+    color: white;
+  }
+
+  .hero-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    flex: 1;
+  }
+
+  .card-btn {
+    display: inline-block;
+    background: white;
+    color: var(--color-navy);
+    padding: 0.875rem 2rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 1.5rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+
+  .hero-card:hover .card-btn {
+    background: var(--color-gold);
+  }
+
+  /* Service info bar */
+  .service-info {
+    background: var(--color-navy);
+    color: white;
+    padding: 1.5rem 2rem;
+  }
+
+  .service-info .container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .service-block {
+    text-align: center;
+  }
+
+  .service-block .label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+  }
+
+  .service-block .time,
+  .service-block .location,
+  .service-block .phone {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gold);
+    text-decoration: none;
+  }
+
+  .service-block .phone:hover {
+    color: white;
+  }
+
+  .divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* About section */
+  .about-section {
     padding: 6rem 2rem;
     text-align: center;
-    position: relative;
-    overflow: hidden;
   }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255,255,255,0.03) 2px,
-        rgba(255,255,255,0.03) 4px
-      );
-    pointer-events: none;
-  }
-
-  .hero-content {
-    max-width: 800px;
+  .about-section .container {
+    max-width: 600px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
   }
 
-  .welcome {
-    font-size: 4rem;
-    font-style: italic;
-    font-weight: 300;
-    margin-bottom: 0.5rem;
-    opacity: 0.95;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
+  .about-section h2 {
+    font-size: 2.5rem;
     font-weight: 400;
-    letter-spacing: 0.15em;
+    color: var(--color-navy);
     margin-bottom: 1.5rem;
   }
 
-  .welcome-bar {
-    background: var(--color-navy);
-    padding: 0.75rem 2rem;
-    display: inline-block;
+  .about-section p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text-light);
     margin-bottom: 2rem;
   }
 
-  .welcome-bar span {
-    color: var(--color-gold);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    font-size: 0.9rem;
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: var(--color-gold);
-    color: var(--color-navy) !important;
-    font-weight: 600;
-  }
-
-  .btn-primary:hover {
-    background: #e5b532;
-  }
-
-  .btn-secondary {
-    background: transparent;
-    border: 2px solid white;
-    color: white !important;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(255,255,255,0.1);
-  }
-
-  .info-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 4rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .card {
-    background: var(--color-bg);
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    text-align: center;
-    border-top: 4px solid var(--color-teal);
-  }
-
-  .card h3 {
-    color: var(--color-navy);
-    margin-bottom: 0.5rem;
-  }
-
-  .card .time {
-    font-size: 1.5rem;
-    font-weight: 600;
+  .text-link {
+    font-weight: 500;
     color: var(--color-teal);
+    text-decoration: none;
+    transition: color 0.2s;
   }
 
-  .quick-links {
-    background: var(--color-bg-alt);
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-
-  .quick-links h2 {
-    margin-bottom: 2rem;
-    color: var(--color-navy);
-  }
-
-  .links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .link-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    color: var(--color-text);
-  }
-
-  .link-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    color: var(--color-teal);
-  }
-
-  .link-card .icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+  .text-link:hover {
+    color: var(--color-teal-dark);
   }
 
   @media (max-width: 768px) {
-    .welcome {
-      font-size: 2.5rem;
+    .hero-cards {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 1rem;
     }
-    .hero h1 {
-      font-size: 1.5rem;
+    .hero-card {
+      min-height: auto;
+      padding: 1.5rem;
+    }
+    .hero-card h2 {
+      font-size: 1.25rem;
+    }
+    .service-info .container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .divider {
+      width: 40px;
+      height: 1px;
+    }
+    .about-section h2 {
+      font-size: 2rem;
     }
   }
 </style>

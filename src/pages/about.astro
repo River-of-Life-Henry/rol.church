@@ -1,16 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
-<Base title="About | River of Life Church" description="Learn about River of Life Church in Henry, IL">
-  <section class="page-header">
-    <h1>About Us</h1>
-  </section>
+<Base title="About" description="Where life begins - Learn about River of Life, a loving community of Christ-followers in Henry, IL.">
+  <PageHero title="About Us" subtitle="Where life begins" image="/hero/7.jpg" />
 
   <section class="content">
     <div class="section">
       <h2>Our Mission</h2>
-      <p>We exist to help people find and follow Jesus. Whether you're exploring faith for the first time or have been walking with God for years, there's a place for you here.</p>
+      <p>ROL is a loving community of Christ-followers dedicated to serving people on their spiritual journey. We exist to help people find and follow Jesus. Whether you're exploring faith for the first time or have been walking with God for years, there's a place for you here.</p>
     </div>
 
     <div class="section">
@@ -21,42 +20,39 @@ import Base from '../layouts/Base.astro';
 
     <div class="section">
       <h2>Service Times</h2>
-      <div class="service-time">
-        <strong>Sunday Morning</strong>
-        <span>10:00 AM</span>
+      <div class="service-times-list">
+        <div class="service-day">
+          <h3>Sunday</h3>
+          <p>Christian Education - 10:00am</p>
+          <p>Main Service - 11:00am</p>
+        </div>
+        <div class="service-day">
+          <h3>Wednesday</h3>
+          <p>Midweek Bible Study - 7:00pm</p>
+        </div>
       </div>
     </div>
 
     <div class="section">
       <h2>Location</h2>
-      <p>Henry, IL</p>
-      <a href="https://maps.google.com/?q=Henry,IL" target="_blank" class="btn">Get Directions</a>
+      <p>425 University Ave<br />Henry, IL 61537</p>
+      <p><a href="tel:+13093643165">(309) 364-3165</a></p>
+      <a href="https://maps.google.com/?q=425+University+Ave,+Henry,+IL+61537" target="_blank" class="btn">Get Directions</a>
     </div>
 
-    <div class="section">
-      <h2>Connect With Us</h2>
-      <p>Ready to take the next step? Check out our Church Center to find groups, sign up for events, and get connected.</p>
-      <a href="https://rolhenry.churchcenter.com/home" target="_blank" class="btn">Visit Church Center</a>
+    <div class="cta-section">
+      <h2>Meet Our Team</h2>
+      <p>Get to know the leaders who serve at River of Life.</p>
+      <a href="/team" class="btn">View Our Team</a>
     </div>
   </section>
 </Base>
 
 <style>
-  .page-header {
-    background: linear-gradient(180deg, var(--color-teal) 0%, var(--color-teal-dark) 100%);
-    color: white;
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-
-  .page-header h1 {
-    font-size: 2.5rem;
-  }
-
   .content {
     max-width: 800px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 4rem 2rem;
   }
 
   .section {
@@ -72,22 +68,47 @@ import Base from '../layouts/Base.astro';
   .section p {
     margin-bottom: 1rem;
     color: var(--color-text);
+    line-height: 1.8;
   }
 
-  .service-time {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .service-times-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .service-day {
     background: var(--color-bg-alt);
-    padding: 1rem 1.5rem;
+    padding: 1.5rem;
     border-radius: 0.5rem;
-    max-width: 300px;
     border-left: 4px solid var(--color-gold);
   }
 
-  .service-time span {
-    font-size: 1.25rem;
+  .service-day h3 {
     color: var(--color-teal);
-    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .service-day p {
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+  }
+
+  .cta-section {
+    text-align: center;
+    background: var(--color-bg-alt);
+    padding: 3rem;
+    border-radius: 0.5rem;
+  }
+
+  .cta-section h2 {
+    color: var(--color-navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-section p {
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
   }
 </style>

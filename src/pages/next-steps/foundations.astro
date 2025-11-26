@@ -1,0 +1,124 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+
+<Base title="Foundations Class" description="Learn about what we believe and how to get connected at River of Life through our Foundations class.">
+  <PageHero title="Foundations Class" subtitle="Discover what we believe and how you can grow" image="/hero/5.jpg" />
+
+  <section class="page-content">
+    <div class="container">
+      <div class="intro">
+        <h2>Build a Strong Foundation</h2>
+        <p>Foundations is designed to help you learn about what we believe, how River of Life operates, and how you can get connected and grow in your faith journey.</p>
+      </div>
+
+      <div class="what-youll-learn">
+        <h3>What You'll Learn</h3>
+        <ul>
+          <li>Our core beliefs and values</li>
+          <li>The history and vision of River of Life</li>
+          <li>How to get connected in community</li>
+          <li>Opportunities to serve and grow</li>
+          <li>Your next steps in faith</li>
+        </ul>
+      </div>
+
+      <div class="signup-section">
+        <h2>Sign Up for Foundations</h2>
+        <p>Ready to take this step? Register below and we'll be in touch with details.</p>
+        <div class="form-placeholder">
+          <!-- PCO Form Embed will go here -->
+          <p class="placeholder-text">Planning Center form coming soon</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-content {
+    padding: 4rem 2rem;
+  }
+
+  .page-content .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .intro h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .intro p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .what-youll-learn {
+    background: var(--color-bg-alt);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .what-youll-learn h3 {
+    color: var(--color-navy);
+    margin-bottom: 1rem;
+  }
+
+  .what-youll-learn ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .what-youll-learn li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-text);
+  }
+
+  .what-youll-learn li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--color-teal);
+    font-weight: bold;
+  }
+
+  .signup-section {
+    text-align: center;
+  }
+
+  .signup-section h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .signup-section > p {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+  }
+
+  .form-placeholder {
+    background: var(--color-bg-alt);
+    padding: 4rem 2rem;
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-teal);
+  }
+
+  .placeholder-text {
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+</style>

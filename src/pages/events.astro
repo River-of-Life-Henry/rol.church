@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Base title="Events" description="See what's happening at River of Life. View our calendar of upcoming events and activities.">
+  <PageHero title="Events" subtitle="See what's happening at ROL" image="/hero/4.jpg" />
+
+  <section class="events-content">
+    <div class="container">
+      <div class="calendar-embed">
+        <iframe
+          src="https://rolhenry.churchcenter.com/calendar?embed=true&view=month"
+          title="River of Life Events Calendar"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .events-content {
+    padding: 3rem 2rem;
+    background: white;
+  }
+
+  .events-content .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .calendar-embed {
+    background: white;
+    overflow: hidden;
+  }
+
+  .calendar-embed iframe {
+    width: 100%;
+    min-height: 700px;
+    border: none;
+  }
+
+  @media (max-width: 768px) {
+    .calendar-embed iframe {
+      min-height: 500px;
+    }
+  }
+</style>
