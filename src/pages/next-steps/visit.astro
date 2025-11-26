@@ -4,7 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 ---
 
 <Base title="Plan Your Visit" description="Planning to visit River of Life? Let us know you're coming so we can make your first visit special.">
-  <PageHero title="Plan Your Visit" subtitle="We can't wait to meet you!" image="/hero/3.jpg" />
+  <PageHero title="Plan Your Visit" image="/hero/3.jpg" />
 
   <section class="visit-content">
     <div class="container">
@@ -49,15 +49,20 @@ import PageHero from '../../components/PageHero.astro';
 
       <div class="signup-section">
         <h2>Let Us Know You're Coming</h2>
-        <p>Fill out the form below and we'll have someone ready to greet you!</p>
-        <div class="form-placeholder">
-          <!-- PCO Form Embed will go here -->
-          <p class="placeholder-text">Planning Center form coming soon</p>
-        </div>
+        <p>Fill out the form and we'll have someone ready to greet you!</p>
+        <a
+          href="https://rolhenry.churchcenter.com/people/forms/1102408"
+          data-open-in-church-center-modal="true"
+          class="btn btn-large"
+        >
+          Fill Out the Form
+        </a>
       </div>
     </div>
   </section>
 </Base>
+
+<script src="https://js.churchcenter.com/modal/v1"></script>
 
 <style>
   .visit-content {
@@ -144,15 +149,20 @@ import PageHero from '../../components/PageHero.astro';
     margin-bottom: 2rem;
   }
 
-  .form-placeholder {
-    background: var(--color-bg-alt);
-    padding: 4rem 2rem;
+  .btn-large {
+    display: inline-block;
+    background: var(--color-teal);
+    color: white !important;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     border-radius: 0.5rem;
-    border: 2px dashed var(--color-teal);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
   }
 
-  .placeholder-text {
-    color: var(--color-text-light);
-    font-style: italic;
+  .btn-large:hover {
+    background: var(--color-teal-dark);
+    transform: translateY(-2px);
   }
 </style>

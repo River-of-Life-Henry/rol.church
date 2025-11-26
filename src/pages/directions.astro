@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Base title="Directions" description="Get directions to River of Life at 425 University Ave, Henry, IL 61537.">
+  <PageHero title="Directions" image="/hero/1.jpg" />
+
+  <section class="directions-content">
+    <div class="container">
+      <div class="address">
+        <h2>425 University Ave</h2>
+        <p>Henry, IL 61537</p>
+      </div>
+
+      <div class="map-embed">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2984.8!2d-89.3564!3d41.1114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880a3e0f0f0f0f0f%3A0x0!2s425%20University%20Ave%2C%20Henry%2C%20IL%2061537!5e0!3m2!1sen!2sus!4v1234567890"
+          width="100%"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="River of Life Location"
+        ></iframe>
+      </div>
+
+      <div class="directions-link">
+        <a href="https://maps.google.com/?q=425+University+Ave,+Henry,+IL+61537" target="_blank" class="btn btn-large">
+          Open in Google Maps
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .directions-content {
+    padding: 3rem 2rem;
+    background: white;
+  }
+
+  .directions-content .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .address {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .address h2 {
+    color: var(--color-navy);
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .address p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+  }
+
+  .map-embed {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+  }
+
+  .map-embed iframe {
+    display: block;
+    width: 100%;
+    height: 450px;
+  }
+
+  .directions-link {
+    text-align: center;
+  }
+
+  .btn-large {
+    display: inline-block;
+    background: var(--color-teal);
+    color: white !important;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-large:hover {
+    background: var(--color-teal-dark);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .map-embed iframe {
+      height: 350px;
+    }
+  }
+</style>
