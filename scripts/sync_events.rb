@@ -52,19 +52,27 @@ def sync_events
         event_time = Time.parse(starts_at) rescue nil
         next if event_time.nil? || event_time > twelve_months_later
 
-        # Get the event (parent) to find tags/connections
+        # Get the event (parent) to check visibility and find tags
         event_id = instance.dig("relationships", "event", "data", "id")
         tags = []
+        visible_in_church_center = true
 
         if event_id
           begin
             event_response = api.calendar.v2.events[event_id].get(include: "tags")
+            event_attrs = event_response.dig("data", "attributes") || {}
+            visible_in_church_center = event_attrs["visible_in_church_center"] != false
+
             included = event_response["included"] || []
             tags = included.select { |i| i["type"] == "Tag" }.map { |t| t.dig("attributes", "name") }.compact
           rescue
-            # Continue if we can't get tags
+            # Continue if we can't get event details
           end
         end
+
+        # Skip events not visible in Church Center or with Hidden tag
+        next unless visible_in_church_center
+        next if tags.any? { |t| t.downcase.include?("hidden") }
 
         events << {
           id: instance["id"],
