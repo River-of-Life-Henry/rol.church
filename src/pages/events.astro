@@ -11,16 +11,6 @@ try {
   console.log('Events data not yet generated');
 }
 
-// Format date for display
-function formatEventDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric'
-  });
-}
-
 function formatEventTime(dateStr: string, allDay: boolean): string {
   if (allDay) return 'TBD';
   const date = new Date(dateStr);
@@ -62,16 +52,6 @@ const groupedEvents = groupEventsByMonth(events);
 
   <section class="events-content">
     <div class="container">
-      <div class="calendar-embed">
-        <iframe
-          src="https://rolhenry.churchcenter.com/calendar?embed=true&view=month"
-          title="River of Life Events Calendar"
-          frameborder="0"
-        ></iframe>
-      </div>
-
-      <h2 class="upcoming-header">Upcoming Events</h2>
-
       {events.length === 0 && (
         <p class="no-events">No upcoming events at this time. Check back soon!</p>
       )}
@@ -120,27 +100,6 @@ const groupedEvents = groupEventsByMonth(events);
   .events-content .container {
     max-width: 900px;
     margin: 0 auto;
-  }
-
-  .calendar-embed {
-    background: white;
-    overflow: hidden;
-    margin-bottom: 3rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  }
-
-  .calendar-embed iframe {
-    width: 100%;
-    min-height: 600px;
-    border: none;
-  }
-
-  .upcoming-header {
-    color: var(--color-navy);
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
   }
 
   .no-events {
