@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # Sync events from Planning Center Calendar API
-# Pulls upcoming events for the next 12 months
+# Pulls upcoming events for the next 90 days
 # Usage: ruby sync_events.rb
 
 require_relative "pco_client"
@@ -23,9 +23,9 @@ def sync_events
 
   begin
     now = Time.now
-    twelve_months_later = now + (365 * 24 * 60 * 60)
+    ninety_days_later = now + (90 * 24 * 60 * 60)
 
-    puts "INFO: Fetching future events..."
+    puts "INFO: Fetching future events (next 90 days)..."
 
     # Fetch future event instances from Calendar API (only published/visible events)
     offset = 0
@@ -48,9 +48,9 @@ def sync_events
 
         next if starts_at.nil?
 
-        # Parse and filter to next 12 months
+        # Parse and filter to next 90 days
         event_time = Time.parse(starts_at) rescue nil
-        next if event_time.nil? || event_time > twelve_months_later
+        next if event_time.nil? || event_time > ninety_days_later
 
         # Get the event (parent) to check visibility and find tags
         event_id = instance.dig("relationships", "event", "data", "id")
