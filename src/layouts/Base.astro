@@ -236,7 +236,7 @@ const churchSchema = {
         });
       });
 
-      // Track Church Center modal opens
+      // Track Church Center modal opens (forms and giving)
       document.querySelectorAll('[data-open-in-church-center-modal]').forEach(link => {
         link.addEventListener('click', function() {
           const label = this.textContent?.trim() || 'Church Center';
@@ -244,20 +244,56 @@ const churchSchema = {
 
           // Determine form type from URL
           let formType = 'general';
-          if (href.includes('giving')) formType = 'giving';
-          else if (href.includes('1102414')) formType = 'baptism';
-          else if (href.includes('1102413')) formType = 'foundations';
-          else if (href.includes('1102408')) formType = 'visit';
+          let formName = 'General Form';
+          if (href.includes('giving')) {
+            formType = 'giving';
+            formName = 'Give';
+          } else if (href.includes('1102408')) {
+            formType = 'visit';
+            formName = 'Plan Your Visit';
+          } else if (href.includes('1102413')) {
+            formType = 'foundations';
+            formName = 'Foundations Class';
+          } else if (href.includes('1102414')) {
+            formType = 'baptism';
+            formName = 'Baptism';
+          } else if (href.includes('1102447')) {
+            formType = 'volunteer';
+            formName = 'Volunteer';
+          } else if (href.includes('1102449')) {
+            formType = 'contact';
+            formName = 'Contact Us';
+          }
 
-          trackEvent('church_center_open', {
+          // Track to all 3 platforms via universal tracker
+          trackEvent('form_open', {
             event_category: 'conversion',
-            event_label: label,
-            form_type: formType
+            event_label: formName,
+            form_type: formType,
+            form_url: href
           });
 
-          // Track as Lead for Meta Pixel on form opens
+          // Google Analytics - additional specific event
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'generate_lead', {
+              event_category: 'engagement',
+              event_label: formName,
+              form_type: formType
+            });
+          }
+
+          // Microsoft Clarity - tag the session
+          if (typeof clarity !== 'undefined') {
+            clarity('set', 'form_opened', formName);
+            clarity('set', 'form_type', formType);
+          }
+
+          // Meta Pixel - track as Lead
           if (typeof fbq !== 'undefined') {
-            fbq('track', 'Lead', { content_name: formType });
+            fbq('track', 'Lead', {
+              content_name: formName,
+              content_category: formType
+            });
           }
         });
       });

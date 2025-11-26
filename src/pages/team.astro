@@ -2,102 +2,37 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 
-const leadership = [
-  {
-    name: "Andrew & Chelsea Coffield",
-    role: "Senior Pastor",
-    image: "/team/coffield.jpg",
-  },
-];
-
-const sundaySchool = {
-  leader: {
-    name: "Brad & Ann Elliott",
-    role: "Sunday School Dept. Leader",
-    image: "/team/elliott.jpg",
-  },
-  teachers: [
-    { name: "Jenny Hawk", image: "/team/hawk.jpg" },
-    { name: "Annette Serpette", image: "/team/serpette.jpg" },
-    { name: "Heather Huff", image: "/team/huff.jpg" },
-    { name: "Cris Jensen", image: "/team/jensen.jpg" },
-  ]
-};
-
-const youth = {
-  leaders: {
-    name: "David & Tiffany Plappert",
-    role: "Youth Leaders (Ages 12-18)",
-    image: "/team/plappert.jpg",
-  }
-};
-
-const hyphen = {
-  leaders: {
-    name: "Isaac & Kristin Ummel",
-    role: "Hyphen Leaders (Ages 18-30)",
-    image: "/team/ummel.jpg",
-  }
-};
+// Try to load team data from JSON, fallback to empty array
+let team = [];
+try {
+  const teamData = await import('../data/team.json');
+  team = teamData.team || [];
+} catch (e) {
+  console.log('Team data not yet generated');
+}
 ---
 
 <Base title="Our Team" description="Meet the leadership team at River of Life who are dedicated to serving our community.">
   <PageHero title="Our Team" image="/hero/5.jpg" />
 
   <section class="team-content">
-    <div class="container">
-      <!-- Senior Pastor -->
-      <div class="pastor-feature">
-        <div class="pastor-image" style={`background-image: url('${leadership[0].image}')`}></div>
-        <div class="pastor-info">
-          <p class="role-label">Senior Pastor</p>
-          <h2>Andrew & Chelsea Coffield</h2>
-          <p class="pastor-bio">Andrew and Chelsea are passionate about helping people discover their purpose and grow in their relationship with Jesus. They love serving the Henry community and building a church where everyone feels welcome.</p>
-        </div>
-      </div>
+    <div class="team-container">
+      {team.length === 0 && (
+        <p class="no-team">Team information coming soon.</p>
+      )}
 
-      <!-- Ministry Leaders -->
-      <div class="team-section">
-        <h3 class="section-title">Ministry Leaders</h3>
-        <div class="leaders-grid">
-          <div class="leader-card">
-            <div class="leader-photo" style={`background-image: url('${sundaySchool.leader.image}')`}></div>
-            <div class="leader-info">
-              <h4>{sundaySchool.leader.name}</h4>
-              <p>Sunday School (Up to Age 11)</p>
-            </div>
-          </div>
-          <div class="leader-card">
-            <div class="leader-photo" style={`background-image: url('${youth.leaders.image}')`}></div>
-            <div class="leader-info">
-              <h4>{youth.leaders.name}</h4>
-              <p>Youth (Ages 12-18)</p>
-            </div>
-          </div>
-          <div class="leader-card">
-            <div class="leader-photo" style={`background-image: url('${hyphen.leaders.image}')`}></div>
-            <div class="leader-info">
-              <h4>{hyphen.leaders.name}</h4>
-              <p>Hyphen (Ages 18-30)</p>
-            </div>
+      {team.map((person) => (
+        <div class={`team-feature ${person.isPastor ? 'pastor' : 'member'}`}>
+          <div class="team-feature-image" style={`background-image: url('${person.image}')`}></div>
+          <div class="team-feature-info">
+            <p class="team-role-label">{person.role}</p>
+            <h2 class="team-name">{person.name}</h2>
+            {person.bio && <p class="team-bio">{person.bio}</p>}
           </div>
         </div>
-      </div>
+      ))}
 
-      <!-- Sunday School Teachers -->
-      <div class="team-section">
-        <h3 class="section-title">Sunday School Teachers</h3>
-        <div class="teachers-grid">
-          {sundaySchool.teachers.map((teacher) => (
-            <div class="teacher-card">
-              <div class="teacher-photo" style={`background-image: url('${teacher.image}')`}></div>
-              <span class="teacher-name">{teacher.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div class="connect-cta">
+      <div class="team-connect-cta">
         <h3>Want to Connect?</h3>
         <p>We'd love to hear from you. Reach out anytime!</p>
         <a href="/contact" class="btn">Contact Us</a>
@@ -106,50 +41,46 @@ const hyphen = {
   </section>
 </Base>
 
-<style>
+<style is:global>
   .team-content {
     padding: 4rem 2rem;
   }
 
-  .team-content .container {
+  .team-container {
     max-width: 1000px;
     margin: 0 auto;
   }
 
-  .intro {
+  .no-team {
     text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .intro p {
     color: var(--color-text-light);
     font-size: 1.1rem;
+    padding: 2rem;
   }
 
-  /* Pastor Feature */
-  .pastor-feature {
+  .team-feature {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     background: var(--color-bg-alt);
     border-radius: 1rem;
     overflow: hidden;
   }
 
-  .pastor-image {
+  .team-feature-image {
     height: 400px;
     background-size: cover;
     background-position: center top;
     background-color: var(--color-navy);
   }
 
-  .pastor-info {
+  .team-feature-info {
     padding: 2rem 2rem 2rem 0;
   }
 
-  .pastor-info .role-label {
+  .team-role-label {
     text-transform: uppercase;
     font-size: 0.85rem;
     letter-spacing: 0.1em;
@@ -158,96 +89,42 @@ const hyphen = {
     margin-bottom: 0.5rem;
   }
 
-  .pastor-info h2 {
+  .team-name {
     color: var(--color-navy);
     font-size: 2rem;
     margin-bottom: 1rem;
   }
 
-  .pastor-bio {
+  .team-bio {
     color: var(--color-text-light);
     line-height: 1.8;
+    font-size: 1rem;
   }
 
-  /* Team Sections */
-  .team-section {
-    margin-bottom: 4rem;
+  /* Smaller blocks for non-pastor members (75% size) */
+  .team-feature.member {
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .section-title {
-    text-align: center;
-    color: var(--color-navy);
+  .team-feature.member .team-feature-image {
+    height: 300px;
+  }
+
+  .team-feature.member .team-role-label {
+    font-size: 0.75rem;
+  }
+
+  .team-feature.member .team-name {
     font-size: 1.5rem;
-    margin-bottom: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-bg-alt);
   }
 
-  /* Ministry Leaders Grid */
-  .leaders-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-
-  .leader-card {
-    text-align: center;
-  }
-
-  .leader-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center top;
-    background-color: var(--color-bg-alt);
-    margin: 0 auto 1rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-
-  .leader-info h4 {
-    color: var(--color-navy);
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .leader-info p {
-    color: var(--color-teal);
+  .team-feature.member .team-bio {
     font-size: 0.9rem;
-    font-weight: 500;
   }
 
-  /* Teachers Grid */
-  .teachers-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-  }
-
-  .teacher-card {
-    text-align: center;
-  }
-
-  .teacher-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center top;
-    background-color: var(--color-bg-alt);
-    margin: 0 auto 1rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-
-  .teacher-name {
-    color: var(--color-navy);
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-
-  /* Connect CTA */
-  .connect-cta {
+  .team-connect-cta {
     text-align: center;
     background: var(--color-navy);
     color: white;
@@ -256,50 +133,40 @@ const hyphen = {
     margin-top: 2rem;
   }
 
-  .connect-cta h3 {
+  .team-connect-cta h3 {
     color: var(--color-gold);
     margin-bottom: 0.5rem;
   }
 
-  .connect-cta p {
+  .team-connect-cta p {
     margin-bottom: 1.5rem;
     opacity: 0.9;
   }
 
-  .connect-cta .btn {
+  .team-connect-cta .btn {
     background: white;
     color: var(--color-navy) !important;
   }
 
-  .connect-cta .btn:hover {
+  .team-connect-cta .btn:hover {
     background: var(--color-gold);
   }
 
   @media (max-width: 768px) {
-    .pastor-feature {
+    .team-feature {
       grid-template-columns: 1fr;
     }
 
-    .pastor-image {
+    .team-feature-image {
       height: 300px;
     }
 
-    .pastor-info {
+    .team-feature-info {
       padding: 2rem;
     }
 
-    .pastor-info h2 {
+    .team-name {
       font-size: 1.5rem;
-    }
-
-    .leaders-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .leader-photo {
-      width: 120px;
-      height: 120px;
     }
   }
 </style>
