@@ -182,6 +182,17 @@ The site is hosted on GitHub Pages at [rol.church](https://rol.church).
 
 Deployment happens automatically when changes are pushed to the `main` branch via GitHub Actions.
 
+### GitHub Pages Configuration
+
+The repository must have GitHub Pages configured correctly:
+
+1. Go to **Settings → Pages** in the repository
+2. Under **Build and deployment**:
+   - **Source** must be set to **"GitHub Actions"** (not "Deploy from a branch")
+3. This ensures only the custom `deploy.yml` workflow handles deployment
+
+If the source is set to "Deploy from a branch", GitHub will also run an automatic Jekyll-based workflow (`pages-build-deployment`) which will fail because this is an Astro project, not Jekyll.
+
 ## Analytics
 
 The site includes tracking for:
