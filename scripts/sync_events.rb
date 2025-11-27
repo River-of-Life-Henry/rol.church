@@ -9,11 +9,25 @@ require_relative "pco_client"
 require "json"
 require "time"
 
+# Set timezone to Central Time
+ENV['TZ'] = 'America/Chicago'
+Time.zone = 'America/Chicago' if Time.respond_to?(:zone=)
+
 # Force immediate output
 $stdout.sync = true
 $stderr.sync = true
 
 OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "events.json")
+
+# Convert ISO8601 time to Chicago timezone with offset
+def to_chicago_time(iso_string)
+  return nil if iso_string.nil?
+  # Parse the time and convert to local (Chicago) timezone
+  time = Time.parse(iso_string)
+  chicago_time = time.getlocal
+  # Include offset in output for proper JavaScript parsing
+  chicago_time.strftime("%Y-%m-%dT%H:%M:%S%:z")
+end
 
 def sync_events
   puts "INFO: Starting events sync from Planning Center Calendar"
@@ -78,8 +92,8 @@ def sync_events
           id: instance["id"],
           name: attrs["name"] || "Untitled Event",
           description: attrs["description"] || "",
-          startsAt: starts_at,
-          endsAt: ends_at,
+          startsAt: to_chicago_time(starts_at),
+          endsAt: to_chicago_time(ends_at),
           location: attrs["location"] || "",
           allDay: all_day,
           tags: tags

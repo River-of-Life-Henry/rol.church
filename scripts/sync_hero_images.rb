@@ -11,6 +11,9 @@ require "uri"
 require "openssl"
 require "time"
 
+# Set timezone to Central Time
+ENV['TZ'] = 'America/Chicago'
+
 # Force immediate output
 $stdout.sync = true
 $stderr.sync = true

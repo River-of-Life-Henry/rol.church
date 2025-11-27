@@ -12,6 +12,10 @@ require "uri"
 require "openssl"
 require "time"
 
+# Set timezone to Central Time
+ENV['TZ'] = 'America/Chicago'
+Time.zone = 'America/Chicago' if Time.respond_to?(:zone=)
+
 # Force immediate output
 $stdout.sync = true
 $stderr.sync = true

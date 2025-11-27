@@ -16,7 +16,8 @@ function formatEventTime(dateStr: string, allDay: boolean): string {
   const date = new Date(dateStr);
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
-    minute: '2-digit'
+    minute: '2-digit',
+    timeZone: 'America/Chicago'
   });
 }
 
@@ -33,7 +34,7 @@ function groupEventsByMonth(events: any[]): Record<string, any[]> {
 
   events.forEach(event => {
     const date = new Date(event.startsAt);
-    const monthKey = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const monthKey = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'America/Chicago' });
 
     if (!grouped[monthKey]) {
       grouped[monthKey] = [];
@@ -63,8 +64,8 @@ const groupedEvents = groupEventsByMonth(events);
             {monthEvents.map((event) => (
               <div class="event-card">
                 <div class="event-date-badge">
-                  <span class="event-day-num">{new Date(event.startsAt).getDate()}</span>
-                  <span class="event-day-name">{new Date(event.startsAt).toLocaleDateString('en-US', { weekday: 'short' })}</span>
+                  <span class="event-day-num">{new Date(event.startsAt).toLocaleDateString('en-US', { day: 'numeric', timeZone: 'America/Chicago' })}</span>
+                  <span class="event-day-name">{new Date(event.startsAt).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'America/Chicago' })}</span>
                 </div>
                 <div class="event-details">
                   <h3 class="event-name">{event.name}</h3>

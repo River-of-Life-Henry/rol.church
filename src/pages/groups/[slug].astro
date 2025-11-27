@@ -57,7 +57,8 @@ function formatEventDate(dateStr: string): string {
   return date.toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    timeZone: 'America/Chicago'
   });
 }
 
@@ -66,7 +67,8 @@ function formatEventTime(dateStr: string, allDay: boolean): string {
   const date = new Date(dateStr);
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
-    minute: '2-digit'
+    minute: '2-digit',
+    timeZone: 'America/Chicago'
   });
 }
 
@@ -108,9 +110,9 @@ const metaDescription = group.description
             {groupEvents.map((event) => (
               <div class="event-card">
                 <div class="event-date-badge">
-                  <span class="event-month">{new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short' })}</span>
-                  <span class="event-day-num">{new Date(event.startsAt).getDate()}</span>
-                  <span class="event-day-name">{new Date(event.startsAt).toLocaleDateString('en-US', { weekday: 'short' })}</span>
+                  <span class="event-month">{new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short', timeZone: 'America/Chicago' })}</span>
+                  <span class="event-day-num">{new Date(event.startsAt).toLocaleDateString('en-US', { day: 'numeric', timeZone: 'America/Chicago' })}</span>
+                  <span class="event-day-name">{new Date(event.startsAt).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'America/Chicago' })}</span>
                 </div>
                 <div class="event-details">
                   <h3 class="event-name">{event.name}</h3>
