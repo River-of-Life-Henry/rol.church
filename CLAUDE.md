@@ -157,6 +157,8 @@ Requires environment variables:
    - Home page has a visually-hidden H1 with full church name for SEO
    - Use `.sr-only` class for SEO-important but visually hidden content
 
+8. **Address Linking:** Every time the church address (425 University Ave, Henry, IL) appears on the site, it MUST link to the `/directions` page
+
 ## Church Identity
 
 - **Name:** River of Life (ROL)

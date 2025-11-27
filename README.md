@@ -90,8 +90,9 @@ ruby sync_hero_images.rb
 ### Automatic Syncing
 
 Data is automatically synced via GitHub Actions:
-- **Daily at 6 AM CT** - Full sync of all data
+- **Daily at ~6 AM CT** - Full sync of all data (only commits if data changed)
 - **On push to main** - Rebuilds and deploys the site
+- **Manual trigger** - Go to Actions → Sync Planning Center Data → Run workflow
 
 ## Project Structure
 

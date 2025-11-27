@@ -2,8 +2,9 @@ name: Sync Planning Center Data
 
 on:
   schedule:
-    # Run daily at 6:00 AM UTC (midnight CST)
-    - cron: '0 6 * * *'
+    # Run daily at 6:00 AM Chicago time (12:00 PM UTC for CST, 11:00 AM UTC for CDT)
+    # Using 11:00 AM UTC to cover CDT (summer) - will be 6 AM CDT or 5 AM CST
+    - cron: '0 11 * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
