@@ -24,15 +24,15 @@ Content is managed through **Planning Center** and synced to the website automat
 ### Where to Update Content in Planning Center
 
 #### Events
-1. Go to [planningcenter.com](https://planningcenter.com) → **Calendar**
+1. Go to [Planning Center Calendar](https://calendar.planningcenteronline.com/events)
 2. Create or edit an event
 3. Make sure the event is:
    - **Visible in Church Center** (checked)
    - Not tagged as "Hidden"
-4. Events sync automatically daily at 6 AM CT, or run `ruby scripts/sync_events.rb`
+4. Events sync automatically daily at ~6 AM CT, or run `ruby scripts/sync_events.rb`
 
 #### Groups/Ministries
-1. Go to Planning Center → **Groups**
+1. Go to [Planning Center Groups](https://groups.planningcenteronline.com/groups)
 2. Create or edit a group
 3. Make sure **Church Center Visible** is enabled
 4. Add group leaders via **Members** → set role to "Leader"
@@ -40,7 +40,7 @@ Content is managed through **Planning Center** and synced to the website automat
 6. Run `ruby scripts/sync_groups.rb` to sync
 
 #### Team Members
-1. Go to Planning Center → **People**
+1. Go to [Planning Center People](https://people.planningcenteronline.com/people)
 2. Find the person and go to their profile
 3. Go to the **Website - ROL.Church** tab (custom field tab)
 4. Set their **Position Title** (e.g., "Pastor", "Worship Leader")
@@ -48,10 +48,9 @@ Content is managed through **Planning Center** and synced to the website automat
 6. Note: Couples in the same household with position titles are automatically combined
 
 #### Hero Slider Images
-1. Go to Planning Center → **Media**
-2. Find the Website Hero Images album
-3. Upload new images or reorder existing ones
-4. Run `ruby scripts/sync_hero_images.rb` to sync
+1. Go to [Planning Center Media - Website Hero Images](https://services.planningcenteronline.com/medias/3554537)
+2. Upload new images or reorder existing ones
+3. Run `ruby scripts/sync_hero_images.rb` to sync (or wait for daily auto-sync)
 
 ### Sync Data from Planning Center
 
