@@ -110,10 +110,9 @@ def sync_events
             event_attrs = event_response.dig("data", "attributes") || {}
             visible_in_church_center = event_attrs["visible_in_church_center"] != false
 
-            # Check if event is Featured (church_center_visible_status)
-            # "Featured" events have church_center_visible_status = "featured"
-            visibility_status = event_attrs["church_center_visible_status"]
-            is_featured = visibility_status == "featured"
+            # Check if event is Featured
+            # The API returns a "featured" boolean attribute
+            is_featured = event_attrs["featured"] == true
 
             # Get additional data for featured events
             if is_featured

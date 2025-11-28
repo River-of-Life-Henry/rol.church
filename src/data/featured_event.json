@@ -1,4 +1,18 @@
 {
-  "updated_at": "2025-11-27T23:22:59-06:00",
-  "event": null
+  "updated_at": "2025-11-27T23:34:12-06:00",
+  "event": {
+    "id": "178702145",
+    "name": "Varna/Toluca/Wenona Life Group",
+    "slug": "varnatolucawenona-life-group",
+    "description": "",
+    "summary": null,
+    "startsAt": "2025-12-28T18:00:00-06:00",
+    "endsAt": "2025-12-28T21:00:00-06:00",
+    "location": "",
+    "allDay": false,
+    "tags": [],
+    "featured": true,
+    "imageUrl": null,
+    "registrationUrl": null
+  }
 }

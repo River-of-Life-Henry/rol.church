@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-11-27T23:22:59-06:00",
+  "updated_at": "2025-11-27T23:34:12-06:00",
   "events": [
     {
       "id": "163984513",
@@ -117,7 +117,7 @@
       "location": "",
       "allDay": false,
       "tags": [],
-      "featured": false,
+      "featured": true,
       "imageUrl": null,
       "registrationUrl": null
     },
