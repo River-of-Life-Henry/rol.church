@@ -3,6 +3,7 @@
 
 # Sync events from Planning Center Calendar API
 # Pulls upcoming events for the next 90 days
+# Also identifies the next "Featured" event for the hello bar
 # Usage: ruby sync_events.rb
 
 require_relative "pco_client"
@@ -18,6 +19,7 @@ $stdout.sync = true
 $stderr.sync = true
 
 OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "events.json")
+FEATURED_OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "featured_event.json")
 
 # Convert ISO8601 time to Chicago timezone with offset
 def to_chicago_time(iso_string)
@@ -70,12 +72,18 @@ def sync_events
         event_id = instance.dig("relationships", "event", "data", "id")
         tags = []
         visible_in_church_center = true
+        is_featured = false
 
         if event_id
           begin
             event_response = api.calendar.v2.events[event_id].get(include: "tags")
             event_attrs = event_response.dig("data", "attributes") || {}
             visible_in_church_center = event_attrs["visible_in_church_center"] != false
+
+            # Check if event is Featured (church_center_visible_status)
+            # "Featured" events have church_center_visible_status = "featured"
+            visibility_status = event_attrs["church_center_visible_status"]
+            is_featured = visibility_status == "featured"
 
             included = event_response["included"] || []
             tags = included.select { |i| i["type"] == "Tag" }.map { |t| t.dig("attributes", "name") }.compact
@@ -96,7 +104,8 @@ def sync_events
           endsAt: to_chicago_time(ends_at),
           location: attrs["location"] || "",
           allDay: all_day,
-          tags: tags
+          tags: tags,
+          featured: is_featured
         }
       end
 
@@ -110,6 +119,14 @@ def sync_events
 
     puts "SUCCESS: Found #{events.length} upcoming events"
 
+    # Find the next featured event (first one in sorted list that is featured)
+    featured_event = events.find { |e| e[:featured] }
+    if featured_event
+      puts "INFO: Featured event found: #{featured_event[:name]}"
+    else
+      puts "INFO: No featured event found"
+    end
+
     # Write events data JSON
     data_dir = File.dirname(OUTPUT_PATH)
     Dir.mkdir(data_dir) unless Dir.exist?(data_dir)
@@ -119,6 +136,13 @@ def sync_events
       events: events
     }))
     puts "INFO: Generated events.json"
+
+    # Write featured event JSON (for hello bar)
+    File.write(FEATURED_OUTPUT_PATH, JSON.pretty_generate({
+      updated_at: Time.now.iso8601,
+      event: featured_event
+    }))
+    puts "INFO: Generated featured_event.json"
 
     return events.any?
 

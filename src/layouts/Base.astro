@@ -22,8 +22,31 @@ try {
   console.log('Groups data not yet generated');
 }
 
+// Load featured event for hello bar
+let featuredEvent = null;
+try {
+  const featuredData = await import('../data/featured_event.json');
+  featuredEvent = featuredData.event || null;
+} catch (e) {
+  console.log('Featured event data not yet generated');
+}
+
+// Format featured event date for display
+function formatFeaturedDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'America/Chicago'
+  });
+}
+
 const siteUrl = "https://rol.church";
-const fullTitle = title === "River of Life" ? title : `${title} | River of Life`;
+// For the home page, use a more descriptive SEO title
+const fullTitle = title === "River of Life"
+  ? "River of Life | Apostolic Pentecostal Church in Henry, IL"
+  : `${title} | River of Life`;
 
 // Structured data for Church
 const churchSchema = {
@@ -155,6 +178,17 @@ const churchSchema = {
     /></noscript>
   </head>
   <body>
+    {featuredEvent && (
+      <div class="hello-bar">
+        <div class="hello-bar-content">
+          <span class="hello-bar-badge">Upcoming</span>
+          <span class="hello-bar-text">
+            <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
+          </span>
+          <a href="/events" class="hello-bar-link">Learn More →</a>
+        </div>
+      </div>
+    )}
     <header>
       <nav>
         <a href="/" class="logo">
@@ -504,12 +538,84 @@ const churchSchema = {
     --font-sans: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-script: 'Dancing Script', cursive;
     --header-height: 110px;
+    --hello-bar-height: 40px;
   }
 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  /* Hello Bar - Featured Event Announcement */
+  .hello-bar {
+    background: linear-gradient(90deg, var(--color-gold) 0%, #f0b429 100%);
+    color: var(--color-navy);
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 200;
+    height: var(--hello-bar-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hello-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    max-width: 1200px;
+  }
+
+  .hello-bar-badge {
+    background: var(--color-navy);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .hello-bar-text {
+    font-weight: 500;
+  }
+
+  .hello-bar-text strong {
+    font-weight: 700;
+  }
+
+  .hello-bar-link {
+    color: var(--color-navy);
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    transition: background 0.2s;
+  }
+
+  .hello-bar-link:hover {
+    background: rgba(26, 58, 74, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .hello-bar {
+      height: auto;
+      padding: 0.5rem;
+    }
+
+    .hello-bar-content {
+      gap: 0.4rem;
+    }
+
+    .hello-bar-text {
+      font-size: 0.85rem;
+    }
   }
 
   html {
