@@ -61,9 +61,57 @@ function getEventLocation(location: string): string {
 // Use event image or fallback to a hero image
 const heroImage = event.imageUrl || '/hero/4.jpg';
 const description = event.summary || event.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Join us for ${event.name} at River of Life Church.`;
+
+// Site URL for absolute paths
+const siteUrl = 'https://rol.church';
+
+// Build ReligiousEvent schema for SEO/AI
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "name": event.name,
+  "description": description,
+  "startDate": event.startsAt,
+  "endDate": event.endsAt,
+  "image": event.imageUrl ? event.imageUrl : `${siteUrl}/hero/4.jpg`,
+  "url": `${siteUrl}/events/${event.slug}`,
+  "location": {
+    "@type": "Place",
+    "name": event.location || "River of Life Church",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "425 University Ave",
+      "addressLocality": "Henry",
+      "addressRegion": "IL",
+      "postalCode": "61537",
+      "addressCountry": "US"
+    }
+  },
+  "organizer": {
+    "@type": "Church",
+    "name": "River of Life",
+    "url": siteUrl
+  },
+  "performer": {
+    "@type": "Church",
+    "name": "River of Life"
+  },
+  "offers": event.registrationUrl ? {
+    "@type": "Offer",
+    "url": event.registrationUrl,
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  } : undefined,
+  "isAccessibleForFree": true
+};
 ---
 
 <Base title={event.name} description={description}>
+  <!-- ReligiousEvent Schema for SEO/AI -->
+  <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
   <section class="event-hero" style={`background-image: url('${heroImage}')`}>
     <div class="hero-overlay"></div>
     <div class="hero-content">
