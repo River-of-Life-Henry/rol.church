@@ -79,6 +79,12 @@ function getEventLocation(location: string): string {
   return parts[0].trim();
 }
 
+// Capitalize AM/PM in schedule text
+function capitalizeAmPm(text: string): string {
+  if (!text) return text;
+  return text.replace(/(\d)(am|pm)/gi, (_, num, period) => `${num} ${period.toUpperCase()}`);
+}
+
 const metaDescription = group.description
   ? stripHtml(group.description).substring(0, 160)
   : `Learn about the ${group.name} group at River of Life church.`;
@@ -110,7 +116,7 @@ const metaDescription = group.description
           </div>
           <div class="schedule-text">
             <span class="schedule-label">When We Meet</span>
-            <span class="schedule-time">{group.schedule}</span>
+            <span class="schedule-time">{capitalizeAmPm(group.schedule)}</span>
           </div>
         </div>
       )}

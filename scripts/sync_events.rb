@@ -100,6 +100,9 @@ def sync_events
         tags = []
         visible_in_church_center = true
         is_featured = false
+        event_image_url = nil
+        registration_url = nil
+        summary = nil
 
         if event_id
           begin
@@ -112,6 +115,13 @@ def sync_events
             visibility_status = event_attrs["church_center_visible_status"]
             is_featured = visibility_status == "featured"
 
+            # Get additional data for featured events
+            if is_featured
+              event_image_url = event_attrs["image_url"]
+              registration_url = event_attrs["registration_url"]
+              summary = event_attrs["summary"]
+            end
+
             included = event_response["included"] || []
             tags = included.select { |i| i["type"] == "Tag" }.map { |t| t.dig("attributes", "name") }.compact
           rescue
@@ -123,16 +133,24 @@ def sync_events
         next unless visible_in_church_center
         next if tags.any? { |t| t.downcase.include?("hidden") }
 
+        # Create URL-friendly slug from event name
+        event_name = attrs["name"] || "Untitled Event"
+        slug = event_name.downcase.gsub(/[^a-z0-9\s-]/, '').gsub(/\s+/, '-').gsub(/-+/, '-').gsub(/^-|-$/, '')
+
         events << {
           id: instance["id"],
-          name: attrs["name"] || "Untitled Event",
+          name: event_name,
+          slug: slug,
           description: attrs["description"] || "",
+          summary: summary,
           startsAt: to_chicago_time(starts_at),
           endsAt: to_chicago_time(ends_at),
           location: attrs["location"] || "",
           allDay: all_day,
           tags: tags,
-          featured: is_featured
+          featured: is_featured,
+          imageUrl: event_image_url,
+          registrationUrl: registration_url
         }
       end
 
@@ -150,6 +168,31 @@ def sync_events
     featured_event = events.find { |e| e[:featured] }
     if featured_event
       puts "INFO: Featured event found: #{featured_event[:name]}"
+
+      # Validate featured event has required content
+      alerts = []
+
+      # Check for missing or short description
+      desc = featured_event[:description] || ""
+      summary = featured_event[:summary] || ""
+      combined_text = (desc + summary).gsub(/<[^>]*>/, '').strip
+      if combined_text.empty?
+        alerts << "no description"
+      elsif combined_text.length < 50
+        alerts << "very short description (#{combined_text.length} chars)"
+      end
+
+      # Check for missing header image
+      if featured_event[:imageUrl].nil? || featured_event[:imageUrl].strip.empty?
+        alerts << "no header image"
+      end
+
+      # Send alert if any issues found
+      if alerts.any?
+        alert_msg = "ROL Website Alert: Featured event '#{featured_event[:name]}' has issues: #{alerts.join(', ')}. Please update in Planning Center Calendar."
+        puts "WARN: #{alert_msg}"
+        send_sms(api, alert_msg, [ADMIN_PERSON_ID])
+      end
     else
       puts "INFO: No featured event found"
       # Send SMS notification to admin

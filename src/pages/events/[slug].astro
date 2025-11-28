@@ -1,0 +1,340 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Load events data
+let events = [];
+try {
+  const eventsData = await import('../../data/events.json');
+  events = eventsData.events || [];
+} catch (e) {
+  console.log('Events data not yet generated');
+}
+
+// Get only featured events for static paths
+export async function getStaticPaths() {
+  let events = [];
+  try {
+    const eventsData = await import('../../data/events.json');
+    events = eventsData.events || [];
+  } catch (e) {
+    return [];
+  }
+
+  // Only create pages for featured events
+  const featuredEvents = events.filter(e => e.featured);
+
+  return featuredEvents.map(event => ({
+    params: { slug: event.slug },
+    props: { event }
+  }));
+}
+
+const { event } = Astro.props;
+
+// Format date for display
+function formatEventDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'America/Chicago'
+  });
+}
+
+function formatEventTime(dateStr: string, allDay: boolean): string {
+  if (allDay) return 'All Day';
+  const date = new Date(dateStr);
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/Chicago'
+  });
+}
+
+function getEventLocation(location: string): string {
+  if (!location || !location.trim()) return '';
+  return location;
+}
+
+// Use event image or fallback to a hero image
+const heroImage = event.imageUrl || '/hero/4.jpg';
+const description = event.summary || event.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Join us for ${event.name} at River of Life Church.`;
+---
+
+<Base title={event.name} description={description}>
+  <section class="event-hero" style={`background-image: url('${heroImage}')`}>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="featured-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        Featured Event
+      </span>
+      <h1>{event.name}</h1>
+    </div>
+  </section>
+
+  <section class="event-content">
+    <div class="container">
+      <div class="event-details-grid">
+        <div class="event-main">
+          {(event.summary || event.description) && (
+            <div class="event-description">
+              <h2>About This Event</h2>
+              {event.summary && <p class="summary">{event.summary}</p>}
+              {event.description && <div class="description" set:html={event.description} />}
+            </div>
+          )}
+
+          {event.registrationUrl && (
+            <div class="registration-section">
+              <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" class="btn btn-large register-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+                Register Now
+              </a>
+            </div>
+          )}
+        </div>
+
+        <div class="event-sidebar">
+          <div class="detail-card">
+            <div class="detail-item">
+              <div class="detail-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
+              </div>
+              <div class="detail-info">
+                <span class="detail-label">Date</span>
+                <span class="detail-value">{formatEventDate(event.startsAt)}</span>
+              </div>
+            </div>
+
+            <div class="detail-item">
+              <div class="detail-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+              </div>
+              <div class="detail-info">
+                <span class="detail-label">Time</span>
+                <span class="detail-value">{formatEventTime(event.startsAt, event.allDay)}</span>
+              </div>
+            </div>
+
+            {getEventLocation(event.location) && (
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                </div>
+                <div class="detail-info">
+                  <span class="detail-label">Location</span>
+                  <span class="detail-value">{getEventLocation(event.location)}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <a href="/events" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Back to All Events
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .event-hero {
+    position: relative;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 3rem 2rem;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26, 58, 74, 0.95) 0%, rgba(26, 58, 74, 0.3) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--color-gold);
+    color: var(--color-navy);
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-content h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .event-content {
+    padding: 3rem 2rem;
+    background: white;
+  }
+
+  .event-content .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .event-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+  }
+
+  .event-main {
+    min-width: 0;
+  }
+
+  .event-description h2 {
+    color: var(--color-navy);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .event-description .summary {
+    font-size: 1.1rem;
+    color: var(--color-text);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .event-description .description {
+    color: var(--color-text-light);
+    line-height: 1.8;
+  }
+
+  .event-description .description :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .registration-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-bg-alt);
+  }
+
+  .register-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    background: var(--color-teal);
+  }
+
+  .register-btn:hover {
+    background: var(--color-teal-dark);
+    transform: translateY(-2px);
+  }
+
+  .event-sidebar {
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+  }
+
+  .detail-card {
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .detail-item:first-child {
+    padding-top: 0;
+  }
+
+  .detail-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .detail-icon {
+    color: var(--color-teal);
+    flex-shrink: 0;
+  }
+
+  .detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .detail-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+  }
+
+  .detail-value {
+    color: var(--color-navy);
+    font-weight: 600;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--color-teal);
+  }
+
+  @media (max-width: 768px) {
+    .event-hero {
+      height: 300px;
+      padding: 2rem 1.5rem;
+    }
+
+    .hero-content h1 {
+      font-size: 1.75rem;
+    }
+
+    .event-details-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .event-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+</style>
