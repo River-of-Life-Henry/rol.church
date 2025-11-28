@@ -2,19 +2,24 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 
-// Load events data and filter to next 6 weeks
+// Load events data and filter to next 6 weeks (or 12 weeks for featured)
 let events = [];
 try {
   const eventsData = await import('../data/events.json');
   const allEvents = eventsData.events || [];
 
-  // Filter to only show events within the next 6 weeks
+  // Filter: show events within 6 weeks, or up to 12 weeks if featured
   const now = new Date();
   const sixWeeksFromNow = new Date(now.getTime() + (6 * 7 * 24 * 60 * 60 * 1000));
+  const twelveWeeksFromNow = new Date(now.getTime() + (12 * 7 * 24 * 60 * 60 * 1000));
 
   events = allEvents.filter(event => {
     const eventDate = new Date(event.startsAt);
-    return eventDate >= now && eventDate <= sixWeeksFromNow;
+    if (eventDate < now) return false;
+    // Featured events can be up to 12 weeks out
+    if (event.featured) return eventDate <= twelveWeeksFromNow;
+    // Regular events only within 6 weeks
+    return eventDate <= sixWeeksFromNow;
   });
 } catch (e) {
   console.log('Events data not yet generated');
