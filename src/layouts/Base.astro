@@ -181,7 +181,6 @@ const churchSchema = {
     {featuredEvent && (
       <a href={`/events/${featuredEvent.slug}`} class="hello-bar">
         <div class="hello-bar-content">
-          <span class="hello-bar-badge">Upcoming</span>
           <span class="hello-bar-text">
             <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
           </span>
@@ -615,17 +614,6 @@ const churchSchema = {
     max-width: 1200px;
   }
 
-  .hello-bar-badge {
-    background: var(--color-navy);
-    color: white;
-    padding: 0.15rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
   .hello-bar-text {
     font-weight: 500;
   }
@@ -650,15 +638,28 @@ const churchSchema = {
   @media (max-width: 768px) {
     .hello-bar {
       height: auto;
-      padding: 0.5rem;
+      padding: 0.4rem 0.75rem;
     }
 
     .hello-bar-content {
-      gap: 0.4rem;
+      gap: 0.3rem;
+      flex-direction: column;
     }
 
     .hello-bar-text {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+    }
+
+    .hello-bar-link {
+      font-size: 0.75rem;
+    }
+
+    .has-hello-bar header {
+      top: auto;
+    }
+
+    .has-hello-bar main {
+      padding-top: 0;
     }
   }
 
