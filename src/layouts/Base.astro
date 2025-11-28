@@ -655,10 +655,14 @@ const churchSchema = {
       font-size: 0.75rem;
     }
 
+    /* On mobile, make header relative so it stacks below hello bar */
     .has-hello-bar header {
+      position: relative;
       top: 0;
+      background: var(--color-navy);
     }
 
+    /* Remove the extra padding since header is now in flow */
     .has-hello-bar main {
       padding-top: 0;
     }
