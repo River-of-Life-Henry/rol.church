@@ -21,6 +21,33 @@ $stderr.sync = true
 OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "events.json")
 FEATURED_OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "featured_event.json")
 
+# David Plappert's Planning Center person ID for SMS notifications
+ADMIN_PERSON_ID = "13451237"
+
+# Send SMS via Planning Center People API
+def send_sms(api, body, recipient_ids)
+  message = {
+    data: {
+      attributes: {
+        body: body,
+        recipient_ids: recipient_ids,
+      },
+    },
+  }
+  if body.nil? || body.strip == '' || recipient_ids.empty?
+    puts "WARN: No message body or contacts provided, skipping SMS"
+    return nil
+  end
+  begin
+    response = api.people.v2.messaging_campaigns.post(message)
+    puts "INFO: SMS sent successfully"
+    return response
+  rescue => e
+    puts "ERROR sending SMS: #{e.message}"
+    return nil
+  end
+end
+
 # Convert ISO8601 time to Chicago timezone with offset
 def to_chicago_time(iso_string)
   return nil if iso_string.nil?
@@ -125,6 +152,13 @@ def sync_events
       puts "INFO: Featured event found: #{featured_event[:name]}"
     else
       puts "INFO: No featured event found"
+      # Send SMS notification to admin
+      puts "INFO: Sending SMS notification about missing featured event..."
+      send_sms(
+        api,
+        "ROL Website Alert: No featured event is set in Planning Center. The hello bar will be empty. Please mark an upcoming event as 'Featured' in Calendar.",
+        [ADMIN_PERSON_ID]
+      )
     end
 
     # Write events data JSON
