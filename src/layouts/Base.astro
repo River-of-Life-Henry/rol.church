@@ -191,7 +191,8 @@ const churchSchema = {
     <header>
       <nav>
         <a href="/" class="logo">
-          <img src="/logo.png" alt="River of Life" class="logo-img" />
+          <img src="/logo.png" alt="River of Life" class="logo-img logo-full" />
+          <img src="/favicon.png" alt="River of Life" class="logo-img logo-icon" />
         </a>
 
         <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -770,7 +771,7 @@ const churchSchema = {
   }
 
   header.scrolled {
-    background: rgba(0, 0, 0, 0.66);
+    background: rgba(26, 58, 74, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 0.75rem 2rem;
@@ -803,6 +804,11 @@ const churchSchema = {
     width: auto;
     object-fit: contain;
     transition: height 0.3s;
+  }
+
+  /* Hide icon logo by default, show full logo */
+  header .logo-icon {
+    display: none;
   }
 
   header .logo-text {
@@ -955,6 +961,16 @@ const churchSchema = {
 
     .nav-menu.active {
       right: 0;
+    }
+
+    /* When menu is active, show icon instead of full logo */
+    header:has(.nav-menu.active) .logo-full {
+      display: none;
+    }
+
+    header:has(.nav-menu.active) .logo-icon {
+      display: block;
+      height: 50px;
     }
 
     .nav-menu > li {
