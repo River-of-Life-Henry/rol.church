@@ -177,17 +177,17 @@ const churchSchema = {
     src="https://www.facebook.com/tr?id=1073250371492877&ev=PageView&noscript=1"
     /></noscript>
   </head>
-  <body>
+  <body class={featuredEvent ? 'has-hello-bar' : ''}>
     {featuredEvent && (
-      <div class="hello-bar">
+      <a href={`/events/${featuredEvent.slug}`} class="hello-bar">
         <div class="hello-bar-content">
           <span class="hello-bar-badge">Upcoming</span>
           <span class="hello-bar-text">
             <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
           </span>
-          <a href="/events" class="hello-bar-link">Learn More →</a>
+          <span class="hello-bar-link">Learn More →</span>
         </div>
-      </div>
+      </a>
     )}
     <header>
       <nav>
@@ -560,6 +560,18 @@ const churchSchema = {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .hello-bar:hover {
+    background: linear-gradient(90deg, #f0b429 0%, #e0a420 100%);
+    color: var(--color-navy);
+  }
+
+  /* Push header down when hello bar is present */
+  .has-hello-bar header {
+    top: var(--hello-bar-height);
   }
 
   .hello-bar-content {
