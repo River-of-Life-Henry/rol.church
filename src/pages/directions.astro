@@ -32,6 +32,7 @@ import PageHero from '../components/PageHero.astro';
 
       <div class="directions-link">
         <a href="https://maps.google.com/?q=425+University+Ave,+Henry,+IL+61537" target="_blank" class="btn btn-large">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           Open in Google Maps
         </a>
       </div>
@@ -97,7 +98,9 @@ import PageHero from '../components/PageHero.astro';
   }
 
   .btn-large {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background: var(--color-teal);
     color: white !important;
     padding: 1rem 2.5rem;
@@ -111,6 +114,11 @@ import PageHero from '../components/PageHero.astro';
   .btn-large:hover {
     background: var(--color-teal-dark);
     transform: translateY(-2px);
+  }
+
+  .btn-large svg {
+    width: 1.25em;
+    height: 1.25em;
   }
 
   @media (max-width: 768px) {

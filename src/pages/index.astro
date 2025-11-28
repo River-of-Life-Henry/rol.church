@@ -9,12 +9,18 @@ import HeroSlider from '../components/HeroSlider.astro';
       <a href="/next-steps/visit" class="hero-card">
         <h2>PLAN YOUR VISIT</h2>
         <p>We'd love to meet you! Plan your visit and let us help make your first experience welcoming and memorable.</p>
-        <span class="card-btn">Plan Now</span>
+        <span class="card-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
+          Plan Now
+        </span>
       </a>
       <a href="/live" class="hero-card">
         <h2>WATCH LIVE</h2>
         <p>Can't make it in person? Join us every Sunday and Wednesday for our live stream.</p>
-        <span class="card-btn">Watch Now</span>
+        <span class="card-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Watch Now
+        </span>
       </a>
     </div>
   </HeroSlider>
@@ -94,7 +100,10 @@ import HeroSlider from '../components/HeroSlider.astro';
   }
 
   .card-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     background: white;
     color: var(--color-navy);
     padding: 0.875rem 2rem;
@@ -106,6 +115,11 @@ import HeroSlider from '../components/HeroSlider.astro';
     margin-top: 1.5rem;
     text-align: center;
     transition: background 0.2s;
+  }
+
+  .card-btn svg {
+    width: 1.125em;
+    height: 1.125em;
   }
 
   .hero-card:hover .card-btn {

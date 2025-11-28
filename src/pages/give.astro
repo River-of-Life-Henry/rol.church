@@ -8,14 +8,52 @@ import PageHero from '../components/PageHero.astro';
 
   <section class="give-content">
     <div class="container">
-      <p>Thank you for your generosity! Your giving supports our mission to serve people on their spiritual journey.</p>
-      <a
-        href="https://rolhenry.churchcenter.com/giving"
-        data-open-in-church-center-modal="true"
-        class="btn btn-large"
-      >
-        Give Now
-      </a>
+      <div class="give-intro">
+        <h2>Support Our Mission</h2>
+        <p>Thank you for your generosity! Your giving supports our mission to serve people on their spiritual journey and make a lasting impact in our community.</p>
+      </div>
+
+      <div class="give-card">
+        <div class="give-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <h3>Give Online</h3>
+        <p>Secure, easy, and convenient online giving through Planning Center.</p>
+        <a
+          href="https://rolhenry.churchcenter.com/giving"
+          data-open-in-church-center-modal="true"
+          class="btn btn-large"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          Give Now
+        </a>
+      </div>
+
+      <div class="give-options">
+        <div class="give-option">
+          <div class="option-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M19 14V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-9-1c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm13-6v11c0 1.1-.9 2-2 2H4v-2h17V7h2z"/></svg>
+          </div>
+          <h4>In-Person</h4>
+          <p>Give during our Sunday service offering</p>
+        </div>
+        <div class="give-option">
+          <div class="option-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          </div>
+          <h4>Recurring</h4>
+          <p>Set up automatic recurring donations</p>
+        </div>
+        <div class="give-option">
+          <div class="option-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <h4>By Mail</h4>
+          <p>425 University Ave, Henry, IL 61537</p>
+        </div>
+      </div>
+
+      <p class="give-verse">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." — 2 Corinthians 9:7</p>
     </div>
   </section>
 </Base>
@@ -31,22 +69,109 @@ import PageHero from '../components/PageHero.astro';
   .give-content {
     padding: 4rem 2rem;
     background: white;
-    text-align: center;
   }
 
   .give-content .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
   }
 
-  .give-content p {
+  .give-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .give-intro h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .give-intro p {
     color: var(--color-text-light);
     font-size: 1.1rem;
-    margin-bottom: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .give-card {
+    background: var(--color-navy);
+    color: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .give-card-icon {
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+
+  .give-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .give-card > p {
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+  }
+
+  .give-card .btn-large {
+    background: var(--color-teal);
+  }
+
+  .give-card .btn-large:hover {
+    background: var(--color-teal-dark);
+  }
+
+  .give-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .give-option {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+  }
+
+  .option-icon {
+    color: var(--color-teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .give-option h4 {
+    color: var(--color-navy);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .give-option p {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .give-verse {
+    text-align: center;
+    font-style: italic;
+    color: var(--color-text-light);
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.7;
   }
 
   .btn-large {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background: var(--color-teal);
     color: white !important;
     padding: 1rem 2.5rem;
@@ -60,5 +185,10 @@ import PageHero from '../components/PageHero.astro';
   .btn-large:hover {
     background: var(--color-teal-dark);
     transform: translateY(-2px);
+  }
+
+  .btn-large svg {
+    width: 1.25em;
+    height: 1.25em;
   }
 </style>

@@ -87,7 +87,8 @@ const metaDescription = group.description
 <Base title={group.name} description={metaDescription}>
   <!-- Hero with group header image -->
   <section class="group-hero" style={group.hasHeaderImage ? `background-image: url('${group.headerImage}')` : ''}>
-    <div class="hero-overlay">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
       <h1>{group.name}</h1>
     </div>
   </section>
@@ -172,6 +173,7 @@ const metaDescription = group.description
         <p>We'd love to have you! Reach out to connect with this group.</p>
         <div class="join-actions">
           <a href="/contact" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
             Contact Us
           </a>
         </div>
@@ -187,28 +189,42 @@ const metaDescription = group.description
 
 <style is:global>
   .group-hero {
-    height: 400px;
+    position: relative;
     background-size: cover;
     background-position: center;
     background-color: var(--color-navy);
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-  }
-
-  .hero-overlay {
-    width: 100%;
-    padding: 3rem 2rem;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-  }
-
-  .hero-overlay h1 {
     color: white;
+    padding: 10rem 2rem 5rem;
+    padding-top: calc(var(--header-height) + 5rem);
+    text-align: center;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .group-hero .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 58, 74, 0.7) 0%,
+      rgba(26, 58, 74, 0.8) 100%
+    );
+  }
+
+  .group-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+  }
+
+  .group-hero h1 {
+    font-family: var(--font-sans);
     font-size: 3rem;
-    margin: 0;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
   }
 
   .group-content {
@@ -480,10 +496,11 @@ const metaDescription = group.description
 
   @media (max-width: 768px) {
     .group-hero {
-      height: 300px;
+      padding: 8rem 1.5rem 4rem;
+      min-height: 250px;
     }
 
-    .hero-overlay h1 {
+    .group-hero h1 {
       font-size: 2rem;
     }
 
