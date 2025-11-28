@@ -27,7 +27,6 @@ scripts = %w[
   sync_events.rb
   sync_groups.rb
   sync_hero_images.rb
-  sync_team.rb
   sync_youtube.rb
 ]
 

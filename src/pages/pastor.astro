@@ -1,36 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-
-// Try to load team data from JSON, fallback to empty array
-let team = [];
-try {
-  const teamData = await import('../data/team.json');
-  team = teamData.team || [];
-} catch (e) {
-  console.log('Team data not yet generated');
-}
 ---
 
-<Base title="Our Team" description="Meet the leadership team at River of Life who are dedicated to serving our community.">
-  <PageHero title="Our Team" image="/hero/5.jpg" />
+<Base title="Our Pastor" description="Meet Pastor Andrew & Chelsea Coffield, the senior pastor at River of Life.">
+  <PageHero title="Our Pastor" image="/hero/5.jpg" />
 
   <section class="team-content">
     <div class="team-container">
-      {team.length === 0 && (
-        <p class="no-team">Team information coming soon.</p>
-      )}
-
-      {team.map((person) => (
-        <div class={`team-feature ${person.isPastor ? 'pastor' : 'member'}`}>
-          <div class="team-feature-image" style={`background-image: url('${person.image}')`}></div>
-          <div class="team-feature-info">
-            <p class="team-role-label">{person.role}</p>
-            <h2 class="team-name">{person.name}</h2>
-            {person.bio && <p class="team-bio">{person.bio}</p>}
-          </div>
+      <div class="team-feature pastor">
+        <div class="team-feature-image" style="background-image: url('/team/andrew_coffield.jpg')"></div>
+        <div class="team-feature-info">
+          <p class="team-role-label">Senior Pastor</p>
+          <h2 class="team-name">Andrew & Chelsea Coffield</h2>
+          <p class="team-bio">Pastor Andrew and Chelsea Coffield lead River of Life with a heart for helping people find and follow Jesus. Their passion is building a loving community where everyone can grow in their faith journey.</p>
         </div>
-      ))}
+      </div>
 
       <div class="team-connect-cta">
         <h3>Want to Connect?</h3>
@@ -52,13 +37,6 @@ try {
   .team-container {
     max-width: 1000px;
     margin: 0 auto;
-  }
-
-  .no-team {
-    text-align: center;
-    color: var(--color-text-light);
-    font-size: 1.1rem;
-    padding: 2rem;
   }
 
   .team-feature {
@@ -102,29 +80,6 @@ try {
     color: var(--color-text-light);
     line-height: 1.8;
     font-size: 1rem;
-  }
-
-  /* Smaller blocks for non-pastor members (75% size) */
-  .team-feature.member {
-    max-width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .team-feature.member .team-feature-image {
-    height: 300px;
-  }
-
-  .team-feature.member .team-role-label {
-    font-size: 0.75rem;
-  }
-
-  .team-feature.member .team-name {
-    font-size: 1.5rem;
-  }
-
-  .team-feature.member .team-bio {
-    font-size: 0.9rem;
   }
 
   .team-connect-cta {

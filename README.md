@@ -30,6 +30,7 @@ Content is managed through **Planning Center** and synced to the website automat
    - **Visible in Church Center** (checked)
    - Not tagged as "Hidden"
 4. Events sync automatically daily at ~6 AM CT, or run `ruby scripts/sync_events.rb`
+5. Note: Events page shows only 6 weeks ahead
 
 #### Groups/Ministries
 1. Go to [Planning Center Groups](https://groups.planningcenteronline.com/groups)
@@ -39,18 +40,15 @@ Content is managed through **Planning Center** and synced to the website automat
 5. Upload a header image for the group page
 6. Run `ruby scripts/sync_groups.rb` to sync
 
-#### Team Members
-1. Go to [Planning Center People](https://people.planningcenteronline.com/people)
-2. Find the person and go to their profile
-3. Go to the **Website - ROL.Church** tab (custom field tab)
-4. Set their **Position Title** (e.g., "Pastor", "Worship Leader")
-5. Run `ruby scripts/sync_team.rb` to sync
-6. Note: Couples in the same household with position titles are automatically combined
-
 #### Hero Slider Images
 1. Go to [Planning Center Media - Website Hero Images](https://services.planningcenteronline.com/medias/3554537)
 2. Upload new images or reorder existing ones
 3. Run `ruby scripts/sync_hero_images.rb` to sync (or wait for daily auto-sync)
+
+#### Pastor Page
+The pastor page (`/pastor`) is hardcoded and not synced from Planning Center. To update:
+1. Edit `src/pages/pastor.astro` directly
+2. Update the image at `public/team/andrew_coffield.jpg` if needed
 
 ### Sync Data from Planning Center
 
@@ -79,11 +77,11 @@ ruby sync_events.rb
 # Sync groups/ministries
 ruby sync_groups.rb
 
-# Sync team members
-ruby sync_team.rb
-
 # Sync hero images
 ruby sync_hero_images.rb
+
+# Sync YouTube video
+ruby sync_youtube.rb
 ```
 
 ### Automatic Syncing
@@ -100,7 +98,7 @@ Data is automatically synced via GitHub Actions:
 ├── public/              # Static assets (images, favicon, etc.)
 │   ├── hero/           # Hero slider images
 │   ├── groups/         # Group images and leader photos
-│   └── team/           # Team member photos
+│   └── team/           # Pastor photo
 ├── src/
 │   ├── components/     # Reusable Astro components
 │   │   ├── HeroSlider.astro
@@ -108,7 +106,7 @@ Data is automatically synced via GitHub Actions:
 │   ├── data/           # JSON data files (auto-generated)
 │   │   ├── events.json
 │   │   ├── groups.json
-│   │   ├── team.json
+│   │   ├── youtube.json
 │   │   └── hero_images.json
 │   ├── layouts/
 │   │   └── Base.astro  # Main layout with header/footer
@@ -123,11 +121,11 @@ Data is automatically synced via GitHub Actions:
 |-------|------|-------------|
 | `/` | `index.astro` | Home page with hero slider |
 | `/live` | `live.astro` | Live stream page |
-| `/events` | `events.astro` | Upcoming events |
+| `/events` | `events.astro` | Upcoming events (6 weeks) |
 | `/groups` | `groups/index.astro` | Ministry groups |
 | `/groups/[slug]` | `groups/[slug].astro` | Individual group pages |
 | `/about` | `about.astro` | About the church |
-| `/team` | `team.astro` | Staff and leadership |
+| `/pastor` | `pastor.astro` | Senior pastor |
 | `/contact` | `contact.astro` | Contact information |
 | `/directions` | `directions.astro` | Location and directions |
 | `/give` | `give.astro` | Online giving |

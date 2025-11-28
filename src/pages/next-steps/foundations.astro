@@ -2,22 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 
-// Try to load team data to find instructor
-let instructor = null;
-let instructorImage = '/team/chuff.jpg';
-let instructorName = 'Christopher Huff';
-
-try {
-  const teamData = await import('../../data/team.json');
-  // Find someone with "Foundations" in their role
-  instructor = teamData.team?.find(t => t.role?.toLowerCase().includes('foundations'));
-  if (instructor) {
-    instructorImage = instructor.image;
-    instructorName = instructor.name;
-  }
-} catch (e) {
-  console.log('Team data not yet generated');
-}
+const instructorImage = '/team/christopher_huff.jpg';
+const instructorName = 'Christopher & Heather Huff';
 ---
 
 <Base title="Foundations Class" description="Learn about what we believe and how to get connected at River of Life through our Foundations class.">
