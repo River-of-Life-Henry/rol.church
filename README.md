@@ -59,10 +59,32 @@ The sync script will send SMS alerts if:
 5. Upload a header image for the group page
 6. Run `ruby scripts/sync_groups.rb` to sync
 
-#### Hero Slider Images
-1. Go to [Planning Center Media - Website Hero Images](https://services.planningcenteronline.com/medias/3554537)
-2. Upload new images or reorder existing ones
-3. Run `ruby scripts/sync_hero_images.rb` to sync (or wait for daily auto-sync)
+#### Hero Slider Images & Page Headers
+Hero images are managed through Planning Center Services Media.
+
+**Location:** [Planning Center Media - Website Hero Images](https://services.planningcenteronline.com/medias/3554537)
+
+**Two types of images:**
+
+1. **Home Page Slider Images** - Any image without the `header_` prefix
+   - Named anything (e.g., `worship.jpg`, `congregation.jpg`)
+   - Appears in the rotating hero slider on the home page
+   - Numbered sequentially (1.jpg, 2.jpg, etc.) during sync
+
+2. **Page-Specific Header Images** - Files prefixed with `header_`
+   - Named based on the page URL path
+   - Non-alphanumeric characters in the URL become underscores
+   - Examples:
+     - `header_pastor.jpg` → `/pastor/`
+     - `header_about.jpg` → `/about/`
+     - `header_next_steps_visit.jpg` → `/next-steps/visit/`
+     - `header_groups_hyphen.jpg` → `/groups/hyphen/`
+   - If no header image exists for a page, a random slider image is used
+
+**To update:**
+1. Upload images to Planning Center
+2. Run `ruby scripts/sync_hero_images.rb` (or wait for daily auto-sync)
+3. Images appear in `public/hero/` and data in `src/data/hero_images.json`
 
 #### Pastor Page & Team Members
 The pastor page (`/pastor`) and foundations instructor are synced from **Planning Center People**.
@@ -253,7 +275,8 @@ Quick reference for where content comes from and how to update it:
 | Featured Event | Calendar | Events → Toggle "Featured" star | `sync_events.rb` | Hello bar + `/events/[slug]` |
 | Groups | Groups | Groups → Edit Group | `sync_groups.rb` | `/groups`, `/groups/[slug]` |
 | Group Leaders | Groups | Groups → Members → Role: Leader | `sync_groups.rb` | `/groups/[slug]` |
-| Hero Images | Services | Media → "Website Hero Images" | `sync_hero_images.rb` | Home page slider |
+| Hero Slider Images | Services | Media → "Website Hero Images" (no `header_` prefix) | `sync_hero_images.rb` | Home page slider |
+| Page Header Images | Services | Media → "Website Hero Images" (`header_*.jpg`) | `sync_hero_images.rb` | Page-specific backgrounds |
 | Pastor Info | People | Person → "Website - ROL.Church" tab | `sync_team.rb` | `/pastor` |
 | Foundations Instructor | People | Person → "Website - ROL.Church" tab | `sync_team.rb` | `/next-steps/foundations` |
 | Latest Video | YouTube | Upload to @rol-henry channel | `sync_youtube.rb` | `/live` |

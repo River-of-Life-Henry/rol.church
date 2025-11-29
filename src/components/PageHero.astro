@@ -1,14 +1,43 @@
 ---
+import heroData from '../data/hero_images.json';
+
 interface Props {
   title: string;
   subtitle?: string;
   image?: string;
 }
 
-const { title, subtitle, image = '/hero/1.jpg' } = Astro.props;
+const { title, subtitle, image } = Astro.props;
+
+// Auto-select header image based on URL path if no image provided
+function getHeroImage(): string {
+  // If explicit image provided, use it
+  if (image) return image;
+
+  // Get current URL path and convert to header key
+  // e.g., /pastor/ -> pastor, /next-steps/visit/ -> next_steps_visit
+  const path = Astro.url.pathname;
+  const headerKey = path
+    .replace(/^\/|\/$/g, '')  // Remove leading/trailing slashes
+    .replace(/[^a-zA-Z0-9]/g, '_')  // Replace non-alphanumeric with underscore
+    .toLowerCase();
+
+  // Check if we have a header image for this page
+  const headers = heroData.headers || {};
+  if (headers[headerKey]) {
+    return headers[headerKey];
+  }
+
+  // Fallback to random slider image
+  const sliderImages = heroData.images || ['/hero/1.jpg'];
+  const randomIndex = Math.floor(Math.random() * sliderImages.length);
+  return sliderImages[randomIndex] || '/hero/1.jpg';
+}
+
+const heroImage = getHeroImage();
 ---
 
-<section class="page-hero" style={`background-image: url('${image}')`}>
+<section class="page-hero" style={`background-image: url('${heroImage}')`}>
   <div class="overlay"></div>
   <div class="content">
     <h1>{title}</h1>

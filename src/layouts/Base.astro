@@ -189,6 +189,7 @@ const churchSchema = {
           <span class="hello-bar-text">
             <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
           </span>
+          <span class="hello-bar-arrow">→</span>
         </div>
       </a>
     )}
@@ -633,6 +634,11 @@ const churchSchema = {
 
   .hello-bar-text strong {
     font-weight: 700;
+  }
+
+  .hello-bar-arrow {
+    font-weight: 700;
+    flex-shrink: 0;
   }
 
   @media (max-width: 768px) {
