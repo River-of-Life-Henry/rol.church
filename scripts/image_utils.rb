@@ -20,7 +20,7 @@ module ImageUtils
 
   # JPEG quality for compression (0-100)
   JPEG_QUALITY = 80
-  WEBP_QUALITY = 80
+  WEBP_QUALITY = 65  # More aggressive for smaller files
 
   class << self
     # Download and optimize an image for web

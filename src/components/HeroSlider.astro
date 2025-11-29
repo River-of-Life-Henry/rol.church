@@ -1,11 +1,13 @@
 ---
 import heroData from '../data/hero_images.json';
 
-const images = heroData.images || [
+// Limit to 4 images to reduce page weight and requests
+const allImages = heroData.images || [
   '/hero/1.jpg',
   '/hero/2.jpg',
   '/hero/3.jpg',
 ];
+const images = allImages.slice(0, 4);
 
 // Calculate animation timing based on number of images
 const slideTime = 6; // seconds per slide
