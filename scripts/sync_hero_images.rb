@@ -5,6 +5,7 @@
 # Usage: ruby sync_hero_images.rb
 
 require_relative "pco_client"
+require_relative "image_utils"
 require "json"
 require "net/http"
 require "uri"
@@ -123,10 +124,18 @@ def download_hero_images
               break
             end
 
-            # Save to hero directory
+            # Save to temp file first
+            temp_path = File.join(HERO_DIR, "#{filename}.tmp")
+            File.binwrite(temp_path, response.body)
+            original_size = response.body.bytesize
+            puts "INFO: Downloaded hero image: #{filename} (#{original_size} bytes, #{content_type})"
+
+            # Optimize the image for web
             file_path = File.join(HERO_DIR, filename)
-            File.binwrite(file_path, response.body)
-            puts "INFO: Downloaded hero image: #{filename} (#{response.body.bytesize} bytes, #{content_type})"
+            ImageUtils.optimize_image(temp_path, file_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+
+            # Clean up temp file
+            File.delete(temp_path) if File.exist?(temp_path)
             break
           when Net::HTTPRedirection
             # Follow redirect

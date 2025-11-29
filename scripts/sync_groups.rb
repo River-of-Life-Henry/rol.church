@@ -6,6 +6,7 @@
 # Usage: ruby sync_groups.rb
 
 require_relative "pco_client"
+require_relative "image_utils"
 require "json"
 require "net/http"
 require "uri"
@@ -148,7 +149,7 @@ def sync_groups
             leader_filename = "#{slug}_leader_#{male[:id]}"
             leader_has_photo = false
             if male[:avatar_url] && !male[:avatar_url].include?('no-photo')
-              leader_has_photo = download_image(male[:avatar_url], leader_filename)
+              leader_has_photo = download_image(male[:avatar_url], leader_filename, type: :leader)
             end
 
             combined_name = "#{male[:firstName]} & #{female[:firstName]} #{male[:lastName]}"
@@ -171,7 +172,7 @@ def sync_groups
             leader_filename = "#{slug}_leader_#{leader[:id]}"
             leader_has_photo = false
             if leader[:avatar_url] && !leader[:avatar_url].include?('no-photo')
-              leader_has_photo = download_image(leader[:avatar_url], leader_filename)
+              leader_has_photo = download_image(leader[:avatar_url], leader_filename, type: :leader)
             end
 
             leader_name = "#{leader[:firstName]} #{leader[:lastName]}"
@@ -231,46 +232,17 @@ def sync_groups
   end
 end
 
-def download_image(url, filename)
-  uri = URI(url)
-  redirect_limit = 5
+def download_image(url, filename, type: :header)
+  output_path = File.join(GROUPS_DIR, "#{filename}.jpg")
+  success = ImageUtils.download_and_optimize(url, output_path, type: type)
 
-  redirect_limit.times do
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = (uri.scheme == 'https')
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    http.open_timeout = 30
-    http.read_timeout = 60
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-
-    case response
-    when Net::HTTPSuccess
-      content_type = response['content-type'] || ''
-
-      if content_type.include?('text/html')
-        puts "WARNING: Got HTML instead of image for #{filename}"
-        return false
-      end
-
-      file_path = File.join(GROUPS_DIR, "#{filename}.jpg")
-      File.binwrite(file_path, response.body)
-      puts "INFO: Downloaded image: #{filename}.jpg (#{response.body.bytesize} bytes)"
-      return true
-
-    when Net::HTTPRedirection
-      new_location = response['location']
-      uri = URI(new_location)
-
-    else
-      puts "WARNING: Failed to download #{filename}: HTTP #{response.code}"
-      return false
-    end
+  if success
+    puts "INFO: Processed image: #{filename}.jpg"
+  else
+    puts "WARNING: Failed to download/optimize #{filename}"
   end
 
-  puts "WARNING: Too many redirects for #{filename}"
-  false
+  success
 end
 
 if __FILE__ == $0

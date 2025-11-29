@@ -40,6 +40,9 @@ const transformOrigins = [
         <img
           src={src}
           alt=""
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "low"}
+          decoding={i === 0 ? "sync" : "async"}
           style={`animation-delay: ${i * slideTime}s; transform-origin: ${transformOrigins[i % transformOrigins.length]}`}
         />
       </div>

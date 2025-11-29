@@ -6,6 +6,7 @@
 # Usage: ruby sync_team.rb
 
 require_relative "pco_client"
+require_relative "image_utils"
 require "json"
 require "net/http"
 require "uri"
@@ -177,45 +178,16 @@ def sync_team
 end
 
 def download_image(url, filename)
-  uri = URI(url)
-  redirect_limit = 5
+  output_path = File.join(TEAM_DIR, "#{filename}.jpg")
+  success = ImageUtils.download_and_optimize(url, output_path, type: :team)
 
-  redirect_limit.times do
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = (uri.scheme == 'https')
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    http.open_timeout = 30
-    http.read_timeout = 60
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-
-    case response
-    when Net::HTTPSuccess
-      content_type = response['content-type'] || ''
-
-      if content_type.include?('text/html')
-        puts "WARNING: Got HTML instead of image for #{filename}"
-        return false
-      end
-
-      file_path = File.join(TEAM_DIR, "#{filename}.jpg")
-      File.binwrite(file_path, response.body)
-      puts "INFO: Downloaded image: #{filename}.jpg (#{response.body.bytesize} bytes)"
-      return true
-
-    when Net::HTTPRedirection
-      new_location = response['location']
-      uri = URI(new_location)
-
-    else
-      puts "WARNING: Failed to download #{filename}: HTTP #{response.code}"
-      return false
-    end
+  if success
+    puts "INFO: Processed team image: #{filename}.jpg"
+  else
+    puts "WARNING: Failed to download/optimize #{filename}"
   end
 
-  puts "WARNING: Too many redirects for #{filename}"
-  false
+  success
 end
 
 if __FILE__ == $0
