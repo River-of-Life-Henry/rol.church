@@ -3,62 +3,119 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 ---
 
-<Base title="Plan Your Visit" description="Planning to visit River of Life? Let us know you're coming so we can make your first visit special.">
+<Base title="Plan Your Visit" description="Planning to visit River of Life Church in Henry, IL? We can't wait to meet you! Learn what to expect and let us know you're coming.">
   <PageHero title="Plan Your Visit" image="/hero/3.jpg" />
 
   <section class="visit-content">
     <div class="container">
+      <!-- Welcome Message -->
+      <div class="welcome-message">
+        <h2>We Can't Wait to Meet You!</h2>
+        <p>Whether you're exploring faith for the first time or looking for a new church home, you're welcome here. We know visiting a new church can feel uncertain—that's why we want to make your first experience as comfortable as possible.</p>
+      </div>
+
+      <!-- Quick Info Cards -->
+      <div class="quick-info">
+        <div class="info-card highlight">
+          <div class="info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          </div>
+          <h3>Sunday Services</h3>
+          <p class="time-main">10 AM &amp; 11 AM</p>
+          <p class="time-detail">Christian Education at 10 AM<br/>Main Service at 11 AM</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <h3>Location</h3>
+          <a href="/directions" class="address-link">
+            <p class="time-main">425 University Ave</p>
+            <p class="time-detail">Henry, IL 61537</p>
+          </a>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+          </div>
+          <h3>Parking</h3>
+          <p class="time-main">Free Parking</p>
+          <p class="time-detail">Lot behind the building<br/>Enter through main doors</p>
+        </div>
+      </div>
+
+      <!-- What to Expect Section -->
       <div class="info-section">
         <h2>What to Expect</h2>
         <div class="expect-grid">
           <div class="expect-item">
-            <h3>Welcoming Atmosphere</h3>
-            <p>Come as you are - there's no dress code. You'll be greeted with a friendly smile and someone to help you find your way.</p>
+            <div class="expect-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <h3>What Should I Wear?</h3>
+            <p>You'll see everything from jeans and t-shirts to dresses and button-ups—wear whatever makes you comfortable. There's no dress code here, just come as you are!</p>
           </div>
           <div class="expect-item">
-            <h3>Engaging Worship</h3>
-            <p>Experience meaningful worship through contemporary music that helps us connect with God together.</p>
+            <div class="expect-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+            </div>
+            <h3>How Long is the Service?</h3>
+            <p>Our Sunday service typically lasts about 90 minutes. We start with uplifting worship, followed by a practical message from God's Word.</p>
           </div>
           <div class="expect-item">
-            <h3>Relevant Teaching</h3>
-            <p>Our messages are Bible-based and practical, designed to help you grow in your faith and daily life.</p>
+            <div class="expect-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7C15.12 7 14 8.12 14 9.5s1.12 2.5 2.5 2.5zM9 11c1.66 0 2.99-1.34 2.99-3S10.66 5 9 5C7.34 5 6 6.34 6 8s1.34 3 3 3zm7.5 3c-1.83 0-5.5.92-5.5 2.75V19h11v-2.25c0-1.83-3.67-2.75-5.5-2.75zM9 13c-2.33 0-7 1.17-7 3.5V19h7v-2.25c0-.85.33-2.34 2.37-3.47C10.5 13.1 9.66 13 9 13z"/></svg>
+            </div>
+            <h3>Will I Be Singled Out?</h3>
+            <p>Absolutely not! We want you to feel comfortable, not put on the spot. You're free to observe, participate as much as you'd like, and explore at your own pace.</p>
           </div>
           <div class="expect-item">
-            <h3>Kids & Youth</h3>
-            <p>Sunday School for kids through age 11 meets at 10AM every Sunday. Students ages 12-18 have a special time every Wednesday at 7PM.</p>
+            <div class="expect-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <h3>A Personal Welcome</h3>
+            <p>When you let us know you're coming, our hospitality team will be ready to greet you, show you around, and answer any questions you have.</p>
           </div>
         </div>
       </div>
 
-      <div class="times-location">
-        <div class="info-card">
-          <h3>Service Times</h3>
-          <p><strong>Sunday</strong></p>
-          <p>10:00 - 10:45 AM &middot; Christian Education</p>
-          <p>11:00 AM - 12:30 PM &middot; Main Service</p>
-          <p style="margin-top: 1rem;"><strong>Wednesday</strong></p>
-          <p>7:00 - 8:00 PM &middot; Bible Study</p>
-        </div>
-        <div class="info-card">
-          <h3>Location</h3>
-          <a href="/directions" class="address-link">
-            <p>425 University Ave</p>
-            <p>Henry, IL 61537</p>
-          </a>
+      <!-- Kids Section -->
+      <div class="kids-section">
+        <div class="kids-content">
+          <div class="kids-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2v8h8c0-4.42-3.58-8-8-8zm6.32 13.89C20.37 14.54 21 12.84 21 11H6.44l-.95-2H2v2h2.22s1.89 4.07 2.12 4.42c-1.1.59-1.84 1.75-1.84 3.08C4.5 20.43 6.07 22 8 22c1.76 0 3.22-1.3 3.46-3h2.08c.24 1.7 1.7 3 3.46 3 1.93 0 3.5-1.57 3.5-3.5 0-1.04-.46-1.97-1.18-2.61zM8 20c-.83 0-1.5-.67-1.5-1.5S7.17 17 8 17s1.5.67 1.5 1.5S8.83 20 8 20zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          </div>
+          <div class="kids-text">
+            <h2>Bringing the Kids?</h2>
+            <p>We love kids! Sunday School for children through age 11 meets at <strong>10 AM</strong> every Sunday. Our caring volunteers provide age-appropriate lessons in a safe, fun environment. Just look for our welcome team—they'll help you get checked in and show your kids where to go.</p>
+            <p class="kids-bonus"><strong>Pro tip:</strong> When you plan your visit, you can pre-register your children for a faster check-in process when you arrive!</p>
+            <p class="kids-note">Youth ages 12-18 meet every Wednesday at 7 PM for their own special gathering!</p>
+          </div>
         </div>
       </div>
 
+      <!-- CTA Section -->
       <div class="signup-section">
-        <h2>Let Us Know You're Coming</h2>
-        <p>Fill out the form and we'll have someone ready to greet you!</p>
-        <a
-          href="https://rolhenry.churchcenter.com/people/forms/1102408"
-          data-open-in-church-center-modal="true"
-          class="btn btn-large"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-          Fill Out the Form
-        </a>
+        <div class="signup-card">
+          <h2>Ready to Visit?</h2>
+          <p>Let us know you're coming and we'll have someone ready to welcome you personally. We'll save you a seat!</p>
+          <a
+            href="https://rolhenry.churchcenter.com/people/forms/1102408"
+            data-open-in-church-center-modal="true"
+            class="btn btn-large"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+            Plan My Visit
+          </a>
+          <p class="signup-note">Or just show up—we'd love to see you either way!</p>
+        </div>
+      </div>
+
+      <!-- Questions Section -->
+      <div class="questions-section">
+        <h3>Still Have Questions?</h3>
+        <p>We're here to help! Reach out anytime and we'll get back to you.</p>
+        <a href="/contact" class="contact-link">Contact Us &rarr;</a>
       </div>
     </div>
   </section>
@@ -76,6 +133,107 @@ import PageHero from '../../components/PageHero.astro';
     margin: 0 auto;
   }
 
+  /* Welcome Message */
+  .welcome-message {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .welcome-message h2 {
+    font-family: var(--font-script);
+    color: var(--color-navy);
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-message p {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Quick Info Cards */
+  .quick-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .info-card {
+    background: var(--color-bg-alt);
+    padding: 2rem 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+
+  .info-card.highlight {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  .info-card.highlight h3 {
+    color: var(--color-gold);
+  }
+
+  .info-card.highlight .time-main {
+    color: white;
+  }
+
+  .info-card.highlight .time-detail {
+    color: rgba(255,255,255,0.8);
+  }
+
+  .info-card.highlight .info-icon {
+    color: var(--color-gold);
+  }
+
+  .info-icon {
+    color: var(--color-teal);
+    margin-bottom: 1rem;
+  }
+
+  .info-card h3 {
+    color: var(--color-navy);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .time-main {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 0.25rem;
+  }
+
+  .time-detail {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+  }
+
+  .info-card .address-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .info-card .address-link:hover .time-main,
+  .info-card .address-link:hover .time-detail {
+    color: var(--color-teal);
+  }
+
+  /* What to Expect Section */
   .info-section {
     margin-bottom: 4rem;
   }
@@ -89,99 +247,188 @@ import PageHero from '../../components/PageHero.astro';
 
   .expect-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
   .expect-item {
-    background: var(--color-bg-alt);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    border-left: 4px solid var(--color-gold);
+    background: white;
+    padding: 1.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .expect-icon {
+    color: var(--color-teal);
+    flex-shrink: 0;
   }
 
   .expect-item h3 {
-    color: var(--color-teal);
+    color: var(--color-navy);
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
   }
 
   .expect-item p {
-    color: var(--color-text);
+    color: var(--color-text-light);
     font-size: 0.95rem;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
-  .times-location {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+  /* Kids Section */
+  .kids-section {
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+    border-radius: 1rem;
+    padding: 2.5rem;
     margin-bottom: 4rem;
   }
 
-  .info-card {
-    background: var(--color-navy);
-    color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    text-align: center;
+  .kids-content {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
   }
 
-  .info-card h3 {
-    color: var(--color-gold);
+  .kids-icon {
+    color: var(--color-teal);
+    flex-shrink: 0;
+  }
+
+  .kids-text h2 {
+    color: var(--color-navy);
+    font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 
-  .info-card p {
-    margin-bottom: 0.25rem;
+  .kids-text p {
+    color: var(--color-text);
+    line-height: 1.8;
+    margin-bottom: 1rem;
   }
 
-  .address-link {
-    display: block;
-    color: white;
-    text-decoration: none;
-    transition: color 0.2s;
+  .kids-bonus {
+    background: rgba(45, 156, 202, 0.1);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    border-left: 3px solid var(--color-teal);
   }
 
-  .address-link:hover {
-    color: var(--color-teal);
+  .kids-note {
+    font-size: 0.9rem;
+    color: var(--color-teal-dark);
+    font-weight: 500;
+    margin-bottom: 0 !important;
   }
 
-  .address-link:hover p {
-    text-decoration: underline;
-  }
-
+  /* CTA Section */
   .signup-section {
-    text-align: center;
+    margin-bottom: 3rem;
   }
 
-  .signup-section h2 {
-    color: var(--color-navy);
+  .signup-card {
+    background: var(--color-navy);
+    color: white;
+    text-align: center;
+    padding: 3rem;
+    border-radius: 1rem;
+  }
+
+  .signup-card h2 {
+    color: var(--color-gold);
     font-size: 2rem;
     margin-bottom: 1rem;
   }
 
-  .signup-section > p {
-    color: var(--color-text-light);
+  .signup-card > p {
+    font-size: 1.1rem;
+    opacity: 0.9;
     margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .btn-large {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--color-teal);
-    color: white !important;
+    background: var(--color-gold);
+    color: var(--color-navy) !important;
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 0.5rem;
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
   }
 
   .btn-large:hover {
-    background: var(--color-teal-dark);
+    background: #e0a420;
     transform: translateY(-2px);
+  }
+
+  .signup-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  /* Questions Section */
+  .questions-section {
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+  }
+
+  .questions-section h3 {
+    color: var(--color-navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .questions-section p {
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+  }
+
+  .contact-link {
+    color: var(--color-teal);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .contact-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .quick-info {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .welcome-message h2 {
+      font-size: 2rem;
+    }
+
+    .expect-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .kids-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .signup-card {
+      padding: 2rem 1.5rem;
+    }
   }
 </style>

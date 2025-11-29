@@ -48,8 +48,56 @@ import HeroSlider from '../components/HeroSlider.astro';
     <div class="container">
       <h1 class="sr-only">River of Life - Apostolic Pentecostal Church in Henry, IL</h1>
       <h2>Where life begins</h2>
-      <p>River of Life is a loving community of Christ-followers dedicated to serving people on their spiritual journey.</p>
+      <p>Whether you're exploring faith for the first time or looking for a church to call home, you'll find a welcoming community here. We're real people on a real journey—and there's a place for you.</p>
       <a href="/about" class="text-link">Learn more about us &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="testimonials-header">
+        <div class="google-rating">
+          <div class="stars">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <span class="rating-text">4.7 on Google</span>
+        </div>
+        <h2>What People Are Saying</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial">
+          <p class="quote">"Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering."</p>
+          <p class="author">— Love Farmer</p>
+        </div>
+        <div class="testimonial">
+          <p class="quote">"You feel God before you even go through the doors."</p>
+          <p class="author">— Jasmine Westall</p>
+        </div>
+        <div class="testimonial">
+          <p class="quote">"Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. Amazing experience."</p>
+          <p class="author">— Melissa Mounts</p>
+        </div>
+      </div>
+      <a href="https://www.google.com/maps/place/River+of+Life/@41.111364,-89.3563929,17z/" target="_blank" rel="noopener noreferrer" class="reviews-link">
+        Read all reviews on Google &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Experience It for Yourself?</h2>
+      <p>We'd love to meet you this Sunday. Let us know you're coming and we'll save you a seat!</p>
+      <a href="/next-steps/visit" class="cta-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
+        Plan Your Visit
+      </a>
     </div>
   </section>
 
@@ -229,6 +277,140 @@ import HeroSlider from '../components/HeroSlider.astro';
     }
   }
 
+  /* Testimonials Section */
+  .testimonials-section {
+    padding: 5rem 2rem;
+    background: var(--color-bg-alt);
+  }
+
+  .testimonials-section .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .testimonials-header {
+    margin-bottom: 3rem;
+  }
+
+  .google-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .google-rating .stars {
+    display: flex;
+    gap: 0.15rem;
+  }
+
+  .google-rating .stars svg {
+    width: 20px;
+    height: 20px;
+    color: #FBBC04;
+  }
+
+  .rating-text {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+  }
+
+  .testimonials-header h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .testimonial .quote {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .testimonial .author {
+    font-size: 0.9rem;
+    color: var(--color-teal);
+    font-weight: 600;
+  }
+
+  .reviews-link {
+    color: var(--color-teal);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .reviews-link:hover {
+    text-decoration: underline;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 5rem 2rem;
+    background: var(--color-navy);
+    text-align: center;
+  }
+
+  .cta-section .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-section h2 {
+    color: var(--color-gold);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-gold);
+    color: var(--color-navy) !important;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: #e0a420;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 900px) {
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (max-width: 768px) {
     .hero-cards {
       grid-template-columns: 1fr;
@@ -251,6 +433,14 @@ import HeroSlider from '../components/HeroSlider.astro';
     }
     .about-section h2 {
       font-size: 2rem;
+    }
+    .testimonials-section,
+    .cta-section {
+      padding: 3rem 1.5rem;
+    }
+    .testimonials-header h2,
+    .cta-section h2 {
+      font-size: 1.5rem;
     }
   }
 </style>
