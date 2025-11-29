@@ -100,7 +100,7 @@ const churchSchema = {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
     <!-- Primary Meta Tags -->
     <title>{fullTitle}</title>
@@ -651,31 +651,37 @@ const churchSchema = {
 
   @media (max-width: 768px) {
     :root {
-      --hello-bar-height: 32px;
+      --hello-bar-height: 28px;
     }
 
     .hello-bar {
       position: fixed;
+      top: 0;
       height: var(--hello-bar-height);
-      padding: 0.4rem 0.5rem;
+      padding: 0.35rem 0.5rem;
     }
 
     .hello-bar-content {
-      gap: 0.5rem;
+      gap: 0.4rem;
       flex-direction: row;
       flex-wrap: nowrap;
     }
 
     .hello-bar-text {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
+    .hello-bar-text strong {
+      font-weight: 600;
+    }
+
     .hello-bar-link {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       flex-shrink: 0;
+      padding: 0.1rem 0.4rem;
     }
 
     /* Keep header fixed on mobile too */
@@ -685,9 +691,9 @@ const churchSchema = {
       background: var(--color-navy);
     }
 
-    /* Reserve space for fixed hello bar */
+    /* No extra padding - hello bar and header are fixed */
     .has-hello-bar {
-      padding-top: var(--hello-bar-height);
+      padding-top: 0;
     }
   }
 
@@ -977,15 +983,16 @@ const churchSchema = {
   /* Mobile Styles */
   @media (max-width: 900px) {
     header {
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.75rem;
     }
 
     header .logo-full {
-      height: 45px;
+      height: 36px;
     }
 
     header .logo-full img {
       height: 100%;
+      width: auto;
     }
 
     .hamburger {

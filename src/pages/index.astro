@@ -414,82 +414,106 @@ import HeroSlider from '../components/HeroSlider.astro';
   @media (max-width: 768px) {
     .hero-cards {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      gap: 0.5rem;
       padding: 0 0.75rem;
+      margin-top: 0.5rem;
     }
     .hero-card {
       min-height: auto;
-      padding: 1rem 1.25rem;
+      padding: 0.75rem 1rem;
     }
     .hero-card h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.08em;
     }
     .hero-card p {
-      font-size: 0.8rem;
-      line-height: 1.5;
+      font-size: 0.75rem;
+      line-height: 1.4;
     }
     .card-btn {
-      padding: 0.6rem 1.25rem;
-      font-size: 0.75rem;
-      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+    }
+    .card-btn svg {
+      width: 14px;
+      height: 14px;
     }
     .service-info {
-      padding: 1rem;
+      padding: 0.75rem;
     }
     .service-info .container {
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
     .service-block .label {
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.15rem;
+      font-size: 0.65rem;
     }
     .service-block .time,
     .service-block .location {
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
     .about-section {
-      padding: 3rem 1.5rem;
+      padding: 2rem 1.25rem;
     }
     .about-section h2 {
-      font-size: 2rem;
-    }
-    .about-section p {
-      font-size: 1rem;
-    }
-    .testimonials-section {
-      padding: 2rem 1rem;
-    }
-    .testimonials-header {
-      margin-bottom: 1.5rem;
-    }
-    .testimonials-header h2 {
-      font-size: 1.25rem;
-    }
-    .testimonials-grid {
-      gap: 0.75rem;
+      font-size: 1.75rem;
       margin-bottom: 1rem;
     }
+    .about-section p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .testimonials-section {
+      padding: 1.5rem 0.75rem;
+    }
+    .testimonials-header {
+      margin-bottom: 1rem;
+    }
+    .testimonials-header h2 {
+      font-size: 1.1rem;
+    }
+    .google-rating .stars svg {
+      width: 16px;
+      height: 16px;
+    }
+    .rating-text {
+      font-size: 0.75rem;
+    }
+    .testimonials-grid {
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
     .testimonial {
-      padding: 1rem;
+      padding: 0.75rem;
     }
     .testimonial .quote {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      margin-bottom: 0.35rem;
     }
     .testimonial .author {
+      font-size: 0.7rem;
+    }
+    .reviews-link {
       font-size: 0.8rem;
     }
     .cta-section {
-      padding: 2.5rem 1.5rem;
+      padding: 2rem 1.25rem;
     }
     .cta-section h2 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
     }
     .cta-section p {
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .cta-btn {
+      padding: 0.75rem 1.75rem;
+      font-size: 0.9rem;
     }
   }
 </style>

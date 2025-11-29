@@ -97,18 +97,21 @@ const transformOrigins = [
     animation: zoom var(--total-duration) infinite;
   }
 
+  /* With 4 images, each gets 25% of total time (6s each for 24s total)
+     Image timing: 0% fade in -> 22% hold -> 25% fade out (but next starts at 25%)
+     Overlap: next image fades in while current fades out */
   @keyframes kenburns {
     0% { opacity: 0; }
-    2% { opacity: 1; }
-    12% { opacity: 1; }
-    14% { opacity: 0; }
+    4% { opacity: 1; }
+    25% { opacity: 1; }
+    29% { opacity: 0; }
     100% { opacity: 0; }
   }
 
   @keyframes zoom {
     0% { transform: scale(1); }
-    14% { transform: scale(1.15); }
-    100% { transform: scale(1.15); }
+    29% { transform: scale(1.12); }
+    100% { transform: scale(1.12); }
   }
 
   .overlay {
@@ -134,5 +137,30 @@ const transformOrigins = [
     padding: 2rem;
     padding-top: calc(var(--header-height) + 2rem);
     color: white;
+  }
+
+  @media (max-width: 768px) {
+    .hero-slider {
+      height: auto;
+      min-height: auto;
+    }
+
+    .slides {
+      position: relative;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+    }
+
+    .content {
+      padding: 1rem;
+      padding-top: 5rem;
+      padding-bottom: 1.5rem;
+      min-height: 100vh;
+      justify-content: flex-start;
+    }
   }
 </style>
