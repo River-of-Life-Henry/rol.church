@@ -609,9 +609,14 @@ const churchSchema = {
     top: var(--hello-bar-height);
   }
 
+  /* Reserve space for hello bar to prevent layout shift */
+  .has-hello-bar {
+    padding-top: var(--hello-bar-height);
+  }
+
   /* Add padding to body to account for fixed header */
   .has-hello-bar main {
-    padding-top: var(--hello-bar-height);
+    padding-top: 0;
   }
 
   .hello-bar-content {
