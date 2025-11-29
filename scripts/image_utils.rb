@@ -3,6 +3,7 @@
 # Image optimization utilities for sync scripts
 # Supports resizing and compression for web optimization
 # Uses sips (macOS) or ImageMagick (Linux) automatically
+# Generates WebP versions for modern browsers
 
 require "net/http"
 require "uri"
@@ -19,6 +20,7 @@ module ImageUtils
 
   # JPEG quality for compression (0-100)
   JPEG_QUALITY = 80
+  WEBP_QUALITY = 80
 
   class << self
     # Download and optimize an image for web
@@ -124,10 +126,43 @@ module ImageUtils
           puts "INFO: Optimization increased size, keeping original (#{format_bytes(original_size)})"
           FileUtils.cp(input_path, output_path)
         end
+
+        # Generate WebP version
+        generate_webp(output_path)
+
         true
       else
         false
       end
+    end
+
+    # Generate WebP version of an image
+    # @param input_path [String] Source JPEG/PNG file
+    # @return [Boolean] true if successful
+    def generate_webp(input_path)
+      webp_path = input_path.sub(/\.(jpg|jpeg|png)$/i, '.webp')
+
+      if cwebp_available?
+        result = system("cwebp -q #{WEBP_QUALITY} \"#{input_path}\" -o \"#{webp_path}\" 2>/dev/null")
+        if result && File.exist?(webp_path)
+          webp_size = File.size(webp_path)
+          orig_size = File.size(input_path)
+          puts "INFO: Generated WebP: #{format_bytes(webp_size)} (#{((orig_size - webp_size).to_f / orig_size * 100).round(1)}% smaller than JPEG)"
+          return true
+        end
+      elsif imagemagick_available?
+        result = system("convert \"#{input_path}\" -quality #{WEBP_QUALITY} \"#{webp_path}\" 2>/dev/null")
+        if result && File.exist?(webp_path)
+          webp_size = File.size(webp_path)
+          orig_size = File.size(input_path)
+          puts "INFO: Generated WebP: #{format_bytes(webp_size)} (#{((orig_size - webp_size).to_f / orig_size * 100).round(1)}% smaller than JPEG)"
+          return true
+        end
+      else
+        puts "INFO: No WebP converter available, skipping WebP generation"
+      end
+
+      false
     end
 
     private
@@ -151,6 +186,10 @@ module ImageUtils
 
     def imagemagick_available?
       system('which convert > /dev/null 2>&1')
+    end
+
+    def cwebp_available?
+      system('which cwebp > /dev/null 2>&1')
     end
 
     def optimize_with_sips(input_path, output_path, max_width, max_height)

@@ -22,8 +22,8 @@ jobs:
           bundler-cache: true
           working-directory: scripts
 
-      - name: Install ImageMagick for image optimization
-        run: sudo apt-get update && sudo apt-get install -y imagemagick
+      - name: Install ImageMagick and WebP tools for image optimization
+        run: sudo apt-get update && sudo apt-get install -y imagemagick webp
 
       - name: Install dependencies
         run: |

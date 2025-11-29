@@ -120,6 +120,9 @@ const churchSchema = {
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
+    <!-- Preload hero image for LCP -->
+    <link rel="preload" as="image" type="image/webp" href="/hero/1.webp" fetchpriority="high">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={siteUrl} />
