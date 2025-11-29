@@ -78,8 +78,8 @@ Hero images are managed through Planning Center Services Media.
      - `header_pastor.jpg` → `/pastor/`
      - `header_about.jpg` → `/about/`
      - `header_next_steps_visit.jpg` → `/next-steps/visit/`
-     - `header_groups_hyphen.jpg` → `/groups/hyphen/`
    - If no header image exists for a page, a random slider image is used
+   - **Note:** Group pages (`/groups/*`) are excluded - they get their header images from Planning Center Groups, not from `header_*` files
 
 **To update:**
 1. Upload images to Planning Center

@@ -11,12 +11,22 @@ const { title, subtitle, image } = Astro.props;
 
 // Auto-select header image based on URL path if no image provided
 function getHeroImage(): string {
-  // If explicit image provided, use it
+  // If explicit image provided, use it (groups pass their own images)
   if (image) return image;
+
+  const path = Astro.url.pathname;
+
+  // Groups pages get their images from Planning Center Groups, not header_* files
+  // They should always pass an explicit image prop
+  if (path.startsWith('/groups/')) {
+    // Fallback for groups without images
+    const sliderImages = heroData.images || ['/hero/1.jpg'];
+    const randomIndex = Math.floor(Math.random() * sliderImages.length);
+    return sliderImages[randomIndex] || '/hero/1.jpg';
+  }
 
   // Get current URL path and convert to header key
   // e.g., /pastor/ -> pastor, /next-steps/visit/ -> next_steps_visit
-  const path = Astro.url.pathname;
   const headerKey = path
     .replace(/^\/|\/$/g, '')  // Remove leading/trailing slashes
     .replace(/[^a-zA-Z0-9]/g, '_')  // Replace non-alphanumeric with underscore
