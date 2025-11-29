@@ -169,14 +169,18 @@ import PageHero from '../../components/PageHero.astro';
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-bottom: 4rem;
+    align-items: stretch;
   }
 
   .info-card {
     background: var(--color-bg-alt);
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1.25rem;
     border-radius: 0.75rem;
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .info-card:hover {
@@ -206,7 +210,7 @@ import PageHero from '../../components/PageHero.astro';
   }
 
   .service-day {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .service-day:last-child {
@@ -214,11 +218,11 @@ import PageHero from '../../components/PageHero.astro';
   }
 
   .day-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     opacity: 0.7;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.1rem;
   }
 
   .info-card.highlight .day-label {
@@ -226,17 +230,26 @@ import PageHero from '../../components/PageHero.astro';
     opacity: 1;
   }
 
+  .service-day .time-main {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+
+  .service-day .time-detail {
+    font-size: 0.8rem;
+  }
+
   .info-icon {
     color: var(--color-teal);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .info-card h3 {
     color: var(--color-navy);
-    font-size: 1rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   .time-main {
