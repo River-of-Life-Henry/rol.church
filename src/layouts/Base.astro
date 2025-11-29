@@ -189,7 +189,6 @@ const churchSchema = {
           <span class="hello-bar-text">
             <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
           </span>
-          <span class="hello-bar-link">→</span>
         </div>
       </a>
     )}
@@ -636,19 +635,6 @@ const churchSchema = {
     font-weight: 700;
   }
 
-  .hello-bar-link {
-    color: var(--color-navy);
-    font-weight: 700;
-    text-decoration: none;
-    padding: 0.2rem 0.6rem;
-    border-radius: 0.25rem;
-    transition: background 0.2s;
-  }
-
-  .hello-bar-link:hover {
-    background: rgba(26, 58, 74, 0.1);
-  }
-
   @media (max-width: 768px) {
     :root {
       --hello-bar-height: 28px;
@@ -676,12 +662,6 @@ const churchSchema = {
 
     .hello-bar-text strong {
       font-weight: 600;
-    }
-
-    .hello-bar-link {
-      font-size: 0.7rem;
-      flex-shrink: 0;
-      padding: 0.1rem 0.4rem;
     }
 
     /* Keep header fixed on mobile too */
@@ -983,16 +963,31 @@ const churchSchema = {
   /* Mobile Styles */
   @media (max-width: 900px) {
     header {
-      padding: 0.4rem 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--color-navy);
+    }
+
+    /* Override scroll styles on mobile - keep consistent */
+    header.scrolled {
+      padding: 0.5rem 0.75rem;
+      background: var(--color-navy);
     }
 
     header .logo-full {
       height: 36px;
     }
 
+    header.scrolled .logo-full {
+      height: 36px;
+    }
+
     header .logo-full img {
       height: 100%;
       width: auto;
+    }
+
+    header.scrolled .logo-img {
+      height: 36px;
     }
 
     .hamburger {
