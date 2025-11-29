@@ -196,8 +196,11 @@ const churchSchema = {
     <header>
       <nav>
         <a href="/" class="logo">
-          <img src="/logo.png" alt="River of Life" class="logo-img logo-full" />
-          <img src="/favicon.png" alt="River of Life" class="logo-img logo-icon" />
+          <picture class="logo-full">
+            <source srcset="/logo.webp" type="image/webp" />
+            <img src="/logo.png" alt="River of Life" class="logo-img" width="350" height="123" />
+          </picture>
+          <img src="/favicon.png" alt="River of Life" class="logo-img logo-icon" width="50" height="50" />
         </a>
 
         <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -783,6 +786,10 @@ const churchSchema = {
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   }
 
+  header.scrolled .logo-full {
+    height: 40px;
+  }
+
   header.scrolled .logo-img {
     height: 40px;
   }
@@ -802,6 +809,16 @@ const churchSchema = {
     gap: 0.75rem;
     text-decoration: none;
     z-index: 101;
+  }
+
+  header .logo-full {
+    display: block;
+    height: 70px;
+  }
+
+  header .logo-full img {
+    height: 100%;
+    width: auto;
   }
 
   header .logo-img {
