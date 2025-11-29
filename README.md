@@ -81,6 +81,26 @@ Hero images are managed through Planning Center Services Media.
    - If no header image exists for a page, a random slider image is used
    - **Note:** Group pages (`/groups/*`) are excluded - they get their header images from Planning Center Groups, not from `header_*` files
 
+**Image Requirements:**
+
+| Image Type | Recommended Size | Max Size | Aspect Ratio | Format |
+|------------|------------------|----------|--------------|--------|
+| Home Hero Slider | 1920×1080 | 1920×1080 | 16:9 | JPEG |
+| Page Headers | 1920×1080 | 1920×1080 | 16:9 | JPEG |
+
+**Best practices:**
+- **Resolution:** Upload at 1920×1080 (Full HD) for best quality on all screens
+- **Aspect ratio:** 16:9 works best for both desktop and mobile layouts
+- **Format:** JPEG for photos (smaller file size). PNG supported but converts to JPEG
+- **File size:** Keep under 2MB if possible; images are auto-compressed during sync
+- **Content:** Avoid text in images (gets cropped on mobile). Use high-contrast images that look good with the dark overlay
+- **Orientation:** Landscape only (horizontal). Portrait images will be cropped awkwardly
+
+Images are automatically:
+- Resized to max 1920×1080 (maintains aspect ratio)
+- Compressed to 80% JPEG quality
+- Converted to WebP for modern browsers (65% quality, ~40% smaller)
+
 **To update:**
 1. Upload images to Planning Center
 2. Run `ruby scripts/sync_hero_images.rb` (or wait for daily auto-sync)
