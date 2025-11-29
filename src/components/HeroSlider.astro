@@ -142,14 +142,15 @@ const transformOrigins = [
   @media (max-width: 768px) {
     .hero-slider {
       height: 100vh;
-      min-height: 550px;
+      height: 100svh; /* Use small viewport height to account for browser chrome */
+      min-height: 500px;
     }
 
     .content {
       padding: 1rem;
-      padding-top: 4.5rem;
-      padding-bottom: 1rem;
-      justify-content: flex-start;
+      padding-top: 5rem;
+      padding-bottom: 2rem;
+      justify-content: center;
     }
   }
 </style>
