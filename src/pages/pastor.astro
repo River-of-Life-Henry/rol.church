@@ -1,19 +1,34 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+
+// Load team data from Planning Center sync
+let pastor = null;
+try {
+  const teamData = await import('../data/team.json');
+  pastor = (teamData.team || []).find(m => m.slug === 'andrew_coffield');
+} catch (e) {
+  console.log('Team data not yet generated');
+}
+
+// Fallback values if data not available
+const pastorName = pastor?.displayName || "Andrew & Chelsea Coffield";
+const pastorRole = pastor?.role || "Senior Pastor";
+const pastorBio = pastor?.bio || "Pastor Andrew and Chelsea Coffield lead River of Life with a heart for helping people find and follow Jesus. Their passion is building a loving community where everyone can grow in their faith journey.";
+const pastorImage = pastor?.image || "/team/andrew_coffield.jpg";
 ---
 
-<Base title="Our Pastor" description="Meet Pastor Andrew & Chelsea Coffield, the senior pastor at River of Life.">
+<Base title="Our Pastor" description={`Meet Pastor ${pastorName}, the senior pastor at River of Life.`}>
   <PageHero title="Our Pastor" image="/hero/5.jpg" />
 
   <section class="team-content">
     <div class="team-container">
       <div class="team-feature pastor">
-        <div class="team-feature-image" style="background-image: url('/team/andrew_coffield.jpg')"></div>
+        <div class="team-feature-image" style={`background-image: url('${pastorImage}')`}></div>
         <div class="team-feature-info">
-          <p class="team-role-label">Senior Pastor</p>
-          <h2 class="team-name">Andrew & Chelsea Coffield</h2>
-          <p class="team-bio">Pastor Andrew and Chelsea Coffield lead River of Life with a heart for helping people find and follow Jesus. Their passion is building a loving community where everyone can grow in their faith journey.</p>
+          <p class="team-role-label">{pastorRole}</p>
+          <h2 class="team-name">{pastorName}</h2>
+          <p class="team-bio">{pastorBio}</p>
         </div>
       </div>
 

@@ -1,0 +1,33 @@
+{
+  "updated_at": "2025-11-28T19:38:15-06:00",
+  "team": [
+    {
+      "id": "140403632",
+      "slug": "andrew_coffield",
+      "role": "Senior Pastor",
+      "defaultRole": "Senior Pastor",
+      "page": "/pastor",
+      "firstName": "Andrew",
+      "lastName": "Coffield",
+      "spouseName": null,
+      "displayName": "Andrew Coffield",
+      "bio": "Best Pastor ever!!!",
+      "image": "/team/andrew_coffield.jpg",
+      "hasPhoto": true
+    },
+    {
+      "id": "159045547",
+      "slug": "christopher_huff",
+      "role": "Hospitality Lead & Foundations Class Teacher",
+      "defaultRole": "Foundations Instructor",
+      "page": "/next-steps/foundations",
+      "firstName": "Christopher",
+      "lastName": "Huff",
+      "spouseName": null,
+      "displayName": "Christopher Huff",
+      "bio": "From MI!",
+      "image": "/team/christopher_huff.jpg",
+      "hasPhoto": true
+    }
+  ]
+}
