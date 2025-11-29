@@ -189,7 +189,7 @@ const churchSchema = {
           <span class="hello-bar-text">
             <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
           </span>
-          <span class="hello-bar-link">Learn More →</span>
+          <span class="hello-bar-link">→</span>
         </div>
       </a>
     )}
@@ -650,35 +650,44 @@ const churchSchema = {
   }
 
   @media (max-width: 768px) {
+    :root {
+      --hello-bar-height: 32px;
+    }
+
     .hello-bar {
-      position: relative;
-      height: auto;
-      padding: 0.5rem 0.75rem;
+      position: fixed;
+      height: var(--hello-bar-height);
+      padding: 0.4rem 0.5rem;
     }
 
     .hello-bar-content {
-      gap: 0.3rem;
-      flex-direction: column;
+      gap: 0.5rem;
+      flex-direction: row;
+      flex-wrap: nowrap;
     }
 
     .hello-bar-text {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .hello-bar-link {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
+      flex-shrink: 0;
     }
 
-    /* On mobile, make header relative so it stacks below hello bar */
+    /* Keep header fixed on mobile too */
     .has-hello-bar header {
-      position: relative;
-      top: 0;
+      position: fixed;
+      top: var(--hello-bar-height);
       background: var(--color-navy);
     }
 
-    /* Remove the extra padding since header is now in flow */
-    .has-hello-bar main {
-      padding-top: 0;
+    /* Reserve space for fixed hello bar */
+    .has-hello-bar {
+      padding-top: var(--hello-bar-height);
     }
   }
 
@@ -967,6 +976,18 @@ const churchSchema = {
 
   /* Mobile Styles */
   @media (max-width: 900px) {
+    header {
+      padding: 0.5rem 1rem;
+    }
+
+    header .logo-full {
+      height: 45px;
+    }
+
+    header .logo-full img {
+      height: 100%;
+    }
+
     .hamburger {
       display: flex;
     }
