@@ -53,8 +53,13 @@ Content is managed through **Planning Center** and synced to the website automat
 1. Go to [Planning Center Groups](https://groups.planningcenteronline.com/groups)
 2. Create or edit a group
 3. Enable **Church Center Visible**
-4. Add group leaders via **Members** → set role to "Leader"
-5. Upload a header image for the group page
+
+**What syncs to the website:**
+- **Header image** - Group's header image
+- **Description** - Group description text
+- **Schedule** - Meeting schedule (e.g., "Every Wednesday at 7pm")
+- **Leaders** - Members with role set to "Leader" (photos from People profiles)
+- **Contact email** - Group contact email
 
 ### Hero Slider Images
 
