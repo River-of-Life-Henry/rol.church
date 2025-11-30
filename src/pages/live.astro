@@ -2,16 +2,12 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 
-// Load YouTube data from sync (fallback video ID if sync hasn't run)
-let youtubeData;
-try {
-  youtubeData = await import('../data/youtube.json');
-} catch (e) {
-  youtubeData = null;
-}
+// Cloudflare Stream configuration
+const CLOUDFLARE_CUSTOMER_CODE = 'ysnm9dan1n31qj6';
+const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
 
-const channelId = youtubeData?.channel_id || 'UCh7sGdfticWqBCIFSqhZcwQ';
-const latestVideoId = youtubeData?.latest_video?.id || '';
+// YouTube channel for archived videos
+const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 ---
 
 <Base title="Watch Live" description="Join River of Life for live worship services. Watch our live stream or catch up on recent messages.">
@@ -31,28 +27,23 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
     <span class="live-text">LIVE NOW</span>
   </div>
 
-  <!-- Theater Mode Video Section -->
+  <!-- Stream Video Section -->
   <section class="theater-section">
     <div class="video-wrapper">
       <iframe
-        id="youtube-player"
-        src={latestVideoId ? `https://www.youtube.com/embed/${latestVideoId}?rel=0&modestbranding=1&iv_load_policy=3&color=white` : `https://www.youtube.com/embed/live_stream?channel=${channelId}&modestbranding=1&rel=0`}
+        id="stream-player"
+        src={`https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LIVE_INPUT_ID}/iframe`}
         title="River of Life Live Stream"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
         allowfullscreen
-        data-channel-id={channelId}
-        data-latest-video-id={latestVideoId}
+        data-customer-code={CLOUDFLARE_CUSTOMER_CODE}
+        data-live-input-id={CLOUDFLARE_LIVE_INPUT_ID}
       ></iframe>
     </div>
     <div class="watch-options">
-      <a href="https://www.youtube.com/@rol-henry/live" target="_blank" class="btn btn-primary">
+      <a href={YOUTUBE_CHANNEL_URL} target="_blank" class="btn btn-secondary">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.707 3.42-.149 5.677.021 12c-.17 6.323.684 8.579 4.364 8.816 3.599.245 11.626.246 15.23 0C23.293 20.58 24.149 18.323 23.979 12c.17-6.323-.684-8.579-4.364-8.816zM9 16V8l8 4-8 4z"/></svg>
-        Watch Live on YouTube
-      </a>
-      <a href="https://www.youtube.com/@rol-henry/videos" target="_blank" class="btn btn-secondary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>
-        View Past Services
+        Watch Past Services on YouTube
       </a>
     </div>
   </section>
@@ -70,7 +61,7 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
 
         <div class="info-card">
           <h3>Can't Watch Live?</h3>
-          <p>All our services are recorded and available on our YouTube channel. Watch anytime!</p>
+          <p>All our services are recorded and available on our <a href={YOUTUBE_CHANNEL_URL} target="_blank">YouTube channel</a>. Watch anytime!</p>
         </div>
       </div>
 
@@ -124,15 +115,11 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
     { day: 3, startHour: 19, startMinute: 0, endHour: 20, endMinute: 0 }   // Wednesday
   ];
 
-  // Check interval in milliseconds (5 minutes)
-  const CHECK_INTERVAL = 5 * 60 * 1000;
-
   // State
   let isLive = false;
-  let lastCheckTime = 0;
 
   // Update live state UI
-  function setLiveState(live) {
+  function setLiveState(live: boolean) {
     isLive = live;
     const liveIndicator = document.getElementById('live-indicator');
     const countdownBanner = document.getElementById('countdown-banner');
@@ -207,7 +194,7 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
   }
 
   // Format countdown timer
-  function formatCountdown(ms) {
+  function formatCountdown(ms: number) {
     if (ms <= 0) return null;
 
     const seconds = Math.floor(ms / 1000);
@@ -215,7 +202,7 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    const parts = [];
+    const parts: string[] = [];
     if (days > 0) parts.push(`${days}d`);
     if (hours % 24 > 0) parts.push(`${hours % 24}h`);
     if (minutes % 60 > 0) parts.push(`${minutes % 60}m`);
@@ -248,8 +235,8 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
 
     if (diff <= 0) {
       banner.style.display = 'none';
-      // Service should be starting, refresh to check for live
-      refreshLiveCheck();
+      // Service should be starting, check if live
+      checkLiveStatus();
       return;
     }
 
@@ -262,59 +249,28 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
     }
   }
 
-  // Switch between live stream and recent video
-  function updateVideoEmbed() {
-    const player = document.getElementById('youtube-player');
-    if (!player) return;
-
-    const channelId = player.dataset.channelId;
-    const latestVideoId = player.dataset.latestVideoId;
+  // Check if stream is live (during service hours, assume live)
+  function checkLiveStatus() {
     const duringService = isDuringService();
-
-    if (duringService) {
-      // During service, show live stream
-      const liveUrl = `https://www.youtube.com/embed/live_stream?channel=${channelId}&autoplay=1&modestbranding=1&rel=0&iv_load_policy=3&color=white`;
-      if (!player.src.includes('live_stream')) {
-        player.src = liveUrl;
-      }
-      setLiveState(true);
-    } else {
-      // Outside service, show latest video
-      if (latestVideoId) {
-        const videoUrl = `https://www.youtube.com/embed/${latestVideoId}?rel=0&modestbranding=1&iv_load_policy=3&color=white`;
-        if (!player.src.includes(latestVideoId)) {
-          player.src = videoUrl;
-        }
-      }
-      setLiveState(false);
-    }
-  }
-
-  // Refresh the live stream check
-  function refreshLiveCheck() {
-    const now = Date.now();
-    if (now - lastCheckTime < 30000) return; // Don't check more than once per 30 seconds
-    lastCheckTime = now;
-
-    updateVideoEmbed();
+    setLiveState(duringService);
   }
 
   // Initialize
   function init() {
     // Initial state check
-    updateVideoEmbed();
+    checkLiveStatus();
     updateCountdown();
 
     // Update countdown every second
     setInterval(updateCountdown, 1000);
 
-    // Check for live stream every 5 minutes
-    setInterval(refreshLiveCheck, CHECK_INTERVAL);
+    // Check live status every minute
+    setInterval(checkLiveStatus, 60 * 1000);
 
     // Also check on visibility change (when user returns to tab)
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        refreshLiveCheck();
+        checkLiveStatus();
         updateCountdown();
       }
     });
@@ -400,21 +356,19 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
   .theater-section .video-wrapper {
     position: relative;
     width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding-bottom: min(56.25%, 80vh);
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
     overflow: hidden;
     background: #000;
   }
 
-  .theater-section .video-wrapper iframe,
-  .theater-section .video-wrapper #youtube-player {
+  .theater-section .video-wrapper iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    border: none;
   }
 
   .theater-section .watch-options {
@@ -423,20 +377,6 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
     justify-content: center;
     padding: 1.5rem 2rem 0;
     flex-wrap: wrap;
-  }
-
-  .no-video-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    text-align: center;
-    padding: 2rem;
-  }
-
-  .no-video-message a {
-    color: var(--color-gold);
   }
 
   /* Live Content */
@@ -449,12 +389,24 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
     margin: 0 auto;
   }
 
+  .live-content a {
+    color: var(--color-teal);
+  }
+
+  .live-content a:hover {
+    text-decoration: underline;
+  }
+
   .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background: var(--color-teal);
     color: white !important;
     padding: 0.875rem 2rem;
     border-radius: 0.375rem;
     font-weight: 600;
+    text-decoration: none !important;
   }
 
   .btn-primary:hover {
@@ -462,11 +414,15 @@ const latestVideoId = youtubeData?.latest_video?.id || '';
   }
 
   .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background: var(--color-bg-alt);
     color: var(--color-navy) !important;
     padding: 0.875rem 2rem;
     border-radius: 0.375rem;
     font-weight: 600;
+    text-decoration: none !important;
   }
 
   .btn-secondary:hover {

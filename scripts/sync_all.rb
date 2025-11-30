@@ -30,7 +30,6 @@ scripts = %w[
   sync_groups.rb
   sync_facebook_photos.rb
   sync_hero_images.rb
-  sync_youtube.rb
   sync_team.rb
 ]
 
