@@ -129,7 +129,15 @@ Photos from the church Facebook page are **automatically analyzed and added** to
 **Managing photos:**
 - Photos sync automatically - just post good group photos to Facebook!
 - To remove a photo from the slider, delete it from Planning Center Media (it won't re-sync)
-- Manual hero images can still be added via Planning Center Media with `header_` prefix
+
+**Custom page headers:**
+To set a specific header image for a page, upload to Planning Center Media with the `header_` prefix:
+- `header_about.jpg` → `/about` page
+- `header_events.jpg` → `/events` page
+- `header_contact.jpg` → `/contact` page
+- etc.
+
+The filename after `header_` should match the page's URL path. Pages without a custom header will use a random Facebook photo.
 
 ## Sync Scripts
 
