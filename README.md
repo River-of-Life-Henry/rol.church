@@ -105,9 +105,9 @@ The live page uses **Cloudflare Stream** for live streaming and recorded service
 - Daily at 6 AM CT
 - Sundays at 1 PM and 2 PM CT (to catch the latest service)
 
-### Facebook Photos (Hero Slider) - Automatic
+### Facebook Photos (Hero Slider & Page Headers) - Automatic
 
-The hero slider on the home page is **automatically populated** with photos from the church Facebook page. No manual work required!
+Photos from the church Facebook page are **automatically analyzed and added** to the hero slider and any page without a designated `header_*` image from Planning Center Services Media. No manual work required!
 
 **How it works:**
 1. Daily at 6 AM CT, the sync fetches recent photos from the [River of Life Facebook page](https://www.facebook.com/rolhenry)
