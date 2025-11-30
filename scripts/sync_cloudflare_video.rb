@@ -89,45 +89,54 @@ end
 
 def fetch_service_plans(start_date, end_date)
   # Fetch plans from Planning Center Services
-  # Service Type ID for "Sunday Service" - we'll fetch all service types and filter
   pco = PCO::Client.api
 
   plans = []
 
-  # Get all service types
-  service_types = pco.services.v2.service_types.get
-  service_types["data"].each do |service_type|
-    service_type_id = service_type["id"]
-    service_type_name = service_type["attributes"]["name"]
+  begin
+    # Get all service types
+    service_types = pco.services.v2.service_types.get
+    puts "  Found #{service_types['data'].length} service types"
 
-    # Fetch plans for this service type within date range
-    type_plans = pco.services.v2.service_types[service_type_id].plans.get(
-      filter: "future,past",
-      per_page: 50,
-      order: "-sort_date"
-    )
+    service_types["data"].each do |service_type|
+      service_type_id = service_type["id"]
+      service_type_name = service_type["attributes"]["name"]
 
-    type_plans["data"].each do |plan|
-      plan_date_str = plan["attributes"]["dates"]
-      sort_date = plan["attributes"]["sort_date"]
+      # Fetch plans for this service type - use no_dates filter to get all, then filter by date
+      # The API doesn't support date range filtering well, so get recent plans
+      type_plans = pco.services.v2.service_types[service_type_id].plans.get(
+        per_page: 25,
+        order: "-sort_date"
+      )
 
-      next unless sort_date
+      puts "  #{service_type_name}: #{type_plans['data'].length} plans"
 
-      plan_date = Date.parse(sort_date)
+      type_plans["data"].each do |plan|
+        plan_date_str = plan["attributes"]["dates"]
+        sort_date = plan["attributes"]["sort_date"]
 
-      # Only include plans within the date range
-      if plan_date >= start_date && plan_date <= end_date
-        plans << {
-          id: plan["id"],
-          title: plan["attributes"]["title"],
-          series_title: plan["attributes"]["series_title"],
-          dates: plan_date_str,
-          date: plan_date,
-          service_type_id: service_type_id,
-          service_type_name: service_type_name
-        }
+        next unless sort_date
+
+        plan_date = Date.parse(sort_date)
+
+        # Only include plans within the date range
+        if plan_date >= start_date && plan_date <= end_date
+          plans << {
+            id: plan["id"],
+            title: plan["attributes"]["title"],
+            series_title: plan["attributes"]["series_title"],
+            dates: plan_date_str,
+            date: plan_date,
+            service_type_id: service_type_id,
+            service_type_name: service_type_name
+          }
+          puts "    + #{plan_date}: #{plan['attributes']['title']}"
+        end
       end
     end
+  rescue => e
+    puts "  ERROR fetching plans: #{e.message}"
+    puts e.backtrace.first(5).join("\n")
   end
 
   plans
@@ -191,8 +200,12 @@ def sync_video_metadata(recordings)
   puts "Found #{videos_to_update.length} videos needing metadata updates"
 
   # Get date range for Planning Center query (oldest to newest video)
-  video_dates = videos_to_update.map { |v| Time.parse(v["created"]).to_date }
-  start_date = video_dates.min - 1 # Day before earliest video
+  # Use Chicago time for the video dates since services are scheduled in Chicago time
+  video_dates = videos_to_update.map do |v|
+    # Parse the UTC time and it will be converted to Chicago time due to ENV['TZ']
+    Time.parse(v["created"]).to_date
+  end
+  start_date = video_dates.min - 7 # Week before earliest video
   end_date = video_dates.max + 1   # Day after latest video
 
   puts "Fetching Planning Center plans from #{start_date} to #{end_date}..."
