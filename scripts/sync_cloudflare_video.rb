@@ -105,7 +105,7 @@ def fetch_service_plans(start_date, end_date)
       # Fetch plans for this service type - use no_dates filter to get all, then filter by date
       # The API doesn't support date range filtering well, so get recent plans
       type_plans = pco.services.v2.service_types[service_type_id].plans.get(
-        per_page: 25,
+        per_page: 100,
         order: "-sort_date"
       )
 
