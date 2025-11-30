@@ -124,18 +124,6 @@ import HeroSlider from '../components/HeroSlider.astro';
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <h2>Ready to Experience It for Yourself?</h2>
-      <p>We'd love to meet you this Sunday. Let us know you're coming and we'll save you a seat!</p>
-      <a href="/next-steps/visit" class="cta-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
-        Plan Your Visit
-      </a>
-    </div>
-  </section>
-
   </Base>
 
 <style>
@@ -433,49 +421,6 @@ import HeroSlider from '../components/HeroSlider.astro';
     text-decoration: underline;
   }
 
-  /* CTA Section */
-  .cta-section {
-    padding: 5rem 2rem;
-    background: var(--color-navy);
-    text-align: center;
-  }
-
-  .cta-section .container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .cta-section h2 {
-    color: var(--color-gold);
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .cta-section p {
-    color: rgba(255,255,255,0.9);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
-
-  .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--color-gold);
-    color: var(--color-navy) !important;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
-  }
-
-  .cta-btn:hover {
-    background: #e0a420;
-    transform: translateY(-2px);
-  }
-
   @media (max-width: 900px) {
     .testimonials-carousel {
       grid-template-columns: 1fr;
@@ -577,21 +522,6 @@ import HeroSlider from '../components/HeroSlider.astro';
     }
     .reviews-link {
       font-size: 0.8rem;
-    }
-    .cta-section {
-      padding: 2rem 1.25rem;
-    }
-    .cta-section h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-    }
-    .cta-section p {
-      font-size: 0.85rem;
-      margin-bottom: 1.25rem;
-    }
-    .cta-btn {
-      padding: 0.75rem 1.75rem;
-      font-size: 0.9rem;
     }
   }
 </style>

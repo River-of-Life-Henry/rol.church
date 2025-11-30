@@ -48,15 +48,15 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
         ></iframe>
       </div>
     </div>
+  </section>
+
+  <section class="live-content">
     <div class="watch-options">
-      <a href={YOUTUBE_CHANNEL_URL} target="_blank" class="btn btn-secondary">
+      <a href={YOUTUBE_CHANNEL_URL} target="_blank" class="btn btn-outline">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.707 3.42-.149 5.677.021 12c-.17 6.323.684 8.579 4.364 8.816 3.599.245 11.626.246 15.23 0C23.293 20.58 24.149 18.323 23.979 12c.17-6.323-.684-8.579-4.364-8.816zM9 16V8l8 4-8 4z"/></svg>
         Watch Past Services on YouTube
       </a>
     </div>
-  </section>
-
-  <section class="live-content">
     <div class="container">
       <div class="info-grid">
         <div class="info-card">
@@ -415,7 +415,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   /* Theater Mode Video Section */
   .theater-section {
     background: #0f0f0f;
-    padding: 65px 0 2rem 0;
+    padding: 65px 0 0 0;
   }
 
   .theater-section .video-wrapper {
@@ -497,17 +497,35 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     color: #888;
   }
 
-  .theater-section .watch-options {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    padding: 1.5rem 2rem 0;
-    flex-wrap: wrap;
-  }
-
   /* Live Content */
   .live-content {
     padding: 4rem 2rem;
+  }
+
+  .live-content .watch-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid var(--color-teal);
+    color: var(--color-teal) !important;
+    padding: 0.875rem 2rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover {
+    background: var(--color-teal);
+    color: white !important;
   }
 
   .live-content .container {

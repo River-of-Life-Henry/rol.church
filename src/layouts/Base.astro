@@ -470,6 +470,11 @@ const churchSchema = {
       <slot />
     </main>
 
+    <!-- Plan Your Visit CTA -->
+    <section class="visit-cta">
+      <p>We'd love to meet you soon! <a href="/next-steps/visit">Plan Your Visit &rarr;</a></p>
+    </section>
+
     <footer>
       <div class="footer-content">
         <div class="footer-section service-times">
@@ -1107,6 +1112,31 @@ const churchSchema = {
 </style>
 
 <style>
+  /* Visit CTA Banner */
+  .visit-cta {
+    background: var(--color-navy);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .visit-cta p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .visit-cta a {
+    color: var(--color-gold);
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 0.25rem;
+  }
+
+  .visit-cta a:hover {
+    text-decoration: underline;
+  }
+
   footer {
     background: var(--color-navy);
     color: white;
