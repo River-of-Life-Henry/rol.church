@@ -105,21 +105,31 @@ The live page uses **Cloudflare Stream** for live streaming and recorded service
 - Daily at 6 AM CT
 - Sundays at 1 PM and 2 PM CT (to catch the latest service)
 
-### Facebook Photos (Hero Slider)
+### Facebook Photos (Hero Slider) - Automatic
 
-Photos from the church Facebook page are automatically analyzed and added to the hero slider:
-
-- Uses AWS Rekognition to detect faces and smiles
-- Only photos with 3+ people and at least 1 smiling person are selected
-- Smart crops images to position faces at 1/3 from top
-- Rejects photos with text overlays (slides, screenshots)
-- Syncs daily at 6 AM CT
+The hero slider on the home page is **automatically populated** with photos from the church Facebook page. No manual work required!
 
 **How it works:**
-1. Fetches recent photos from the [River of Life Facebook page](https://www.facebook.com/rolhenry)
-2. Analyzes each photo for face count, smile detection, and text
-3. Qualifying photos are cropped, optimized, and saved to `/public/hero/`
-4. Photos are also uploaded to Planning Center Media for management
+1. Daily at 6 AM CT, the sync fetches recent photos from the [River of Life Facebook page](https://www.facebook.com/rolhenry)
+2. Each photo is analyzed by AWS Rekognition (AI) to detect:
+   - Number of people in the photo
+   - Whether people are smiling
+   - Any text overlays (to reject slides/screenshots)
+3. Photos that qualify (3+ people, at least 1 smiling, no text) are:
+   - Smart cropped to position faces at 1/3 from top
+   - Optimized and converted to WebP
+   - Added to the hero slider
+   - Uploaded to Planning Center Media for backup/management
+
+**Qualification criteria:**
+- At least 3 people visible
+- At least 1 person smiling (or 60%+ smiling)
+- No text overlays (rejects slides, graphics, screenshots)
+
+**Managing photos:**
+- Photos sync automatically - just post good group photos to Facebook!
+- To remove a photo from the slider, delete it from Planning Center Media (it won't re-sync)
+- Manual hero images can still be added via Planning Center Media with `header_` prefix
 
 ## Sync Scripts
 
