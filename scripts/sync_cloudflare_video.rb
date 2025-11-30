@@ -8,9 +8,14 @@
 # and finds the most recent SUNDAY service recording to display on the
 # Watch Live page when not streaming live.
 #
+# It also syncs video metadata (title, name, etc.) from Planning Center
+# service plans to Cloudflare Stream videos.
+#
 # Environment variables required:
 #   CLOUDFLARE_ACCOUNT_ID - Cloudflare account ID
-#   CLOUDFLARE_API_TOKEN - Cloudflare API token with Stream read access
+#   CLOUDFLARE_API_TOKEN - Cloudflare API token with Stream read/write access
+#   ROL_PLANNING_CENTER_CLIENT_ID - Planning Center API client ID
+#   ROL_PLANNING_CENTER_SECRET - Planning Center API secret
 #
 # The script updates src/pages/live.astro with the latest video ID.
 
@@ -19,6 +24,7 @@ require "net/http"
 require "json"
 require "time"
 require "openssl"
+require_relative "pco_client"
 
 # Set timezone to Central Time
 ENV["TZ"] = "America/Chicago"
@@ -57,6 +63,183 @@ def fetch_recordings
   end
 
   data["result"] || []
+end
+
+def fetch_video_details(video_id)
+  uri = URI("https://api.cloudflare.com/client/v4/accounts/#{CLOUDFLARE_ACCOUNT_ID}/stream/#{video_id}")
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+  request = Net::HTTP::Get.new(uri)
+  request["Authorization"] = "Bearer #{CLOUDFLARE_API_TOKEN}"
+  request["Content-Type"] = "application/json"
+
+  response = http.request(request)
+
+  if response.code != "200"
+    puts "  ERROR: Failed to fetch video details for #{video_id}"
+    return nil
+  end
+
+  data = JSON.parse(response.body)
+  data["result"]
+end
+
+def fetch_service_plans(start_date, end_date)
+  # Fetch plans from Planning Center Services
+  # Service Type ID for "Sunday Service" - we'll fetch all service types and filter
+  pco = PCO::Client.api
+
+  plans = []
+
+  # Get all service types
+  service_types = pco.services.v2.service_types.get
+  service_types["data"].each do |service_type|
+    service_type_id = service_type["id"]
+    service_type_name = service_type["attributes"]["name"]
+
+    # Fetch plans for this service type within date range
+    type_plans = pco.services.v2.service_types[service_type_id].plans.get(
+      filter: "future,past",
+      per_page: 50,
+      order: "-sort_date"
+    )
+
+    type_plans["data"].each do |plan|
+      plan_date_str = plan["attributes"]["dates"]
+      sort_date = plan["attributes"]["sort_date"]
+
+      next unless sort_date
+
+      plan_date = Date.parse(sort_date)
+
+      # Only include plans within the date range
+      if plan_date >= start_date && plan_date <= end_date
+        plans << {
+          id: plan["id"],
+          title: plan["attributes"]["title"],
+          series_title: plan["attributes"]["series_title"],
+          dates: plan_date_str,
+          date: plan_date,
+          service_type_id: service_type_id,
+          service_type_name: service_type_name
+        }
+      end
+    end
+  end
+
+  plans
+end
+
+def update_cloudflare_video(video_id, metadata)
+  uri = URI("https://api.cloudflare.com/client/v4/accounts/#{CLOUDFLARE_ACCOUNT_ID}/stream/#{video_id}")
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+  request = Net::HTTP::Post.new(uri)
+  request["Authorization"] = "Bearer #{CLOUDFLARE_API_TOKEN}"
+  request["Content-Type"] = "application/json"
+
+  # Build update payload
+  payload = {
+    meta: {
+      name: metadata[:video_name]
+    },
+    creator: metadata[:creator],
+    allowedOrigins: metadata[:allowed_origins],
+    publicDetails: {
+      title: metadata[:title],
+      logo: metadata[:logo],
+      share_link: metadata[:share_link],
+      channel_link: metadata[:channel_link]
+    }
+  }
+
+  request.body = payload.to_json
+  response = http.request(request)
+
+  if response.code != "200"
+    puts "  ERROR: Failed to update video #{video_id}"
+    puts "  Response: #{response.body}"
+    return false
+  end
+
+  data = JSON.parse(response.body)
+  data["success"]
+end
+
+def sync_video_metadata(recordings)
+  puts "\n" + "=" * 40
+  puts "Syncing video metadata from Planning Center..."
+  puts "=" * 40
+
+  # Find videos that need metadata update (no public details title)
+  videos_to_update = recordings.select do |recording|
+    recording["status"]&.dig("state") == "ready" &&
+      (recording.dig("publicDetails", "title").nil? || recording.dig("publicDetails", "title").to_s.empty?)
+  end
+
+  if videos_to_update.empty?
+    puts "No videos need metadata updates"
+    return
+  end
+
+  puts "Found #{videos_to_update.length} videos needing metadata updates"
+
+  # Get date range for Planning Center query (oldest to newest video)
+  video_dates = videos_to_update.map { |v| Time.parse(v["created"]).to_date }
+  start_date = video_dates.min - 1 # Day before earliest video
+  end_date = video_dates.max + 1   # Day after latest video
+
+  puts "Fetching Planning Center plans from #{start_date} to #{end_date}..."
+  plans = fetch_service_plans(start_date, end_date)
+  puts "Found #{plans.length} service plans"
+
+  # Match videos to plans based on date
+  videos_to_update.each do |video|
+    video_id = video["uid"]
+    video_created = Time.parse(video["created"])
+    video_date = video_created.to_date
+
+    puts "\nProcessing video: #{video_id}"
+    puts "  Created: #{video_created.strftime('%Y-%m-%d %H:%M %Z')}"
+
+    # Find matching plan (same date)
+    matching_plan = plans.find { |p| p[:date] == video_date }
+
+    unless matching_plan
+      puts "  No matching Planning Center plan found for #{video_date}"
+      next
+    end
+
+    puts "  Matched to plan: #{matching_plan[:title]} (#{matching_plan[:service_type_name]})"
+
+    # Build the video title: MM/DD: Plan Title - Service Type Name
+    date_prefix = video_date.strftime("%-m/%-d")
+    video_title = "#{date_prefix}: #{matching_plan[:title]} - #{matching_plan[:service_type_name]}"
+
+    metadata = {
+      video_name: video_title,
+      creator: "River of Life",
+      allowed_origins: ["dev.rol.church", "rol.church"],
+      title: video_title,
+      logo: "https://rol.church/favicon.png",
+      share_link: "https://rol.church/live?share=1",
+      channel_link: "https://rol.church/live?channel=1"
+    }
+
+    puts "  Setting title: #{video_title}"
+
+    if update_cloudflare_video(video_id, metadata)
+      puts "  ✓ Updated successfully"
+    else
+      puts "  ✗ Update failed"
+    end
+  end
 end
 
 def find_latest_sunday_recording(recordings)
@@ -131,6 +314,9 @@ def main
   puts "Fetching recordings from Cloudflare Stream..."
   recordings = fetch_recordings
   puts "Found #{recordings.length} total recordings"
+
+  # Sync video metadata from Planning Center
+  sync_video_metadata(recordings)
 
   # Find the latest Sunday recording
   latest = find_latest_sunday_recording(recordings)
