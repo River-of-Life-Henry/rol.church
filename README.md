@@ -271,7 +271,7 @@ All event times are displayed in **Chicago time (Central Time)**.
 | Featured Event (Hello Bar) | Calendar → Event → Toggle "Featured" star | Yellow banner at top of every page | [Calendar Events](https://calendar.planningcenteronline.com/events) |
 | Upcoming Events | Calendar → Create/Edit Event | Events page listing | [Calendar Events](https://calendar.planningcenteronline.com/events) |
 
-### As Needed Updates
+### As Needed Updates (synced daily at 6 AM CT)
 
 | Item | Where to Update | What It Updates | Link |
 |------|-----------------|-----------------|------|
