@@ -14,6 +14,7 @@ try {
 // Use synced data or fallback
 const instructorImage = instructor?.image || '/team/christopher_huff.jpg';
 const instructorName = instructor?.displayName || 'Christopher & Heather Huff';
+const instructorBio = instructor?.bio || '';
 ---
 
 <Base title="Foundations Class" description="Learn about what we believe and how to get connected at River of Life through our Foundations class.">
@@ -26,11 +27,14 @@ const instructorName = instructor?.displayName || 'Christopher & Heather Huff';
         <p>Foundations is designed to help you learn about what we believe, how River of Life operates, and how you can get connected and grow in your faith journey.</p>
       </div>
 
-      <div class="instructor">
+      <div class={`instructor ${instructorBio ? 'has-bio' : ''}`}>
         <img src={instructorImage} alt={instructorName} class="instructor-photo" />
         <div class="instructor-info">
           <span class="label">Taught by</span>
           <span class="name">{instructorName}</span>
+          {instructorBio && (
+            <p class="instructor-bio">{instructorBio}</p>
+          )}
         </div>
       </div>
 
@@ -134,6 +138,26 @@ const instructorName = instructor?.displayName || 'Christopher & Heather Huff';
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-navy);
+  }
+
+  .instructor-bio {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    max-width: 400px;
+  }
+
+  .instructor.has-bio {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+  }
+
+  .instructor.has-bio .instructor-info {
+    text-align: center;
   }
 
   .class-details {

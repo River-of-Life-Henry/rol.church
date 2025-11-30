@@ -158,7 +158,7 @@ const metaDescription = group.description
           <h2>Meet the Leaders</h2>
           <div class="leaders-grid">
             {group.leaders.map((leader) => (
-              <div class="leader-card">
+              <div class={`leader-card ${leader.bio ? 'has-bio' : ''}`}>
                 {leader.hasPhoto ? (
                   <img src={leader.image} alt={leader.name} class="leader-photo" />
                 ) : (
@@ -167,6 +167,9 @@ const metaDescription = group.description
                   </div>
                 )}
                 <span class="leader-name">{leader.name}</span>
+                {leader.bio && (
+                  <p class="leader-bio">{leader.bio}</p>
+                )}
               </div>
             ))}
           </div>
@@ -427,6 +430,22 @@ const metaDescription = group.description
     color: var(--color-navy);
     font-size: 1rem;
     text-align: center;
+  }
+
+  .leader-bio {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 300px;
+    margin: 0;
+  }
+
+  .leader-card.has-bio {
+    padding: 1.5rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+    max-width: 350px;
   }
 
   .join-section {

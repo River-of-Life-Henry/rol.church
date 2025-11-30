@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-11-26T00:49:52-06:00",
+  "updated_at": "2025-11-29T19:53:34-06:00",
   "groups": [
     {
       "id": "2895651",
@@ -18,7 +18,8 @@
           "lastName": "Coffield",
           "image": "/groups/all-church-events_leader_140403632.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!"
         },
         {
           "id": "13926145",
@@ -27,7 +28,8 @@
           "lastName": "Jensen",
           "image": "/groups/all-church-events_leader_13926145.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "combine"
         }
       ]
     },
@@ -48,7 +50,8 @@
           "lastName": "Ummel",
           "image": "/groups/hyphen_leader_13925721.jpg",
           "hasPhoto": true,
-          "isCouple": true
+          "isCouple": true,
+          "bio": "BIL is SWEEEEET"
         }
       ]
     },
@@ -69,7 +72,8 @@
           "lastName": "Elliott",
           "image": "/groups/kids_leader_140405054.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": null
         },
         {
           "id": "13926145",
@@ -78,7 +82,8 @@
           "lastName": "Jensen",
           "image": "/groups/kids_leader_13926145.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "combine"
         },
         {
           "id": "13926105",
@@ -87,7 +92,8 @@
           "lastName": "Serpette",
           "image": "/groups/kids_leader_13926105.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "afjakfjdaksfjakljfadfdfa fa"
         },
         {
           "id": "140405576_140405606",
@@ -96,7 +102,8 @@
           "lastName": "Mathis",
           "image": "/groups/kids_leader_140405576.jpg",
           "hasPhoto": true,
-          "isCouple": true
+          "isCouple": true,
+          "bio": null
         },
         {
           "id": "13926093",
@@ -105,7 +112,8 @@
           "lastName": "Hawk",
           "image": "/groups/kids_leader_13926093.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "Nov 2025 IL State Teacher of the month!"
         },
         {
           "id": "159045862",
@@ -114,7 +122,8 @@
           "lastName": "Huff",
           "image": "/groups/kids_leader_159045862.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "We love Sis. Heather!!"
         },
         {
           "id": "152738971",
@@ -123,7 +132,8 @@
           "lastName": "Coffield",
           "image": "/groups/kids_leader_152738971.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "deeee best pastor's wife around 4 surrrr"
         }
       ]
     },
@@ -144,7 +154,8 @@
           "lastName": "Serpette",
           "image": "/groups/ladies_leader_13926105.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "afjakfjdaksfjakljfadfdfa fa"
         },
         {
           "id": "13926125",
@@ -153,7 +164,8 @@
           "lastName": "Wehr",
           "image": "/groups/ladies_leader_13926125.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": null
         }
       ]
     },
@@ -174,7 +186,8 @@
           "lastName": "Coffield",
           "image": "/groups/leadership_leader_140403632.jpg",
           "hasPhoto": true,
-          "isCouple": true
+          "isCouple": true,
+          "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!"
         }
       ]
     },
@@ -195,7 +208,8 @@
           "lastName": "Mathis",
           "image": "/groups/maintenance_leader_140405576.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": null
         }
       ]
     },
@@ -216,7 +230,8 @@
           "lastName": "Jensen",
           "image": "/groups/men_leader_23214762.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": "Scott is on the board of River of Life and is in rotation to teach Christian Education on Sundays. His wife Cris is a Sunday School teacher in the nursery class."
         },
         {
           "id": "140405576",
@@ -225,7 +240,8 @@
           "lastName": "Mathis",
           "image": "/groups/men_leader_140405576.jpg",
           "hasPhoto": true,
-          "isCouple": false
+          "isCouple": false,
+          "bio": null
         }
       ]
     },
@@ -246,7 +262,8 @@
           "lastName": "Coffield",
           "image": "/groups/sages_leader_140403632.jpg",
           "hasPhoto": true,
-          "isCouple": true
+          "isCouple": true,
+          "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!"
         }
       ]
     },
@@ -267,7 +284,8 @@
           "lastName": "Plappert",
           "image": "/groups/youth_leader_13451237.jpg",
           "hasPhoto": true,
-          "isCouple": true
+          "isCouple": true,
+          "bio": "Here to serve."
         }
       ]
     }

@@ -24,6 +24,51 @@ $stderr.sync = true
 GROUPS_DIR = File.join(__dir__, "..", "public", "groups")
 OUTPUT_PATH = File.join(__dir__, "..", "src", "data", "groups.json")
 
+# Website custom tab ID for bio field
+WEBSITE_TAB_ID = "239509"
+
+# Fetch bio from Planning Center People custom fields
+def fetch_person_bio(api, person_id)
+  bio = nil
+
+  begin
+    field_data_response = api.people.v2.people[person_id].field_data.get(
+      per_page: 100,
+      include: "field_definition"
+    )
+    field_data = field_data_response["data"] || []
+    included = field_data_response["included"] || []
+
+    # Build lookup for field definitions
+    field_defs_by_id = {}
+    included.each do |item|
+      if item["type"] == "FieldDefinition"
+        field_defs_by_id[item["id"]] = item
+      end
+    end
+
+    # Extract bio from website tab fields
+    field_data.each do |fd|
+      field_def_id = fd.dig("relationships", "field_definition", "data", "id")
+      field_def = field_defs_by_id[field_def_id]
+      next unless field_def
+
+      field_name = field_def.dig("attributes", "name")&.downcase
+      tab_id = field_def.dig("relationships", "tab", "data", "id")
+      value = fd.dig("attributes", "value")
+
+      if tab_id == WEBSITE_TAB_ID && field_name == "bio"
+        bio = value
+        break
+      end
+    end
+  rescue => e
+    puts "WARNING: Could not fetch bio for person #{person_id}: #{e.message}"
+  end
+
+  bio
+end
+
 def sync_groups
   puts "INFO: Starting groups sync from Planning Center"
 
@@ -113,12 +158,17 @@ def sync_groups
               puts "WARNING: Could not fetch gender for person #{person_id}"
             end
 
+            # Fetch bio from custom fields
+            bio = fetch_person_bio(api, person_id)
+            puts "INFO: Leader #{person_attrs["first_name"]} bio: #{bio&.length || 0} chars"
+
             raw_leaders << {
               id: person_id,
               firstName: person_attrs["first_name"],
               lastName: person_attrs["last_name"],
               gender: gender,
-              avatar_url: person_attrs["avatar_url"]
+              avatar_url: person_attrs["avatar_url"],
+              bio: bio
             }
           end
         end
@@ -154,6 +204,9 @@ def sync_groups
 
             combined_name = "#{male[:firstName]} & #{female[:firstName]} #{male[:lastName]}"
 
+            # Use male's bio, or female's if male doesn't have one
+            couple_bio = male[:bio] || female[:bio]
+
             leaders << {
               id: "#{male[:id]}_#{female[:id]}",
               name: combined_name,
@@ -161,7 +214,8 @@ def sync_groups
               lastName: male[:lastName],
               image: leader_has_photo ? "/groups/#{leader_filename}.jpg" : nil,
               hasPhoto: leader_has_photo,
-              isCouple: true
+              isCouple: true,
+              bio: couple_bio
             }
 
             puts "INFO: Combined couple leaders: #{combined_name}"
@@ -184,7 +238,8 @@ def sync_groups
               lastName: leader[:lastName],
               image: leader_has_photo ? "/groups/#{leader_filename}.jpg" : nil,
               hasPhoto: leader_has_photo,
-              isCouple: false
+              isCouple: false,
+              bio: leader[:bio]
             }
           end
         end
