@@ -116,6 +116,9 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   </section>
 </Base>
 
+<!-- Cloudflare Stream SDK - loaded inline to avoid CORS issues -->
+<script is:inline src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
+
 <script>
   // Cloudflare Stream configuration
   const CLOUDFLARE_CUSTOMER_CODE = 'ysn6m98an1n31qj6';
@@ -331,15 +334,15 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
       setLiveState(true);
     }
 
-    // Track video page view
-    trackVideoPageView(duringService);
+    // Initialize video event tracking
+    initializeVideoTracking(duringService);
   }
 
-  // Track video page view event
-  function trackVideoPageView(isLiveStream: boolean) {
+  // Initialize video event tracking with Stream SDK
+  function initializeVideoTracking(isLiveStream: boolean) {
     const videoType = isLiveStream ? 'live_stream' : 'recorded_service';
 
-    // Track that user visited the live page with video
+    // Track page view
     if (!hasTrackedPageView) {
       hasTrackedPageView = true;
       trackLiveEvent('live_page_view', {
@@ -348,6 +351,104 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
         video_type: videoType,
         is_live: isLiveStream
       });
+    }
+
+    // Initialize Stream SDK player after iframe loads
+    const initStreamPlayer = () => {
+      try {
+        // Check if Stream SDK is available
+        if (typeof (window as any).Stream === 'undefined') {
+          console.log('Waiting for Stream SDK...');
+          setTimeout(initStreamPlayer, 500);
+          return;
+        }
+
+        if (!streamPlayer) {
+          console.log('Stream player iframe not found');
+          return;
+        }
+
+        const player = (window as any).Stream(streamPlayer);
+
+        // Track play event
+        player.addEventListener('play', () => {
+          trackLiveEvent('video_play', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track pause event
+        player.addEventListener('pause', () => {
+          trackLiveEvent('video_pause', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track video ended
+        player.addEventListener('ended', () => {
+          trackLiveEvent('video_complete', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track when video can play (ready)
+        player.addEventListener('canplay', () => {
+          trackLiveEvent('video_ready', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track time updates (every 30 seconds of watch time)
+        let lastTrackedTime = 0;
+        player.addEventListener('timeupdate', () => {
+          const currentTime = Math.floor(player.currentTime);
+          if (currentTime > 0 && currentTime % 30 === 0 && currentTime !== lastTrackedTime) {
+            lastTrackedTime = currentTime;
+            trackLiveEvent('video_progress', {
+              category: 'Live Stream',
+              event_label: `${currentTime}s watched`,
+              video_type: videoType,
+              is_live: isLiveStream,
+              seconds_watched: currentTime
+            });
+          }
+        });
+
+        // Track errors
+        player.addEventListener('error', () => {
+          trackLiveEvent('video_error', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        console.log('Stream SDK video tracking initialized successfully');
+      } catch (e) {
+        console.error('Error initializing Stream SDK:', e);
+      }
+    };
+
+    // Wait for iframe to load before initializing SDK
+    if (streamPlayer) {
+      streamPlayer.addEventListener('load', () => {
+        setTimeout(initStreamPlayer, 1000);
+      });
+      // Also try after delay in case load already fired
+      setTimeout(initStreamPlayer, 2000);
     }
   }
 
