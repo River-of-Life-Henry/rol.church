@@ -137,40 +137,33 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   let playerLoaded = false;
   let hasTrackedPageView = false;
   let hasTrackedLiveView = false;
-  let gtagReady = false;
-  let pendingEvents: Array<{eventName: string, params: Record<string, any>}> = [];
-
-  // Wait for gtag to be available, then send all pending events
-  function waitForGtag() {
-    if (typeof (window as any).gtag !== 'undefined') {
-      gtagReady = true;
-      // Send any pending events
-      while (pendingEvents.length > 0) {
-        const event = pendingEvents.shift();
-        if (event) {
-          (window as any).gtag('event', event.eventName, event.params);
-          console.log('GA4 queued event sent:', event.eventName);
-        }
-      }
-    } else {
-      // Check again in 100ms
-      setTimeout(waitForGtag, 100);
-    }
-  }
-
-  // Start waiting for gtag immediately
-  waitForGtag();
 
   // Track events to GA4, Clarity, and Meta Pixel
   function trackLiveEvent(eventName: string, params: Record<string, any> = {}) {
-    // Google Analytics 4 - queue if not ready, otherwise send directly
-    if (gtagReady && typeof (window as any).gtag !== 'undefined') {
-      (window as any).gtag('event', eventName, params);
-      console.log('GA4 event sent:', eventName);
-    } else {
-      // Queue the event for when gtag is ready
-      pendingEvents.push({ eventName, params });
-      console.log('GA4 event queued:', eventName);
+    // Google Analytics 4 - send directly if gtag available, otherwise retry
+    const sendToGA4 = () => {
+      if (typeof (window as any).gtag !== 'undefined') {
+        (window as any).gtag('event', eventName, params);
+        console.log('GA4 event sent:', eventName);
+        return true;
+      }
+      return false;
+    };
+
+    // Try to send immediately, if not ready, retry for up to 5 seconds
+    if (!sendToGA4()) {
+      console.log('GA4 not ready, will retry:', eventName);
+      let attempts = 0;
+      const maxAttempts = 50; // 50 * 100ms = 5 seconds
+      const retryInterval = setInterval(() => {
+        attempts++;
+        if (sendToGA4() || attempts >= maxAttempts) {
+          clearInterval(retryInterval);
+          if (attempts >= maxAttempts) {
+            console.warn('GA4 event failed after retries:', eventName);
+          }
+        }
+      }, 100);
     }
 
     // Microsoft Clarity (custom tags)
