@@ -275,13 +275,8 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
       return;
     }
 
-    // Only show countdown if within 24 hours
-    if (diff <= 24 * 60 * 60 * 1000) {
-      timer.textContent = formatCountdown(diff);
-      countdownBanner.style.display = 'flex';
-    } else {
-      countdownBanner.style.display = 'none';
-    }
+    timer.textContent = formatCountdown(diff);
+    countdownBanner.style.display = 'flex';
   }
 
   // Load Cloudflare Stream player

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-11-29T19:53:34-06:00",
+  "updated_at": "2025-11-29T23:11:49-06:00",
   "groups": [
     {
       "id": "2895651",
@@ -242,28 +242,6 @@
           "hasPhoto": true,
           "isCouple": false,
           "bio": null
-        }
-      ]
-    },
-    {
-      "id": "2414413",
-      "name": "Sages",
-      "slug": "sages",
-      "description": "<div>age 55 and over!</div>",
-      "schedule": "",
-      "contactEmail": null,
-      "headerImage": "/groups/sages_header.jpg",
-      "hasHeaderImage": true,
-      "leaders": [
-        {
-          "id": "140403632_152738971",
-          "name": "Andrew & Chelsea Coffield",
-          "firstName": "Andrew",
-          "lastName": "Coffield",
-          "image": "/groups/sages_leader_140403632.jpg",
-          "hasPhoto": true,
-          "isCouple": true,
-          "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!"
         }
       ]
     },

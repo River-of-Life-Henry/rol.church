@@ -249,6 +249,12 @@ def sync_groups
         puts "WARNING: Failed to fetch leaders for group #{group_id}: #{e.message}"
       end
 
+      # Skip groups with no leaders
+      if leaders.empty?
+        puts "INFO: Skipping group '#{name}' - no leaders assigned"
+        next
+      end
+
       groups_data << {
         id: group_id,
         name: name,
