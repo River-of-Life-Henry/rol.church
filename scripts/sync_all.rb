@@ -31,6 +31,7 @@ scripts = %w[
   sync_facebook_photos.rb
   sync_hero_images.rb
   sync_team.rb
+  sync_cloudflare_video.rb
 ]
 
 scripts.each do |script|

@@ -35,6 +35,8 @@ jobs:
           ROL_PLANNING_CENTER_CLIENT_ID: ${{ secrets.ROL_PLANNING_CENTER_CLIENT_ID }}
           ROL_PLANNING_CENTER_SECRET: ${{ secrets.ROL_PLANNING_CENTER_SECRET }}
           PCO_WEBSITE_HERO_MEDIA_ID: ${{ secrets.PCO_WEBSITE_HERO_MEDIA_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           cd scripts
           ruby sync_all.rb
@@ -42,7 +44,7 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git add src/data/ public/hero/ public/team/ public/groups/
+          git add src/data/ public/hero/ public/team/ public/groups/ src/pages/live.astro
           git diff --cached --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
