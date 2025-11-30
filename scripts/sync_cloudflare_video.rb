@@ -215,11 +215,13 @@ def sync_video_metadata(recordings)
   # Match videos to plans based on date
   videos_to_update.each do |video|
     video_id = video["uid"]
-    video_created = Time.parse(video["created"])
+    # Parse UTC time and convert to local (Chicago) time for proper date matching
+    video_created_utc = Time.parse(video["created"])
+    video_created = video_created_utc.getlocal
     video_date = video_created.to_date
 
     puts "\nProcessing video: #{video_id}"
-    puts "  Created: #{video_created.strftime('%Y-%m-%d %H:%M %Z')}"
+    puts "  Created: #{video_created_utc.strftime('%Y-%m-%d %H:%M UTC')} (#{video_created.strftime('%Y-%m-%d %H:%M %Z')})"
 
     # Find matching plan (same date)
     matching_plan = plans.find { |p| p[:date] == video_date }
@@ -232,7 +234,8 @@ def sync_video_metadata(recordings)
     puts "  Matched to plan: #{matching_plan[:title]} (#{matching_plan[:service_type_name]})"
 
     # Build the video title: MM/DD: Plan Title - Service Type Name
-    date_prefix = video_date.strftime("%-m/%-d")
+    # Use the plan date for the title prefix
+    date_prefix = matching_plan[:date].strftime("%-m/%-d")
     video_title = "#{date_prefix}: #{matching_plan[:title]} - #{matching_plan[:service_type_name]}"
 
     metadata = {
