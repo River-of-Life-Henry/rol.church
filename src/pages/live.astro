@@ -5,6 +5,8 @@ import PageHero from '../components/PageHero.astro';
 // Cloudflare Stream configuration
 const CLOUDFLARE_CUSTOMER_CODE = 'ysnm9dan1n31qj6';
 const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
+// Latest recording video ID (from most recent service)
+const CLOUDFLARE_LATEST_VIDEO_ID = '9c702d257fa5177bc78e2214a927f840';
 
 // YouTube channel for archived videos
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
@@ -121,6 +123,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   // Cloudflare Stream configuration
   const CLOUDFLARE_CUSTOMER_CODE = 'ysnm9dan1n31qj6';
   const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
+  const CLOUDFLARE_LATEST_VIDEO_ID = '9c702d257fa5177bc78e2214a927f840';
 
   // Service schedule in Chicago timezone (Central Time)
   const SERVICES = [
@@ -284,37 +287,17 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     }
   }
 
-  // Check if a video exists at the given URL
-  async function checkVideoExists(): Promise<boolean> {
-    try {
-      // Try to fetch the video manifest to see if it exists
-      const response = await fetch(
-        `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LIVE_INPUT_ID}/manifest/video.m3u8`,
-        { method: 'HEAD' }
-      );
-      return response.ok;
-    } catch {
-      return false;
-    }
-  }
-
   // Load Cloudflare Stream player
-  async function loadStreamPlayer() {
+  function loadStreamPlayer() {
     if (!streamPlayer) return;
 
     const duringService = isDuringService();
 
-    // First check if video exists
-    const videoExists = await checkVideoExists();
-
-    if (!videoExists && !duringService) {
-      // No video and not during service - show fallback message
-      showNoVideo();
-      return;
-    }
-
     // Build the embed URL
-    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LIVE_INPUT_ID}/iframe`;
+    // During service: use the Live Input ID for live streaming
+    // Otherwise: use the latest recorded video ID
+    const videoId = duringService ? CLOUDFLARE_LIVE_INPUT_ID : CLOUDFLARE_LATEST_VIDEO_ID;
+    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe`;
 
     streamPlayer.src = embedUrl;
     showPlayer();
