@@ -138,7 +138,6 @@ const bioParagraphs = pastorBio
   @media (max-width: 900px) {
     .pastor-letter {
       min-height: auto;
-      padding-top: var(--header-height, 110px);
     }
 
     .pastor-letter-content {
@@ -157,7 +156,8 @@ const bioParagraphs = pastorBio
 
     .pastor-photo img {
       clip-path: none;
-      object-position: center top;
+      /* Start image below where header covers, so faces are visible */
+      object-position: center 30%;
     }
 
     .letter-text {
