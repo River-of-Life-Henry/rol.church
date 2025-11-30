@@ -286,9 +286,11 @@ All event times are displayed in **Chicago time (Central Time)**.
 
 | Item | How It Works | Frequency |
 |------|--------------|-----------|
+| Hero Slider Photos | AI selects good group photos from Facebook (3+ people, smiling) | Daily 6 AM CT |
 | Live Stream | Cloudflare detects when streaming | Real-time |
 | Latest Service Recording | Syncs from Cloudflare Stream | Daily + After Sunday service |
 | Service Countdown Timer | Calculated automatically | Real-time |
+| Profile Photos | Synced from Planning Center People profiles | Daily 6 AM CT |
 
 ### Quick Links
 
