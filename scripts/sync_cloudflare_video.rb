@@ -18,6 +18,7 @@ require "bundler/setup"
 require "net/http"
 require "json"
 require "time"
+require "openssl"
 
 # Set timezone to Central Time
 ENV["TZ"] = "America/Chicago"
@@ -33,6 +34,7 @@ def fetch_recordings
 
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
+  http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
   request = Net::HTTP::Get.new(uri)
   request["Authorization"] = "Bearer #{CLOUDFLARE_API_TOKEN}"
