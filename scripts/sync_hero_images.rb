@@ -115,10 +115,20 @@ def download_hero_images
   # Create hero directory if it doesn't exist
   Dir.mkdir(HERO_DIR) unless Dir.exist?(HERO_DIR)
 
-  # Clear existing hero images (jpg, png, and webp)
-  Dir.glob(File.join(HERO_DIR, '*.jpg')).each { |f| File.delete(f) }
-  Dir.glob(File.join(HERO_DIR, '*.png')).each { |f| File.delete(f) }
-  Dir.glob(File.join(HERO_DIR, '*.webp')).each { |f| File.delete(f) }
+  # Clear existing PCO-sourced hero images (numbered and header_* files)
+  # Preserve fb_* files (Facebook-sourced photos synced via sync_facebook_photos.rb)
+  Dir.glob(File.join(HERO_DIR, '*.jpg')).each do |f|
+    basename = File.basename(f)
+    File.delete(f) unless basename.start_with?('fb_')
+  end
+  Dir.glob(File.join(HERO_DIR, '*.png')).each do |f|
+    basename = File.basename(f)
+    File.delete(f) unless basename.start_with?('fb_')
+  end
+  Dir.glob(File.join(HERO_DIR, '*.webp')).each do |f|
+    basename = File.basename(f)
+    File.delete(f) unless basename.start_with?('fb_')
+  end
 
   puts "INFO: Fetching hero images from Planning Center Media ID: #{MEDIA_ID}"
 
@@ -132,8 +142,8 @@ def download_hero_images
     puts "INFO: Found #{attachments.length} total images"
 
     if attachments.empty?
-      puts "WARNING: No attachments returned from API. Check if media ID #{MEDIA_ID} exists and has attachments."
-      return false
+      puts "WARNING: No attachments returned from API. Checking for Facebook-sourced images..."
+      # Don't return false - we might have Facebook images
     end
 
     # Separate header images from slider images
@@ -198,7 +208,8 @@ def download_hero_images
 
     puts "SUCCESS: Finished downloading hero images"
 
-    # Validate downloaded images and remove small files
+    # Validate downloaded PCO images and remove small files
+    # Note: fb_* files are from Facebook sync, not PCO, so we skip them here
     all_files = Dir.glob(File.join(HERO_DIR, '*.{jpg,png}')).sort
     valid_slider_files = []
     valid_header_files = []
@@ -206,6 +217,12 @@ def download_hero_images
     all_files.each do |file|
       file_size = File.size(file)
       basename = File.basename(file)
+
+      # Skip Facebook-sourced files (they're handled separately)
+      if basename.start_with?('fb_')
+        puts "DEBUG: Verified valid image: #{basename} (#{file_size} bytes)"
+        next
+      end
 
       # Skip files that are too small (likely HTML error pages)
       if file_size < 20000
@@ -220,19 +237,23 @@ def download_hero_images
         valid_slider_files << basename
       end
 
-      puts "DEBUG: Verified valid image: #{basename} (#{file_size} bytes)"
+      puts "DEBUG: Verified valid PCO image: #{basename} (#{file_size} bytes)"
     end
 
-    puts "INFO: Downloaded #{valid_slider_files.length} valid slider images and #{valid_header_files.length} valid header images"
+    puts "INFO: Downloaded #{valid_slider_files.length} valid PCO slider images and #{valid_header_files.length} valid header images"
 
-    if valid_slider_files.empty? && valid_header_files.empty?
-      puts "ERROR: No valid hero images were downloaded!"
+    # Check if we have Facebook-sourced images even if PCO is empty
+    fb_files = Dir.glob(File.join(HERO_DIR, 'fb_*.jpg')).map { |f| File.basename(f) }
+
+    if valid_slider_files.empty? && valid_header_files.empty? && fb_files.empty?
+      puts "ERROR: No valid hero images were downloaded and no Facebook images exist!"
       return false
+    elsif valid_slider_files.empty? && valid_header_files.empty?
+      puts "INFO: No PCO images, but found #{fb_files.length} Facebook-sourced images"
     end
 
-    # Generate hero_images.json for the HeroSlider component (slider images only, no header_* files)
+    # Generate hero_images.json for the HeroSlider component
     hero_json_path = File.join(__dir__, "..", "src", "data", "hero_images.json")
-    slider_paths = valid_slider_files.sort_by { |f| f.scan(/\d+/).first.to_i }.map { |f| "/hero/#{f}" }
 
     # Also include header files mapping for PageHero component
     header_mapping = {}
@@ -242,13 +263,26 @@ def download_hero_images
       header_mapping[page_key] = "/hero/#{f}"
     end
 
+    # Include Facebook-sourced photos (fb_*.jpg files)
+    # These are sorted by date (newest first based on filename: fb_YYYYMMDD_...)
+    # fb_files already loaded above
+    fb_files.sort! { |a, b| b <=> a }  # Descending sort (newest first)
+    fb_slider_paths = fb_files.map { |f| "/hero/#{f}" }
+
+    # PCO-sourced slider images (numbered 1.jpg, 2.jpg, etc.)
+    pco_slider_paths = valid_slider_files.sort_by { |f| f.scan(/\d+/).first.to_i }.map { |f| "/hero/#{f}" }
+
+    # Combine: Facebook photos first (newest), then PCO photos
+    # User request: Home slider shows 5 most recent, page backgrounds use rest
+    all_slider_paths = fb_slider_paths + pco_slider_paths
+
     File.write(hero_json_path, JSON.pretty_generate({
       updated_at: Time.now.iso8601,
-      images: slider_paths,
+      images: all_slider_paths,
       headers: header_mapping
     }))
 
-    puts "INFO: Generated hero_images.json with #{slider_paths.length} slider images and #{header_mapping.length} page headers"
+    puts "INFO: Generated hero_images.json with #{all_slider_paths.length} slider images (#{fb_slider_paths.length} from Facebook, #{pco_slider_paths.length} from PCO) and #{header_mapping.length} page headers"
 
     return true
   rescue => e

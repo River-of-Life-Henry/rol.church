@@ -1,13 +1,14 @@
 ---
 import heroData from '../data/hero_images.json';
 
-// Limit to 4 images to reduce page weight and requests
+// Use 5 most recent images for home slider (per user request)
+// These are sorted newest first in hero_images.json
 const allImages = heroData.images || [
   '/hero/1.jpg',
   '/hero/2.jpg',
   '/hero/3.jpg',
 ];
-const images = allImages.slice(0, 4);
+const images = allImages.slice(0, 5);
 
 // Calculate animation timing based on number of images
 const slideTime = 6; // seconds per slide

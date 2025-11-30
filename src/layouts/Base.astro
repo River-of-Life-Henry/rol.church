@@ -3,12 +3,14 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  headerScrolled?: boolean;
 }
 
 const {
   title = "River of Life",
   description = "Where life begins - A loving community of Christ-followers in Henry, IL dedicated to serving people on their spiritual journey.",
-  image = "/logo-full.jpg"
+  image = "/logo-full.jpg",
+  headerScrolled = false
 } = Astro.props;
 
 // Load groups for navigation dropdown
@@ -193,7 +195,7 @@ const churchSchema = {
         </div>
       </a>
     )}
-    <header>
+    <header class={headerScrolled ? 'scrolled' : ''}>
       <nav>
         <a href="/" class="logo">
           <picture class="logo-full">
@@ -536,9 +538,11 @@ const churchSchema = {
       // Sticky header scroll behavior
       const header = document.querySelector('header');
       const scrollThreshold = 50;
+      // Check if header was set to always be scrolled (e.g., pastor page)
+      const alwaysScrolled = header?.classList.contains('scrolled');
 
       function handleScroll() {
-        if (window.scrollY > scrollThreshold) {
+        if (alwaysScrolled || window.scrollY > scrollThreshold) {
           header?.classList.add('scrolled');
         } else {
           header?.classList.remove('scrolled');

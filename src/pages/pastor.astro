@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
 
 // Load team data from Planning Center sync
 let pastor = null;
@@ -11,135 +10,175 @@ try {
   console.log('Team data not yet generated');
 }
 
-// Fallback values if data not available
-const pastorName = pastor?.displayName || "Andrew & Chelsea Coffield";
-const pastorRole = pastor?.role || "Senior Pastor";
-const pastorBio = pastor?.bio || "Pastor Andrew and Chelsea Coffield lead River of Life with a heart for helping people find and follow Jesus. Their passion is building a loving community where everyone can grow in their faith journey.";
+// Data from Planning Center
+const pastorName = pastor?.displayName || "Andrew Coffield";
 const pastorImage = pastor?.image || "/team/andrew_coffield.jpg";
+const pastorBio = pastor?.bio || "";
+
+// Split bio into paragraphs (split on double newlines or single newlines)
+const bioParagraphs = pastorBio
+  .split(/\n\n|\n/)
+  .map(p => p.trim())
+  .filter(p => p.length > 0);
 ---
 
-<Base title="Our Pastor" description={`Meet Pastor ${pastorName}, the senior pastor at River of Life.`}>
-  <PageHero title="Our Pastor" image="/hero/5.jpg" />
+<Base title="Our Pastor" description="Meet Pastor Andrew Coffield, senior pastor at River of Life Church in Henry, IL." headerScrolled={true}>
+  <section class="pastor-letter">
+    <div class="pastor-letter-content">
+      <div class="letter-text">
+        {bioParagraphs.length > 0 ? (
+          bioParagraphs.map(paragraph => (
+            <p>{paragraph}</p>
+          ))
+        ) : (
+          <>
+            <p>
+              River of Life is an Apostolic Pentecostal church located in Henry, Illinois.
+              We are a community of believers passionate about sharing the love of Jesus Christ
+              and helping people discover their purpose in Him.
+            </p>
+            <p>
+              My wife Chelsea and I feel honored and blessed to serve as pastors of this
+              incredible church family. We'd love to meet you!
+            </p>
+          </>
+        )}
 
-  <section class="team-content">
-    <div class="team-container">
-      <div class="team-feature pastor">
-        <div class="team-feature-image" style={`background-image: url('${pastorImage}')`}></div>
-        <div class="team-feature-info">
-          <p class="team-role-label">{pastorRole}</p>
-          <h2 class="team-name">{pastorName}</h2>
-          <p class="team-bio">{pastorBio}</p>
+        <div class="signature-block">
+          <img src="/pastor-signature.png" alt="Pastor Andrew's signature" class="signature-image" />
+          <p class="pastor-name">Andrew & Chelsea Coffield</p>
+          <p class="pastor-title">Senior Pastors, River of Life</p>
         </div>
       </div>
 
-      <div class="team-connect-cta">
-        <h3>Want to Connect?</h3>
-        <p>We'd love to hear from you. Reach out anytime!</p>
-        <a href="/contact" class="btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          Contact Us
-        </a>
+      <div class="pastor-photo">
+        <img src={pastorImage} alt={`Pastor ${pastorName}`} />
       </div>
     </div>
   </section>
 </Base>
 
-<style is:global>
-  .team-content {
-    padding: 4rem 2rem;
+<style>
+  .pastor-letter {
+    display: flex;
+    background: white;
+    min-height: 100vh;
   }
 
-  .team-container {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .team-feature {
+  .pastor-letter-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-    margin-bottom: 2rem;
-    background: var(--color-bg-alt);
-    border-radius: 1rem;
-    overflow: hidden;
+    width: 100%;
+    align-items: stretch;
   }
 
-  .team-feature-image {
-    height: 400px;
-    background-size: cover;
-    background-position: center top;
-    background-color: var(--color-navy);
+  .letter-text {
+    padding: calc(80px + 3rem) 4rem 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 650px;
+    margin-left: auto;
   }
 
-  .team-feature-info {
-    padding: 2rem 2rem 2rem 0;
-  }
-
-  .team-role-label {
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    color: var(--color-teal);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  .team-name {
-    color: var(--color-navy);
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .team-bio {
-    color: var(--color-text-light);
+  .letter-text p {
+    color: #333;
+    font-size: 1.05rem;
     line-height: 1.8;
-    font-size: 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .team-connect-cta {
-    text-align: center;
-    background: var(--color-navy);
-    color: white;
-    padding: 3rem;
-    border-radius: 0.5rem;
-    margin-top: 2rem;
+  .signature-block {
+    margin-top: 1.5rem;
   }
 
-  .team-connect-cta h3 {
-    color: var(--color-gold);
+  .signature-image {
+    height: 60px;
+    width: auto;
     margin-bottom: 0.5rem;
   }
 
-  .team-connect-cta p {
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
+  .pastor-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 0.25rem !important;
   }
 
-  .team-connect-cta .btn {
-    background: white;
-    color: var(--color-navy) !important;
+  .pastor-title {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 0 !important;
   }
 
-  .team-connect-cta .btn:hover {
-    background: var(--color-gold);
+  .pastor-photo {
+    position: relative;
+    overflow: visible;
   }
 
-  @media (max-width: 768px) {
-    .team-feature {
+  .pastor-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+
+  @media (max-width: 1024px) {
+    .letter-text {
+      padding: 2.5rem 3rem 2.5rem 1.5rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .pastor-letter {
+      padding: 0;
+    }
+
+    .pastor-letter-content {
       grid-template-columns: 1fr;
     }
 
-    .team-feature-image {
-      height: 300px;
+    .pastor-photo {
+      order: -1;
+      height: 400px;
     }
 
-    .team-feature-info {
-      padding: 2rem;
+    .pastor-photo img {
+      clip-path: none;
     }
 
-    .team-name {
-      font-size: 1.5rem;
+    .letter-text {
+      padding: 2.5rem 2rem;
+      max-width: none;
+      margin-left: 0;
     }
+  }
+
+  @media (max-width: 600px) {
+    .pastor-photo {
+      height: 350px;
+    }
+
+    .letter-text {
+      padding: 2rem 1.5rem;
+    }
+
+    .letter-text p {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Pastor page specific - remove gaps */
+  body:has(.pastor-letter) {
+    background: white;
+  }
+
+  body:has(.pastor-letter) main {
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 </style>

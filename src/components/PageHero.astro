@@ -9,6 +9,17 @@ interface Props {
 
 const { title, subtitle, image } = Astro.props;
 
+// Simple hash function for deterministic page-to-image mapping
+function hashCode(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
+
 // Auto-select header image based on URL path if no image provided
 function getHeroImage(): string {
   // If explicit image provided, use it (groups pass their own images)
@@ -19,10 +30,14 @@ function getHeroImage(): string {
   // Groups pages get their images from Planning Center Groups, not header_* files
   // They should always pass an explicit image prop
   if (path.startsWith('/groups/')) {
-    // Fallback for groups without images
-    const sliderImages = heroData.images || ['/hero/1.jpg'];
-    const randomIndex = Math.floor(Math.random() * sliderImages.length);
-    return sliderImages[randomIndex] || '/hero/1.jpg';
+    // Fallback for groups without images - use page background pool
+    const allImages = heroData.images || ['/hero/1.jpg'];
+    const pageBackgrounds = allImages.slice(5); // Skip first 5 (used by home slider)
+    if (pageBackgrounds.length === 0) {
+      return allImages[0] || '/hero/1.jpg';
+    }
+    const index = hashCode(path) % pageBackgrounds.length;
+    return pageBackgrounds[index];
   }
 
   // Get current URL path and convert to header key
@@ -38,10 +53,19 @@ function getHeroImage(): string {
     return headers[headerKey];
   }
 
-  // Fallback to random slider image
-  const sliderImages = heroData.images || ['/hero/1.jpg'];
-  const randomIndex = Math.floor(Math.random() * sliderImages.length);
-  return sliderImages[randomIndex] || '/hero/1.jpg';
+  // Page backgrounds: Use images after the first 5 (which are reserved for home slider)
+  // Each page gets a deterministic but unique background based on its path
+  const allImages = heroData.images || ['/hero/1.jpg'];
+  const pageBackgrounds = allImages.slice(5); // Skip first 5 (used by home slider)
+
+  // If not enough images, fall back to all images
+  if (pageBackgrounds.length === 0) {
+    return allImages[hashCode(path) % allImages.length] || '/hero/1.jpg';
+  }
+
+  // Deterministic selection based on page path (so each page always gets same image)
+  const index = hashCode(path) % pageBackgrounds.length;
+  return pageBackgrounds[index];
 }
 
 const heroImage = getHeroImage();

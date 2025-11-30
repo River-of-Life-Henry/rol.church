@@ -23,9 +23,12 @@ unless ENV["ROL_PLANNING_CENTER_CLIENT_ID"] && ENV["ROL_PLANNING_CENTER_SECRET"]
 end
 
 # Run each sync script
+# Note: sync_facebook_photos.rb runs BEFORE sync_hero_images.rb so that
+# Facebook photos are downloaded and optimized before hero_images.json is generated
 scripts = %w[
   sync_events.rb
   sync_groups.rb
+  sync_facebook_photos.rb
   sync_hero_images.rb
   sync_youtube.rb
   sync_team.rb

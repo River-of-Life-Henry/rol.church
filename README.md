@@ -172,7 +172,52 @@ ruby sync_youtube.rb
 
 # Sync team member profiles (pastor, foundations instructor)
 ruby sync_team.rb
+
+# Sync photos from Facebook (with smile detection)
+ruby sync_facebook_photos.rb
 ```
+
+#### Facebook Photo Sync
+
+The `sync_facebook_photos.rb` script automatically fetches photos from the church's Facebook page, analyzes them for smiling faces, and saves qualifying photos locally for use as hero images.
+
+**How it works:**
+1. Fetches all photos from the River of Life-Henry Facebook page (last 2 years or since last sync)
+2. Analyzes each photo using AWS Rekognition to detect smiling faces
+3. Saves qualifying photos to `public/hero/` with WebP versions
+4. Updates `hero_images.json` to include the new photos
+
+**Photo qualification criteria:**
+- At least 1 person is smiling, OR
+- At least 60% of visible people are smiling
+
+**Hero Image Display Logic:**
+- **Home slider**: Uses the 5 most recent photos (newest first)
+- **Page backgrounds**: Uses photos after the first 5, with deterministic assignment per page (so each page always gets the same background)
+
+**Filename format:** `fb_YYYYMMDD_pageid_postid.jpg` (sorted by date, newest first)
+
+**Setup requirements:**
+
+1. **Facebook Page Access Token** - Required to access page photos
+   - The Facebook app "ROL Church Website" (ID: 1522783152798535) is already created
+   - Connect the River of Life-Henry page via [Business Settings](https://business.facebook.com/settings/pages)
+   - Generate a Page Access Token with `pages_read_user_content` permission
+
+2. **AWS Credentials** - Required for Rekognition smile detection
+   - Configure via `aws configure` or set environment variables
+   - Requires `rekognition:DetectFaces` permission
+
+3. **Environment variables** (add to `.env` or `.envrc`):
+   ```
+   FB_PAGE_ID=147553505345372
+   FB_PAGE_ACCESS_TOKEN=your_system_user_token
+   AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_ROL
+   AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_ROL
+   AWS_REGION=us-east-1
+   ```
+
+**Note:** The script fetches photos from page posts (last 2 years), not the page's photo albums. Photos are saved locally to `public/hero/` and tracked in the state file to avoid duplicates.
 
 ### Automatic Syncing
 
@@ -300,6 +345,7 @@ Quick reference for where content comes from and how to update it:
 | Pastor Info | People | Person → "Website - ROL.Church" tab | `sync_team.rb` | `/pastor` |
 | Foundations Instructor | People | Person → "Website - ROL.Church" tab | `sync_team.rb` | `/next-steps/foundations` |
 | Latest Video | YouTube | Upload to @rol-henry channel | `sync_youtube.rb` | `/live` |
+| Facebook Photos | Facebook | River of Life-Henry page photos | `sync_facebook_photos.rb` | Hero images (via PCO) |
 
 ### Planning Center Direct Links
 
