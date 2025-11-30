@@ -970,6 +970,13 @@ const churchSchema = {
     color: var(--color-teal);
   }
 
+  /* Last dropdown (About) aligns to right edge to prevent overflow */
+  .has-dropdown:last-child .dropdown {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
   /* Mobile Styles */
   @media (max-width: 900px) {
     header {
