@@ -45,6 +45,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
           title="River of Life Live Stream"
           allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
           allowfullscreen
+          loading="lazy"
         ></iframe>
       </div>
     </div>
@@ -136,22 +137,52 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   let playerLoaded = false;
   let hasTrackedPageView = false;
   let hasTrackedLiveView = false;
+  let gtagReady = false;
+  let pendingEvents: Array<{eventName: string, params: Record<string, any>}> = [];
+
+  // Wait for gtag to be available, then send all pending events
+  function waitForGtag() {
+    if (typeof (window as any).gtag !== 'undefined') {
+      gtagReady = true;
+      // Send any pending events
+      while (pendingEvents.length > 0) {
+        const event = pendingEvents.shift();
+        if (event) {
+          (window as any).gtag('event', event.eventName, event.params);
+          console.log('GA4 queued event sent:', event.eventName);
+        }
+      }
+    } else {
+      // Check again in 100ms
+      setTimeout(waitForGtag, 100);
+    }
+  }
+
+  // Start waiting for gtag immediately
+  waitForGtag();
 
   // Track events to GA4, Clarity, and Meta Pixel
   function trackLiveEvent(eventName: string, params: Record<string, any> = {}) {
-    // Google Analytics 4
-    if (typeof (window as any).gtag !== 'undefined') {
+    // Google Analytics 4 - queue if not ready, otherwise send directly
+    if (gtagReady && typeof (window as any).gtag !== 'undefined') {
       (window as any).gtag('event', eventName, params);
+      console.log('GA4 event sent:', eventName);
+    } else {
+      // Queue the event for when gtag is ready
+      pendingEvents.push({ eventName, params });
+      console.log('GA4 event queued:', eventName);
     }
 
     // Microsoft Clarity (custom tags)
     if (typeof (window as any).clarity !== 'undefined') {
       (window as any).clarity('set', eventName, params.event_label || params.category || eventName);
+      console.log('Clarity event sent:', eventName);
     }
 
     // Meta Pixel
     if (typeof (window as any).fbq !== 'undefined') {
       (window as any).fbq('trackCustom', eventName, params);
+      console.log('Meta Pixel event sent:', eventName);
     }
 
     console.log('Live Event Tracked:', eventName, params);
@@ -316,26 +347,40 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   }
 
   // Load Cloudflare Stream player
-  function loadStreamPlayer() {
+  function loadStreamPlayer(forceLive: boolean = false) {
     if (!streamPlayer) return;
 
     const duringService = isDuringService();
 
-    // Build the embed URL
-    // During service: use the Live Input ID for live streaming
-    // Otherwise: use the latest recorded video ID
-    const videoId = duringService ? CLOUDFLARE_LIVE_INPUT_ID : CLOUDFLARE_LATEST_VIDEO_ID;
-    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true`;
+    // During service hours, try live input first
+    // Otherwise, use the recorded video
+    const useLiveInput = forceLive || duringService;
+    const videoId = useLiveInput ? CLOUDFLARE_LIVE_INPUT_ID : CLOUDFLARE_LATEST_VIDEO_ID;
+
+    // Build embed URL with poster from recorded video to prevent 400 errors on thumbnail
+    const posterUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LATEST_VIDEO_ID}/thumbnails/thumbnail.jpg`;
+    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&poster=${encodeURIComponent(posterUrl)}`;
 
     streamPlayer.src = embedUrl;
     showPlayer();
 
-    if (duringService) {
+    if (useLiveInput) {
       setLiveState(true);
     }
 
     // Initialize video event tracking
-    initializeVideoTracking(duringService);
+    initializeVideoTracking(useLiveInput);
+
+    // Handle iframe load errors - fall back to recorded video if live stream fails
+    if (useLiveInput) {
+      streamPlayer.onerror = () => {
+        console.log('Live stream unavailable, falling back to recorded video');
+        const fallbackUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LATEST_VIDEO_ID}/iframe?autoplay=true`;
+        streamPlayer.src = fallbackUrl;
+        setLiveState(false);
+        initializeVideoTracking(false);
+      };
+    }
   }
 
   // Initialize video event tracking with Stream SDK
