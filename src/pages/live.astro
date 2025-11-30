@@ -116,6 +116,9 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   </section>
 </Base>
 
+<!-- Cloudflare Stream SDK for video event tracking -->
+<script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
+
 <script>
   // Cloudflare Stream configuration
   const CLOUDFLARE_CUSTOMER_CODE = 'ysn6m98an1n31qj6';
@@ -131,6 +134,28 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   // State
   let isLive = false;
   let playerLoaded = false;
+  let hasTrackedPageView = false;
+  let hasTrackedLiveView = false;
+
+  // Track events to GA4, Clarity, and Meta Pixel
+  function trackLiveEvent(eventName: string, params: Record<string, any> = {}) {
+    // Google Analytics 4
+    if (typeof (window as any).gtag !== 'undefined') {
+      (window as any).gtag('event', eventName, params);
+    }
+
+    // Microsoft Clarity (custom tags)
+    if (typeof (window as any).clarity !== 'undefined') {
+      (window as any).clarity('set', eventName, params.event_label || params.category || eventName);
+    }
+
+    // Meta Pixel
+    if (typeof (window as any).fbq !== 'undefined') {
+      (window as any).fbq('trackCustom', eventName, params);
+    }
+
+    console.log('Live Event Tracked:', eventName, params);
+  }
 
   // DOM elements
   const streamPlayer = document.getElementById('stream-player') as HTMLIFrameElement;
@@ -161,12 +186,23 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 
   // Update live state UI
   function setLiveState(live: boolean) {
+    const wasLive = isLive;
     isLive = live;
     if (liveIndicator) {
       liveIndicator.style.display = live ? 'flex' : 'none';
     }
     if (countdownBanner && live) {
       countdownBanner.style.display = 'none';
+    }
+
+    // Track when stream goes live (only once per session)
+    if (live && !wasLive && !hasTrackedLiveView) {
+      hasTrackedLiveView = true;
+      trackLiveEvent('live_stream_started', {
+        category: 'Live Stream',
+        event_label: 'Live service began',
+        is_live: true
+      });
     }
   }
 
@@ -297,6 +333,90 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     if (duringService) {
       setLiveState(true);
     }
+
+    // Initialize Stream SDK and attach event listeners
+    initializeVideoTracking(duringService);
+  }
+
+  // Initialize video event tracking with Stream SDK
+  function initializeVideoTracking(isLiveStream: boolean) {
+    // Wait for iframe to load, then initialize Stream SDK
+    setTimeout(() => {
+      try {
+        const Stream = (window as any).Stream;
+        if (!Stream || !streamPlayer) return;
+
+        const player = Stream(streamPlayer);
+        const videoType = isLiveStream ? 'live_stream' : 'recorded_service';
+
+        // Track video play
+        player.addEventListener('play', () => {
+          trackLiveEvent('video_play', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track video pause
+        player.addEventListener('pause', () => {
+          trackLiveEvent('video_pause', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track video ended
+        player.addEventListener('ended', () => {
+          trackLiveEvent('video_complete', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track when video starts loading/buffering
+        player.addEventListener('loadstart', () => {
+          trackLiveEvent('video_load_start', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        // Track when video can play
+        player.addEventListener('canplay', () => {
+          if (!hasTrackedPageView) {
+            hasTrackedPageView = true;
+            trackLiveEvent('video_ready', {
+              category: 'Live Stream',
+              event_label: videoType,
+              video_type: videoType,
+              is_live: isLiveStream
+            });
+          }
+        });
+
+        // Track errors
+        player.addEventListener('error', () => {
+          trackLiveEvent('video_error', {
+            category: 'Live Stream',
+            event_label: videoType,
+            video_type: videoType,
+            is_live: isLiveStream
+          });
+        });
+
+        console.log('Stream SDK video tracking initialized');
+      } catch (e) {
+        console.log('Stream SDK not available or error:', e);
+      }
+    }, 1000);
   }
 
   // Check if stream is live
