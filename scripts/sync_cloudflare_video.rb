@@ -233,6 +233,12 @@ def sync_video_metadata(recordings)
 
     puts "  Matched to plan: #{matching_plan[:title]} (#{matching_plan[:service_type_name]})"
 
+    # Skip if plan title is empty
+    if matching_plan[:title].nil? || matching_plan[:title].strip.empty?
+      puts "  Skipping - plan has no title"
+      next
+    end
+
     # Build the video title: MM/DD: Plan Title - Service Type Name
     # Use the plan date for the title prefix
     date_prefix = matching_plan[:date].strftime("%-m/%-d")
