@@ -62,18 +62,19 @@ const bioParagraphs = pastorBio
   .pastor-letter {
     position: relative;
     background: white;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--header-height, 110px));
+    margin-top: var(--header-height, 110px);
   }
 
   .pastor-letter-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--header-height, 110px));
   }
 
   .letter-text {
-    padding: calc(var(--header-height, 110px) + 2rem) 4rem 4rem 2rem;
+    padding: 3rem 4rem 4rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -112,11 +113,11 @@ const bioParagraphs = pastorBio
   }
 
   .pastor-photo {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     width: 50%;
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
   }
 
@@ -131,11 +132,16 @@ const bioParagraphs = pastorBio
 
   @media (max-width: 1024px) {
     .letter-text {
-      padding: calc(var(--header-height, 110px) + 1.5rem) 3rem 2.5rem 1.5rem;
+      padding: 2.5rem 3rem 2.5rem 1.5rem;
     }
   }
 
   @media (max-width: 900px) {
+    .pastor-letter {
+      margin-top: 0;
+      min-height: auto;
+    }
+
     .pastor-letter-content {
       grid-template-columns: 1fr;
       min-height: auto;
