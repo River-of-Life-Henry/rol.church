@@ -116,9 +116,6 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   </section>
 </Base>
 
-<!-- Cloudflare Stream SDK for video event tracking -->
-<script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
-
 <script>
   // Cloudflare Stream configuration
   const CLOUDFLARE_CUSTOMER_CODE = 'ysn6m98an1n31qj6';
@@ -334,89 +331,24 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
       setLiveState(true);
     }
 
-    // Initialize Stream SDK and attach event listeners
-    initializeVideoTracking(duringService);
+    // Track video page view
+    trackVideoPageView(duringService);
   }
 
-  // Initialize video event tracking with Stream SDK
-  function initializeVideoTracking(isLiveStream: boolean) {
-    // Wait for iframe to load, then initialize Stream SDK
-    setTimeout(() => {
-      try {
-        const Stream = (window as any).Stream;
-        if (!Stream || !streamPlayer) return;
+  // Track video page view event
+  function trackVideoPageView(isLiveStream: boolean) {
+    const videoType = isLiveStream ? 'live_stream' : 'recorded_service';
 
-        const player = Stream(streamPlayer);
-        const videoType = isLiveStream ? 'live_stream' : 'recorded_service';
-
-        // Track video play
-        player.addEventListener('play', () => {
-          trackLiveEvent('video_play', {
-            category: 'Live Stream',
-            event_label: videoType,
-            video_type: videoType,
-            is_live: isLiveStream
-          });
-        });
-
-        // Track video pause
-        player.addEventListener('pause', () => {
-          trackLiveEvent('video_pause', {
-            category: 'Live Stream',
-            event_label: videoType,
-            video_type: videoType,
-            is_live: isLiveStream
-          });
-        });
-
-        // Track video ended
-        player.addEventListener('ended', () => {
-          trackLiveEvent('video_complete', {
-            category: 'Live Stream',
-            event_label: videoType,
-            video_type: videoType,
-            is_live: isLiveStream
-          });
-        });
-
-        // Track when video starts loading/buffering
-        player.addEventListener('loadstart', () => {
-          trackLiveEvent('video_load_start', {
-            category: 'Live Stream',
-            event_label: videoType,
-            video_type: videoType,
-            is_live: isLiveStream
-          });
-        });
-
-        // Track when video can play
-        player.addEventListener('canplay', () => {
-          if (!hasTrackedPageView) {
-            hasTrackedPageView = true;
-            trackLiveEvent('video_ready', {
-              category: 'Live Stream',
-              event_label: videoType,
-              video_type: videoType,
-              is_live: isLiveStream
-            });
-          }
-        });
-
-        // Track errors
-        player.addEventListener('error', () => {
-          trackLiveEvent('video_error', {
-            category: 'Live Stream',
-            event_label: videoType,
-            video_type: videoType,
-            is_live: isLiveStream
-          });
-        });
-
-        console.log('Stream SDK video tracking initialized');
-      } catch (e) {
-        console.log('Stream SDK not available or error:', e);
-      }
-    }, 1000);
+    // Track that user visited the live page with video
+    if (!hasTrackedPageView) {
+      hasTrackedPageView = true;
+      trackLiveEvent('live_page_view', {
+        category: 'Live Stream',
+        event_label: videoType,
+        video_type: videoType,
+        is_live: isLiveStream
+      });
+    }
   }
 
   // Check if stream is live
