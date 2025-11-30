@@ -90,6 +90,22 @@ The live page uses **Cloudflare Stream** for live streaming and recorded service
 - Daily at 6 AM CT
 - Sundays at 1 PM and 2 PM CT (to catch the latest service)
 
+### Facebook Photos (Hero Slider)
+
+Photos from the church Facebook page are automatically analyzed and added to the hero slider:
+
+- Uses AWS Rekognition to detect faces and smiles
+- Only photos with 3+ people and at least 1 smiling person are selected
+- Smart crops images to position faces at 1/3 from top
+- Rejects photos with text overlays (slides, screenshots)
+- Syncs daily at 6 AM CT
+
+**How it works:**
+1. Fetches recent photos from the [River of Life Facebook page](https://www.facebook.com/rolhenry)
+2. Analyzes each photo for face count, smile detection, and text
+3. Qualifying photos are cropped, optimized, and saved to `/public/hero/`
+4. Photos are also uploaded to Planning Center Media for management
+
 ## Sync Scripts
 
 All sync scripts are in the `scripts/` directory:
@@ -115,12 +131,16 @@ ruby sync_facebook_photos.rb  # Photos from Facebook (smile detection)
 - `ROL_PLANNING_CENTER_SECRET`
 - `CLOUDFLARE_API_TOKEN` - For video sync
 - `CLOUDFLARE_ACCOUNT_ID`
+- `FB_PAGE_ID` - Facebook Page ID (for photo sync)
+- `FB_PAGE_ACCESS_TOKEN` - Facebook System User Token
+- `AWS_ACCESS_KEY_ID_ROL` - AWS credentials for Rekognition (smile detection)
+- `AWS_SECRET_ACCESS_KEY_ROL`
 
 ### Automatic Syncing (GitHub Actions)
 
 | Workflow | Schedule | Description |
 |----------|----------|-------------|
-| `sync-pco.yml` | Daily 6 AM CT | Full Planning Center sync |
+| `sync-pco.yml` | Daily 6 AM CT | Full sync (PCO + Facebook photos + Cloudflare video) |
 | `sync-cloudflare-video.yml` | Daily 6 AM CT + Sundays 1 PM & 2 PM CT | Latest video sync |
 | `deploy.yml` | On push to main | Build and deploy |
 
@@ -255,16 +275,18 @@ All event times are displayed in **Chicago time (Central Time)**.
 | Hero Images Media | https://services.planningcenteronline.com/medias/3554537 |
 | Church Center (Public) | https://rolhenry.churchcenter.com |
 | Cloudflare Dashboard | https://dash.cloudflare.com |
+| Facebook Page | https://www.facebook.com/rolhenry |
 | GitHub Repository | https://github.com/River-of-Life-Henry/rol.church |
 
 ## Quick Reference
 
-| Content | Planning Center Location | Sync Script |
-|---------|-------------------------|-------------|
-| Events | Calendar → Events | `sync_events.rb` |
+| Content | Source | Sync Script |
+|---------|--------|-------------|
+| Events | Planning Center Calendar | `sync_events.rb` |
 | Featured Event | Calendar → Toggle "Featured" star | `sync_events.rb` |
-| Groups | Groups → Edit Group | `sync_groups.rb` |
+| Groups | Planning Center Groups | `sync_groups.rb` |
 | Group Leaders | Groups → Members → Role: Leader | `sync_groups.rb` |
-| Hero Images | Services → Media → "Website Hero Images" | `sync_hero_images.rb` |
+| Hero Images (manual) | Services → Media → "Website Hero Images" | `sync_hero_images.rb` |
+| Hero Images (auto) | Facebook page photos | `sync_facebook_photos.rb` |
 | Pastor Info | People → "Website - ROL.Church" tab | `sync_team.rb` |
-| Live Video | Cloudflare Stream (automatic) | `sync_cloudflare_video.rb` |
+| Live Video | Cloudflare Stream | `sync_cloudflare_video.rb` |
