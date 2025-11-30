@@ -14,7 +14,8 @@ module ImageUtils
   # Maximum dimensions for different image types
   HERO_MAX_WIDTH = 1920
   HERO_MAX_HEIGHT = 1080
-  LEADER_MAX_SIZE = 400  # Square for avatars
+  LEADER_MAX_SIZE = 400  # Square for small avatars
+  TEAM_MAX_SIZE = 1200   # Larger for featured team photos (pastor page)
   HEADER_MAX_WIDTH = 1200
   HEADER_MAX_HEIGHT = 600
 
@@ -171,8 +172,10 @@ module ImageUtils
       case type
       when :hero
         [HERO_MAX_WIDTH, HERO_MAX_HEIGHT]
-      when :leader, :team
+      when :leader
         [LEADER_MAX_SIZE, LEADER_MAX_SIZE]
+      when :team
+        [TEAM_MAX_SIZE, TEAM_MAX_SIZE]
       when :header
         [HEADER_MAX_WIDTH, HEADER_MAX_HEIGHT]
       else

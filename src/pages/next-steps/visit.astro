@@ -23,13 +23,12 @@ import PageHero from '../../components/PageHero.astro';
           <h3>Service Times</h3>
           <div class="service-day">
             <p class="day-label">Sunday</p>
-            <p class="time-main">10 AM &amp; 11 AM</p>
-            <p class="time-detail">Christian Education &amp; Main Service</p>
+            <p class="service-line"><span class="time-main">10 AM</span> Christian Education</p>
+            <p class="service-line"><span class="time-main">11 AM</span> Main Service</p>
           </div>
           <div class="service-day">
             <p class="day-label">Wednesday</p>
-            <p class="time-main">7 PM</p>
-            <p class="time-detail">Bible Study</p>
+            <p class="service-line"><span class="time-main">7 PM</span> Bible Study</p>
           </div>
         </div>
         <div class="info-card">
@@ -96,7 +95,6 @@ import PageHero from '../../components/PageHero.astro';
           <div class="kids-text">
             <h2>Bringing the Kids?</h2>
             <p>We love kids! Sunday School for children through age 11 meets at <strong>10 AM</strong> every Sunday. Our caring volunteers provide age-appropriate lessons in a safe, fun environment. Just look for our welcome team—they'll help you get checked in and show your kids where to go.</p>
-            <p class="kids-bonus">When you plan your visit using the button below, you can pre-register your children for a faster check-in when you arrive!</p>
             <p class="kids-note">Youth ages 12-18 meet every Wednesday at 7 PM for their own special gathering!</p>
           </div>
         </div>
@@ -115,6 +113,9 @@ import PageHero from '../../components/PageHero.astro';
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
             Plan My Visit
           </a>
+          <div class="pro-tip">
+            <span class="pro-tip-label">Pro tip:</span> Pre-register your children using the form above for faster check-in when you arrive!
+          </div>
           <p class="signup-note">Or just show up—we'd love to see you either way!</p>
         </div>
       </div>
@@ -230,13 +231,19 @@ import PageHero from '../../components/PageHero.astro';
     opacity: 1;
   }
 
-  .service-day .time-main {
-    font-size: 1.1rem;
-    margin-bottom: 0;
+  .service-line {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 0.25rem;
   }
 
-  .service-day .time-detail {
-    font-size: 0.8rem;
+  .service-line .time-main {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+    display: inline;
   }
 
   .info-icon {
@@ -408,6 +415,21 @@ import PageHero from '../../components/PageHero.astro';
   .btn-large:hover {
     background: #e0a420;
     transform: translateY(-2px);
+  }
+
+  .pro-tip {
+    margin-top: 1.25rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid var(--color-gold);
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .pro-tip-label {
+    font-weight: 700;
+    color: var(--color-gold);
   }
 
   .signup-note {

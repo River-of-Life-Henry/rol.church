@@ -477,12 +477,12 @@ const churchSchema = {
           <div class="times">
             <div class="time-block">
               <span class="day">Sunday</span>
-              <span class="service">Christian Education <span class="time">10 AM</span></span>
-              <span class="service">Main Service <span class="time">11 AM</span></span>
+              <span class="service"><span class="time">10 AM</span> Christian Education</span>
+              <span class="service"><span class="time">11 AM</span> Main Service</span>
             </div>
             <div class="time-block">
               <span class="day">Wednesday</span>
-              <span class="service">Bible Study <span class="time">7 PM</span></span>
+              <span class="service"><span class="time">7 PM</span> Bible Study</span>
             </div>
           </div>
         </div>
@@ -1159,14 +1159,13 @@ const churchSchema = {
   .time-block .service {
     font-size: 0.875rem;
     color: rgba(255,255,255,0.8);
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
   }
 
   .time-block .service .time {
     color: var(--color-teal);
     font-weight: 600;
+    margin-right: 0.5rem;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
   }
 
   .location-info {

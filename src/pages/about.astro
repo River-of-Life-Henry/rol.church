@@ -22,16 +22,16 @@ import PageHero from '../components/PageHero.astro';
       <h2>Service Times</h2>
       <div class="service-times-list">
         <div class="service-item">
-          <span class="service-name">Sunday Christian Education</span>
           <span class="service-time">10:00 AM</span>
+          <span class="service-name">Sunday Christian Education</span>
         </div>
         <div class="service-item">
-          <span class="service-name">Sunday Main Service</span>
           <span class="service-time">11:00 AM</span>
+          <span class="service-name">Sunday Main Service</span>
         </div>
         <div class="service-item">
-          <span class="service-name">Wednesday Bible Study</span>
           <span class="service-time">7:00 PM</span>
+          <span class="service-name">Wednesday Bible Study</span>
         </div>
       </div>
     </div>
@@ -89,8 +89,8 @@ import PageHero from '../components/PageHero.astro';
 
   .service-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 0.75rem;
     padding: 0.75rem 1rem;
     background: var(--color-bg-alt);
     border-radius: 0.5rem;
@@ -105,6 +105,7 @@ import PageHero from '../components/PageHero.astro';
   .service-time {
     font-weight: 600;
     color: var(--color-teal);
+    min-width: 5rem;
   }
 
   .cta-section {

@@ -113,10 +113,10 @@ const bioParagraphs = pastorBio
 
   .pastor-photo {
     position: fixed;
-    top: 0;
+    top: 80px;
     right: 0;
     width: 50%;
-    height: 100vh;
+    height: calc(100vh - 80px);
     overflow: hidden;
     z-index: 0;
   }
@@ -142,6 +142,8 @@ const bioParagraphs = pastorBio
     }
 
     .pastor-letter-content {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       min-height: auto;
     }
@@ -153,11 +155,13 @@ const bioParagraphs = pastorBio
       width: 100%;
       height: auto;
       aspect-ratio: 4 / 3;
+      order: -1;
+      margin-top: 80px;
     }
 
     .pastor-photo img {
       clip-path: polygon(0 0, 100% 0, 100% 92%, 0% 100%);
-      object-position: center 25%;
+      object-position: center top;
     }
 
     .letter-text {
