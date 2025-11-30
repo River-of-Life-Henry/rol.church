@@ -143,24 +143,17 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     // Google Analytics 4
     if (typeof (window as any).gtag === 'function') {
       (window as any).gtag('event', eventName, params);
-      console.log('GA4 event sent:', eventName);
-    } else {
-      console.warn('GA4 gtag not available:', eventName);
     }
 
     // Microsoft Clarity (custom tags)
     if (typeof (window as any).clarity !== 'undefined') {
       (window as any).clarity('set', eventName, params.event_label || params.category || eventName);
-      console.log('Clarity event sent:', eventName);
     }
 
     // Meta Pixel
     if (typeof (window as any).fbq !== 'undefined') {
       (window as any).fbq('trackCustom', eventName, params);
-      console.log('Meta Pixel event sent:', eventName);
     }
-
-    console.log('Live Event Tracked:', eventName, params);
   }
 
   // DOM elements
@@ -332,8 +325,8 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     const useLiveInput = forceLive || duringService;
     const videoId = useLiveInput ? CLOUDFLARE_LIVE_INPUT_ID : CLOUDFLARE_LATEST_VIDEO_ID;
 
-    // Build embed URL - use preload=metadata to reduce thumbnail requests
-    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&preload=metadata`;
+    // Build embed URL - disable previewThumbnails to prevent 400 errors from scrubber
+    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&preload=metadata&thumbnailTime=0`;
 
     streamPlayer.src = embedUrl;
     showPlayer();
@@ -348,7 +341,6 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     // Handle iframe load errors - fall back to recorded video if live stream fails
     if (useLiveInput) {
       streamPlayer.onerror = () => {
-        console.log('Live stream unavailable, falling back to recorded video');
         const fallbackUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LATEST_VIDEO_ID}/iframe?autoplay=true`;
         streamPlayer.src = fallbackUrl;
         setLiveState(false);
@@ -377,13 +369,11 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
       try {
         // Check if Stream SDK is available
         if (typeof (window as any).Stream === 'undefined') {
-          console.log('Waiting for Stream SDK...');
           setTimeout(initStreamPlayer, 500);
           return;
         }
 
         if (!streamPlayer) {
-          console.log('Stream player iframe not found');
           return;
         }
 
@@ -455,9 +445,8 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
           });
         });
 
-        console.log('Stream SDK video tracking initialized successfully');
       } catch (e) {
-        console.error('Error initializing Stream SDK:', e);
+        // Silently handle SDK initialization errors
       }
     };
 
