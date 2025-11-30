@@ -357,9 +357,8 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     const useLiveInput = forceLive || duringService;
     const videoId = useLiveInput ? CLOUDFLARE_LIVE_INPUT_ID : CLOUDFLARE_LATEST_VIDEO_ID;
 
-    // Build embed URL with poster from recorded video to prevent 400 errors on thumbnail
-    const posterUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LATEST_VIDEO_ID}/thumbnails/thumbnail.jpg`;
-    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&poster=${encodeURIComponent(posterUrl)}`;
+    // Build embed URL - use preload=metadata to reduce thumbnail requests
+    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&preload=metadata`;
 
     streamPlayer.src = embedUrl;
     showPlayer();
