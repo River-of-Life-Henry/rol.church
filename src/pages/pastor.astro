@@ -114,14 +114,15 @@ const bioParagraphs = pastorBio
 
   .pastor-photo {
     position: relative;
-    overflow: visible;
+    overflow: hidden;
+    min-height: calc(100vh - var(--header-height, 110px));
   }
 
   .pastor-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 20%;
     clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
   }
 
@@ -144,10 +145,12 @@ const bioParagraphs = pastorBio
     .pastor-photo {
       order: -1;
       height: 400px;
+      min-height: 400px;
     }
 
     .pastor-photo img {
       clip-path: none;
+      object-position: center top;
     }
 
     .letter-text {
@@ -160,6 +163,7 @@ const bioParagraphs = pastorBio
   @media (max-width: 600px) {
     .pastor-photo {
       height: 350px;
+      min-height: 350px;
     }
 
     .letter-text {

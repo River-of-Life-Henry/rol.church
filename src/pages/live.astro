@@ -30,15 +30,24 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   <!-- Stream Video Section -->
   <section class="theater-section">
     <div class="video-wrapper">
-      <iframe
-        id="stream-player"
-        src={`https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LIVE_INPUT_ID}/iframe`}
-        title="River of Life Live Stream"
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen
-        data-customer-code={CLOUDFLARE_CUSTOMER_CODE}
-        data-live-input-id={CLOUDFLARE_LIVE_INPUT_ID}
-      ></iframe>
+      <div id="stream-container">
+        <div class="no-video-message" id="no-video-message" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-5-6l-7 4V7l7 4z"/></svg>
+          <p class="no-video-title">No Recent Service Available</p>
+          <p class="no-video-subtitle">Check back during our next service or watch past services on YouTube</p>
+        </div>
+        <div class="loading-message" id="loading-message">
+          <div class="loading-spinner"></div>
+          <p>Loading stream...</p>
+        </div>
+        <iframe
+          id="stream-player"
+          style="display: none;"
+          title="River of Life Live Stream"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
     <div class="watch-options">
       <a href={YOUTUBE_CHANNEL_URL} target="_blank" class="btn btn-secondary">
@@ -109,6 +118,10 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 </Base>
 
 <script>
+  // Cloudflare Stream configuration
+  const CLOUDFLARE_CUSTOMER_CODE = 'ysnm9dan1n31qj6';
+  const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
+
   // Service schedule in Chicago timezone (Central Time)
   const SERVICES = [
     { day: 0, startHour: 10, startMinute: 0, endHour: 12, endMinute: 30 }, // Sunday
@@ -117,17 +130,41 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 
   // State
   let isLive = false;
+  let playerLoaded = false;
+
+  // DOM elements
+  const streamPlayer = document.getElementById('stream-player') as HTMLIFrameElement;
+  const noVideoMessage = document.getElementById('no-video-message');
+  const loadingMessage = document.getElementById('loading-message');
+  const liveIndicator = document.getElementById('live-indicator');
+  const countdownBanner = document.getElementById('countdown-banner');
+
+  // Show/hide UI elements
+  function showPlayer() {
+    if (streamPlayer) streamPlayer.style.display = 'block';
+    if (noVideoMessage) noVideoMessage.style.display = 'none';
+    if (loadingMessage) loadingMessage.style.display = 'none';
+    playerLoaded = true;
+  }
+
+  function showNoVideo() {
+    if (streamPlayer) streamPlayer.style.display = 'none';
+    if (noVideoMessage) noVideoMessage.style.display = 'flex';
+    if (loadingMessage) loadingMessage.style.display = 'none';
+  }
+
+  function showLoading() {
+    if (streamPlayer) streamPlayer.style.display = 'none';
+    if (noVideoMessage) noVideoMessage.style.display = 'none';
+    if (loadingMessage) loadingMessage.style.display = 'flex';
+  }
 
   // Update live state UI
   function setLiveState(live: boolean) {
     isLive = live;
-    const liveIndicator = document.getElementById('live-indicator');
-    const countdownBanner = document.getElementById('countdown-banner');
-
     if (liveIndicator) {
       liveIndicator.style.display = live ? 'flex' : 'none';
     }
-
     if (countdownBanner && live) {
       countdownBanner.style.display = 'none';
     }
@@ -213,20 +250,19 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 
   // Update the countdown display
   function updateCountdown() {
-    const banner = document.getElementById('countdown-banner');
+    if (!countdownBanner) return;
     const timer = document.getElementById('countdown-timer');
-
-    if (!banner || !timer) return;
+    if (!timer) return;
 
     // Don't show countdown if live or during service
     if (isLive || isDuringService()) {
-      banner.style.display = 'none';
+      countdownBanner.style.display = 'none';
       return;
     }
 
     const nextService = getNextService();
     if (!nextService) {
-      banner.style.display = 'none';
+      countdownBanner.style.display = 'none';
       return;
     }
 
@@ -234,8 +270,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     const diff = nextService.getTime() - now.getTime();
 
     if (diff <= 0) {
-      banner.style.display = 'none';
-      // Service should be starting, check if live
+      countdownBanner.style.display = 'none';
       checkLiveStatus();
       return;
     }
@@ -243,20 +278,70 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     // Only show countdown if within 24 hours
     if (diff <= 24 * 60 * 60 * 1000) {
       timer.textContent = formatCountdown(diff);
-      banner.style.display = 'flex';
+      countdownBanner.style.display = 'flex';
     } else {
-      banner.style.display = 'none';
+      countdownBanner.style.display = 'none';
     }
   }
 
-  // Check if stream is live (during service hours, assume live)
+  // Check if a video exists at the given URL
+  async function checkVideoExists(): Promise<boolean> {
+    try {
+      // Try to fetch the video manifest to see if it exists
+      const response = await fetch(
+        `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LIVE_INPUT_ID}/manifest/video.m3u8`,
+        { method: 'HEAD' }
+      );
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  // Load Cloudflare Stream player
+  async function loadStreamPlayer() {
+    if (!streamPlayer) return;
+
+    const duringService = isDuringService();
+
+    // First check if video exists
+    const videoExists = await checkVideoExists();
+
+    if (!videoExists && !duringService) {
+      // No video and not during service - show fallback message
+      showNoVideo();
+      return;
+    }
+
+    // Build the embed URL
+    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${CLOUDFLARE_LIVE_INPUT_ID}/iframe`;
+
+    streamPlayer.src = embedUrl;
+    showPlayer();
+
+    if (duringService) {
+      setLiveState(true);
+    }
+  }
+
+  // Check if stream is live
   function checkLiveStatus() {
     const duringService = isDuringService();
     setLiveState(duringService);
+
+    // Reload player if we transition to live
+    if (duringService && !isLive && streamPlayer) {
+      loadStreamPlayer();
+    }
   }
 
   // Initialize
   function init() {
+    showLoading();
+
+    // Load the stream player
+    loadStreamPlayer();
+
     // Initial state check
     checkLiveStatus();
     updateCountdown();
@@ -267,7 +352,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     // Check live status every minute
     setInterval(checkLiveStatus, 60 * 1000);
 
-    // Also check on visibility change (when user returns to tab)
+    // Also check on visibility change
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         checkLiveStatus();
@@ -369,6 +454,67 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     width: 100%;
     height: 100%;
     border: none;
+  }
+
+  #stream-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .no-video-message,
+  .loading-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .no-video-message svg {
+    opacity: 0.5;
+    margin-bottom: 1rem;
+  }
+
+  .no-video-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #aaa;
+  }
+
+  .no-video-subtitle {
+    font-size: 0.95rem;
+    opacity: 0.7;
+    max-width: 400px;
+  }
+
+  .loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #333;
+    border-top-color: var(--color-teal);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-message p {
+    color: #888;
   }
 
   .theater-section .watch-options {
