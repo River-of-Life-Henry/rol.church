@@ -140,30 +140,12 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 
   // Track events to GA4, Clarity, and Meta Pixel
   function trackLiveEvent(eventName: string, params: Record<string, any> = {}) {
-    // Google Analytics 4 - send directly if gtag available, otherwise retry
-    const sendToGA4 = () => {
-      if (typeof (window as any).gtag !== 'undefined') {
-        (window as any).gtag('event', eventName, params);
-        console.log('GA4 event sent:', eventName);
-        return true;
-      }
-      return false;
-    };
-
-    // Try to send immediately, if not ready, retry for up to 5 seconds
-    if (!sendToGA4()) {
-      console.log('GA4 not ready, will retry:', eventName);
-      let attempts = 0;
-      const maxAttempts = 50; // 50 * 100ms = 5 seconds
-      const retryInterval = setInterval(() => {
-        attempts++;
-        if (sendToGA4() || attempts >= maxAttempts) {
-          clearInterval(retryInterval);
-          if (attempts >= maxAttempts) {
-            console.warn('GA4 event failed after retries:', eventName);
-          }
-        }
-      }, 100);
+    // Google Analytics 4
+    if (typeof (window as any).gtag === 'function') {
+      (window as any).gtag('event', eventName, params);
+      console.log('GA4 event sent:', eventName);
+    } else {
+      console.warn('GA4 gtag not available:', eventName);
     }
 
     // Microsoft Clarity (custom tags)
