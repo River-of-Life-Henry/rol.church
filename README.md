@@ -300,6 +300,21 @@ All event times are displayed in **Chicago time (Central Time)**.
 | Service Countdown Timer | Calculated automatically | Real-time |
 | Profile Photos | Synced from Planning Center People profiles | Daily 6 AM CT |
 
+### Planning Center Forms
+
+Forms embedded on the website that collect responses directly in Planning Center People.
+
+| Form Name | Website Page | Edit Form |
+|-----------|--------------|-----------|
+| Plan Your Visit | `/next-steps/visit` | [Edit Form](https://people.planningcenteronline.com/forms/1102408) |
+| Baptism Interest | `/next-steps/baptism` | [Edit Form](https://people.planningcenteronline.com/forms/1102414) |
+| Foundations Class | `/next-steps/foundations` | [Edit Form](https://people.planningcenteronline.com/forms/1102413) |
+| Volunteer Interest | `/next-steps/volunteer` | [Edit Form](https://people.planningcenteronline.com/forms/1102447) |
+| Contact Us | `/contact` | [Edit Form](https://people.planningcenteronline.com/forms/1102449) |
+| Giving | `/give` | [Planning Center Giving](https://giving.planningcenteronline.com) |
+
+Forms open in a modal popup on the website. Submissions go to Planning Center People where you can view responses, trigger workflows, and follow up.
+
 ### Quick Links
 
 | Platform | Link |

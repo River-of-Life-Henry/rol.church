@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROL.Church Website Overview</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Dancing+Script:wght@500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-teal: #2d9cca;
+      --color-teal-dark: #1a7ba8;
+      --color-navy: #1a3a4a;
+      --color-gold: #f5c542;
+      --color-text: #333;
+      --color-text-light: #666;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f5f5f5;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .slide {
+      width: 100%;
+      max-width: 1024px;
+      min-height: 768px;
+      margin: 0 auto 2rem;
+      background: white;
+      padding: 3rem 4rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-title {
+      background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-teal-dark) 100%);
+      color: white;
+      margin: -3rem -4rem 2rem;
+      padding: 3rem 4rem;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide-title.cover {
+      min-height: 100%;
+      flex: 1;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slide-title h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .slide-title.cover h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .slide-title h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .tagline {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: var(--color-gold);
+      margin-top: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: rgba(255,255,255,0.8);
+      margin-top: 2rem;
+    }
+
+    h3 {
+      color: var(--color-navy);
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--color-teal);
+    }
+
+    h4 {
+      color: var(--color-teal-dark);
+      font-size: 1.1rem;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, rgba(45, 156, 202, 0.1) 0%, rgba(45, 156, 202, 0.2) 100%);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--color-teal);
+      margin: 1.5rem 0;
+    }
+
+    .highlight strong {
+      color: var(--color-navy);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border-top: 4px solid var(--color-teal);
+    }
+
+    .card.gold {
+      border-top-color: var(--color-gold);
+    }
+
+    .card.navy {
+      border-top-color: var(--color-navy);
+    }
+
+    .card h4 {
+      margin-top: 0;
+      color: var(--color-navy);
+    }
+
+    .card p, .card li {
+      font-size: 0.95rem;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--color-teal);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--color-text-light);
+    }
+
+    .flow-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .flow-box {
+      background: var(--color-navy);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .flow-box.teal {
+      background: var(--color-teal);
+    }
+
+    .flow-box.gold {
+      background: var(--color-gold);
+      color: var(--color-navy);
+    }
+
+    .flow-arrow {
+      font-size: 2rem;
+      color: var(--color-teal);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .icon-list li {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .icon-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--color-teal);
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 2rem;
+      text-align: center;
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+      border-top: 1px solid #eee;
+    }
+
+    .url {
+      color: var(--color-teal);
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .slide {
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+        min-height: 100vh;
+      }
+    }
+
+    .emoji {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: var(--color-navy);
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Slide 1: Cover -->
+<div class="slide">
+  <div class="slide-title cover">
+    <h1>ROL.Church</h1>
+    <p class="tagline">Where life begins</p>
+    <h2>Website Overview & Behind the Scenes</h2>
+    <p class="subtitle">How our website works smarter, not harder</p>
+  </div>
+</div>
+
+<!-- Slide 2: What We Built -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>What We Built</h1>
+    <h2>A modern, automated church website</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h4>Fast & Mobile-Friendly</h4>
+      <p>Loads in under 2 seconds on any device. Looks great on phones, tablets, and desktops.</p>
+    </div>
+    <div class="card gold">
+      <h4>Self-Updating</h4>
+      <p>Content syncs automatically from Planning Center and Facebook. No manual website updates needed.</p>
+    </div>
+    <div class="card navy">
+      <h4>Live Streaming</h4>
+      <p>Integrated live stream with countdown timer and PhoneLive for phone-based listening.</p>
+    </div>
+    <div class="card">
+      <h4>SEO Optimized</h4>
+      <p>Designed to be found on Google. People searching for "church in Henry IL" will find us.</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>The Big Idea:</strong> Update Planning Center once, and the website updates itself. No duplicate data entry.
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 3: The Power of Automation -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>The Power of Automation</h1>
+    <h2>Everything syncs automatically every day at 6 AM</h2>
+  </div>
+
+  <h3>What Syncs Automatically</h3>
+
+  <div class="grid grid-3">
+    <div class="stat">
+      <span class="stat-number">Events</span>
+      <span class="stat-label">From Planning Center Calendar</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">Groups</span>
+      <span class="stat-label">With Leaders & Photos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">Photos</span>
+      <span class="stat-label">From Facebook</span>
+    </div>
+  </div>
+
+  <div class="flow-diagram">
+    <div class="flow-box">Planning Center</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box teal">Automated Sync</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box gold">Website Updated</div>
+  </div>
+
+  <div class="highlight">
+    <strong>Daily at 6 AM Central:</strong> A scheduled job pulls fresh data from Planning Center and Facebook, processes images, and rebuilds the website automatically.
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 4: Smart Photo Selection -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Smart Photo Selection</h1>
+    <h2>AI automatically picks the best photos from Facebook</h2>
+  </div>
+
+  <h3>How It Works</h3>
+
+  <div class="two-col">
+    <div>
+      <h4>Step 1: Fetch Photos</h4>
+      <p>Every day, we pull recent photos from our Facebook page.</p>
+
+      <h4>Step 2: AI Analysis</h4>
+      <p>Amazon's AI (Rekognition) analyzes each photo looking for:</p>
+      <ul class="icon-list">
+        <li>3 or more people in the photo</li>
+        <li>At least one person smiling</li>
+        <li>No text overlays (rejects slides/graphics)</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Step 3: Smart Cropping</h4>
+      <p>Photos are automatically cropped to position faces at the optimal spot.</p>
+
+      <h4>Step 4: Optimization</h4>
+      <p>Images are compressed and converted to modern formats for fast loading.</p>
+
+      <div class="highlight">
+        <strong>Result:</strong> The hero slider always has fresh, engaging photos of our congregation - no manual work required!
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 5: Content Management -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Managing Content</h1>
+    <h2>Everything is controlled from Planning Center</h2>
+  </div>
+
+  <h3>Where to Update What</h3>
+
+  <table>
+    <tr>
+      <th>Content</th>
+      <th>Where to Update</th>
+      <th>What Changes</th>
+    </tr>
+    <tr>
+      <td><strong>Events</strong></td>
+      <td>Calendar → Events</td>
+      <td>Events page, Group pages</td>
+    </tr>
+    <tr>
+      <td><strong>Featured Event</strong></td>
+      <td>Calendar → Star icon on event</td>
+      <td>Yellow banner on every page</td>
+    </tr>
+    <tr>
+      <td><strong>Groups</strong></td>
+      <td>Groups → Edit group</td>
+      <td>Group pages, description, schedule</td>
+    </tr>
+    <tr>
+      <td><strong>Group Leaders</strong></td>
+      <td>Groups → Members → Role: Leader</td>
+      <td>Leader photos on group pages</td>
+    </tr>
+    <tr>
+      <td><strong>Pastor Bio/Photo</strong></td>
+      <td>People → Profile</td>
+      <td>Pastor page</td>
+    </tr>
+    <tr>
+      <td><strong>Hero Images*</strong></td>
+      <td>Services → Media</td>
+      <td>Homepage slider backgrounds (auto-synced from Facebook, but can manually add here too)</td>
+    </tr>
+  </table>
+
+  <div class="highlight">
+    <strong>Pro Tip:</strong> Changes sync every morning at 6 AM. For urgent updates, we can trigger a manual sync.
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 6: Featured Events -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Featured Events</h1>
+    <h2>The yellow "Hello Bar" that appears on every page</h2>
+  </div>
+
+  <h3>How to Feature an Event</h3>
+
+  <div class="two-col">
+    <div>
+      <h4>In Planning Center Calendar:</h4>
+      <ol>
+        <li>Open the event you want to feature</li>
+        <li>Click the star icon to mark as "Featured"</li>
+        <li>Add a header image for best results</li>
+        <li>Add a description</li>
+      </ol>
+
+      <h4>What Happens:</h4>
+      <ul class="icon-list">
+        <li>Yellow banner appears on every page</li>
+        <li>Event gets its own dedicated page</li>
+        <li>Automatically removed after event date</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card gold">
+        <h4>Best Practices</h4>
+        <ul>
+          <li>Only feature ONE event at a time</li>
+          <li>Use for special events, not regular services</li>
+          <li>Add an eye-catching header image</li>
+          <li>Include clear event details</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 7: Analytics & Insights -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Analytics & Insights</h1>
+    <h2>Understanding who visits and how they engage</h2>
+  </div>
+
+  <h3>Three Tracking Systems</h3>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <h4>Google Analytics</h4>
+      <p>Tracks page views, visitor locations, devices, and how people find us.</p>
+      <p><strong>Best for:</strong> Overall traffic trends</p>
+    </div>
+    <div class="card gold">
+      <h4>Microsoft Clarity</h4>
+      <p>Records session videos and creates heatmaps showing where people click.</p>
+      <p><strong>Best for:</strong> Understanding user behavior</p>
+    </div>
+    <div class="card navy">
+      <h4>Meta Pixel</h4>
+      <p>Connects website visits to Facebook/Instagram for ad targeting.</p>
+      <p><strong>Best for:</strong> Social media advertising</p>
+    </div>
+  </div>
+
+  <h3>What We Track</h3>
+  <div class="grid">
+    <ul class="icon-list">
+      <li>Page views and popular pages</li>
+      <li>How long people stay on each page</li>
+      <li>Button clicks and form opens</li>
+    </ul>
+    <ul class="icon-list">
+      <li>Scroll depth (how far people read)</li>
+      <li>Device types (phone vs desktop)</li>
+      <li>Where visitors come from</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 8: SEO - Being Found -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Being Found Online</h1>
+    <h2>Search Engine Optimization (SEO)</h2>
+  </div>
+
+  <h3>How People Find Us</h3>
+
+  <div class="two-col">
+    <div>
+      <h4>Built-In SEO Features:</h4>
+      <ul class="icon-list">
+        <li>Fast page load times (Google loves speed)</li>
+        <li>Mobile-friendly responsive design</li>
+        <li>Proper page titles and descriptions</li>
+        <li>Structured data (tells Google who we are)</li>
+        <li>Semantic HTML (clear content hierarchy)</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Key Search Terms We Target:</h4>
+      <ul>
+        <li>"Church in Henry IL"</li>
+        <li>"Apostolic Pentecostal church near me"</li>
+        <li>"River of Life Henry"</li>
+        <li>"Sunday church service Henry Illinois"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>Structured Data:</strong> We tell Google exactly what we are - a church, our address, service times, and social media links. This helps us appear in Google's knowledge panels and local search results.
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 9: The Tech Stack -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Behind the Scenes</h1>
+    <h2>The technology powering rol.church</h2>
+  </div>
+
+  <h3>Technology Overview</h3>
+
+  <div class="grid">
+    <div class="card">
+      <h4>Website Framework</h4>
+      <p><strong>Astro</strong> - A modern static site generator. Pages are pre-built daily at 6 AM with fresh data for maximum speed.</p>
+    </div>
+    <div class="card gold">
+      <h4>Hosting</h4>
+      <p><strong>GitHub Pages</strong> - Free, reliable hosting with automatic deployments. Allows unlimited admin users with full access to site code.</p>
+    </div>
+    <div class="card navy">
+      <h4>Live Streaming</h4>
+      <p><strong>Cloudflare Stream</strong> - Already in use. Full-width theater mode video with no YouTube/Facebook branding or ads. Higher quality than Facebook or YouTube.</p>
+    </div>
+    <div class="card">
+      <h4>Data Source</h4>
+      <p><strong>Planning Center</strong> - Single source of truth for all church data.</p>
+    </div>
+  </div>
+
+  <h3>Automated Workflows</h3>
+  <div class="flow-diagram">
+    <div class="flow-box">GitHub Actions</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box teal">Ruby Scripts</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Planning Center API</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box gold">Website Build</div>
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 10: Planning Center Forms -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Planning Center Forms</h1>
+    <h2>Forms embedded on the website that collect responses in Planning Center</h2>
+  </div>
+
+  <h3>Forms Used on the Website</h3>
+
+  <table>
+    <tr>
+      <th>Form Name</th>
+      <th>Website Page</th>
+    </tr>
+    <tr>
+      <td><strong>Plan Your Visit</strong></td>
+      <td>/next-steps/visit</td>
+    </tr>
+    <tr>
+      <td><strong>Baptism Interest</strong></td>
+      <td>/next-steps/baptism</td>
+    </tr>
+    <tr>
+      <td><strong>Foundations Class</strong></td>
+      <td>/next-steps/foundations</td>
+    </tr>
+    <tr>
+      <td><strong>Volunteer Interest</strong></td>
+      <td>/next-steps/volunteer</td>
+    </tr>
+    <tr>
+      <td><strong>Contact Us</strong></td>
+      <td>/contact</td>
+    </tr>
+    <tr>
+      <td><strong>Giving</strong></td>
+      <td>/give</td>
+    </tr>
+  </table>
+
+  <div class="highlight">
+    <strong>How It Works:</strong> Forms open in a modal popup on the website. Submissions go directly to Planning Center People where you can view responses, trigger workflows, and follow up with people.
+  </div>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+<!-- Slide 11: Summary -->
+<div class="slide">
+  <div class="slide-title">
+    <h1>Key Takeaways</h1>
+    <h2>What makes rol.church special</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h4><span class="emoji">🔄</span> Automated</h4>
+      <p>Updates itself daily from Planning Center. No manual website maintenance needed.</p>
+    </div>
+    <div class="card gold">
+      <h4><span class="emoji">📸</span> Smart Photos</h4>
+      <p>AI selects the best photos from Facebook automatically.</p>
+    </div>
+    <div class="card navy">
+      <h4><span class="emoji">⚡</span> Fast</h4>
+      <p>Loads in under 2 seconds. Works great on any device.</p>
+    </div>
+    <div class="card">
+      <h4><span class="emoji">📊</span> Tracked</h4>
+      <p>Full analytics to understand our online reach.</p>
+    </div>
+  </div>
+
+  <div class="highlight" style="text-align: center; font-size: 1.25rem;">
+    <strong>One System, One Update</strong><br>
+    Update Planning Center → Website updates automatically
+  </div>
+
+  <h3 style="text-align: center; margin-top: 2rem;">Questions?</h3>
+
+  <div class="footer">
+    <span class="url">rol.church</span>
+  </div>
+</div>
+
+</body>
+</html>
