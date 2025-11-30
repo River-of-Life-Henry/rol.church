@@ -1,0 +1,63 @@
+name: Sync Cloudflare Video (Post-Service)
+
+on:
+  schedule:
+    # Run at 1:00 PM Chicago time on Sundays (after 11am-12:30pm service)
+    # 1 PM CDT = 6 PM UTC, 1 PM CST = 7 PM UTC
+    # Using 6 PM UTC to cover summer time
+    - cron: '0 18 * * 0'
+    # Also run at 2:00 PM Chicago time as backup
+    - cron: '0 19 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: scripts
+
+      - name: Install dependencies
+        run: |
+          cd scripts
+          bundle install
+
+      - name: Sync Cloudflare video
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # These are needed by bundler/sync script but not used
+          ROL_PLANNING_CENTER_CLIENT_ID: ${{ secrets.ROL_PLANNING_CENTER_CLIENT_ID }}
+          ROL_PLANNING_CENTER_SECRET: ${{ secrets.ROL_PLANNING_CENTER_SECRET }}
+        run: |
+          cd scripts
+          ruby sync_cloudflare_video.rb
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git add src/pages/live.astro
+          git diff --cached --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Update Cloudflare video after Sunday service [automated]"
+          git push
+
+      - name: Trigger deploy
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          gh workflow run deploy.yml
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
