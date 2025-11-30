@@ -7,8 +7,15 @@
 # This script:
 # 1. Fetches photos from Facebook page posts (last 2 years or since last sync)
 # 2. Analyzes each photo using AWS Rekognition to detect smiling faces
-# 3. Saves qualifying photos (≥1 person smiling OR ≥60% smiling) to public/hero/
-# 4. Updates hero_images.json to include the new photos
+# 3. Smart crops images to position faces at 1/3 from top (2/3 from bottom)
+# 4. Saves qualifying photos (≥3 people, ≥1 smiling, no text overlay) to public/hero/
+# 5. Uploads to Planning Center Services Media for management
+#
+# AWS Rekognition Privacy Note:
+# - Images are sent to AWS Rekognition API for face/text detection
+# - AWS does NOT store images after processing (stateless API)
+# - No image data is used for AWS model training
+# - See: https://docs.aws.amazon.com/rekognition/latest/dg/data-privacy.html
 #
 # Required environment variables:
 # - FB_PAGE_ID: Facebook Page ID (147553505345372)
@@ -126,6 +133,7 @@ class FacebookPhotoSync
         ssl_verify_peer: false  # Workaround for CRL issues on some systems
       )
       puts "INFO: AWS Rekognition client initialized (region: #{AWS_REGION})"
+      puts "INFO: Note: Images are processed but NOT stored by AWS Rekognition"
     rescue LoadError
       puts "ERROR: aws-sdk-rekognition gem not installed"
       puts "Run: bundle add aws-sdk-rekognition"
@@ -540,11 +548,15 @@ class FacebookPhotoSync
       reason = "Only #{smiling}/#{total} smiling (#{(smiling.to_f / total * 100).round}%)"
     end
 
+    # Calculate average face center position for smart cropping
+    face_boxes = faces.map { |f| f.bounding_box }
+
     {
       qualifies: qualifies,
       total_people: total,
       smiling_count: smiling,
-      reason: reason
+      reason: reason,
+      face_boxes: face_boxes
     }
   rescue Aws::Rekognition::Errors::ServiceError => e
     puts "ERROR: Rekognition error: #{e.message}"
@@ -552,6 +564,92 @@ class FacebookPhotoSync
   rescue => e
     puts "ERROR: Analysis failed: #{e.message}"
     { qualifies: false, reason: "Analysis error: #{e.message}" }
+  end
+
+  # Smart crop image to position faces at 1/3 from top (2/3 from bottom)
+  # Target aspect ratio is 16:9 for hero slider images
+  def smart_crop_and_optimize(input_path, output_path, face_boxes)
+    # Read image dimensions using sips
+    dims = `sips -g pixelWidth -g pixelHeight "#{input_path}" 2>/dev/null`
+    width = dims[/pixelWidth:\s*(\d+)/, 1].to_i
+    height = dims[/pixelHeight:\s*(\d+)/, 1].to_i
+
+    if width == 0 || height == 0
+      puts "WARNING: Could not read image dimensions, using standard optimize"
+      ImageUtils.optimize_image(input_path, output_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+      return
+    end
+
+    # Target aspect ratio 16:9 for hero images
+    target_ratio = 16.0 / 9.0
+    current_ratio = width.to_f / height
+
+    if face_boxes.empty?
+      # No faces detected, just optimize without smart crop
+      puts "INFO: No face data for smart crop, using center crop"
+      ImageUtils.optimize_image(input_path, output_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+      return
+    end
+
+    # Calculate average face center (Rekognition returns normalized 0-1 coordinates)
+    avg_face_top = face_boxes.map { |b| b.top }.sum / face_boxes.length
+    avg_face_height = face_boxes.map { |b| b.height }.sum / face_boxes.length
+    avg_face_center_y = avg_face_top + (avg_face_height / 2)
+
+    # We want faces at 1/3 from top of final image
+    target_face_position = 1.0 / 3.0
+
+    if current_ratio > target_ratio
+      # Image is wider than 16:9, crop width (keep full height)
+      new_width = (height * target_ratio).to_i
+
+      # Calculate x offset to keep faces horizontally centered
+      avg_face_left = face_boxes.map { |b| b.left }.sum / face_boxes.length
+      avg_face_width = face_boxes.map { |b| b.width }.sum / face_boxes.length
+      avg_face_center_x = avg_face_left + (avg_face_width / 2)
+
+      # Center crop on faces horizontally
+      ideal_x = (avg_face_center_x * width) - (new_width / 2)
+      crop_x = [[ideal_x, 0].max, width - new_width].min.to_i
+      crop_y = 0
+      crop_width = new_width
+      crop_height = height
+    else
+      # Image is taller than 16:9, crop height (keep full width)
+      new_height = (width / target_ratio).to_i
+
+      # Calculate y offset to position faces at 1/3 from top
+      # Face center in pixels
+      face_center_px = avg_face_center_y * height
+
+      # Where we want the face center to be in the cropped image
+      target_center_px = new_height * target_face_position
+
+      # Calculate crop offset
+      ideal_y = face_center_px - target_center_px
+      crop_y = [[ideal_y, 0].max, height - new_height].min.to_i
+      crop_x = 0
+      crop_width = width
+      crop_height = new_height
+    end
+
+    puts "INFO: Smart crop: #{width}x#{height} -> #{crop_width}x#{crop_height} @ (#{crop_x},#{crop_y})"
+    puts "INFO: Face center at #{(avg_face_center_y * 100).round}% from top, targeting #{(target_face_position * 100).round}%"
+
+    # Use sips to crop the image
+    temp_cropped = input_path.sub('.jpg', '_cropped.jpg')
+
+    # sips crop uses --cropToHeightWidth and --cropOffset
+    system("sips --cropToHeightWidth #{crop_height} #{crop_width} --cropOffset #{crop_y} #{crop_x} \"#{input_path}\" --out \"#{temp_cropped}\" >/dev/null 2>&1")
+
+    if File.exist?(temp_cropped)
+      # Now optimize the cropped image
+      ImageUtils.optimize_image(temp_cropped, output_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+      File.delete(temp_cropped)
+    else
+      puts "WARNING: Crop failed, using standard optimize"
+      ImageUtils.optimize_image(input_path, output_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+    end
   end
 
   def save_photo(photo)
@@ -570,8 +668,9 @@ class FacebookPhotoSync
 
     jpg_path = File.join(HERO_DIR, jpg_filename)
 
-    # Optimize and save image
-    ImageUtils.optimize_image(temp_path, jpg_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+    # Smart crop based on face positions, then optimize
+    face_boxes = photo.dig(:analysis, :face_boxes) || []
+    smart_crop_and_optimize(temp_path, jpg_path, face_boxes)
 
     # Generate WebP version (generate_webp automatically creates .webp from input path)
     ImageUtils.generate_webp(jpg_path)
