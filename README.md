@@ -78,6 +78,16 @@ Images are automatically resized (max 1920×1080), compressed, and converted to 
 
 **Currently synced:** Andrew Coffield (Pastor), Christopher Huff (Foundations)
 
+### Profile Photos
+
+All profile photos on the website are synced from Planning Center People profiles:
+
+- **Pastor page** (`/pastor`) - From Pastor Andrew's People profile
+- **Group pages** (`/groups/*`) - Leader photos from each leader's People profile
+- **Foundations page** (`/next-steps/foundations`) - From Christopher Huff's People profile
+
+To update a photo, update it in Planning Center People → person's profile → profile photo.
+
 ### Live Stream (Cloudflare Stream)
 
 The live page uses **Cloudflare Stream** for live streaming and recorded services.
