@@ -1,6 +1,6 @@
 # River of Life Church Website
 
-The official website for River of Life Church in Henry, IL. Built with [Astro](https://astro.build).
+The official website for **River of Life Church**, an Apostolic Pentecostal church in Henry, IL. Built with [Astro](https://astro.build).
 
 **Live site:** [rol.church](https://rol.church)
 
@@ -13,276 +13,167 @@ npm install
 # Start development server
 npm run dev
 
+# Start dev server accessible on local network (for mobile testing)
+npm run dev -- --host
+
 # Build for production
 npm run build
 ```
+
+## Features
+
+- **Responsive design** - Works great on desktop, tablet, and mobile
+- **Live streaming** - Cloudflare Stream integration with countdown timer
+- **Dynamic events** - Synced from Planning Center Calendar
+- **Ministry groups** - Group pages with leaders and upcoming events
+- **Pastor page** - Full-width photo layout with bio from Planning Center
+- **Rotating testimonials** - Google and Facebook reviews with flip animation
+- **Analytics** - Google Analytics, Microsoft Clarity, Meta Pixel
 
 ## Updating Content
 
 Content is managed through **Planning Center** and synced to the website automatically.
 
-### Where to Update Content in Planning Center
+### Events
 
-#### Events
 1. Go to [Planning Center Calendar](https://calendar.planningcenteronline.com/events)
 2. Create or edit an event
 3. Make sure the event is:
    - **Visible in Church Center** (checked)
    - Not tagged as "Hidden"
-4. Events sync automatically daily at ~6 AM CT, or run `ruby scripts/sync_events.rb`
-5. Note: Events page shows regular events up to 6 weeks ahead, featured events up to 12 weeks ahead
+4. Events sync automatically daily at 6 AM CT
 
-#### Featured Events (Hello Bar & Event Pages)
-Featured events appear in the **hello bar** at the top of every page and get their own dedicated detail page at `/events/[slug]`.
+**Featured Events (Hello Bar):**
+- Mark an event as "Featured" (star icon) to display it in the hello bar
+- Featured events also get their own page at `/events/[slug]`
+- Add a header image and description for best results
 
-**To mark an event as Featured:**
-1. Go to [Planning Center Calendar](https://calendar.planningcenteronline.com/events)
-2. Open the event you want to feature
-3. Click the **star icon** or toggle **"Featured"** in the event settings
-4. Add a **header image** for the event (recommended)
-5. Add a **summary/description** for the event page
+### Groups/Ministries
 
-**What gets displayed:**
-- **Hello bar**: Event name and date, links to the event detail page
-- **Event page**: Full event details with hero image, description, date/time, location, and registration link
-
-**SMS Alerts:**
-The sync script will send SMS alerts if:
-- No featured event is set (hello bar will be empty)
-- Featured event is missing a description or header image
-
-#### Groups/Ministries
 1. Go to [Planning Center Groups](https://groups.planningcenteronline.com/groups)
 2. Create or edit a group
-3. Make sure **Church Center Visible** is enabled
+3. Enable **Church Center Visible**
 4. Add group leaders via **Members** → set role to "Leader"
 5. Upload a header image for the group page
-6. Run `ruby scripts/sync_groups.rb` to sync
 
-#### Hero Slider Images & Page Headers
+### Hero Slider Images
+
 Hero images are managed through Planning Center Services Media.
 
 **Location:** [Planning Center Media - Website Hero Images](https://services.planningcenteronline.com/medias/3554537)
 
 **Two types of images:**
+1. **Home Page Slider** - Any image without `header_` prefix
+2. **Page Headers** - Files prefixed with `header_` (e.g., `header_about.jpg`)
 
-1. **Home Page Slider Images** - Any image without the `header_` prefix
-   - Named anything (e.g., `worship.jpg`, `congregation.jpg`)
-   - Appears in the rotating hero slider on the home page
-   - Numbered sequentially (1.jpg, 2.jpg, etc.) during sync
+Images are automatically resized (max 1920×1080), compressed, and converted to WebP.
 
-2. **Page-Specific Header Images** - Files prefixed with `header_`
-   - Named based on the page URL path
-   - Non-alphanumeric characters in the URL become underscores
-   - Examples:
-     - `header_pastor.jpg` → `/pastor/`
-     - `header_about.jpg` → `/about/`
-     - `header_next_steps_visit.jpg` → `/next-steps/visit/`
-   - If no header image exists for a page, a random slider image is used
-   - **Note:** Group pages (`/groups/*`) are excluded - they get their header images from Planning Center Groups, not from `header_*` files
+### Pastor & Team
 
-**Image Requirements:**
-
-| Image Type | Recommended Size | Max Size | Aspect Ratio | Format |
-|------------|------------------|----------|--------------|--------|
-| Home Hero Slider | 1920×1080 | 1920×1080 | 16:9 | JPEG |
-| Page Headers | 1920×1080 | 1920×1080 | 16:9 | JPEG |
-
-**Best practices:**
-- **Resolution:** Upload at 1920×1080 (Full HD) for best quality on all screens
-- **Aspect ratio:** 16:9 works best for both desktop and mobile layouts
-- **Format:** JPEG for photos (smaller file size). PNG supported but converts to JPEG
-- **File size:** Keep under 2MB if possible; images are auto-compressed during sync
-- **Content:** Avoid text in images (gets cropped on mobile). Use high-contrast images that look good with the dark overlay
-- **Orientation:** Landscape only (horizontal). Portrait images will be cropped awkwardly
-
-Images are automatically:
-- Resized to max 1920×1080 (maintains aspect ratio)
-- Compressed to 80% JPEG quality
-- Converted to WebP for modern browsers (65% quality, ~40% smaller)
-
-**To update:**
-1. Upload images to Planning Center
-2. Run `ruby scripts/sync_hero_images.rb` (or wait for daily auto-sync)
-3. Images appear in `public/hero/` and data in `src/data/hero_images.json`
-
-#### Pastor Page & Team Members
-The pastor page (`/pastor`) and foundations instructor are synced from **Planning Center People**.
-
-**To update Pastor or Team info:**
 1. Go to [Planning Center People](https://people.planningcenteronline.com)
-2. Find the person's profile (e.g., Andrew Coffield)
+2. Find the person's profile
 3. Go to the **"Website - ROL.Church"** tab
-4. Update:
-   - **Position Title**: Their role/title displayed on the website
-   - **Bio**: Their biography text
-5. Update their **profile photo** if needed
-6. Run `ruby scripts/sync_team.rb` to sync
+4. Update Position Title and Bio
+5. Update profile photo if needed
 
-**Currently synced team members:**
-- Andrew Coffield (Pastor page)
-- Christopher Huff (Foundations instructor)
+**Currently synced:** Andrew Coffield (Pastor), Christopher Huff (Foundations)
 
-To add more team members, edit `scripts/sync_team.rb` and add their Planning Center person ID to the `TEAM_MEMBERS` array.
+### Live Stream (Cloudflare Stream)
 
-#### YouTube Videos (Live Page)
-The live page (`/live`) shows the latest YouTube video from the church channel.
+The live page uses **Cloudflare Stream** for live streaming and recorded services.
 
-**How it works:**
-- Pulls from the YouTube RSS feed (no API key required)
-- Gets the 5 most recent videos
-- Displays the latest video on the live page
+- Live stream auto-detects when broadcasting
+- Latest Sunday service recording displays when not live
+- Countdown timer shows before next service
 
-**To update:**
-1. Upload a new video to the [ROL Henry YouTube channel](https://www.youtube.com/@rol-henry)
-2. Run `ruby scripts/sync_youtube.rb` to sync (or wait for daily auto-sync)
+**Video sync runs:**
+- Daily at 6 AM CT
+- Sundays at 1 PM and 2 PM CT (to catch the latest service)
 
-### Sync Data from Planning Center
+## Sync Scripts
 
-To manually sync data:
+All sync scripts are in the `scripts/` directory:
 
 ```bash
 cd scripts
 bundle install  # First time only
+
+# Sync everything
 ruby sync_all.rb
+
+# Individual syncs
+ruby sync_events.rb          # Events from Planning Center Calendar
+ruby sync_groups.rb          # Groups from Planning Center Groups
+ruby sync_hero_images.rb     # Hero images from Planning Center Media
+ruby sync_team.rb            # Team members from Planning Center People
+ruby sync_cloudflare_video.rb # Latest video from Cloudflare Stream
+ruby sync_facebook_photos.rb  # Photos from Facebook (smile detection)
 ```
 
-This requires Planning Center API credentials set as environment variables:
-- `ROL_PLANNING_CENTER_CLIENT_ID`
+**Environment variables required:**
+- `ROL_PLANNING_CENTER_CLIENT_ID` - Planning Center API credentials
 - `ROL_PLANNING_CENTER_SECRET`
+- `CLOUDFLARE_API_TOKEN` - For video sync
+- `CLOUDFLARE_ACCOUNT_ID`
 
-For local development, create a `.env` file in the `scripts/` directory with these values.
+### Automatic Syncing (GitHub Actions)
 
-### Individual Sync Scripts
-
-```bash
-cd scripts
-
-# Sync just events (also generates featured_event.json for hello bar)
-ruby sync_events.rb
-
-# Sync groups/ministries
-ruby sync_groups.rb
-
-# Sync hero images
-ruby sync_hero_images.rb
-
-# Sync YouTube video
-ruby sync_youtube.rb
-
-# Sync team member profiles (pastor, foundations instructor)
-ruby sync_team.rb
-
-# Sync photos from Facebook (with smile detection)
-ruby sync_facebook_photos.rb
-```
-
-#### Facebook Photo Sync
-
-The `sync_facebook_photos.rb` script automatically fetches photos from the church's Facebook page, analyzes them for smiling faces, and saves qualifying photos locally for use as hero images.
-
-**How it works:**
-1. Fetches all photos from the River of Life-Henry Facebook page (last 2 years or since last sync)
-2. Analyzes each photo using AWS Rekognition to detect smiling faces
-3. Saves qualifying photos to `public/hero/` with WebP versions
-4. Updates `hero_images.json` to include the new photos
-
-**Photo qualification criteria:**
-- At least 1 person is smiling, OR
-- At least 60% of visible people are smiling
-
-**Hero Image Display Logic:**
-- **Home slider**: Uses the 5 most recent photos (newest first)
-- **Page backgrounds**: Uses photos after the first 5, with deterministic assignment per page (so each page always gets the same background)
-
-**Filename format:** `fb_YYYYMMDD_pageid_postid.jpg` (sorted by date, newest first)
-
-**Setup requirements:**
-
-1. **Facebook Page Access Token** - Required to access page photos
-   - The Facebook app "ROL Church Website" (ID: 1522783152798535) is already created
-   - Connect the River of Life-Henry page via [Business Settings](https://business.facebook.com/settings/pages)
-   - Generate a Page Access Token with `pages_read_user_content` permission
-
-2. **AWS Credentials** - Required for Rekognition smile detection
-   - Configure via `aws configure` or set environment variables
-   - Requires `rekognition:DetectFaces` permission
-
-3. **Environment variables** (add to `.env` or `.envrc`):
-   ```
-   FB_PAGE_ID=147553505345372
-   FB_PAGE_ACCESS_TOKEN=your_system_user_token
-   AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_ROL
-   AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_ROL
-   AWS_REGION=us-east-1
-   ```
-
-**Note:** The script fetches photos from page posts (last 2 years), not the page's photo albums. Photos are saved locally to `public/hero/` and tracked in the state file to avoid duplicates.
-
-### Automatic Syncing
-
-Data is automatically synced via GitHub Actions:
-- **Daily at ~6 AM CT** - Full sync of all data (only commits if data changed)
-- **On push to main** - Rebuilds and deploys the site
-- **Manual trigger** - Go to Actions → Sync Planning Center Data → Run workflow
+| Workflow | Schedule | Description |
+|----------|----------|-------------|
+| `sync-pco.yml` | Daily 6 AM CT | Full Planning Center sync |
+| `sync-cloudflare-video.yml` | Daily 6 AM CT + Sundays 1 PM & 2 PM CT | Latest video sync |
+| `deploy.yml` | On push to main | Build and deploy |
 
 ## Project Structure
 
 ```
 /
-├── public/              # Static assets (images, favicon, etc.)
+├── public/
 │   ├── hero/           # Hero slider images
 │   ├── groups/         # Group images and leader photos
-│   └── team/           # Pastor photo
+│   └── team/           # Team member photos
 ├── src/
 │   ├── components/     # Reusable Astro components
 │   │   ├── HeroSlider.astro
 │   │   └── PageHero.astro
-│   ├── data/           # JSON data files (auto-generated by sync scripts)
-│   │   ├── events.json         # All upcoming events
-│   │   ├── featured_event.json # Next featured event (for hello bar)
-│   │   ├── groups.json         # Ministry groups with leaders
-│   │   ├── youtube.json        # Latest YouTube videos
-│   │   ├── hero_images.json    # Hero slider images
-│   │   └── team.json           # Team member profiles (pastor, etc.)
+│   ├── data/           # JSON data (auto-generated)
+│   │   ├── events.json
+│   │   ├── featured_event.json
+│   │   ├── groups.json
+│   │   ├── hero_images.json
+│   │   └── team.json
 │   ├── layouts/
-│   │   └── Base.astro  # Main layout with header/footer
-│   └── pages/          # Website pages (URL routes)
+│   │   └── Base.astro  # Main layout (header, footer, analytics)
+│   └── pages/          # Website pages
 ├── scripts/            # Ruby sync scripts
-└── .github/workflows/  # GitHub Actions for CI/CD
+└── .github/workflows/  # GitHub Actions
 ```
 
 ## Pages
 
-| Route | File | Description |
-|-------|------|-------------|
-| `/` | `index.astro` | Home page with hero slider |
-| `/live` | `live.astro` | Live stream page |
-| `/events` | `events.astro` | Upcoming events (6 weeks) |
-| `/groups` | `groups/index.astro` | Ministry groups |
-| `/groups/[slug]` | `groups/[slug].astro` | Individual group pages |
-| `/about` | `about.astro` | About the church |
-| `/pastor` | `pastor.astro` | Senior pastor |
-| `/contact` | `contact.astro` | Contact information |
-| `/directions` | `directions.astro` | Location and directions |
-| `/give` | `give.astro` | Online giving |
-| `/next-steps/*` | Various | New visitor resources |
+| Route | Description |
+|-------|-------------|
+| `/` | Home page with hero slider and rotating testimonials |
+| `/live` | Live stream / latest service recording |
+| `/events` | Upcoming events calendar |
+| `/events/[slug]` | Featured event detail pages |
+| `/groups` | Ministry groups overview |
+| `/groups/[slug]` | Individual group pages |
+| `/pastor` | Senior pastor page |
+| `/about` | About the church |
+| `/contact` | Contact information |
+| `/directions` | Location and directions |
+| `/give` | Online giving |
+| `/next-steps/visit` | Plan your visit |
+| `/next-steps/baptism` | Baptism information |
+| `/next-steps/foundations` | Foundations class |
+| `/next-steps/volunteer` | Volunteer opportunities |
 
 ## Making Changes
 
-### Edit Page Content
+### Edit Navigation or Footer
 
-1. Find the page file in `src/pages/`
-2. Edit the HTML/Astro code
-3. Run `npm run dev` to preview changes
-4. Commit and push to deploy
-
-### Update Navigation or Footer
-
-Edit `src/layouts/Base.astro` - this file contains:
-- Header and navigation menu
-- Footer with service times, location, contact info
-- Analytics tracking scripts
+Edit `src/layouts/Base.astro` - contains header, navigation, footer, and analytics.
 
 ### Add a New Page
 
@@ -291,18 +182,14 @@ Edit `src/layouts/Base.astro` - this file contains:
 3. Wrap content in `<Base title="Page Title">...</Base>`
 4. Add navigation link in `Base.astro` if needed
 
-### Change Hero Images
-
-Hero images are managed through Planning Center. To update:
-1. Upload images to Planning Center
-2. Run `ruby scripts/sync_hero_images.rb`
-3. Images will appear in `public/hero/` and data in `src/data/hero_images.json`
-
 ## Development
 
 ```bash
-# Start dev server (hot reload)
+# Start dev server with hot reload
 npm run dev
+
+# Dev server on local network (mobile testing)
+npm run dev -- --host
 
 # Type checking
 npm run astro check
@@ -313,43 +200,71 @@ npm run build && npm run preview
 
 ## Deployment
 
-The site is hosted on GitHub Pages at [rol.church](https://rol.church).
+The site is hosted on **GitHub Pages** at [rol.church](https://rol.church).
 
-Deployment happens automatically when changes are pushed to the `main` branch via GitHub Actions.
+Deployment happens automatically when changes are pushed to the `main` branch.
 
 ## Analytics
 
-The site includes tracking for:
-- Google Analytics 4
-- Microsoft Clarity
-- Meta Pixel (Facebook)
+Tracking includes:
+- **Google Analytics 4** - Page views, events
+- **Microsoft Clarity** - Session recordings, heatmaps
+- **Meta Pixel** - Facebook conversion tracking
 
-Events tracked include: page views, CTA clicks, form opens, scroll depth, time on page.
+Events tracked: page views, CTA clicks, form opens, scroll depth, time on page.
 
 ## Timezone
 
-All event times are displayed in **Chicago time (Central Time)** regardless of visitor location.
+All event times are displayed in **Chicago time (Central Time)**.
 
-## Content Sync Reference
+## Content Update Checklist
 
-Quick reference for where content comes from and how to update it:
+### Weekly Updates
 
-| Content | Source | Planning Center Location | Sync Script | Website Page |
-|---------|--------|-------------------------|-------------|--------------|
-| Events | Calendar | Events → Create/Edit Event | `sync_events.rb` | `/events` |
-| Featured Event | Calendar | Events → Toggle "Featured" star | `sync_events.rb` | Hello bar + `/events/[slug]` |
-| Groups | Groups | Groups → Edit Group | `sync_groups.rb` | `/groups`, `/groups/[slug]` |
-| Group Leaders | Groups | Groups → Members → Role: Leader | `sync_groups.rb` | `/groups/[slug]` |
-| Hero Slider Images | Services | Media → "Website Hero Images" (no `header_` prefix) | `sync_hero_images.rb` | Home page slider |
-| Page Header Images | Services | Media → "Website Hero Images" (`header_*.jpg`) | `sync_hero_images.rb` | Page-specific backgrounds |
-| Pastor Info | People | Person → "Website - ROL.Church" tab | `sync_team.rb` | `/pastor` |
-| Foundations Instructor | People | Person → "Website - ROL.Church" tab | `sync_team.rb` | `/next-steps/foundations` |
-| Latest Video | YouTube | Upload to @rol-henry channel | `sync_youtube.rb` | `/live` |
-| Facebook Photos | Facebook | River of Life-Henry page photos | `sync_facebook_photos.rb` | Hero images (via PCO) |
+| Item | Where to Update | What It Updates | Link |
+|------|-----------------|-----------------|------|
+| Featured Event (Hello Bar) | Calendar → Event → Toggle "Featured" star | Yellow banner at top of every page | [Calendar Events](https://calendar.planningcenteronline.com/events) |
+| Upcoming Events | Calendar → Create/Edit Event | Events page listing | [Calendar Events](https://calendar.planningcenteronline.com/events) |
 
-### Planning Center Direct Links
+### As Needed Updates
 
-- **Calendar (Events)**: https://calendar.planningcenteronline.com/events
-- **Groups**: https://groups.planningcenteronline.com/groups
-- **People**: https://people.planningcenteronline.com
-- **Services (Media)**: https://services.planningcenteronline.com/medias/3554537
+| Item | Where to Update | What It Updates | Link |
+|------|-----------------|-----------------|------|
+| Group Info | Groups → Edit Group | Group page content | [Groups](https://groups.planningcenteronline.com/groups) |
+| Group Leaders | Groups → Members → Set role "Leader" | Leader photos/names on group pages | [Groups](https://groups.planningcenteronline.com/groups) |
+| Group Events | Calendar → Create Event → Tag with group name | Events shown on group pages | [Calendar Events](https://calendar.planningcenteronline.com/events) |
+| Pastor Bio | People → Andrew Coffield → "Website - ROL.Church" tab | Pastor page text | [People](https://people.planningcenteronline.com) |
+| Pastor Photo | People → Andrew Coffield → Profile Photo | Pastor page image | [People](https://people.planningcenteronline.com) |
+| Hero Slider Images | Services → Media → "Website Hero Images" | Home page slider background | [Media](https://services.planningcenteronline.com/medias/3554537) |
+
+### Automatic (No Action Needed)
+
+| Item | How It Works | Frequency |
+|------|--------------|-----------|
+| Live Stream | Cloudflare detects when streaming | Real-time |
+| Latest Service Recording | Syncs from Cloudflare Stream | Daily + After Sunday service |
+| Service Countdown Timer | Calculated automatically | Real-time |
+
+### Quick Links
+
+| Platform | Link |
+|----------|------|
+| Planning Center Calendar | https://calendar.planningcenteronline.com/events |
+| Planning Center Groups | https://groups.planningcenteronline.com/groups |
+| Planning Center People | https://people.planningcenteronline.com |
+| Hero Images Media | https://services.planningcenteronline.com/medias/3554537 |
+| Church Center (Public) | https://rolhenry.churchcenter.com |
+| Cloudflare Dashboard | https://dash.cloudflare.com |
+| GitHub Repository | https://github.com/River-of-Life-Henry/rol.church |
+
+## Quick Reference
+
+| Content | Planning Center Location | Sync Script |
+|---------|-------------------------|-------------|
+| Events | Calendar → Events | `sync_events.rb` |
+| Featured Event | Calendar → Toggle "Featured" star | `sync_events.rb` |
+| Groups | Groups → Edit Group | `sync_groups.rb` |
+| Group Leaders | Groups → Members → Role: Leader | `sync_groups.rb` |
+| Hero Images | Services → Media → "Website Hero Images" | `sync_hero_images.rb` |
+| Pastor Info | People → "Website - ROL.Church" tab | `sync_team.rb` |
+| Live Video | Cloudflare Stream (automatic) | `sync_cloudflare_video.rb` |
