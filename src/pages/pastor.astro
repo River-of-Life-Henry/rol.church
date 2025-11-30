@@ -60,21 +60,20 @@ const bioParagraphs = pastorBio
 
 <style>
   .pastor-letter {
-    display: flex;
+    position: relative;
     background: white;
     min-height: 100vh;
-    padding-top: var(--header-height, 110px);
   }
 
   .pastor-letter-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    align-items: stretch;
+    min-height: 100vh;
   }
 
   .letter-text {
-    padding: 3rem 4rem 4rem 2rem;
+    padding: calc(var(--header-height, 110px) + 2rem) 4rem 4rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -113,9 +112,12 @@ const bioParagraphs = pastorBio
   }
 
   .pastor-photo {
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
     overflow: hidden;
-    min-height: calc(100vh - var(--header-height, 110px));
   }
 
   .pastor-photo img {
@@ -129,28 +131,28 @@ const bioParagraphs = pastorBio
 
   @media (max-width: 1024px) {
     .letter-text {
-      padding: 2.5rem 3rem 2.5rem 1.5rem;
+      padding: calc(var(--header-height, 110px) + 1.5rem) 3rem 2.5rem 1.5rem;
     }
   }
 
   @media (max-width: 900px) {
-    .pastor-letter {
-      padding: 0;
-    }
-
     .pastor-letter-content {
       grid-template-columns: 1fr;
+      min-height: auto;
     }
 
     .pastor-photo {
+      position: relative;
+      top: auto;
+      right: auto;
+      width: 100%;
+      height: 50vh;
       order: -1;
-      height: 400px;
-      min-height: 400px;
     }
 
     .pastor-photo img {
       clip-path: none;
-      object-position: center top;
+      object-position: center 15%;
     }
 
     .letter-text {
@@ -162,8 +164,7 @@ const bioParagraphs = pastorBio
 
   @media (max-width: 600px) {
     .pastor-photo {
-      height: 350px;
-      min-height: 350px;
+      height: 45vh;
     }
 
     .letter-text {
