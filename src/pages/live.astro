@@ -32,7 +32,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
       <span class="live-text">LIVE NOW</span>
     </div>
     <div class="video-wrapper">
-      <div id="stream-container">
+      <div id="stream-container" data-poster-url={POSTER_URL}>
         <div class="no-video-message" id="no-video-message" style="display: none;">
           <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-5-6l-7 4V7l7 4z"/></svg>
           <p class="no-video-title">No Recent Service Available</p>
@@ -123,12 +123,12 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 <!-- Cloudflare Stream SDK - loaded inline to avoid CORS issues -->
 <script is:inline src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
 
-<script define:vars={{ POSTER_URL }}>
+<script is:inline>
   // Cloudflare Stream configuration
   const CLOUDFLARE_CUSTOMER_CODE = 'ysn6m98an1n31qj6';
   const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
   const CLOUDFLARE_LATEST_VIDEO_ID = '331ce6385ea9addc684f8e4c1427615a';
-  const SERIES_POSTER_URL = POSTER_URL;
+  const SERIES_POSTER_URL = document.getElementById('stream-container')?.getAttribute('data-poster-url') || null;
 
   // Service schedule in Chicago timezone (Central Time)
   const SERVICES = [
@@ -143,25 +143,26 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   let hasTrackedLiveView = false;
 
   // Track events to GA4, Clarity, and Meta Pixel
-  function trackLiveEvent(eventName: string, params: Record<string, any> = {}) {
+  function trackLiveEvent(eventName, params) {
+    params = params || {};
     // Google Analytics 4
-    if (typeof (window as any).gtag === 'function') {
-      (window as any).gtag('event', eventName, params);
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, params);
     }
 
     // Microsoft Clarity (custom tags)
-    if (typeof (window as any).clarity !== 'undefined') {
-      (window as any).clarity('set', eventName, params.event_label || params.category || eventName);
+    if (typeof window.clarity !== 'undefined') {
+      window.clarity('set', eventName, params.event_label || params.category || eventName);
     }
 
     // Meta Pixel
-    if (typeof (window as any).fbq !== 'undefined') {
-      (window as any).fbq('trackCustom', eventName, params);
+    if (typeof window.fbq !== 'undefined') {
+      window.fbq('trackCustom', eventName, params);
     }
   }
 
   // DOM elements
-  const streamPlayer = document.getElementById('stream-player') as HTMLIFrameElement;
+  const streamPlayer = document.getElementById('stream-player');
   const noVideoMessage = document.getElementById('no-video-message');
   const loadingMessage = document.getElementById('loading-message');
   const liveIndicator = document.getElementById('live-indicator');
@@ -188,7 +189,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   }
 
   // Update live state UI
-  function setLiveState(live: boolean) {
+  function setLiveState(live) {
     const wasLive = isLive;
     isLive = live;
     if (liveIndicator) {
@@ -270,7 +271,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   }
 
   // Format countdown timer
-  function formatCountdown(ms: number) {
+  function formatCountdown(ms) {
     if (ms <= 0) return null;
 
     const seconds = Math.floor(ms / 1000);
@@ -278,7 +279,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    const parts: string[] = [];
+    const parts = [];
     if (days > 0) parts.push(`${days}d`);
     if (hours % 24 > 0) parts.push(`${hours % 24}h`);
     if (minutes % 60 > 0) parts.push(`${minutes % 60}m`);
@@ -319,7 +320,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   }
 
   // Load Cloudflare Stream player
-  function loadStreamPlayer(forceLive: boolean = false) {
+  function loadStreamPlayer(forceLive) {
     if (!streamPlayer) return;
 
     const duringService = isDuringService();
@@ -359,7 +360,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
   }
 
   // Initialize video event tracking with Stream SDK
-  function initializeVideoTracking(isLiveStream: boolean) {
+  function initializeVideoTracking(isLiveStream) {
     const videoType = isLiveStream ? 'live_stream' : 'recorded_service';
 
     // Track page view
@@ -377,7 +378,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     const initStreamPlayer = () => {
       try {
         // Check if Stream SDK is available
-        if (typeof (window as any).Stream === 'undefined') {
+        if (typeof window.Stream === 'undefined') {
           setTimeout(initStreamPlayer, 500);
           return;
         }
@@ -386,7 +387,7 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
           return;
         }
 
-        const player = (window as any).Stream(streamPlayer);
+        const player = window.Stream(streamPlayer);
 
         // Track play event
         player.addEventListener('play', () => {
