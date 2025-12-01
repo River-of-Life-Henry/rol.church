@@ -1,11 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import videoData from '../data/cloudflare_video.json';
 
 // Cloudflare Stream configuration
 const CLOUDFLARE_CUSTOMER_CODE = 'ysn6m98an1n31qj6';
 const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
 // Latest recording video ID (from most recent service)
 const CLOUDFLARE_LATEST_VIDEO_ID = '331ce6385ea9addc684f8e4c1427615a';
+// Poster image URL from Planning Center series artwork
+const POSTER_URL = videoData?.poster_url || null;
 
 // YouTube channel for archived videos
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
@@ -120,11 +123,12 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
 <!-- Cloudflare Stream SDK - loaded inline to avoid CORS issues -->
 <script is:inline src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
 
-<script>
+<script define:vars={{ POSTER_URL }}>
   // Cloudflare Stream configuration
   const CLOUDFLARE_CUSTOMER_CODE = 'ysn6m98an1n31qj6';
   const CLOUDFLARE_LIVE_INPUT_ID = '7b2cc63f97205c30dfa1b6c1ed7c8a93';
   const CLOUDFLARE_LATEST_VIDEO_ID = '331ce6385ea9addc684f8e4c1427615a';
+  const SERIES_POSTER_URL = POSTER_URL;
 
   // Service schedule in Chicago timezone (Central Time)
   const SERVICES = [
@@ -326,7 +330,12 @@ const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@rol-henry/videos';
     const videoId = useLiveInput ? CLOUDFLARE_LIVE_INPUT_ID : CLOUDFLARE_LATEST_VIDEO_ID;
 
     // Build embed URL - disable previewThumbnails to prevent 400 errors from scrubber
-    const embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&preload=metadata&thumbnailTime=0`;
+    let embedUrl = `https://customer-${CLOUDFLARE_CUSTOMER_CODE}.cloudflarestream.com/${videoId}/iframe?autoplay=true&preload=metadata&thumbnailTime=0`;
+
+    // Add poster image from Planning Center series artwork if available (for recorded videos only)
+    if (!useLiveInput && SERIES_POSTER_URL) {
+      embedUrl += `&poster=${encodeURIComponent(SERIES_POSTER_URL)}`;
+    }
 
     streamPlayer.src = embedUrl;
     showPlayer();

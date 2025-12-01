@@ -24,6 +24,7 @@ require "net/http"
 require "json"
 require "time"
 require "openssl"
+require "fileutils"
 require_relative "pco_client"
 
 # Set timezone to Central Time
@@ -34,6 +35,7 @@ CLOUDFLARE_ACCOUNT_ID = ENV["CLOUDFLARE_ACCOUNT_ID"] || "cc666c3ac6a916af4fd2d8d
 CLOUDFLARE_API_TOKEN = ENV["CLOUDFLARE_API_TOKEN"]
 LIVE_INPUT_ID = "7b2cc63f97205c30dfa1b6c1ed7c8a93"
 LIVE_ASTRO_PATH = File.expand_path("../src/pages/live.astro", __dir__)
+VIDEO_DATA_PATH = File.expand_path("../src/data/cloudflare_video.json", __dir__)
 
 def fetch_recordings
   uri = URI("https://api.cloudflare.com/client/v4/accounts/#{CLOUDFLARE_ACCOUNT_ID}/stream/live_inputs/#{LIVE_INPUT_ID}/videos")
@@ -92,6 +94,7 @@ def fetch_service_plans(start_date, end_date)
   pco = PCO::Client.api
 
   plans = []
+  series_cache = {} # Cache series artwork by ID
 
   begin
     # Get all service types
@@ -102,12 +105,22 @@ def fetch_service_plans(start_date, end_date)
       service_type_id = service_type["id"]
       service_type_name = service_type["attributes"]["name"]
 
-      # Fetch plans for this service type - use no_dates filter to get all, then filter by date
-      # The API doesn't support date range filtering well, so get recent plans
+      # Fetch plans for this service type with series included
       type_plans = pco.services.v2.service_types[service_type_id].plans.get(
         per_page: 100,
-        order: "-sort_date"
+        order: "-sort_date",
+        include: "series"
       )
+
+      # Build series cache from included data
+      type_plans["included"]&.each do |item|
+        next unless item["type"] == "Series"
+        series_id = item["id"]
+        series_cache[series_id] ||= {
+          title: item["attributes"]["title"],
+          artwork_url: item["attributes"]["artwork_for_plan"] || item["attributes"]["artwork_original"]
+        }
+      end
 
       puts "  #{service_type_name}: #{type_plans['data'].length} plans"
 
@@ -121,10 +134,14 @@ def fetch_service_plans(start_date, end_date)
 
         # Only include plans within the date range
         if plan_date >= start_date && plan_date <= end_date
+          series_id = plan.dig("relationships", "series", "data", "id")
+          series_info = series_id ? series_cache[series_id] : nil
+
           plans << {
             id: plan["id"],
             title: plan["attributes"]["title"],
             series_title: plan["attributes"]["series_title"],
+            series_artwork_url: series_info&.dig(:artwork_url),
             dates: plan_date_str,
             date: plan_date,
             service_type_id: service_type_id,
@@ -182,14 +199,14 @@ def update_cloudflare_video(video_id, metadata)
 end
 
 def build_expected_title(plan)
-  date_prefix = plan[:date].strftime("%-m/%-d")
+  date_prefix = plan[:date].strftime("%-m/%-d/%Y")
   plan_title = plan[:title]&.strip
 
   if plan_title.nil? || plan_title.empty?
     # No plan title, just use date and service type
     "#{date_prefix}: #{plan[:service_type_name]}"
   else
-    # Full format: MM/DD: Plan Title - Service Type Name
+    # Full format: MM/DD/YYYY: Plan Title - Service Type Name
     "#{date_prefix}: #{plan_title} - #{plan[:service_type_name]}"
   end
 end
@@ -206,7 +223,7 @@ def sync_video_metadata(recordings)
 
   if ready_recordings.empty?
     puts "No ready recordings found"
-    return
+    return {}
   end
 
   puts "Found #{ready_recordings.length} ready recordings"
@@ -221,6 +238,9 @@ def sync_video_metadata(recordings)
   puts "Fetching Planning Center plans from #{start_date} to #{end_date}..."
   plans = fetch_service_plans(start_date, end_date)
   puts "Found #{plans.length} service plans"
+
+  # Track video-to-plan matches for returning
+  video_plan_matches = {}
 
   # Check each video to see if it needs updating
   ready_recordings.each do |video|
@@ -242,6 +262,9 @@ def sync_video_metadata(recordings)
       end
       next
     end
+
+    # Store the match for later use
+    video_plan_matches[video_id] = matching_plan
 
     # Build the expected title
     expected_title = build_expected_title(matching_plan)
@@ -273,6 +296,8 @@ def sync_video_metadata(recordings)
       puts "  ✗ Update failed"
     end
   end
+
+  video_plan_matches
 end
 
 def find_latest_sunday_recording(recordings)
@@ -333,6 +358,44 @@ def update_live_astro(video_id)
   true
 end
 
+def save_video_data(video_id, video, matching_plan)
+  video_data = {
+    video_id: video_id,
+    title: video.dig("publicDetails", "title") || build_expected_title(matching_plan),
+    created: video["created"],
+    duration: video["duration"],
+    thumbnail: video["thumbnail"],
+    poster_url: matching_plan&.dig(:series_artwork_url),
+    series_title: matching_plan&.dig(:series_title),
+    plan_title: matching_plan&.dig(:title),
+    service_type: matching_plan&.dig(:service_type_name),
+    updated_at: Time.now.utc.iso8601
+  }
+
+  # Ensure the data directory exists
+  FileUtils.mkdir_p(File.dirname(VIDEO_DATA_PATH))
+
+  # Read existing data if it exists
+  existing_data = if File.exist?(VIDEO_DATA_PATH)
+    JSON.parse(File.read(VIDEO_DATA_PATH))
+  else
+    {}
+  end
+
+  # Check if data has changed
+  if existing_data["video_id"] == video_data[:video_id] &&
+     existing_data["poster_url"] == video_data[:poster_url] &&
+     existing_data["title"] == video_data[:title]
+    puts "Video data unchanged"
+    return false
+  end
+
+  File.write(VIDEO_DATA_PATH, JSON.pretty_generate(video_data))
+  puts "Saved video data to #{VIDEO_DATA_PATH}"
+  puts "  Poster URL: #{video_data[:poster_url] || '(none)'}"
+  true
+end
+
 def main
   puts "Syncing Cloudflare Stream video ID..."
   puts "-" * 40
@@ -348,8 +411,8 @@ def main
   recordings = fetch_recordings
   puts "Found #{recordings.length} total recordings"
 
-  # Sync video metadata from Planning Center
-  sync_video_metadata(recordings)
+  # Sync video metadata from Planning Center and get plan matches
+  video_plan_matches = sync_video_metadata(recordings)
 
   # Find the latest Sunday recording
   latest = find_latest_sunday_recording(recordings)
@@ -369,11 +432,17 @@ def main
   puts "  Created: #{created_at.strftime('%A, %B %d, %Y at %I:%M %p %Z')}"
   puts "  Duration: #{duration_str}"
 
-  # Update the live.astro file
-  updated = update_live_astro(video_id)
+  # Get the matching plan for the latest video
+  matching_plan = video_plan_matches[video_id]
 
-  if updated
-    puts "\nSuccessfully updated live.astro with new video ID"
+  # Update the live.astro file
+  astro_updated = update_live_astro(video_id)
+
+  # Save video data with poster URL
+  data_updated = save_video_data(video_id, latest, matching_plan)
+
+  if astro_updated || data_updated
+    puts "\nSuccessfully updated video data"
   else
     puts "\nNo changes needed"
   end
