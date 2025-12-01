@@ -1,12 +1,8 @@
-name: Deploy to GitHub Pages (Legacy)
-
-# DEPRECATED: This workflow is being replaced by deploy-dev.yml and deploy-prod.yml
-# which deploy to AWS S3/CloudFront instead of GitHub Pages.
-# Keeping this temporarily until AWS deployment is verified.
+name: Deploy to GitHub Pages
 
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
