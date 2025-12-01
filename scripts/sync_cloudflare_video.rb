@@ -285,9 +285,9 @@ def sync_video_metadata(recordings)
       creator: "River of Life",
       allowed_origins: ["dev.rol.church", "rol.church"],
       title: expected_title,
-      logo: "https://rol.church/favicon.png",
-      share_link: "https://rol.church/live?share=1",
-      channel_link: "https://rol.church/live?channel=1"
+      logo: "https://dev.rol.church/favicon.png",
+      share_link: "https://dev.rol.church/live?share=1",
+      channel_link: "https://dev.rol.church/live?channel=1"
     }
 
     if update_cloudflare_video(video_id, metadata)
