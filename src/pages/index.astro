@@ -16,7 +16,7 @@ import HeroSlider from '../components/HeroSlider.astro';
         </span>
       </a>
       <a href="/live" class="hero-card">
-        <h2>WATCH LIVE</h2>
+        <h2><span class="home-live-dot" style="display: none;"></span>WATCH LIVE</h2>
         <p class="subtitle">Can't make it in person?</p>
         <p>Join us every Sunday and Wednesday for our live stream.</p>
         <span class="card-btn">
@@ -163,6 +163,23 @@ import HeroSlider from '../components/HeroSlider.astro';
     font-weight: 700;
     letter-spacing: 0.1em;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .home-live-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    animation: live-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 
   .hero-card p {

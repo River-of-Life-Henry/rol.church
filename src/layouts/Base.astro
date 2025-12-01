@@ -213,7 +213,7 @@ const churchSchema = {
         </button>
 
         <ul class="nav-menu">
-          <li><a href="/live">Watch Live</a></li>
+          <li><a href="/live" class="nav-live-link"><span class="nav-live-dot" style="display: none;"></span>Watch Live</a></li>
           <li class="has-dropdown">
             <a href="/next-steps/visit">Next Steps</a>
             <ul class="dropdown">
@@ -263,6 +263,44 @@ const churchSchema = {
           hamburger?.setAttribute('aria-expanded', 'false');
         });
       });
+
+      // Check if currently live streaming (based on service schedule)
+      function checkLiveStatus() {
+        const SERVICES = [
+          { day: 0, startHour: 10, startMinute: 0, endHour: 12, endMinute: 30 }, // Sunday
+          { day: 3, startHour: 19, startMinute: 0, endHour: 20, endMinute: 0 }   // Wednesday
+        ];
+
+        const now = new Date();
+        const chicagoTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+        const currentDay = chicagoTime.getDay();
+        const currentHour = chicagoTime.getHours();
+        const currentMinute = chicagoTime.getMinutes();
+        const currentMinutes = currentHour * 60 + currentMinute;
+
+        const isLive = SERVICES.some(service => {
+          if (service.day !== currentDay) return false;
+          const startMinutes = service.startHour * 60 + service.startMinute;
+          const endMinutes = service.endHour * 60 + service.endMinute;
+          return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+        });
+
+        // Update nav dot visibility
+        const navDot = document.querySelector('.nav-live-dot');
+        if (navDot) {
+          navDot.style.display = isLive ? 'inline-block' : 'none';
+        }
+
+        // Update home page card dot visibility
+        const cardDot = document.querySelector('.home-live-dot');
+        if (cardDot) {
+          cardDot.style.display = isLive ? 'inline-block' : 'none';
+        }
+      }
+
+      // Check immediately and then every minute
+      checkLiveStatus();
+      setInterval(checkLiveStatus, 60000);
     </script>
 
     <!-- Event Tracking for GA4, Clarity, and Meta Pixel -->
@@ -936,6 +974,26 @@ const churchSchema = {
 
   .nav-menu > li > a:hover {
     color: var(--color-gold);
+  }
+
+  /* Live indicator dot */
+  .nav-live-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .nav-live-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 
   /* Dropdown Menu */
