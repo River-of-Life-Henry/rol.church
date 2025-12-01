@@ -156,7 +156,7 @@ const metaDescription = group.description
       {group.leaders.length > 0 && (
         <div class="leaders-section">
           <h2>Meet the Leaders</h2>
-          <div class="leaders-grid">
+          <div class={`leaders-grid ${group.leaders.length === 1 ? 'single-leader' : ''}`}>
             {group.leaders.map((leader) => (
               <div class="leader-card">
                 {leader.hasPhoto ? (
@@ -398,6 +398,11 @@ const metaDescription = group.description
     gap: 1.5rem;
     max-width: 900px;
     margin: 0 auto;
+  }
+
+  .leaders-grid.single-leader {
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
 
   .leader-card {
