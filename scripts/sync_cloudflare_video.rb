@@ -181,80 +181,91 @@ def update_cloudflare_video(video_id, metadata)
   data["success"]
 end
 
+def build_expected_title(plan)
+  date_prefix = plan[:date].strftime("%-m/%-d")
+  plan_title = plan[:title]&.strip
+
+  if plan_title.nil? || plan_title.empty?
+    # No plan title, just use date and service type
+    "#{date_prefix}: #{plan[:service_type_name]}"
+  else
+    # Full format: MM/DD: Plan Title - Service Type Name
+    "#{date_prefix}: #{plan_title} - #{plan[:service_type_name]}"
+  end
+end
+
 def sync_video_metadata(recordings)
   puts "\n" + "=" * 40
   puts "Syncing video metadata from Planning Center..."
   puts "=" * 40
 
-  # Find videos that need metadata update (no public details title)
-  videos_to_update = recordings.select do |recording|
-    recording["status"]&.dig("state") == "ready" &&
-      (recording.dig("publicDetails", "title").nil? || recording.dig("publicDetails", "title").to_s.empty?)
+  # Only process ready recordings
+  ready_recordings = recordings.select do |recording|
+    recording["status"]&.dig("state") == "ready"
   end
 
-  if videos_to_update.empty?
-    puts "No videos need metadata updates"
+  if ready_recordings.empty?
+    puts "No ready recordings found"
     return
   end
 
-  puts "Found #{videos_to_update.length} videos needing metadata updates"
+  puts "Found #{ready_recordings.length} ready recordings"
 
-  # Get date range for Planning Center query (oldest to newest video)
-  # Use Chicago time for the video dates since services are scheduled in Chicago time
-  video_dates = videos_to_update.map do |v|
-    # Parse the UTC time and it will be converted to Chicago time due to ENV['TZ']
-    Time.parse(v["created"]).to_date
+  # Get date range for Planning Center query
+  video_dates = ready_recordings.map do |v|
+    Time.parse(v["created"]).getlocal.to_date
   end
-  start_date = video_dates.min - 7 # Week before earliest video
-  end_date = video_dates.max + 1   # Day after latest video
+  start_date = video_dates.min - 7
+  end_date = video_dates.max + 1
 
   puts "Fetching Planning Center plans from #{start_date} to #{end_date}..."
   plans = fetch_service_plans(start_date, end_date)
   puts "Found #{plans.length} service plans"
 
-  # Match videos to plans based on date
-  videos_to_update.each do |video|
+  # Check each video to see if it needs updating
+  ready_recordings.each do |video|
     video_id = video["uid"]
-    # Parse UTC time and convert to local (Chicago) time for proper date matching
     video_created_utc = Time.parse(video["created"])
     video_created = video_created_utc.getlocal
     video_date = video_created.to_date
-
-    puts "\nProcessing video: #{video_id}"
-    puts "  Created: #{video_created_utc.strftime('%Y-%m-%d %H:%M UTC')} (#{video_created.strftime('%Y-%m-%d %H:%M %Z')})"
+    current_title = video.dig("publicDetails", "title")
 
     # Find matching plan (same date)
     matching_plan = plans.find { |p| p[:date] == video_date }
 
     unless matching_plan
-      puts "  No matching Planning Center plan found for #{video_date}"
+      # No matching plan - skip silently unless there's no title at all
+      if current_title.nil? || current_title.to_s.empty?
+        puts "\nProcessing video: #{video_id}"
+        puts "  Created: #{video_created_utc.strftime('%Y-%m-%d %H:%M UTC')} (#{video_created.strftime('%Y-%m-%d %H:%M %Z')})"
+        puts "  No matching Planning Center plan found for #{video_date}"
+      end
       next
     end
 
-    puts "  Matched to plan: #{matching_plan[:title]} (#{matching_plan[:service_type_name]})"
+    # Build the expected title
+    expected_title = build_expected_title(matching_plan)
 
-    # Skip if plan title is empty
-    if matching_plan[:title].nil? || matching_plan[:title].strip.empty?
-      puts "  Skipping - plan has no title"
+    # Skip if title already matches
+    if current_title == expected_title
       next
     end
 
-    # Build the video title: MM/DD: Plan Title - Service Type Name
-    # Use the plan date for the title prefix
-    date_prefix = matching_plan[:date].strftime("%-m/%-d")
-    video_title = "#{date_prefix}: #{matching_plan[:title]} - #{matching_plan[:service_type_name]}"
+    puts "\nProcessing video: #{video_id}"
+    puts "  Created: #{video_created_utc.strftime('%Y-%m-%d %H:%M UTC')} (#{video_created.strftime('%Y-%m-%d %H:%M %Z')})"
+    puts "  Matched to plan: #{matching_plan[:title] || '(no title)'} (#{matching_plan[:service_type_name]})"
+    puts "  Current title: #{current_title || '(none)'}"
+    puts "  Expected title: #{expected_title}"
 
     metadata = {
-      video_name: video_title,
+      video_name: expected_title,
       creator: "River of Life",
       allowed_origins: ["dev.rol.church", "rol.church"],
-      title: video_title,
+      title: expected_title,
       logo: "https://rol.church/favicon.png",
       share_link: "https://rol.church/live?share=1",
       channel_link: "https://rol.church/live?channel=1"
     }
-
-    puts "  Setting title: #{video_title}"
 
     if update_cloudflare_video(video_id, metadata)
       puts "  ✓ Updated successfully"
