@@ -266,11 +266,13 @@ def sync_video_metadata(recordings)
     # Store the match for later use
     video_plan_matches[video_id] = matching_plan
 
-    # Build the expected title
+    # Build the expected title and URLs
     expected_title = build_expected_title(matching_plan)
+    expected_logo = "https://dev.rol.church/favicon.png"
+    current_logo = video.dig("publicDetails", "logo")
 
-    # Skip if title already matches
-    if current_title == expected_title
+    # Skip if title and logo already match
+    if current_title == expected_title && current_logo == expected_logo
       next
     end
 
@@ -279,6 +281,8 @@ def sync_video_metadata(recordings)
     puts "  Matched to plan: #{matching_plan[:title] || '(no title)'} (#{matching_plan[:service_type_name]})"
     puts "  Current title: #{current_title || '(none)'}"
     puts "  Expected title: #{expected_title}"
+    puts "  Current logo: #{current_logo || '(none)'}"
+    puts "  Expected logo: #{expected_logo}"
 
     metadata = {
       video_name: expected_title,
