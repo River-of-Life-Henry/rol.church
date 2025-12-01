@@ -361,7 +361,7 @@ end
 def save_video_data(video_id, video, matching_plan)
   video_data = {
     video_id: video_id,
-    title: video.dig("publicDetails", "title") || build_expected_title(matching_plan),
+    title: matching_plan ? build_expected_title(matching_plan) : video.dig("publicDetails", "title"),
     created: video["created"],
     duration: video["duration"],
     thumbnail: video["thumbnail"],
