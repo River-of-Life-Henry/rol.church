@@ -266,34 +266,20 @@ module ImageUtils
       # Detect image format from file header (magic bytes)
       # This is needed because temp files may not have proper extensions
       format_hint = detect_image_format(input_path)
-
-      # Log format detection result for debugging
-      if format_hint
-        puts "INFO: Detected format #{format_hint} for #{File.basename(input_path)}"
-      else
-        # Read bytes for debugging
-        magic = File.binread(input_path, 8) rescue nil
-        if magic
-          hex = magic.bytes.map { |b| '%02x' % b }.join(' ')
-          puts "WARN: Could not detect format for #{File.basename(input_path)}, magic: #{hex}"
-        else
-          puts "WARN: Could not read #{File.basename(input_path)}"
-        end
-      end
-
       input_spec = format_hint ? "#{format_hint}:#{input_path}" : input_path
 
-      cmd = [
+      # Use array form of system() to avoid shell interpolation issues
+      args = [
         "convert",
-        "\"#{input_spec}\"",
+        input_spec,
         "-resize", "#{max_width}x#{max_height}>",
         "-quality", JPEG_QUALITY.to_s,
         "-strip",
-        "-interlace", "Plane",  # Progressive JPEG
-        "\"#{output_path}\""
-      ].join(" ")
+        "-interlace", "Plane",
+        output_path
+      ]
 
-      result = system(cmd)
+      result = system(*args)
 
       unless result
         puts "WARNING: ImageMagick convert failed for #{File.basename(input_path)}"
