@@ -465,10 +465,21 @@ def run_script(script)
 
     # Print output with prefix (summarized for parallel readability)
     output_lines = output.lines
+
+    # Always show DEBUG, ERROR, WARNING, and ALERT lines
+    important_lines = output_lines.select { |l| l =~ /(DEBUG|ERROR|WARNING|WARN|ALERT)/i }
+
     if output_lines.length > 10
       # Show first 3 and last 5 lines for long output
       output_lines.first(3).each { |line| puts "[#{script_name}] #{line.chomp}" }
       puts "[#{script_name}] ... (#{output_lines.length - 8} lines omitted)"
+      # Show important lines that weren't in first 3 or last 5
+      first_last_lines = output_lines.first(3) + output_lines.last(5)
+      important_lines.each do |line|
+        unless first_last_lines.include?(line)
+          puts "[#{script_name}] #{line.chomp}"
+        end
+      end
       output_lines.last(5).each { |line| puts "[#{script_name}] #{line.chomp}" }
     else
       output_lines.each { |line| puts "[#{script_name}] #{line.chomp}" }
