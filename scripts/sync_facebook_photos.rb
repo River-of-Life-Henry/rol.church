@@ -105,8 +105,8 @@ REKOGNITION_PHOTOS_DIR = File.join(REKOGNITION_DATA_DIR, "photos")
 MIN_PEOPLE = 3  # Require at least 3 people in the photo
 MIN_SMILING_PEOPLE = 1  # At least 1 person smiling
 MIN_SMILE_PERCENTAGE = 0.6  # OR at least 60% of people smiling
-SMILE_CONFIDENCE_THRESHOLD = 70  # Rekognition confidence threshold for smile detection
-MAX_TEXT_DETECTIONS = 3  # Reject photos with more than this many text elements (screenshots, slides)
+SMILE_CONFIDENCE_THRESHOLD = 60  # Rekognition confidence threshold for smile detection
+MAX_TEXT_DETECTIONS = 10  # Reject photos with more than this many text elements (screenshots, slides)
 
 # Lookback period for initial sync (2 years)
 LOOKBACK_YEARS = 2
@@ -565,8 +565,13 @@ class FacebookPhotoSync
     smiling = 0
 
     faces.each do |face|
-      # Check if person is smiling with confidence above threshold
-      if face.smile && face.smile.value && face.smile.confidence >= SMILE_CONFIDENCE_THRESHOLD
+      # Check if person is smiling OR happy with confidence above threshold
+      # Using both smile detection and HAPPY emotion catches more natural/subtle smiles
+      smile_detected = face.smile && face.smile.value && face.smile.confidence >= SMILE_CONFIDENCE_THRESHOLD
+      happy_emotion = face.emotions&.find { |e| e.type == "HAPPY" }
+      happy_detected = happy_emotion && happy_emotion.confidence >= SMILE_CONFIDENCE_THRESHOLD
+
+      if smile_detected || happy_detected
         smiling += 1
       end
     end
