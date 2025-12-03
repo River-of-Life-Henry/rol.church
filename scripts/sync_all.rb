@@ -1,15 +1,69 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Run all sync scripts in parallel and send a changelog email via AWS SES
-# Usage: ruby sync_all.rb
+# ==============================================================================
+# Daily Sync Orchestrator
+# ==============================================================================
 #
-# Environment variables for email (uses existing AWS credentials from Rekognition):
-#   AWS_ACCESS_KEY_ID - AWS access key (already set for Rekognition)
-#   AWS_SECRET_ACCESS_KEY - AWS secret key (already set for Rekognition)
-#   AWS_REGION - AWS region (default: us-east-1)
-#   SES_FROM_EMAIL - Sender email (must be verified in SES)
-#   CHANGELOG_EMAIL - Recipient email (default: david.plappert@rol.church)
+# Purpose:
+#   Master script that coordinates all data sync scripts for the ROL.Church
+#   website. Runs scripts in parallel where possible, tracks changes, handles
+#   errors, and sends detailed email reports.
+#
+# Usage:
+#   ruby sync_all.rb
+#   bundle exec ruby sync_all.rb
+#
+# How It Works:
+#   1. Loads previous data files for comparison
+#   2. Runs Group 1 scripts in parallel (independent scripts):
+#      - sync_events.rb      (Planning Center Calendar)
+#      - sync_groups.rb      (Planning Center Groups)
+#      - sync_facebook_photos.rb (Facebook page photos)
+#      - sync_team.rb        (Planning Center People)
+#      - sync_cloudflare_video.rb (Cloudflare Stream)
+#   3. Runs Group 2 scripts sequentially (dependent scripts):
+#      - sync_hero_images.rb (depends on facebook_photos completing)
+#   4. Compares old vs new data to generate changelog
+#   5. Sends email report via AWS SES (if changes, errors, or alerts)
+#
+# Output:
+#   - Console output with prefixed script names
+#   - Email report with changes, errors, and alerts
+#   - Exit code: 0 = success, 1 = errors occurred
+#
+# Email Report Contents:
+#   - Script execution summary with durations
+#   - Errors (if any)
+#   - Alerts (action items from scripts)
+#   - Changes by category (events, groups, hero images, team, video)
+#
+# Error Handling:
+#   - Each script runs as subprocess (isolated failures)
+#   - ERROR: prefix in output = captured and reported
+#   - ALERT: prefix in output = captured for email (action needed)
+#   - Non-zero exit codes = script failure
+#
+# Performance:
+#   - Group 1: 5 scripts run in parallel
+#   - Group 2: 1 script runs after Group 1
+#   - Typical total runtime: 30-60 seconds
+#
+# Environment Variables (All):
+#   ROL_PLANNING_CENTER_CLIENT_ID  - Planning Center API token
+#   ROL_PLANNING_CENTER_SECRET     - Planning Center API secret
+#   PCO_WEBSITE_HERO_MEDIA_ID      - PCO Media ID for hero images
+#   CLOUDFLARE_API_TOKEN           - Cloudflare Stream API token
+#   CLOUDFLARE_ACCOUNT_ID          - Cloudflare account ID
+#   FB_PAGE_ID                     - Facebook page ID
+#   FB_PAGE_ACCESS_TOKEN           - Facebook access token
+#   AWS_ACCESS_KEY_ID              - AWS credentials (Rekognition + SES)
+#   AWS_SECRET_ACCESS_KEY          - AWS credentials
+#   AWS_REGION                     - AWS region (default: us-east-1)
+#   SES_FROM_EMAIL                 - Email sender (must be SES verified)
+#   CHANGELOG_EMAIL                - Email recipient (default: david.plappert@rol.church)
+#
+# ==============================================================================
 
 require "bundler/setup"
 require "dotenv"
@@ -30,13 +84,15 @@ $stdout.sync = true
 $stderr.sync = true
 
 # Thread-safe changelog and error tracking
+# Uses MonitorMixin for mutex synchronization across parallel script execution.
+# All state mutations go through synchronized accessors to prevent race conditions.
 require 'monitor'
 
 class SyncState
   include MonitorMixin
 
   def initialize
-    super()
+    super()  # Initialize MonitorMixin
     @changelog = {
       events: { added: [], removed: [], updated: [] },
       groups: { added: [], removed: [], updated: [] },
@@ -418,7 +474,16 @@ def send_changelog_email
 end
 
 # Run a single sync script with error handling
-# Uses subprocess to avoid stdout/stderr conflicts with parallel threads
+# Uses subprocess execution (Open3.capture2e) for several important reasons:
+#   1. Isolates script failures - one script crash doesn't kill the orchestrator
+#   2. Captures stdout/stderr cleanly without thread interleaving issues
+#   3. Allows proper environment variable passing to each subprocess
+#   4. Exit codes are properly captured for success/failure detection
+#
+# Output handling:
+#   - Shows first 3 and last 5 lines for long output
+#   - Always shows DEBUG, ERROR, WARNING, ALERT lines
+#   - Prefixes all output with [script_name] for clarity
 def run_script(script)
   script_name = File.basename(script, '.rb')
   start_time = Time.now

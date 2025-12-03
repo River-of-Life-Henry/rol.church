@@ -1,9 +1,46 @@
 # frozen_string_literal: true
 
-# Image optimization utilities for sync scripts
-# Supports resizing and compression for web optimization
-# Uses sips (macOS) or ImageMagick (Linux) automatically
-# Generates WebP versions for modern browsers
+# ==============================================================================
+# Image Optimization Utilities
+# ==============================================================================
+#
+# Purpose:
+#   Shared image processing module for all sync scripts. Handles downloading,
+#   resizing, compression, and WebP generation for web-optimized images.
+#
+# Features:
+#   - Cross-platform: Uses sips (macOS) or ImageMagick (Linux) automatically
+#   - Smart optimization: Keeps original if optimization increases size
+#   - WebP generation: Creates modern format versions for smaller files
+#   - Format detection: Uses magic bytes to detect image format (not extension)
+#
+# Image Size Presets:
+#   :hero   - 1920x1080 (home page slider, 16:9)
+#   :header - 1200x600  (page header backgrounds)
+#   :leader - 400x400   (group leader avatars)
+#   :team   - 1200x1200 (featured team photos, pastor page)
+#
+# Compression Settings:
+#   JPEG: 80% quality (good balance of size/quality)
+#   WebP: 65% quality (more aggressive, ~30-50% smaller than JPEG)
+#
+# Usage:
+#   require_relative "image_utils"
+#
+#   # Download and optimize in one call
+#   ImageUtils.download_and_optimize(url, "/path/to/output.jpg", type: :hero)
+#
+#   # Or optimize an existing file
+#   ImageUtils.optimize_image(input_path, output_path, max_width, max_height)
+#
+#   # Generate WebP version
+#   ImageUtils.generate_webp("/path/to/image.jpg")
+#
+# Dependencies:
+#   macOS: sips (built-in), cwebp (optional, via homebrew)
+#   Linux: imagemagick, cwebp (optional)
+#
+# ==============================================================================
 
 require "net/http"
 require "uri"

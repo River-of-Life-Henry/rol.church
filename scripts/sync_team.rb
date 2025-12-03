@@ -1,9 +1,51 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Sync team member profiles from Planning Center People API
-# Pulls profile photos and custom field data (bio, title) for specified people
-# Usage: ruby sync_team.rb
+# ==============================================================================
+# Sync Team Members from Planning Center People
+# ==============================================================================
+#
+# Purpose:
+#   Fetches team member profiles from Planning Center People API for display
+#   on the website. Downloads profile photos and extracts custom field data
+#   (bio, position title) from the "Website - ROL.Church" tab.
+#
+# Usage:
+#   ruby sync_team.rb
+#   bundle exec ruby sync_team.rb
+#
+# Output Files:
+#   src/data/team.json      - Team member data (name, bio, role, photo path)
+#   public/team/*.jpg       - Optimized profile photos (1200x1200)
+#   public/team/*.webp      - WebP versions of photos
+#
+# Configuration:
+#   Team members are defined in TEAM_MEMBERS constant with:
+#   - person_id: Planning Center People ID (from URL)
+#   - role: Default role/title (overridden by custom field if set)
+#   - slug: Filename for photo (e.g., "andrew_coffield")
+#   - page: Website page path (e.g., "/pastor")
+#
+#   To find a person's ID:
+#   1. Go to Planning Center People
+#   2. Open the person's profile
+#   3. ID is in URL: https://people.planningcenteronline.com/people/AC12345678
+#
+# Custom Fields:
+#   Data is pulled from "Website - ROL.Church" tab (ID: 239509):
+#   - "Bio" field: Person's biography text
+#   - "Position Title" field: Overrides default role
+#
+# Performance:
+#   - Sequential processing (only 2 team members currently)
+#   - Downloads photos via ImageUtils module
+#   - Typical runtime: 2-5 seconds
+#
+# Environment Variables:
+#   ROL_PLANNING_CENTER_CLIENT_ID  - Planning Center API token ID
+#   ROL_PLANNING_CENTER_SECRET     - Planning Center API token secret
+#
+# ==============================================================================
 
 require_relative "pco_client"
 require_relative "image_utils"

@@ -1,10 +1,44 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Sync events from Planning Center Calendar API
-# Pulls upcoming events for the next 12 weeks
-# Also identifies the next "Featured" event for the hello bar
-# Usage: ruby sync_events.rb
+# ==============================================================================
+# Sync Events from Planning Center Calendar
+# ==============================================================================
+#
+# Purpose:
+#   Fetches upcoming events from Planning Center Calendar API and generates
+#   JSON data files for the website. Also identifies the next "Featured"
+#   event for the hello bar notification.
+#
+# Usage:
+#   ruby sync_events.rb
+#   bundle exec ruby sync_events.rb
+#
+# Output Files:
+#   src/data/events.json          - All upcoming events (next 12 weeks)
+#   src/data/featured_event.json  - Next featured event for hello bar
+#
+# Performance:
+#   - Fetches event instances first (paginated, 100 per page)
+#   - Deduplicates event IDs to minimize API calls
+#   - Fetches event details in parallel (8 threads)
+#   - Typical runtime: 3-5 seconds
+#
+# Filtering:
+#   - Only Church Center-visible events
+#   - Excludes events with "Hidden" tag
+#   - Limited to next 12 weeks
+#
+# Alerts:
+#   - Outputs ALERT: prefix for issues that need attention
+#   - Missing featured event
+#   - Featured event without description or image
+#
+# Environment Variables:
+#   ROL_PLANNING_CENTER_CLIENT_ID  - Planning Center API token ID
+#   ROL_PLANNING_CENTER_SECRET     - Planning Center API token secret
+#
+# ==============================================================================
 
 require_relative "pco_client"
 require "json"

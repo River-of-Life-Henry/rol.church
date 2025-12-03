@@ -1,19 +1,51 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Sync hero images from Planning Center Media to the website
-# Usage: ruby sync_hero_images.rb
+# ==============================================================================
+# Sync Hero Images from Planning Center Media
+# ==============================================================================
 #
-# Image naming convention:
-# - header_<pagename>.jpg/png: Page-specific hero backgrounds
-#   The pagename is the URL path with non-alphanumeric chars replaced by underscores
-#   Examples:
-#     header_pastor.jpg -> /pastor/
-#     header_next_steps_visit.jpg -> /next-steps/visit/
-#     header_groups_hyphen.jpg -> /groups/hyphen/
+# Purpose:
+#   Downloads hero slider and page header images from Planning Center Services
+#   Media. Optimizes images for web and generates JSON manifest for the website.
 #
-# - All other images (1.jpg, 2.jpg, etc.): Used in home page hero slider
-#   These are numbered sequentially, excluding any header_* files
+# Usage:
+#   ruby sync_hero_images.rb
+#   bundle exec ruby sync_hero_images.rb
+#
+# Output Files:
+#   src/data/hero_images.json  - Image manifest with slider paths and header mapping
+#   public/hero/*.jpg          - Optimized hero images (1920x1080)
+#   public/hero/*.webp         - WebP versions of all images
+#
+# Image Naming Convention:
+#   header_<pagename>.jpg  - Page-specific hero backgrounds
+#                            The pagename maps to URL path with underscores
+#                            Examples:
+#                              header_pastor.jpg       -> /pastor/
+#                              header_next_steps_visit.jpg -> /next-steps/visit/
+#
+#   1.jpg, 2.jpg, etc.     - Home page hero slider images (numbered sequentially)
+#
+#   fb_*.jpg               - Facebook-sourced images (preserved, not deleted)
+#                            Created by sync_facebook_photos.rb
+#
+# Performance:
+#   - Downloads images in parallel (4 threads)
+#   - Optimizes via ImageUtils module (sips on macOS, ImageMagick on Linux)
+#   - Validates file sizes to reject HTML error responses
+#   - Typical runtime: 5-15 seconds depending on image count
+#
+# Dependencies:
+#   - Runs AFTER sync_facebook_photos.rb (preserves fb_* files)
+#   - Uses PCO_WEBSITE_HERO_MEDIA_ID to locate media in Planning Center
+#
+# Environment Variables:
+#   ROL_PLANNING_CENTER_CLIENT_ID  - Planning Center API token ID
+#   ROL_PLANNING_CENTER_SECRET     - Planning Center API token secret
+#   PCO_WEBSITE_HERO_MEDIA_ID      - Planning Center Media ID for hero images
+#
+# ==============================================================================
 
 require_relative "pco_client"
 require_relative "image_utils"

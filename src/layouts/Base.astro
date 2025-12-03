@@ -167,6 +167,9 @@ const churchSchema = {
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "uby5dkdz7o");
 
+      // Disable all content masking - this is a public static site with no user data
+      clarity("set", "mask", false);
+
       // Ensure Clarity can properly capture page state for heatmaps
       // Wait for fonts and page to be fully ready before signaling
       if (typeof window !== 'undefined') {

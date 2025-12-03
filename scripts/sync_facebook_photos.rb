@@ -1,26 +1,65 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Sync photos from Facebook page posts to local hero images folder
-# Usage: ruby sync_facebook_photos.rb
+# ==============================================================================
+# Sync Photos from Facebook Page
+# ==============================================================================
 #
-# This script:
-# 1. Fetches photos from Facebook page posts (last 2 years or since last sync)
-# 2. Analyzes each photo using AWS Rekognition to detect smiling faces
-# 3. Smart crops images to position faces at 1/3 from top (2/3 from bottom)
-# 4. Saves qualifying photos (≥3 people, ≥1 smiling, no text overlay) to public/hero/
-# 5. Uploads to Planning Center Services Media for management
+# Purpose:
+#   Automatically discovers and syncs high-quality congregation photos from
+#   Facebook page posts to the website hero slider. Uses AI to select only
+#   photos with multiple smiling people (no screenshots, slides, or text).
+#
+# Usage:
+#   ruby sync_facebook_photos.rb
+#   bundle exec ruby sync_facebook_photos.rb
+#
+# Output Files:
+#   public/hero/fb_*.jpg              - Qualifying photos (smart-cropped)
+#   public/hero/fb_*.webp             - WebP versions
+#   src/data/facebook_sync_state.json - Sync state (last sync, uploaded IDs)
+#   src/data/hero_images.json         - Updated with new slider images
+#
+# How It Works:
+#   1. Fetches photos from Facebook page posts (last 2 years or since last sync)
+#   2. Skips already-synced photos (tracked by post ID)
+#   3. Analyzes each photo with AWS Rekognition:
+#      - Detects faces and smile confidence
+#      - Detects text (rejects screenshots/slides)
+#   4. Qualifies photos meeting criteria:
+#      - ≥3 people detected
+#      - ≥1 smiling OR ≥60% smiling
+#      - ≤3 text elements (filters out graphics/slides)
+#   5. Smart crops to 16:9 with faces at 1/3 from top
+#   6. Uploads to Planning Center Media for backup/management
 #
 # AWS Rekognition Privacy Note:
-# - Images are sent to AWS Rekognition API for face/text detection
-# - AWS does NOT store images after processing (stateless API)
-# - No image data is used for AWS model training
-# - See: https://docs.aws.amazon.com/rekognition/latest/dg/data-privacy.html
+#   Images are sent to AWS Rekognition API for face/text detection.
+#   AWS does NOT store images after processing (stateless API).
+#   No image data is used for AWS model training.
+#   See: https://docs.aws.amazon.com/rekognition/latest/dg/data-privacy.html
 #
-# Required environment variables:
-# - FB_PAGE_ID: Facebook Page ID (147553505345372)
-# - FB_PAGE_ACCESS_TOKEN: Facebook System User Token (gets page token automatically)
-# - AWS credentials (via aws configure or AWS_ACCESS_KEY_ID_ROL/AWS_SECRET_ACCESS_KEY_ROL)
+# Deletion Tracking:
+#   If you manually delete a fb_*.jpg from public/hero/, the script will
+#   detect this and mark the post ID as "deleted" so it won't re-sync.
+#
+# Performance:
+#   - Analyzes photos in parallel (4 threads)
+#   - Saves photos in parallel (4 threads)
+#   - Skips duplicates before API calls to save costs
+#   - Typical runtime: 30-120 seconds (depends on new photo count)
+#
+# Environment Variables:
+#   FB_PAGE_ID                         - Facebook Page ID
+#   FB_PAGE_ACCESS_TOKEN               - Facebook System User Token
+#   AWS_ACCESS_KEY_ID                  - AWS credentials for Rekognition
+#   AWS_SECRET_ACCESS_KEY              - AWS credentials for Rekognition
+#   AWS_REGION                         - AWS region (default: us-east-1)
+#   ROL_PLANNING_CENTER_CLIENT_ID      - For uploading to PCO Media
+#   ROL_PLANNING_CENTER_SECRET         - For uploading to PCO Media
+#   PCO_WEBSITE_HERO_MEDIA_ID          - PCO Media ID for hero images
+#
+# ==============================================================================
 
 require_relative "image_utils"
 require_relative "pco_client"
@@ -567,7 +606,19 @@ class FacebookPhotoSync
   end
 
   # Smart crop image to position faces at 1/3 from top (2/3 from bottom)
-  # Target aspect ratio is 16:9 for hero slider images
+  # This follows the photographic "rule of thirds" for more pleasing composition.
+  # Target aspect ratio is 16:9 for hero slider images.
+  #
+  # Algorithm:
+  #   1. Calculate average face center position from Rekognition bounding boxes
+  #   2. Determine crop dimensions to achieve 16:9 aspect ratio
+  #   3. If image is wider than 16:9: crop width, center on faces horizontally
+  #   4. If image is taller than 16:9: crop height, position faces at 1/3 from top
+  #   5. Clamp crop bounds to stay within image dimensions
+  #
+  # @param input_path [String] Path to original image
+  # @param output_path [String] Path for cropped/optimized output
+  # @param face_boxes [Array] Rekognition face bounding boxes (normalized 0-1 coords)
   def smart_crop_and_optimize(input_path, output_path, face_boxes)
     # Read image dimensions using sips
     dims = `sips -g pixelWidth -g pixelHeight "#{input_path}" 2>/dev/null`

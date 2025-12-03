@@ -1,28 +1,51 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Sync latest Sunday service video data from Cloudflare Stream
-# Usage: ruby sync_cloudflare_video.rb
+# ==============================================================================
+# Sync Latest Video from Cloudflare Stream
+# ==============================================================================
 #
-# This script fetches recordings from the Cloudflare Stream Live Input
-# and finds the most recent SUNDAY service recording to display on the
-# Watch Live page when not streaming live.
+# Purpose:
+#   Fetches the most recent Sunday service recording from Cloudflare Stream
+#   and matches it with Planning Center service plan data for series artwork.
+#   Updates the Watch Live page to show the latest service when not streaming.
 #
-# It also fetches Planning Center service plan data to get series artwork
-# for the video poster image.
+# Usage:
+#   ruby sync_cloudflare_video.rb
+#   bundle exec ruby sync_cloudflare_video.rb
+#
+# Output Files:
+#   src/pages/live.astro           - Updates CLOUDFLARE_LATEST_VIDEO_ID constant
+#   src/data/cloudflare_video.json - Video metadata (title, poster URL, duration)
+#
+# How It Works:
+#   1. Fetches all recordings from Cloudflare Stream Live Input
+#   2. Filters to "ready" recordings only
+#   3. Finds most recent SUNDAY recording (wday=0, hour>=10 CT)
+#   4. Falls back to most recent recording if no Sunday found
+#   5. Looks up Planning Center service plan for that date
+#   6. Extracts series artwork URL for video poster
+#   7. Updates live.astro and cloudflare_video.json
+#
+# Video Title Format:
+#   "M/D/YYYY: Plan Title - Service Type Name"
+#   Example: "12/1/2024: The Christmas Story - Sunday Morning"
 #
 # NOTE: Video title updates in Cloudflare are handled by pco-streaming-sync.
-# This script only READS from Cloudflare and updates local files.
+#       This script only READS from Cloudflare and updates local files.
 #
-# Environment variables required:
-#   CLOUDFLARE_ACCOUNT_ID - Cloudflare account ID
-#   CLOUDFLARE_API_TOKEN - Cloudflare API token with Stream read access
-#   ROL_PLANNING_CENTER_CLIENT_ID - Planning Center API client ID
-#   ROL_PLANNING_CENTER_SECRET - Planning Center API secret
+# Performance:
+#   - Single API call to Cloudflare Stream
+#   - Single paginated call to Planning Center Services
+#   - Typical runtime: 2-4 seconds
 #
-# The script updates:
-#   - src/pages/live.astro (CLOUDFLARE_LATEST_VIDEO_ID constant)
-#   - src/data/cloudflare_video.json (video metadata including poster URL)
+# Environment Variables:
+#   CLOUDFLARE_ACCOUNT_ID          - Cloudflare account ID
+#   CLOUDFLARE_API_TOKEN           - Cloudflare API token (Stream read access)
+#   ROL_PLANNING_CENTER_CLIENT_ID  - Planning Center API token ID
+#   ROL_PLANNING_CENTER_SECRET     - Planning Center API token secret
+#
+# ==============================================================================
 
 require "bundler/setup"
 require "net/http"

@@ -1,9 +1,46 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Sync groups from Planning Center Groups API
-# Pulls listed/public groups with their leaders, images, and descriptions
-# Usage: ruby sync_groups.rb
+# ==============================================================================
+# Sync Groups from Planning Center Groups
+# ==============================================================================
+#
+# Purpose:
+#   Fetches ministry groups from Planning Center Groups API with their leaders,
+#   images, and descriptions. Downloads and optimizes header images and leader
+#   avatars for the website.
+#
+# Usage:
+#   ruby sync_groups.rb
+#   bundle exec ruby sync_groups.rb
+#
+# Output Files:
+#   src/data/groups.json       - Group data with leaders and metadata
+#   public/groups/*.jpg        - Optimized header images and leader avatars
+#   public/groups/*.webp       - WebP versions of all images
+#
+# Performance:
+#   - Fetches groups paginated (100 per page)
+#   - Processes groups in parallel (6 threads)
+#   - Fetches person details in parallel (4 threads per group)
+#   - Downloads images via ImageUtils module
+#   - Typical runtime: 10-30 seconds depending on image downloads
+#
+# Features:
+#   - Smart couple detection (same last name, different genders)
+#   - Combined display names for couples ("John & Jane Smith")
+#   - Custom bio extraction from Planning Center "Website" tab fields
+#   - Skips groups with no leaders
+#
+# Filtering:
+#   - Only Church Center-visible groups
+#   - Only groups with at least one leader
+#
+# Environment Variables:
+#   ROL_PLANNING_CENTER_CLIENT_ID  - Planning Center API token ID
+#   ROL_PLANNING_CENTER_SECRET     - Planning Center API token secret
+#
+# ==============================================================================
 
 require_relative "pco_client"
 require_relative "image_utils"
@@ -242,10 +279,16 @@ def process_group(api, group, mutex, errors)
     end
 
     # Detect and combine couples (same last name, different genders)
+    # This creates combined entries like "John & Jane Smith" for married couples
+    # who both serve as group leaders. Matching criteria:
+    #   1. Same last name (case-insensitive)
+    #   2. Different genders
+    #   3. Neither already processed
     processed_ids = Set.new
     raw_leaders.each do |leader|
       next if processed_ids.include?(leader[:id])
 
+      # Look for potential spouse among remaining unprocessed leaders
       spouse = raw_leaders.find do |other|
         other[:id] != leader[:id] &&
         !processed_ids.include?(other[:id]) &&
@@ -254,9 +297,11 @@ def process_group(api, group, mutex, errors)
       end
 
       if spouse
+        # Mark both as processed to prevent duplicate entries
         processed_ids.add(leader[:id])
         processed_ids.add(spouse[:id])
 
+        # Order as "Husband & Wife LastName" - use male's photo as couple photo
         male = leader[:gender]&.downcase == "male" ? leader : spouse
         female = leader[:gender]&.downcase == "male" ? spouse : leader
 
