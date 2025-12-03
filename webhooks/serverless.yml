@@ -34,20 +34,21 @@ functions:
           path: health
           method: GET
 
-plugins:
-  - serverless-domain-manager
-
-custom:
-  customDomain:
-    domainName: ${self:custom.domains.${self:provider.stage}}
-    basePath: ''
-    stage: ${self:provider.stage}
-    createRoute53Record: true
-    certificateRegion: us-east-1
-    endpointType: regional
-  domains:
-    dev: webhooks.api.dev.rol.church
-    prod: webhooks.api.rol.church
+# Custom domain plugin - uncomment when DNS/ACM is configured
+# plugins:
+#   - serverless-domain-manager
+#
+# custom:
+#   customDomain:
+#     domainName: ${self:custom.domains.${self:provider.stage}}
+#     basePath: ''
+#     stage: ${self:provider.stage}
+#     createRoute53Record: true
+#     certificateRegion: us-east-1
+#     endpointType: regional
+#   domains:
+#     dev: webhooks.api.dev.rol.church
+#     prod: webhooks.api.rol.church
 
 package:
   patterns:
