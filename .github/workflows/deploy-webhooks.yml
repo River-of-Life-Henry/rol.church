@@ -52,7 +52,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
           GITHUB_REPO: River-of-Life-Henry/rol.church
-          PCO_WEBHOOK_SECRET: ${{ secrets.PCO_WEBHOOK_SECRET }}
           CLOUDFLARE_WEBHOOK_SECRET: ${{ secrets.CLOUDFLARE_WEBHOOK_SECRET }}
         run: |
           STAGE="${{ inputs.stage || 'prod' }}"
@@ -106,7 +105,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
           GITHUB_REPO: River-of-Life-Henry/rol.church
-          PCO_WEBHOOK_SECRET: ${{ secrets.PCO_WEBHOOK_SECRET }}
           # Use the captured secret since secrets context won't have the new value yet
           CLOUDFLARE_WEBHOOK_SECRET: ${{ steps.verify-webhooks.outputs.cf_secret }}
         run: |
