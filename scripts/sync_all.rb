@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Run all sync scripts and send a changelog email via AWS SES
+# Run all sync scripts in parallel and send a changelog email via AWS SES
 # Usage: ruby sync_all.rb
 #
 # Environment variables for email (uses existing AWS credentials from Rekognition):
@@ -15,6 +15,7 @@ require "bundler/setup"
 require "dotenv"
 require "json"
 require "time"
+require "parallel"
 
 # Load environment variables from .env file (for local development)
 Dotenv.load(File.join(__dir__, ".env")) if File.exist?(File.join(__dir__, ".env"))
@@ -26,21 +27,81 @@ ENV['TZ'] = 'America/Chicago'
 $stdout.sync = true
 $stderr.sync = true
 
-# Changelog tracking
-$changelog = {
-  events: { added: [], removed: [], updated: [] },
-  groups: { added: [], removed: [], updated: [] },
-  hero_images: { added: [], removed: [] },
-  team: { updated: [] },
-  video: { updated: nil },
-  facebook_photos: { added: [], analyzed: 0, qualifying: 0 }
-}
+# Thread-safe changelog and error tracking
+require 'monitor'
+
+class SyncState
+  include MonitorMixin
+
+  def initialize
+    super()
+    @changelog = {
+      events: { added: [], removed: [], updated: [] },
+      groups: { added: [], removed: [], updated: [] },
+      hero_images: { added: [], removed: [] },
+      team: { updated: [] },
+      video: { updated: nil },
+      facebook_photos: { added: [], analyzed: 0, qualifying: 0 }
+    }
+    @errors = []
+    @script_results = {}
+  end
+
+  def add_error(script, message)
+    synchronize { @errors << { script: script, message: message, time: Time.now } }
+  end
+
+  def set_result(script, success, duration)
+    synchronize { @script_results[script] = { success: success, duration: duration } }
+  end
+
+  def errors
+    synchronize { @errors.dup }
+  end
+
+  def script_results
+    synchronize { @script_results.dup }
+  end
+
+  def changelog
+    synchronize { @changelog }
+  end
+
+  def update_changelog(section, key, value)
+    synchronize do
+      if value.is_a?(Array)
+        @changelog[section][key].concat(value)
+      else
+        @changelog[section][key] = value
+      end
+    end
+  end
+
+  def has_errors?
+    synchronize { @errors.any? }
+  end
+
+  def has_changes?
+    synchronize do
+      @changelog.values.any? do |section|
+        if section.is_a?(Hash)
+          section.values.any? { |v| v.is_a?(Array) ? v.any? : !v.nil? }
+        else
+          !section.nil? && section != 0
+        end
+      end
+    end
+  end
+end
+
+$state = SyncState.new
 
 # Store previous data for comparison
 def load_previous_data(file_path)
   return nil unless File.exist?(file_path)
   JSON.parse(File.read(file_path))
-rescue
+rescue => e
+  $state.add_error("load_data", "Failed to load #{file_path}: #{e.message}")
   nil
 end
 
@@ -56,17 +117,13 @@ def track_event_changes(old_data, new_data)
 
   # Find added events
   added_ids = new_ids - old_ids
-  added_ids.each do |id|
-    event = new_events.find { |e| e[:id] == id }
-    $changelog[:events][:added] << event[:name] if event
-  end
+  added = added_ids.map { |id| new_events.find { |e| e[:id] == id }&.dig(:name) }.compact
+  $state.update_changelog(:events, :added, added)
 
   # Find removed events
   removed_ids = old_ids - new_ids
-  removed_ids.each do |id|
-    event = old_events.find { |e| e[:id] == id }
-    $changelog[:events][:removed] << event[:name] if event
-  end
+  removed = removed_ids.map { |id| old_events.find { |e| e[:id] == id }&.dig(:name) }.compact
+  $state.update_changelog(:events, :removed, removed)
 end
 
 # Compare groups and track changes
@@ -81,27 +138,22 @@ def track_group_changes(old_data, new_data)
 
   # Find added groups
   added_ids = new_ids - old_ids
-  added_ids.each do |id|
-    group = new_groups.find { |g| g[:id] == id }
-    $changelog[:groups][:added] << group[:name] if group
-  end
+  added = added_ids.map { |id| new_groups.find { |g| g[:id] == id }&.dig(:name) }.compact
+  $state.update_changelog(:groups, :added, added)
 
   # Find removed groups
   removed_ids = old_ids - new_ids
-  removed_ids.each do |id|
-    group = old_groups.find { |g| g[:id] == id }
-    $changelog[:groups][:removed] << group[:name] if group
-  end
+  removed = removed_ids.map { |id| old_groups.find { |g| g[:id] == id }&.dig(:name) }.compact
+  $state.update_changelog(:groups, :removed, removed)
 
   # Find updated groups (description changed)
   common_ids = old_ids & new_ids
-  common_ids.each do |id|
+  updated = common_ids.map do |id|
     old_group = old_groups.find { |g| g[:id] == id }
     new_group = new_groups.find { |g| g[:id] == id }
-    if old_group && new_group && old_group[:description] != new_group[:description]
-      $changelog[:groups][:updated] << new_group[:name]
-    end
-  end
+    new_group[:name] if old_group && new_group && old_group[:description] != new_group[:description]
+  end.compact
+  $state.update_changelog(:groups, :updated, updated)
 end
 
 # Compare hero images and track changes
@@ -111,11 +163,11 @@ def track_hero_image_changes(old_data, new_data)
   old_images = old_data["images"] || []
   new_images = new_data["images"] || []
 
-  added = new_images - old_images
-  removed = old_images - new_images
+  added = (new_images - old_images).map { |i| File.basename(i) }
+  removed = (old_images - new_images).map { |i| File.basename(i) }
 
-  $changelog[:hero_images][:added] = added.map { |i| File.basename(i) }
-  $changelog[:hero_images][:removed] = removed.map { |i| File.basename(i) }
+  $state.update_changelog(:hero_images, :added, added)
+  $state.update_changelog(:hero_images, :removed, removed)
 end
 
 # Compare team data and track changes
@@ -125,17 +177,18 @@ def track_team_changes(old_data, new_data)
   old_team = old_data["team"] || []
   new_team = new_data["team"] || []
 
-  new_team.each do |new_member|
+  updated = new_team.map do |new_member|
     old_member = old_team.find { |m| m["id"] == new_member["id"] }
     next unless old_member
 
-    # Check for meaningful changes
     if old_member["bio"] != new_member["bio"] ||
        old_member["role"] != new_member["role"] ||
        old_member["hasPhoto"] != new_member["hasPhoto"]
-      $changelog[:team][:updated] << new_member["displayName"]
+      new_member["displayName"]
     end
-  end
+  end.compact
+
+  $state.update_changelog(:team, :updated, updated)
 end
 
 # Compare video data and track changes
@@ -143,87 +196,110 @@ def track_video_changes(old_data, new_data)
   return unless old_data && new_data
 
   if old_data["video_id"] != new_data["video_id"]
-    $changelog[:video][:updated] = new_data["title"]
+    $state.update_changelog(:video, :updated, new_data["title"])
   end
 end
 
 # Build email body from changelog
 def build_changelog_email
   lines = []
-  lines << "ROL.Church Daily Sync Report"
-  lines << "=" * 40
+  changelog = $state.changelog
+  errors = $state.errors
+
+  if errors.any?
+    lines << "⚠️  ROL.Church Daily Sync Report - ERRORS DETECTED"
+  else
+    lines << "ROL.Church Daily Sync Report"
+  end
+  lines << "=" * 50
   lines << ""
   lines << "Sync completed at: #{Time.now.strftime('%B %d, %Y at %I:%M %p %Z')}"
   lines << ""
 
-  has_changes = false
+  # Show script execution summary
+  results = $state.script_results
+  if results.any?
+    lines << "SCRIPT EXECUTION"
+    lines << "-" * 20
+    results.each do |script, result|
+      status = result[:success] ? "✓" : "✗"
+      lines << "  #{status} #{script} (#{result[:duration].round(1)}s)"
+    end
+    lines << ""
+  end
+
+  # Show errors prominently at the top
+  if errors.any?
+    lines << "❌ ERRORS (#{errors.length})"
+    lines << "-" * 20
+    errors.each do |error|
+      lines << "  [#{error[:script]}] #{error[:message]}"
+    end
+    lines << ""
+  end
+
+  has_changes = $state.has_changes?
 
   # Events
-  if $changelog[:events][:added].any? || $changelog[:events][:removed].any?
-    has_changes = true
+  if changelog[:events][:added].any? || changelog[:events][:removed].any?
     lines << "EVENTS"
     lines << "-" * 20
-    $changelog[:events][:added].each { |e| lines << "  + Added: #{e}" }
-    $changelog[:events][:removed].each { |e| lines << "  - Removed: #{e}" }
+    changelog[:events][:added].each { |e| lines << "  + Added: #{e}" }
+    changelog[:events][:removed].each { |e| lines << "  - Removed: #{e}" }
     lines << ""
   end
 
   # Groups
-  if $changelog[:groups][:added].any? || $changelog[:groups][:removed].any? || $changelog[:groups][:updated].any?
-    has_changes = true
+  if changelog[:groups][:added].any? || changelog[:groups][:removed].any? || changelog[:groups][:updated].any?
     lines << "GROUPS"
     lines << "-" * 20
-    $changelog[:groups][:added].each { |g| lines << "  + Added: #{g}" }
-    $changelog[:groups][:removed].each { |g| lines << "  - Removed: #{g}" }
-    $changelog[:groups][:updated].each { |g| lines << "  ~ Updated: #{g}" }
+    changelog[:groups][:added].each { |g| lines << "  + Added: #{g}" }
+    changelog[:groups][:removed].each { |g| lines << "  - Removed: #{g}" }
+    changelog[:groups][:updated].each { |g| lines << "  ~ Updated: #{g}" }
     lines << ""
   end
 
   # Hero Images
-  if $changelog[:hero_images][:added].any? || $changelog[:hero_images][:removed].any?
-    has_changes = true
+  if changelog[:hero_images][:added].any? || changelog[:hero_images][:removed].any?
     lines << "HERO IMAGES"
     lines << "-" * 20
-    $changelog[:hero_images][:added].each { |i| lines << "  + Added: #{i}" }
-    $changelog[:hero_images][:removed].each { |i| lines << "  - Removed: #{i}" }
+    changelog[:hero_images][:added].each { |i| lines << "  + Added: #{i}" }
+    changelog[:hero_images][:removed].each { |i| lines << "  - Removed: #{i}" }
     lines << ""
   end
 
   # Facebook Photos
-  if $changelog[:facebook_photos][:added].any?
-    has_changes = true
+  if changelog[:facebook_photos][:added].any?
     lines << "FACEBOOK PHOTOS"
     lines << "-" * 20
-    lines << "  Analyzed: #{$changelog[:facebook_photos][:analyzed]} photos"
-    lines << "  Qualifying: #{$changelog[:facebook_photos][:qualifying]} photos"
-    $changelog[:facebook_photos][:added].each { |f| lines << "  + Added: #{f}" }
+    lines << "  Analyzed: #{changelog[:facebook_photos][:analyzed]} photos"
+    lines << "  Qualifying: #{changelog[:facebook_photos][:qualifying]} photos"
+    changelog[:facebook_photos][:added].each { |f| lines << "  + Added: #{f}" }
     lines << ""
   end
 
   # Team
-  if $changelog[:team][:updated].any?
-    has_changes = true
+  if changelog[:team][:updated].any?
     lines << "TEAM"
     lines << "-" * 20
-    $changelog[:team][:updated].each { |t| lines << "  ~ Updated: #{t}" }
+    changelog[:team][:updated].each { |t| lines << "  ~ Updated: #{t}" }
     lines << ""
   end
 
   # Video
-  if $changelog[:video][:updated]
-    has_changes = true
+  if changelog[:video][:updated]
     lines << "LATEST VIDEO"
     lines << "-" * 20
-    lines << "  ~ New video: #{$changelog[:video][:updated]}"
+    lines << "  ~ New video: #{changelog[:video][:updated]}"
     lines << ""
   end
 
-  unless has_changes
+  if !has_changes && errors.empty?
     lines << "No changes detected in this sync."
     lines << ""
   end
 
-  lines << "-" * 40
+  lines << "-" * 50
   lines << "View site: https://rol.church"
   lines << ""
 
@@ -233,24 +309,17 @@ end
 # Send changelog email via AWS SES
 def send_changelog_email
   email_body = build_changelog_email
-
-  # Check if there are any changes worth reporting
-  has_changes = $changelog.values.any? do |section|
-    if section.is_a?(Hash)
-      section.values.any? { |v| v.is_a?(Array) ? v.any? : !v.nil? }
-    else
-      !section.nil? && section != 0
-    end
-  end
+  has_errors = $state.has_errors?
+  has_changes = $state.has_changes?
 
   puts "\n" + "=" * 50
   puts "CHANGELOG SUMMARY"
   puts "=" * 50
   puts email_body
 
-  # Only send email if there are changes
-  unless has_changes
-    puts "INFO: No changes to report, skipping email"
+  # Always send email if there are errors, otherwise only if there are changes
+  unless has_errors || has_changes
+    puts "INFO: No changes or errors to report, skipping email"
     return
   end
 
@@ -270,6 +339,16 @@ def send_changelog_email
     return
   end
 
+  # Build subject line based on status
+  date_str = Time.now.strftime('%m/%d/%Y')
+  subject = if has_errors
+    "⚠️ ROL.Church Sync FAILED - #{date_str}"
+  elsif has_changes
+    "ROL.Church Sync Report - #{date_str}"
+  else
+    "ROL.Church Sync Report - #{date_str} (No Changes)"
+  end
+
   begin
     require "aws-sdk-ses"
 
@@ -285,7 +364,7 @@ def send_changelog_email
       },
       message: {
         subject: {
-          data: "ROL.Church Sync Report - #{Time.now.strftime('%m/%d/%Y')}",
+          data: subject,
           charset: "UTF-8"
         },
         body: {
@@ -308,8 +387,61 @@ def send_changelog_email
   end
 end
 
+# Run a single sync script with error handling
+def run_script(script)
+  script_name = File.basename(script, '.rb')
+  start_time = Time.now
+  success = false
+
+  begin
+    puts "[#{script_name}] Starting..."
+
+    # Capture stdout/stderr from the script
+    old_stdout = $stdout
+    old_stderr = $stderr
+    captured_output = StringIO.new
+
+    begin
+      $stdout = captured_output
+      $stderr = captured_output
+
+      load File.join(__dir__, script)
+      success = true
+    ensure
+      $stdout = old_stdout
+      $stderr = old_stderr
+    end
+
+    output = captured_output.string
+    duration = Time.now - start_time
+
+    # Check for ERROR in output even if script didn't raise
+    if output =~ /^ERROR[:\s]/i
+      error_lines = output.lines.select { |l| l =~ /^ERROR[:\s]/i }.map(&:strip)
+      error_lines.each { |err| $state.add_error(script_name, err) }
+      success = false
+    end
+
+    # Print captured output with prefix
+    output.lines.each { |line| puts "[#{script_name}] #{line}" }
+
+    puts "[#{script_name}] Completed in #{duration.round(1)}s"
+    $state.set_result(script_name, success, duration)
+
+  rescue => e
+    duration = Time.now - start_time
+    error_msg = "#{e.class}: #{e.message}"
+    puts "[#{script_name}] FAILED: #{error_msg}"
+    puts e.backtrace.first(5).map { |l| "[#{script_name}]   #{l}" }.join("\n")
+    $state.add_error(script_name, error_msg)
+    $state.set_result(script_name, false, duration)
+  end
+
+  success
+end
+
 puts "=" * 50
-puts "Planning Center Sync"
+puts "Daily Website Sync"
 puts "=" * 50
 puts
 
@@ -328,49 +460,97 @@ HERO_IMAGES_FILE = File.join(DATA_DIR, "hero_images.json")
 TEAM_FILE = File.join(DATA_DIR, "team.json")
 VIDEO_FILE = File.join(DATA_DIR, "cloudflare_video.json")
 
-# Load previous data for comparison
-prev_events = load_previous_data(EVENTS_FILE)
-prev_groups = load_previous_data(GROUPS_FILE)
-prev_hero_images = load_previous_data(HERO_IMAGES_FILE)
-prev_team = load_previous_data(TEAM_FILE)
-prev_video = load_previous_data(VIDEO_FILE)
+# Load previous data for comparison (in parallel)
+puts "Loading previous data..."
+prev_data = {}
+Parallel.each(
+  [
+    [:events, EVENTS_FILE],
+    [:groups, GROUPS_FILE],
+    [:hero_images, HERO_IMAGES_FILE],
+    [:team, TEAM_FILE],
+    [:video, VIDEO_FILE]
+  ],
+  in_threads: 5
+) do |key, file|
+  prev_data[key] = load_previous_data(file)
+end
 
-# Run each sync script
-# Note: sync_facebook_photos.rb runs BEFORE sync_hero_images.rb so that
-# Facebook photos are downloaded and optimized before hero_images.json is generated
-scripts = %w[
+# Scripts organized by dependency groups
+# Group 1: Independent scripts that can run in parallel
+# Group 2: Scripts that depend on Group 1 (hero_images depends on facebook_photos)
+# Group 3: Scripts that can run after Group 1
+
+group1_scripts = %w[
   sync_events.rb
   sync_groups.rb
   sync_facebook_photos.rb
-  sync_hero_images.rb
   sync_team.rb
   sync_cloudflare_video.rb
 ]
 
-scripts.each do |script|
-  puts "\nRunning #{script}..."
-  puts "-" * 30
-  load File.join(__dir__, script)
+group2_scripts = %w[
+  sync_hero_images.rb
+]
+
+total_start = Time.now
+
+# Run Group 1 in parallel
+puts "\n" + "-" * 50
+puts "Running parallel sync scripts..."
+puts "-" * 50
+
+Parallel.each(group1_scripts, in_threads: group1_scripts.length) do |script|
+  run_script(script)
 end
 
-# Load new data and track changes
-new_events = load_previous_data(EVENTS_FILE)
-new_groups = load_previous_data(GROUPS_FILE)
-new_hero_images = load_previous_data(HERO_IMAGES_FILE)
-new_team = load_previous_data(TEAM_FILE)
-new_video = load_previous_data(VIDEO_FILE)
+# Run Group 2 (depends on facebook_photos completing)
+puts "\n" + "-" * 50
+puts "Running dependent sync scripts..."
+puts "-" * 50
+
+group2_scripts.each do |script|
+  run_script(script)
+end
+
+total_duration = Time.now - total_start
+puts "\n" + "-" * 50
+puts "All scripts completed in #{total_duration.round(1)}s"
+puts "-" * 50
+
+# Load new data and track changes (in parallel)
+puts "\nLoading new data and tracking changes..."
+new_data = {}
+Parallel.each(
+  [
+    [:events, EVENTS_FILE],
+    [:groups, GROUPS_FILE],
+    [:hero_images, HERO_IMAGES_FILE],
+    [:team, TEAM_FILE],
+    [:video, VIDEO_FILE]
+  ],
+  in_threads: 5
+) do |key, file|
+  new_data[key] = load_previous_data(file)
+end
 
 # Track all changes
-track_event_changes(prev_events, new_events)
-track_group_changes(prev_groups, new_groups)
-track_hero_image_changes(prev_hero_images, new_hero_images)
-track_team_changes(prev_team, new_team)
-track_video_changes(prev_video, new_video)
+track_event_changes(prev_data[:events], new_data[:events])
+track_group_changes(prev_data[:groups], new_data[:groups])
+track_hero_image_changes(prev_data[:hero_images], new_data[:hero_images])
+track_team_changes(prev_data[:team], new_data[:team])
+track_video_changes(prev_data[:video], new_data[:video])
 
 puts
 puts "=" * 50
 puts "Sync complete!"
+if $state.has_errors?
+  puts "⚠️  COMPLETED WITH ERRORS"
+end
 puts "=" * 50
 
 # Send changelog email
 send_changelog_email
+
+# Exit with error code if any scripts failed
+exit($state.has_errors? ? 1 : 0)
