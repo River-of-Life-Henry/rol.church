@@ -18,6 +18,9 @@ on:
           - dev
           - prod
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -41,6 +44,24 @@ jobs:
           npm install -g serverless
           npm install -g serverless-domain-manager
 
+      - name: Generate PCO webhook secret if not set
+        id: pco-secret
+        env:
+          GH_TOKEN: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
+          EXISTING_SECRET: ${{ secrets.PCO_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$EXISTING_SECRET" ]; then
+            echo "PCO_WEBHOOK_SECRET not set, generating new secret..."
+            NEW_SECRET=$(openssl rand -hex 32)
+            echo "::add-mask::$NEW_SECRET"
+            gh secret set PCO_WEBHOOK_SECRET --body "$NEW_SECRET"
+            echo "secret=$NEW_SECRET" >> $GITHUB_OUTPUT
+            echo "✓ Created PCO_WEBHOOK_SECRET"
+          else
+            echo "✓ PCO_WEBHOOK_SECRET already exists"
+            echo "secret=$EXISTING_SECRET" >> $GITHUB_OUTPUT
+          fi
+
       - name: Deploy to AWS
         id: deploy
         working-directory: webhooks
@@ -49,7 +70,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
           GITHUB_REPO: River-of-Life-Henry/rol.church
-          PCO_WEBHOOK_SECRET: ${{ secrets.PCO_WEBHOOK_SECRET }}
+          PCO_WEBHOOK_SECRET: ${{ steps.pco-secret.outputs.secret }}
           CLOUDFLARE_WEBHOOK_SECRET: ${{ secrets.CLOUDFLARE_WEBHOOK_SECRET }}
         run: |
           STAGE="${{ inputs.stage || 'prod' }}"
@@ -58,13 +79,46 @@ jobs:
           sls deploy --stage $STAGE --verbose
 
       - name: Verify and setup webhooks
+        id: verify-webhooks
         working-directory: webhooks
         env:
           ROL_PLANNING_CENTER_CLIENT_ID: ${{ secrets.ROL_PLANNING_CENTER_CLIENT_ID }}
           ROL_PLANNING_CENTER_SECRET: ${{ secrets.ROL_PLANNING_CENTER_SECRET }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          GH_TOKEN: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
         run: |
           STAGE="${{ steps.deploy.outputs.stage }}"
           echo "Verifying webhooks for stage: $STAGE"
-          ruby scripts/verify_and_setup_webhooks.rb --stage $STAGE
+
+          # Run the verification script and capture output
+          ruby scripts/verify_and_setup_webhooks.rb --stage $STAGE | tee /tmp/webhook_output.txt
+
+          # Check if a new Cloudflare secret was generated
+          if grep -q "CLOUDFLARE_WEBHOOK_SECRET=" /tmp/webhook_output.txt; then
+            CF_SECRET=$(grep "CLOUDFLARE_WEBHOOK_SECRET=" /tmp/webhook_output.txt | cut -d'=' -f2)
+            if [ -n "$CF_SECRET" ]; then
+              echo "::add-mask::$CF_SECRET"
+              echo "New Cloudflare webhook secret detected, saving to GitHub secrets..."
+              gh secret set CLOUDFLARE_WEBHOOK_SECRET --body "$CF_SECRET"
+              echo "✓ Saved CLOUDFLARE_WEBHOOK_SECRET to GitHub secrets"
+              echo "cf_secret=$CF_SECRET" >> $GITHUB_OUTPUT
+              echo "cf_secret_updated=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Redeploy Lambda with Cloudflare secret (if updated)
+        if: steps.verify-webhooks.outputs.cf_secret_updated == 'true'
+        working-directory: webhooks
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ROL }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
+          GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
+          GITHUB_REPO: River-of-Life-Henry/rol.church
+          PCO_WEBHOOK_SECRET: ${{ steps.pco-secret.outputs.secret }}
+          # Use the captured secret since secrets context won't have the new value yet
+          CLOUDFLARE_WEBHOOK_SECRET: ${{ steps.verify-webhooks.outputs.cf_secret }}
+        run: |
+          STAGE="${{ steps.deploy.outputs.stage }}"
+          echo "Redeploying to update Cloudflare webhook secret..."
+          sls deploy --stage $STAGE
