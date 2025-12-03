@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-11-29T21:01:22-06:00",
+  "updated_at": "2025-12-03T05:42:16-06:00",
   "team": [
     {
       "id": "140403632",
@@ -12,8 +12,8 @@
       "spouseName": null,
       "displayName": "Andrew Coffield",
       "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!",
-      "image": "/team/andrew_coffield.jpg",
-      "hasPhoto": true
+      "image": null,
+      "hasPhoto": false
     },
     {
       "id": "159045547",
@@ -26,8 +26,8 @@
       "spouseName": null,
       "displayName": "Christopher Huff",
       "bio": "From MI!",
-      "image": "/team/christopher_huff.jpg",
-      "hasPhoto": true
+      "image": null,
+      "hasPhoto": false
     }
   ]
 }
