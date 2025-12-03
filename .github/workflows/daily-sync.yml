@@ -101,6 +101,20 @@ jobs:
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
         id: git-push
+        env:
+          ROL_PLANNING_CENTER_CLIENT_ID: ${{ secrets.ROL_PLANNING_CENTER_CLIENT_ID }}
+          ROL_PLANNING_CENTER_SECRET: ${{ secrets.ROL_PLANNING_CENTER_SECRET }}
+          PCO_WEBSITE_HERO_MEDIA_ID: ${{ secrets.PCO_WEBSITE_HERO_MEDIA_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ROL }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
+          AWS_REGION: us-east-1
+          SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL }}
+          CHANGELOG_EMAIL: david.plappert@rol.church
+          SYNC_SOURCE: ${{ inputs.sync_source || 'all' }}
         run: |
           set -e  # Exit on error
 
@@ -122,7 +136,34 @@ jobs:
             else
               echo "WARN: Push attempt $i failed, retrying..."
               sleep 2
-              git pull --rebase
+              # Fetch latest, reset to remote, then re-run sync to get fresh data
+              # This avoids merge conflicts in auto-generated JSON files
+              git fetch origin main
+              git reset --hard origin/main
+
+              # Re-run the sync to regenerate fresh data on top of latest
+              echo "Re-running sync on latest main..."
+              cd scripts
+              case "$SYNC_SOURCE" in
+                cloudflare)
+                  ruby sync_cloudflare_video.rb
+                  ;;
+                pco)
+                  ruby sync_all.rb --skip-cloudflare
+                  ;;
+                *)
+                  ruby sync_all.rb
+                  ;;
+              esac
+              cd ..
+
+              # Re-stage and commit
+              git add src/data/ public/hero/ public/team/ public/groups/ src/pages/live.astro
+              if git diff --cached --quiet; then
+                echo "No changes after re-sync, exiting successfully"
+                exit 0
+              fi
+              git commit -m "Update data from Planning Center [automated]"
             fi
           done
 
