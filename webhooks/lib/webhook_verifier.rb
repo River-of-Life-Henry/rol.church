@@ -38,40 +38,40 @@ module WebhookVerifier
 
     private
 
-    # Verify Planning Center webhook
+    # Verify Planning Center webhook signature
     #
-    # Planning Center webhooks don't use a shared secret for signature verification.
-    # Instead, they include an authenticity header that can be used to verify the
-    # webhook came from PCO. For our use case, we verify:
-    #   1. The request has the expected PCO headers
-    #   2. The body is valid JSON with expected PCO structure
+    # Planning Center sends signature in X-PCO-Webhooks-Authenticity header as
+    # HMAC-SHA256 hex digest. The secret is the "authenticity_secret" from the
+    # webhook subscription, found at https://api.planningcenteronline.com/webhooks
     #
     # @param body [String] Raw request body
     # @param headers [Hash] Request headers
-    # @return [Boolean] true if webhook appears authentic
+    # @return [Boolean] true if signature is valid
     def verify_pco(body, headers)
-      # Check for PCO-specific headers that indicate this is a real PCO webhook
-      # PCO sends these headers with their webhooks
-      has_pco_headers = headers["x-pco-webhooks-authenticity-token"] ||
-                        headers["user-agent"]&.include?("Planning Center")
+      # Header name is lowercase in API Gateway
+      signature = headers["x-pco-webhooks-authenticity"]
+      secret = ENV["PCO_WEBHOOK_SECRET"]
 
-      # Verify the body is valid JSON with PCO structure
-      begin
-        payload = JSON.parse(body)
-        has_valid_structure = payload.is_a?(Hash) &&
-                              (payload["data"] || payload["type"] || payload["id"])
-      rescue JSON::ParserError
-        puts "WARN: PCO webhook body is not valid JSON"
+      unless signature
+        puts "WARN: Missing X-PCO-Webhooks-Authenticity header"
         return false
       end
 
-      unless has_pco_headers || has_valid_structure
-        puts "WARN: Webhook doesn't appear to be from Planning Center"
+      unless secret
+        puts "ERROR: PCO_WEBHOOK_SECRET not configured"
         return false
       end
 
-      puts "INFO: PCO webhook verified (header/structure check)"
-      true
+      # PCO uses HMAC-SHA256 of the raw body
+      expected = OpenSSL::HMAC.hexdigest("sha256", secret, body)
+
+      if secure_compare(expected, signature)
+        puts "INFO: PCO webhook signature verified"
+        true
+      else
+        puts "WARN: PCO webhook signature mismatch"
+        false
+      end
     end
 
     # Verify Cloudflare webhook signature

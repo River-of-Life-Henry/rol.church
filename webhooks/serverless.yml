@@ -12,6 +12,7 @@ provider:
   environment:
     GITHUB_PAT: ${env:GITHUB_PAT}
     GITHUB_REPO: River-of-Life-Henry/rol.church
+    PCO_WEBHOOK_SECRET: ${env:PCO_WEBHOOK_SECRET}
     CLOUDFLARE_WEBHOOK_SECRET: ${env:CLOUDFLARE_WEBHOOK_SECRET}
     STAGE: ${self:provider.stage}
 
