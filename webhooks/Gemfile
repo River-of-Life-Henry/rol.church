@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+ruby "3.2.0"
+
+# HTTP client for GitHub API
+gem "net-http"
+
+# JSON parsing (stdlib, but explicit for Lambda)
+gem "json"

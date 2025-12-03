@@ -1,0 +1,57 @@
+service: rol-webhooks
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: ruby3.2
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  timeout: 30
+  environment:
+    GITHUB_PAT: ${env:GITHUB_PAT}
+    GITHUB_REPO: River-of-Life-Henry/rol.church
+    PCO_WEBHOOK_SECRET: ${env:PCO_WEBHOOK_SECRET}
+    CLOUDFLARE_WEBHOOK_SECRET: ${env:CLOUDFLARE_WEBHOOK_SECRET}
+    STAGE: ${self:provider.stage}
+
+functions:
+  webhook:
+    handler: handler.receive
+    description: Receives webhooks from Planning Center and Cloudflare, triggers sync workflow
+    events:
+      - http:
+          path: webhook/{source}
+          method: POST
+          cors: true
+
+  health:
+    handler: handler.health
+    description: Health check endpoint
+    events:
+      - http:
+          path: health
+          method: GET
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: ${self:custom.domains.${self:provider.stage}}
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    certificateRegion: us-east-1
+    endpointType: regional
+  domains:
+    dev: webhooks.api.dev.rol.church
+    prod: webhooks.api.rol.church
+
+package:
+  patterns:
+    - '!scripts/**'
+    - '!.env*'
+    - '!README.md'
+    - '!.gitignore'

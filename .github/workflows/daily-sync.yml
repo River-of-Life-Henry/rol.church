@@ -5,7 +5,26 @@ on:
     # Run daily at 6:00 AM Chicago time (12:00 PM UTC for CST, 11:00 AM UTC for CDT)
     # Using 11:00 AM UTC to cover CDT (summer) - will be 6 AM CDT or 5 AM CST
     - cron: '0 11 * * *'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch: # Allow manual trigger or webhook trigger
+    inputs:
+      triggered_by:
+        description: 'What triggered this sync (manual, pco, cloudflare)'
+        required: false
+        default: 'manual'
+      sync_source:
+        description: 'Source to sync (all, pco, cloudflare)'
+        required: false
+        default: 'all'
+
+# Concurrency control: Only one sync can run at a time.
+# - cancel-in-progress: true means if a new run is triggered while one is QUEUED (pending),
+#   the queued run is cancelled and replaced with the new one
+# - A run that is already EXECUTING will complete - it won't be killed mid-execution
+# - This ensures: if 5 webhooks fire while job #1 is running, jobs #2-4 are skipped,
+#   and only job #5 runs after #1 completes
+concurrency:
+  group: website-sync
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -51,9 +70,27 @@ jobs:
           AWS_REGION: us-east-1
           SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL }}
           CHANGELOG_EMAIL: david.plappert@rol.church
+          SYNC_SOURCE: ${{ inputs.sync_source || 'all' }}
+          TRIGGERED_BY: ${{ inputs.triggered_by || 'schedule' }}
         run: |
           cd scripts
-          ruby sync_all.rb
+          echo "Sync triggered by: $TRIGGERED_BY"
+          echo "Sync source: $SYNC_SOURCE"
+
+          case "$SYNC_SOURCE" in
+            cloudflare)
+              echo "Running Cloudflare-only sync..."
+              ruby sync_cloudflare_video.rb
+              ;;
+            pco)
+              echo "Running Planning Center sync (all PCO scripts)..."
+              ruby sync_all.rb --skip-cloudflare
+              ;;
+            *)
+              echo "Running full sync (all sources)..."
+              ruby sync_all.rb
+              ;;
+          esac
 
       - name: Check for changes
         id: git-check

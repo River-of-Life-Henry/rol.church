@@ -604,6 +604,13 @@ Parallel.each(
   prev_data[key] = load_previous_data(file)
 end
 
+# Parse command line arguments
+skip_cloudflare = ARGV.include?('--skip-cloudflare')
+
+if skip_cloudflare
+  puts "INFO: Skipping Cloudflare sync (--skip-cloudflare flag set)"
+end
+
 # Scripts organized by dependency groups
 # Group 1: Independent scripts that can run in parallel
 # Group 2: Scripts that depend on Group 1 (hero_images depends on facebook_photos)
@@ -614,8 +621,12 @@ group1_scripts = %w[
   sync_groups.rb
   sync_facebook_photos.rb
   sync_team.rb
-  sync_cloudflare_video.rb
 ]
+
+# Only include Cloudflare sync if not skipped
+unless skip_cloudflare
+  group1_scripts << 'sync_cloudflare_video.rb'
+end
 
 group2_scripts = %w[
   sync_hero_images.rb
