@@ -25,3 +25,11 @@ pnpm-debug.log*
 .envrc
 
 vendor/
+
+# Rekognition analysis data (large JSON files)
+scripts/rekognition_data/
+
+# Temporary files from sync scripts
+.fb_temp/
+.fb_analyze_temp/
+.fb_rekog_temp/

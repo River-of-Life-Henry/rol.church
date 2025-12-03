@@ -98,6 +98,8 @@ HERO_DIR = File.join(__dir__, "..", "public", "hero")
 DATA_FILE = File.join(__dir__, "..", "src", "data", "hero_images.json")
 STATE_FILE = File.join(__dir__, "..", "src", "data", "facebook_sync_state.json")
 TEMP_DIR = File.join(__dir__, "..", ".fb_temp")
+REKOGNITION_DATA_DIR = File.join(__dir__, "rekognition_data")
+REKOGNITION_PHOTOS_DIR = File.join(REKOGNITION_DATA_DIR, "photos")
 
 # Photo qualification thresholds
 MIN_PEOPLE = 3  # Require at least 3 people in the photo
@@ -194,6 +196,7 @@ class FacebookPhotoSync
     # Create directories
     FileUtils.mkdir_p(TEMP_DIR)
     FileUtils.mkdir_p(HERO_DIR)
+    FileUtils.mkdir_p(REKOGNITION_PHOTOS_DIR)
 
     # Load last sync state (also loads @uploaded_post_ids and @deleted_post_ids)
     @uploaded_post_ids ||= Set.new
@@ -498,13 +501,14 @@ class FacebookPhotoSync
     return { qualifies: false, reason: "No image URL" } unless image_url
 
     # Download image to temp file
-    temp_path = File.join(TEMP_DIR, "#{photo['id'].gsub(/[^a-zA-Z0-9]/, '_')}.jpg")
+    safe_id = photo['id'].gsub(/[^a-zA-Z0-9]/, '_')
+    temp_path = File.join(TEMP_DIR, "#{safe_id}.jpg")
     unless download_image(image_url, temp_path)
       return { qualifies: false, reason: "Failed to download" }
     end
 
-    # Analyze with AWS Rekognition
-    analyze_with_rekognition(temp_path)
+    # Analyze with AWS Rekognition and save raw data
+    analyze_with_rekognition(temp_path, photo)
   end
 
   def download_image(url, path)
@@ -539,7 +543,7 @@ class FacebookPhotoSync
     false
   end
 
-  def analyze_with_rekognition(image_path)
+  def analyze_with_rekognition(image_path, photo = nil)
     # Read image bytes
     image_bytes = File.binread(image_path)
 
@@ -549,24 +553,14 @@ class FacebookPhotoSync
     })
 
     text_detections = text_response.text_detections.select { |t| t.type == "LINE" }
-    if text_detections.length > MAX_TEXT_DETECTIONS
-      return {
-        qualifies: false,
-        total_people: 0,
-        smiling_count: 0,
-        reason: "Too much text detected (#{text_detections.length} lines) - likely a screenshot or slide"
-      }
-    end
 
     # Call Rekognition DetectFaces API
-    response = @rekognition.detect_faces({
-      image: {
-        bytes: image_bytes
-      },
+    face_response = @rekognition.detect_faces({
+      image: { bytes: image_bytes },
       attributes: ['ALL']  # Get all attributes including smile
     })
 
-    faces = response.face_details
+    faces = face_response.face_details
     total = faces.length
     smiling = 0
 
@@ -575,6 +569,21 @@ class FacebookPhotoSync
       if face.smile && face.smile.value && face.smile.confidence >= SMILE_CONFIDENCE_THRESHOLD
         smiling += 1
       end
+    end
+
+    # Save raw Rekognition data for later analysis
+    if photo
+      save_rekognition_data(photo, text_response, face_response, text_detections.length, total, smiling)
+    end
+
+    # Check text threshold after saving data
+    if text_detections.length > MAX_TEXT_DETECTIONS
+      return {
+        qualifies: false,
+        total_people: total,
+        smiling_count: smiling,
+        reason: "Too much text detected (#{text_detections.length} lines) - likely a screenshot or slide"
+      }
     end
 
     # Determine if photo qualifies
@@ -607,6 +616,64 @@ class FacebookPhotoSync
   rescue => e
     puts "ERROR: Analysis failed: #{e.message}"
     { qualifies: false, reason: "Analysis error: #{e.message}" }
+  end
+
+  # Save raw Rekognition output for later analysis
+  def save_rekognition_data(photo, text_response, face_response, text_lines, total_people, smiling_count)
+    safe_id = photo['id'].gsub(/[^a-zA-Z0-9]/, '_')
+
+    data = {
+      post_id: photo['id'],
+      created_time: photo['created_time'],
+      message: photo['message'],
+      image_url: photo['image_url'],
+      analyzed_at: Time.now.iso8601,
+      summary: {
+        text_lines: text_lines,
+        total_people: total_people,
+        smiling_count: smiling_count,
+        smile_percentage: total_people > 0 ? (smiling_count.to_f / total_people * 100).round : 0
+      },
+      text_detection: {
+        text_detections: text_response.text_detections.map do |t|
+          {
+            type: t.type,
+            detected_text: t.detected_text,
+            confidence: t.confidence,
+            geometry: t.geometry ? {
+              bounding_box: {
+                width: t.geometry.bounding_box.width,
+                height: t.geometry.bounding_box.height,
+                left: t.geometry.bounding_box.left,
+                top: t.geometry.bounding_box.top
+              }
+            } : nil
+          }
+        end
+      },
+      face_detection: {
+        face_details: face_response.face_details.map do |f|
+          {
+            bounding_box: {
+              width: f.bounding_box.width,
+              height: f.bounding_box.height,
+              left: f.bounding_box.left,
+              top: f.bounding_box.top
+            },
+            age_range: f.age_range ? { low: f.age_range.low, high: f.age_range.high } : nil,
+            smile: f.smile ? { value: f.smile.value, confidence: f.smile.confidence } : nil,
+            gender: f.gender ? { value: f.gender.value, confidence: f.gender.confidence } : nil,
+            emotions: f.emotions&.map { |e| { type: e.type, confidence: e.confidence } },
+            confidence: f.confidence
+          }
+        end
+      }
+    }
+
+    File.write(File.join(REKOGNITION_PHOTOS_DIR, "#{safe_id}.json"), JSON.pretty_generate(data))
+  rescue => e
+    # Don't fail the whole sync if we can't save debug data
+    puts "WARN: Could not save Rekognition data for #{photo['id']}: #{e.message}"
   end
 
   # Smart crop image to position faces at 1/3 from top (2/3 from bottom)
