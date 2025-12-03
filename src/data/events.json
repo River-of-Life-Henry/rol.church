@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-03T13:52:40-06:00",
+  "updated_at": "2025-12-03T16:22:15-06:00",
   "events": [
     {
       "id": "206974483",
@@ -92,13 +92,13 @@
       "registrationUrl": null
     },
     {
-      "id": "178702122",
+      "id": "207150180",
       "name": "Ladies Christmas Party",
       "slug": "ladies-christmas-party",
       "description": "",
       "summary": null,
-      "startsAt": "2025-12-11T18:00:00-06:00",
-      "endsAt": "2025-12-11T21:00:00-06:00",
+      "startsAt": "2025-12-11T17:30:00-06:00",
+      "endsAt": "2025-12-11T19:00:00-06:00",
       "location": "",
       "allDay": false,
       "tags": [],
