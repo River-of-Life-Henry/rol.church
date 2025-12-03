@@ -258,17 +258,34 @@ module ImageUtils
     end
 
     def optimize_with_imagemagick(input_path, output_path, max_width, max_height)
+      $stderr.puts "DEBUG IMAGEMAGICK: Starting optimize_with_imagemagick for #{input_path}"
+      $stderr.flush
+
       # ImageMagick convert with resize and compression
       # -resize WxH> means only shrink if larger, maintain aspect ratio
       # -quality sets JPEG compression
       # -strip removes metadata
 
+      # Check if file exists
+      unless File.exist?(input_path)
+        $stderr.puts "DEBUG IMAGEMAGICK: File does not exist: #{input_path}"
+        return false
+      end
+
+      # Read first 16 bytes to check magic bytes
+      magic = File.binread(input_path, 16) rescue nil
+      $stderr.puts "DEBUG IMAGEMAGICK: Magic bytes (hex): #{magic&.bytes&.map { |b| '%02x' % b }&.join(' ')}"
+      $stderr.flush
+
       # Detect image format from file header (magic bytes)
       # This is needed because temp files may not have proper extensions
       format_hint = detect_image_format(input_path)
-      puts "DEBUG: detect_image_format returned: #{format_hint.inspect} for #{input_path}"
+      $stderr.puts "DEBUG IMAGEMAGICK: detect_image_format returned: #{format_hint.inspect}"
+      $stderr.flush
+
       input_spec = format_hint ? "#{format_hint}:#{input_path}" : input_path
-      puts "DEBUG: input_spec = #{input_spec}"
+      $stderr.puts "DEBUG IMAGEMAGICK: input_spec = #{input_spec}"
+      $stderr.flush
 
       cmd = [
         "convert",
@@ -280,11 +297,14 @@ module ImageUtils
         "\"#{output_path}\""
       ].join(" ")
 
-      puts "DEBUG: Running command: #{cmd}"
+      $stderr.puts "DEBUG IMAGEMAGICK: Running command: #{cmd}"
+      $stderr.flush
+
       result = system(cmd)
 
       unless result
-        puts "WARNING: ImageMagick convert failed"
+        $stderr.puts "WARNING: ImageMagick convert failed"
+        $stderr.flush
         return false
       end
 
