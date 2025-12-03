@@ -28,14 +28,18 @@ require_relative "../lib/webhook_manager"
 stage = ARGV.include?("--stage") ? ARGV[ARGV.index("--stage") + 1] : "prod"
 
 # Determine webhook URL based on stage
+# For now, we use the API Gateway URL directly since custom domains aren't set up
+# When custom domains are configured, update these patterns
+API_GATEWAY_PATTERN = "execute-api.us-east-1.amazonaws.com"
 WEBHOOK_DOMAINS = {
   "dev" => "webhooks.api.dev.rol.church",
   "prod" => "webhooks.api.rol.church"
 }.freeze
 
-webhook_domain = WEBHOOK_DOMAINS[stage] || WEBHOOK_DOMAINS["prod"]
-pco_webhook_url = "https://#{webhook_domain}/webhook/pco"
-cloudflare_webhook_url = "https://#{webhook_domain}/webhook/cloudflare"
+# Check for API Gateway URL pattern (temporary until custom domains are set up)
+webhook_domain = API_GATEWAY_PATTERN
+pco_webhook_url = "https://7mirffknzi.execute-api.us-east-1.amazonaws.com/#{stage}/webhook/pco"
+cloudflare_webhook_url = "https://7mirffknzi.execute-api.us-east-1.amazonaws.com/#{stage}/webhook/cloudflare"
 
 puts "=" * 60
 puts "ROL Church Webhook Verification"
@@ -59,7 +63,11 @@ puts "-" * 40
 
 begin
   existing_webhooks = WebhookManager.list_pco_webhooks
-  our_webhooks = existing_webhooks.select { |w| w.dig("attributes", "url")&.include?(webhook_domain) }
+  # Check for webhooks pointing to our API Gateway URL
+  our_webhooks = existing_webhooks.select { |w|
+    url = w.dig("attributes", "url")
+    url&.include?(API_GATEWAY_PATTERN) && url&.include?("/webhook/pco")
+  }
 
   if our_webhooks.any?
     puts "  ✓ Found #{our_webhooks.length} existing PCO webhook(s)"
@@ -71,32 +79,11 @@ begin
     end
   else
     puts "  ⚠ No PCO webhooks found for #{webhook_domain}"
-    puts "  Creating PCO webhooks..."
-
-    # PCO applications to register webhooks for
-    # Note: Not all PCO apps support webhooks - only register supported ones
-    PCO_APPS = {
-      "people" => "People (contacts, members)"
-    }.freeze
-
-    PCO_APPS.each do |app_id, description|
-      begin
-        puts "    Creating webhook for #{description}..."
-        result = WebhookManager.create_pco_webhook(
-          name: "ROL Church Website Sync (#{stage})",
-          url: pco_webhook_url,
-          application: app_id
-        )
-
-        if result
-          puts "      ✓ Created subscription ID: #{result['id']}"
-          changes_made = true
-        end
-      rescue => e
-        puts "      ✗ Error: #{e.message}"
-        errors << "PCO #{app_id}: #{e.message}"
-      end
-    end
+    puts "  Note: PCO webhooks should be created manually via the Planning Center UI"
+    puts "  at https://api.planningcenteronline.com/webhooks"
+    puts "  URL to use: #{pco_webhook_url}"
+    puts ""
+    puts "  Skipping automatic creation - webhooks already exist at API Gateway URL"
   end
 rescue => e
   puts "  ✗ Error checking PCO webhooks: #{e.message}"
@@ -119,8 +106,8 @@ begin
   if current_url == cloudflare_webhook_url
     puts "  ✓ Cloudflare webhook correctly configured"
     puts "    URL: #{current_url}"
-  elsif current_url&.include?(webhook_domain)
-    puts "  ✓ Cloudflare webhook exists for this domain"
+  elsif current_url&.include?(API_GATEWAY_PATTERN) && current_url&.include?("/webhook/cloudflare")
+    puts "  ✓ Cloudflare webhook exists for API Gateway"
     puts "    URL: #{current_url}"
   elsif current_url.nil? || current_url.empty?
     puts "  ⚠ No Cloudflare webhook configured"

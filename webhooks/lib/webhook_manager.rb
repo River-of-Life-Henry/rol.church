@@ -46,17 +46,15 @@ module WebhookManager
     #
     # @param name [String] Friendly name for the webhook
     # @param url [String] URL to receive webhooks
-    # @param application [String] PCO application (people, calendar, groups, services, etc.)
-    # @return [Hash] Created subscription data
-    def create_pco_webhook(name:, url:, application:)
+    # @return [Hash] Created subscription data including authenticity_secret
+    def create_pco_webhook(name:, url:)
       payload = {
         data: {
           type: "Subscription",
           attributes: {
             name: name,
             url: url,
-            active: true,
-            application_id: application
+            active: true
           }
         }
       }
