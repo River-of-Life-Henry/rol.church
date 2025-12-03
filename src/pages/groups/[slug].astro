@@ -2,6 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import groupsJson from '../../data/groups.json';
 
+// Cache buster version (use updated_at timestamp)
+const cacheVersion = groupsJson.updated_at ? `?v=${new Date(groupsJson.updated_at).getTime()}` : '';
+
 // Load events from Calendar
 let allEvents = [];
 try {
@@ -92,7 +95,7 @@ const metaDescription = group.description
 
 <Base title={group.name} description={metaDescription}>
   <!-- Hero with group header image -->
-  <section class="group-hero" style={group.hasHeaderImage ? `background-image: url('${group.headerImage}')` : ''}>
+  <section class="group-hero" style={group.hasHeaderImage ? `background-image: url('${group.headerImage}${cacheVersion}')` : ''}>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>{group.name}</h1>
@@ -160,7 +163,7 @@ const metaDescription = group.description
             {group.leaders.map((leader) => (
               <div class="leader-card">
                 {leader.hasPhoto ? (
-                  <img src={leader.image} alt={leader.name} class="leader-photo" />
+                  <img src={`${leader.image}${cacheVersion}`} alt={leader.name} class="leader-photo" />
                 ) : (
                   <div class="leader-photo placeholder">
                     {leader.firstName?.charAt(0)}{leader.lastName?.charAt(0)}

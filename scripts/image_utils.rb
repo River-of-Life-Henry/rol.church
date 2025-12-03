@@ -263,9 +263,14 @@ module ImageUtils
       # -quality sets JPEG compression
       # -strip removes metadata
 
+      # Detect image format from file header (magic bytes)
+      # This is needed because temp files may not have proper extensions
+      format_hint = detect_image_format(input_path)
+      input_spec = format_hint ? "#{format_hint}:#{input_path}" : input_path
+
       cmd = [
         "convert",
-        "\"#{input_path}\"",
+        "\"#{input_spec}\"",
         "-resize", "#{max_width}x#{max_height}>",
         "-quality", JPEG_QUALITY.to_s,
         "-strip",
@@ -281,6 +286,25 @@ module ImageUtils
       end
 
       true
+    end
+
+    # Detect image format from file magic bytes
+    def detect_image_format(path)
+      return nil unless File.exist?(path)
+
+      magic = File.binread(path, 16)
+
+      if magic[0..2] == "\xFF\xD8\xFF"
+        "jpeg"
+      elsif magic[0..7] == "\x89PNG\r\n\x1A\n"
+        "png"
+      elsif magic[0..5] == "GIF87a" || magic[0..5] == "GIF89a"
+        "gif"
+      elsif magic[0..3] == "RIFF" && magic[8..11] == "WEBP"
+        "webp"
+      else
+        nil
+      end
     end
 
     def format_bytes(bytes)
