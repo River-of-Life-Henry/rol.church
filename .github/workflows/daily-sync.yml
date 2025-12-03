@@ -105,3 +105,13 @@ jobs:
           fi
 
           echo "SUCCESS: Verified push - local and remote at $LOCAL"
+
+      - name: Trigger deploy workflow
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          # GitHub Actions pushes using GITHUB_TOKEN don't trigger other workflows
+          # So we explicitly trigger the deploy workflow
+          gh workflow run "Deploy to GitHub Pages" --ref main
+          echo "SUCCESS: Triggered Deploy to GitHub Pages workflow"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
