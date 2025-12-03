@@ -7,3 +7,4 @@ gem "json"
 gem "dotenv"
 gem "aws-sdk-rekognition"
 gem "parallel"  # For concurrent processing
+gem "aws-sdk-ses"  # For sending changelog emails via AWS SES
