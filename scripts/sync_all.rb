@@ -17,6 +17,7 @@ require "json"
 require "time"
 require "parallel"
 require "stringio"
+require "open3"
 
 # Load environment variables from .env file (for local development)
 Dotenv.load(File.join(__dir__, ".env")) if File.exist?(File.join(__dir__, ".env"))
@@ -389,51 +390,67 @@ def send_changelog_email
 end
 
 # Run a single sync script with error handling
+# Uses subprocess to avoid stdout/stderr conflicts with parallel threads
 def run_script(script)
   script_name = File.basename(script, '.rb')
   start_time = Time.now
   success = false
 
+  puts "[#{script_name}] Starting..."
+
   begin
-    puts "[#{script_name}] Starting..."
+    # Run script as subprocess to capture output cleanly
+    script_path = File.join(__dir__, script)
+    output, status = Open3.capture2e(
+      {
+        'ROL_PLANNING_CENTER_CLIENT_ID' => ENV['ROL_PLANNING_CENTER_CLIENT_ID'],
+        'ROL_PLANNING_CENTER_SECRET' => ENV['ROL_PLANNING_CENTER_SECRET'],
+        'PCO_WEBSITE_HERO_MEDIA_ID' => ENV['PCO_WEBSITE_HERO_MEDIA_ID'],
+        'CLOUDFLARE_API_TOKEN' => ENV['CLOUDFLARE_API_TOKEN'],
+        'CLOUDFLARE_ACCOUNT_ID' => ENV['CLOUDFLARE_ACCOUNT_ID'],
+        'FB_PAGE_ID' => ENV['FB_PAGE_ID'],
+        'FB_PAGE_ACCESS_TOKEN' => ENV['FB_PAGE_ACCESS_TOKEN'],
+        'AWS_ACCESS_KEY_ID' => ENV['AWS_ACCESS_KEY_ID'],
+        'AWS_SECRET_ACCESS_KEY' => ENV['AWS_SECRET_ACCESS_KEY'],
+        'AWS_REGION' => ENV['AWS_REGION'] || 'us-east-1',
+        'TZ' => 'America/Chicago',
+        'BUNDLE_GEMFILE' => File.join(__dir__, 'Gemfile')
+      },
+      'bundle', 'exec', 'ruby', script_path
+    )
 
-    # Capture stdout/stderr from the script
-    old_stdout = $stdout
-    old_stderr = $stderr
-    captured_output = StringIO.new
-
-    begin
-      $stdout = captured_output
-      $stderr = captured_output
-
-      load File.join(__dir__, script)
-      success = true
-    ensure
-      $stdout = old_stdout
-      $stderr = old_stderr
-    end
-
-    output = captured_output.string
     duration = Time.now - start_time
+    success = status.success?
 
-    # Check for ERROR in output even if script didn't raise
-    if output =~ /^ERROR[:\s]/i
-      error_lines = output.lines.select { |l| l =~ /^ERROR[:\s]/i }.map(&:strip)
+    # Check for ERROR in output even if exit code was 0
+    if output =~ /^ERROR[:\s]/im
+      error_lines = output.lines.select { |l| l =~ /^ERROR[:\s]/i }.map(&:strip).first(3)
       error_lines.each { |err| $state.add_error(script_name, err) }
       success = false
     end
 
-    # Print captured output with prefix
-    output.lines.each { |line| puts "[#{script_name}] #{line}" }
+    # Print output with prefix (summarized for parallel readability)
+    output_lines = output.lines
+    if output_lines.length > 10
+      # Show first 3 and last 5 lines for long output
+      output_lines.first(3).each { |line| puts "[#{script_name}] #{line.chomp}" }
+      puts "[#{script_name}] ... (#{output_lines.length - 8} lines omitted)"
+      output_lines.last(5).each { |line| puts "[#{script_name}] #{line.chomp}" }
+    else
+      output_lines.each { |line| puts "[#{script_name}] #{line.chomp}" }
+    end
 
-    puts "[#{script_name}] Completed in #{duration.round(1)}s"
+    unless success
+      $state.add_error(script_name, "Exit code: #{status.exitstatus}") unless $state.errors.any? { |e| e[:script] == script_name }
+    end
+
+    puts "[#{script_name}] #{success ? 'Completed' : 'FAILED'} in #{duration.round(1)}s"
     $state.set_result(script_name, success, duration)
 
   rescue => e
     duration = Time.now - start_time
     error_msg = "#{e.class}: #{e.message}"
     puts "[#{script_name}] FAILED: #{error_msg}"
-    puts e.backtrace.first(5).map { |l| "[#{script_name}]   #{l}" }.join("\n")
     $state.add_error(script_name, error_msg)
     $state.set_result(script_name, false, duration)
   end
