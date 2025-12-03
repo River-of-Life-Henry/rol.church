@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'webhooks/**'
+      - '.github/workflows/deploy-webhooks.yml'
   workflow_dispatch:
 
 permissions:
