@@ -85,6 +85,12 @@ jobs:
           STAGE="${{ inputs.stage || 'prod' }}"
           echo "stage=$STAGE" >> $GITHUB_OUTPUT
           echo "Deploying to stage: $STAGE"
+
+          # Create custom domain if it doesn't exist (first-time setup)
+          echo "Checking/creating custom domain..."
+          sls create_domain --stage $STAGE || echo "Domain may already exist or need manual setup"
+
+          # Deploy the Lambda and API Gateway
           sls deploy --stage $STAGE --verbose
 
       - name: Verify and setup webhooks
