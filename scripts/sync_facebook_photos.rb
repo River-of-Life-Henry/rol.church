@@ -22,14 +22,14 @@
 #
 # How It Works:
 #   1. Fetches photos from Facebook page posts (last 2 years or since last sync)
-#   2. Skips already-synced photos (tracked by post ID) - saves AWS API costs
-#   3. Analyzes each NEW photo with AWS Rekognition:
-#      - Detects faces and smile confidence
-#      - Detects text (rejects screenshots/slides)
+#   2. Skips already-synced photos (tracked by post ID)
+#   3. Checks for cached Rekognition data in scripts/rekognition_data/photos/
+#      - If cached data exists, re-evaluates with current thresholds (no AWS call)
+#      - Only calls AWS Rekognition for photos without cached analysis
 #   4. Qualifies photos meeting criteria:
 #      - ≥3 people detected
-#      - ≥1 smiling OR ≥60% smiling
-#      - ≤3 text elements (filters out graphics/slides)
+#      - ≥1 smiling/happy OR ≥60% smiling/happy (confidence ≥60%)
+#      - ≤10 text elements (filters out graphics/slides)
 #   5. Smart crops to 16:9 with faces at 1/3 from top
 #   6. Uploads ALL qualifying photos to Planning Center Media (no limit)
 #   7. Website slider displays only the 5 most recent (see HeroSlider.astro)
@@ -65,8 +65,10 @@
 #
 # ==============================================================================
 
-require_relative "image_utils"
-require_relative "pco_client"
+require "bundler/setup"
+Bundler.require(:default)
+
+# Standard library (built-in, not from Gemfile)
 require "json"
 require "net/http"
 require "uri"
@@ -75,7 +77,10 @@ require "time"
 require "fileutils"
 require "set"
 require "securerandom"
-require "parallel"
+require "ostruct"
+
+require_relative "image_utils"
+require_relative "pco_client"
 
 # Set timezone to Central Time
 ENV['TZ'] = 'America/Chicago'
@@ -500,8 +505,16 @@ class FacebookPhotoSync
     image_url = photo["image_url"]
     return { qualifies: false, reason: "No image URL" } unless image_url
 
-    # Download image to temp file
     safe_id = photo['id'].gsub(/[^a-zA-Z0-9]/, '_')
+
+    # Check if we already have cached Rekognition data for this photo
+    cached_result = load_cached_rekognition_data(safe_id)
+    if cached_result
+      puts "DEBUG: Using cached Rekognition data for #{photo['id']}"
+      return cached_result
+    end
+
+    # Download image to temp file
     temp_path = File.join(TEMP_DIR, "#{safe_id}.jpg")
     unless download_image(image_url, temp_path)
       return { qualifies: false, reason: "Failed to download" }
@@ -509,6 +522,90 @@ class FacebookPhotoSync
 
     # Analyze with AWS Rekognition and save raw data
     analyze_with_rekognition(temp_path, photo)
+  end
+
+  # Load cached Rekognition analysis if available (saves AWS API calls)
+  def load_cached_rekognition_data(safe_id)
+    cache_file = File.join(REKOGNITION_PHOTOS_DIR, "#{safe_id}.json")
+    return nil unless File.exist?(cache_file)
+
+    begin
+      data = JSON.parse(File.read(cache_file))
+
+      # Handle both old format (with "analysis" wrapper) and new format (flat)
+      if data["analysis"]
+        text_data = data.dig("analysis", "text_detection")
+        face_data = data.dig("analysis", "face_detection")
+      else
+        text_data = data["text_detection"]
+        face_data = data["face_detection"]
+      end
+
+      return nil unless text_data && face_data
+
+      # Re-evaluate qualification with current thresholds
+      text_detections = text_data["text_detections"] || []
+      text_lines = text_detections.count { |t| t["type"] == "LINE" }
+
+      faces = face_data["face_details"] || []
+      total = faces.length
+      smiling = 0
+
+      faces.each do |face|
+        # Check if person is smiling OR happy with confidence above threshold
+        smile = face["smile"]
+        smile_detected = smile && smile["value"] && smile["confidence"] >= SMILE_CONFIDENCE_THRESHOLD
+
+        happy = (face["emotions"] || []).find { |e| e["type"] == "HAPPY" }
+        happy_detected = happy && happy["confidence"] >= SMILE_CONFIDENCE_THRESHOLD
+
+        smiling += 1 if smile_detected || happy_detected
+      end
+
+      # Check text threshold
+      if text_lines > MAX_TEXT_DETECTIONS
+        return {
+          qualifies: false,
+          total_people: total,
+          smiling_count: smiling,
+          reason: "Too much text detected (#{text_lines} lines) - likely a screenshot or slide",
+          from_cache: true
+        }
+      end
+
+      # Determine if photo qualifies
+      qualifies = false
+      if total < MIN_PEOPLE
+        reason = "Only #{total} #{total == 1 ? 'person' : 'people'} detected (need #{MIN_PEOPLE}+)"
+      elsif smiling >= MIN_SMILING_PEOPLE
+        qualifies = true
+        reason = "#{smiling} smiling out of #{total} people"
+      elsif total > 0 && (smiling.to_f / total) >= MIN_SMILE_PERCENTAGE
+        qualifies = true
+        reason = "#{(smiling.to_f / total * 100).round}% smiling (#{smiling}/#{total})"
+      else
+        reason = "Only #{smiling}/#{total} smiling (#{(smiling.to_f / total * 100).round}%)"
+      end
+
+      # Get face boxes for cropping
+      face_boxes = faces.map do |f|
+        bb = f["bounding_box"]
+        # Convert hash to OpenStruct-like object for compatibility
+        OpenStruct.new(width: bb["width"], height: bb["height"], left: bb["left"], top: bb["top"])
+      end
+
+      {
+        qualifies: qualifies,
+        total_people: total,
+        smiling_count: smiling,
+        reason: reason,
+        face_boxes: face_boxes,
+        from_cache: true
+      }
+    rescue => e
+      puts "WARN: Could not load cached data for #{safe_id}: #{e.message}"
+      nil
+    end
   end
 
   def download_image(url, path)

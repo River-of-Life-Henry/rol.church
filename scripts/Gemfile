@@ -2,10 +2,13 @@
 
 source "https://rubygems.org"
 
+# Planning Center API
 gem "pco_api"
-gem "json"
-gem "dotenv"
-gem "aws-sdk-rekognition"
-gem "parallel"  # For concurrent processing
-gem "aws-sdk-ses"  # For sending changelog emails via AWS SES
-gem "rexml"  # Required by AWS SDK for XML parsing
+
+# AWS SDK
+gem "aws-sdk-rekognition"  # Face/text detection for Facebook photos
+gem "aws-sdk-ses"          # Sending changelog emails
+
+# Utilities
+gem "parallel"             # Concurrent processing
+gem "rexml"                # Required by AWS SDK for XML parsing
