@@ -42,6 +42,7 @@ GEM
     pco_api (2.1.2)
       faraday (> 2.0)
       faraday-excon (~> 2.1)
+    rexml (3.4.4)
     uri (1.1.1)
 
 PLATFORMS
@@ -55,6 +56,7 @@ DEPENDENCIES
   json
   parallel
   pco_api
+  rexml
 
 BUNDLED WITH
    2.7.1
