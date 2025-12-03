@@ -258,34 +258,15 @@ module ImageUtils
     end
 
     def optimize_with_imagemagick(input_path, output_path, max_width, max_height)
-      $stderr.puts "DEBUG IMAGEMAGICK: Starting optimize_with_imagemagick for #{input_path}"
-      $stderr.flush
-
       # ImageMagick convert with resize and compression
       # -resize WxH> means only shrink if larger, maintain aspect ratio
       # -quality sets JPEG compression
       # -strip removes metadata
 
-      # Check if file exists
-      unless File.exist?(input_path)
-        $stderr.puts "DEBUG IMAGEMAGICK: File does not exist: #{input_path}"
-        return false
-      end
-
-      # Read first 16 bytes to check magic bytes
-      magic = File.binread(input_path, 16) rescue nil
-      $stderr.puts "DEBUG IMAGEMAGICK: Magic bytes (hex): #{magic&.bytes&.map { |b| '%02x' % b }&.join(' ')}"
-      $stderr.flush
-
       # Detect image format from file header (magic bytes)
       # This is needed because temp files may not have proper extensions
       format_hint = detect_image_format(input_path)
-      $stderr.puts "DEBUG IMAGEMAGICK: detect_image_format returned: #{format_hint.inspect}"
-      $stderr.flush
-
       input_spec = format_hint ? "#{format_hint}:#{input_path}" : input_path
-      $stderr.puts "DEBUG IMAGEMAGICK: input_spec = #{input_spec}"
-      $stderr.flush
 
       cmd = [
         "convert",
@@ -297,14 +278,10 @@ module ImageUtils
         "\"#{output_path}\""
       ].join(" ")
 
-      $stderr.puts "DEBUG IMAGEMAGICK: Running command: #{cmd}"
-      $stderr.flush
-
       result = system(cmd)
 
       unless result
-        $stderr.puts "WARNING: ImageMagick convert failed"
-        $stderr.flush
+        puts "WARNING: ImageMagick convert failed for #{File.basename(input_path)}"
         return false
       end
 
@@ -316,18 +293,33 @@ module ImageUtils
       return nil unless File.exist?(path)
 
       magic = File.binread(path, 16)
+      return nil if magic.nil? || magic.length < 4
 
-      if magic[0..2] == "\xFF\xD8\xFF"
-        "jpeg"
-      elsif magic[0..7] == "\x89PNG\r\n\x1A\n"
-        "png"
-      elsif magic[0..5] == "GIF87a" || magic[0..5] == "GIF89a"
-        "gif"
-      elsif magic[0..3] == "RIFF" && magic[8..11] == "WEBP"
-        "webp"
-      else
-        nil
+      # Get bytes as integers for reliable comparison
+      bytes = magic.bytes
+
+      # JPEG: starts with ff d8 ff
+      if bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF
+        return "jpeg"
       end
+
+      # PNG: starts with 89 50 4e 47 0d 0a 1a 0a (89 P N G \r \n \x1a \n)
+      if bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47
+        return "png"
+      end
+
+      # GIF: starts with GIF87a or GIF89a
+      if bytes[0] == 0x47 && bytes[1] == 0x49 && bytes[2] == 0x46 # "GIF"
+        return "gif"
+      end
+
+      # WebP: RIFF....WEBP
+      if bytes[0] == 0x52 && bytes[1] == 0x49 && bytes[2] == 0x46 && bytes[3] == 0x46 && # RIFF
+         bytes.length >= 12 && bytes[8] == 0x57 && bytes[9] == 0x45 && bytes[10] == 0x42 && bytes[11] == 0x50 # WEBP
+        return "webp"
+      end
+
+      nil
     end
 
     def format_bytes(bytes)
