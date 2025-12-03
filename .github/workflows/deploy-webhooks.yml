@@ -41,7 +41,7 @@ jobs:
 
       - name: Install Serverless Framework
         run: |
-          npm install -g serverless
+          npm install -g serverless@3
           npm install -g serverless-domain-manager
 
       - name: Generate or use PCO webhook secret
