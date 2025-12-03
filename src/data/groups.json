@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-03T06:10:24-06:00",
+  "updated_at": "2025-12-03T06:12:33-06:00",
   "groups": [
     {
       "id": "2895651",
@@ -8,16 +8,16 @@
       "description": "<div>This is the default group for all church events that are not department specific. </div>",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/all-church-events_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "140403632",
           "name": "Andrew Coffield",
           "firstName": "Andrew",
           "lastName": "Coffield",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/all-church-events_leader_140403632.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!"
         },
@@ -26,8 +26,8 @@
           "name": "Cris Jensen",
           "firstName": "Cris",
           "lastName": "Jensen",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/all-church-events_leader_13926145.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "combine"
         }
@@ -40,16 +40,16 @@
       "description": "<div>age 18 to 30, as long as you are single and never married!</div>",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/hyphen_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "13925721_13925607",
           "name": "Isaac & Kristin Ummel",
           "firstName": "Isaac",
           "lastName": "Ummel",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/hyphen_leader_13925721.jpg",
+          "hasPhoto": true,
           "isCouple": true,
           "bio": "BIL is SWEEEEET"
         }
@@ -62,16 +62,16 @@
       "description": "",
       "schedule": "Meets weekly on Sundays from 10-10:45am",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/kids_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "140405054",
           "name": "Ann Elliott",
           "firstName": "Ann",
           "lastName": "Elliott",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_140405054.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": null
         },
@@ -80,8 +80,8 @@
           "name": "Cris Jensen",
           "firstName": "Cris",
           "lastName": "Jensen",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_13926145.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "combine"
         },
@@ -90,8 +90,8 @@
           "name": "Annette Serpette",
           "firstName": "Annette",
           "lastName": "Serpette",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_13926105.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "afjakfjdaksfjakljfadfdfa fa"
         },
@@ -100,8 +100,8 @@
           "name": "Allan & Carol Mathis",
           "firstName": "Allan",
           "lastName": "Mathis",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_140405576.jpg",
+          "hasPhoto": true,
           "isCouple": true,
           "bio": null
         },
@@ -110,8 +110,8 @@
           "name": "Jennifer Hawk",
           "firstName": "Jennifer",
           "lastName": "Hawk",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_13926093.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "Nov 2025 IL State Teacher of the month!"
         },
@@ -120,8 +120,8 @@
           "name": "Heather Huff",
           "firstName": "Heather",
           "lastName": "Huff",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_159045862.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "We love Sis. Heather!!"
         },
@@ -130,8 +130,8 @@
           "name": "Chelsea Coffield",
           "firstName": "Chelsea",
           "lastName": "Coffield",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/kids_leader_152738971.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "deeee best pastor's wife around 4 surrrr"
         }
@@ -144,16 +144,16 @@
       "description": "<div>all females age 10 and over</div>",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/ladies_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "13926105",
           "name": "Annette Serpette",
           "firstName": "Annette",
           "lastName": "Serpette",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/ladies_leader_13926105.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "afjakfjdaksfjakljfadfdfa fa"
         },
@@ -162,8 +162,8 @@
           "name": "Brandy Wehr",
           "firstName": "Brandy",
           "lastName": "Wehr",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/ladies_leader_13926125.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": null
         }
@@ -176,16 +176,16 @@
       "description": "",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/leadership_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "140403632_152738971",
           "name": "Andrew & Chelsea Coffield",
           "firstName": "Andrew",
           "lastName": "Coffield",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/leadership_leader_140403632.jpg",
+          "hasPhoto": true,
           "isCouple": true,
           "bio": "River of Life is an Apostolic Pentecostal church located in Henry, Illinois. We are a community of believers passionate about sharing the love of Jesus Christ and helping people discover their purpose in Him.\r\n\r\nMy wife Chelsea and I feel honored and blessed to serve as pastors of this incredible church family. We moved here in 2023 with a vision to build a church where everyone feels welcome, loved, and valued.\r\n\r\nAt River of Life, we believe that church should be a place where life begins - where you can find hope, healing, and a fresh start no matter where you've been or what you've been through.\r\n\r\nWhether you're exploring faith for the first time, returning after time away, or looking for a new church home, we'd love to meet you. Our doors are always open, and there's a place here for you.\r\n\r\nWe invite you to join us for a service and experience the warmth and love of our church family. We truly believe that your best days are ahead!"
         }
@@ -198,16 +198,16 @@
       "description": "",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/maintenance_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "140405576",
           "name": "Allan Mathis",
           "firstName": "Allan",
           "lastName": "Mathis",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/maintenance_leader_140405576.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": null
         }
@@ -220,16 +220,16 @@
       "description": "<div>all males age 10 and over</div>",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/men_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "23214762",
           "name": "Scott Jensen",
           "firstName": "Scott",
           "lastName": "Jensen",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/men_leader_23214762.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": "Scott is on the board of River of Life and is in rotation to teach Christian Education on Sundays. His wife Cris is a Sunday School teacher in the nursery class."
         },
@@ -238,8 +238,8 @@
           "name": "Allan Mathis",
           "firstName": "Allan",
           "lastName": "Mathis",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/men_leader_140405576.jpg",
+          "hasPhoto": true,
           "isCouple": false,
           "bio": null
         }
@@ -252,16 +252,16 @@
       "description": "<div>The Youth group is all about students age 12-18! We meet Wednesday nights from 7:15-8PM for Bible Study and then once a month (normally the first Friday) to hangout and have fun!</div>",
       "schedule": "Meets weekly on Wednesdays from 7:15-8pm",
       "contactEmail": "david.plappert@rol.church",
-      "headerImage": null,
-      "hasHeaderImage": false,
+      "headerImage": "/groups/youth_header.jpg",
+      "hasHeaderImage": true,
       "leaders": [
         {
           "id": "13451237_13451319",
           "name": "David & Tiffany Plappert",
           "firstName": "David",
           "lastName": "Plappert",
-          "image": null,
-          "hasPhoto": false,
+          "image": "/groups/youth_leader_13451237.jpg",
+          "hasPhoto": true,
           "isCouple": true,
           "bio": "Here to serve."
         }
