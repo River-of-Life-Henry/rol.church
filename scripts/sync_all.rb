@@ -388,11 +388,51 @@ def build_changelog_email
     lines << ""
   end
 
+  # Git diff section
+  git_diff = get_git_diff
+  if git_diff && !git_diff.empty?
+    lines << "GIT DIFF"
+    lines << "-" * 20
+    lines << git_diff
+    lines << ""
+  end
+
   lines << "-" * 50
   lines << "View site: https://rol.church"
   lines << ""
 
   lines.join("\n")
+end
+
+# Get git diff for changed files
+def get_git_diff
+  # Get the project root (parent of scripts directory)
+  project_root = File.expand_path("..", __dir__)
+
+  # Get diff for tracked files that have been modified
+  diff_output, status = Open3.capture2(
+    "git", "-C", project_root, "diff", "--stat", "--",
+    "src/data/", "public/hero/", "public/groups/", "public/team/"
+  )
+
+  return nil unless status.success? && !diff_output.strip.empty?
+
+  # Also get a brief content diff (limited to avoid huge emails)
+  content_diff, _ = Open3.capture2(
+    "git", "-C", project_root, "diff", "--unified=1", "--",
+    "src/data/", "public/hero/", "public/groups/", "public/team/"
+  )
+
+  # Truncate if too long (keep first 100 lines)
+  diff_lines = content_diff.lines
+  if diff_lines.length > 100
+    content_diff = diff_lines.first(100).join + "\n... (#{diff_lines.length - 100} more lines truncated)"
+  end
+
+  "#{diff_output}\n#{content_diff}"
+rescue => e
+  puts "WARN: Could not get git diff: #{e.message}"
+  nil
 end
 
 # Send changelog email via AWS SES
