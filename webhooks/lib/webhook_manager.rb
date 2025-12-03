@@ -36,10 +36,22 @@ module WebhookManager
     # Planning Center Webhook Management
     # =========================================================================
 
-    # List all PCO webhook subscriptions
+    # List all PCO webhook subscriptions (handles pagination)
     def list_pco_webhooks
-      response = pco_request(:get, "/webhooks/v2/subscriptions")
-      response["data"] || []
+      all_webhooks = []
+      offset = 0
+      per_page = 100
+
+      loop do
+        response = pco_request(:get, "/webhooks/v2/subscriptions?per_page=#{per_page}&offset=#{offset}")
+        data = response["data"] || []
+        all_webhooks.concat(data)
+
+        break if data.length < per_page
+        offset += per_page
+      end
+
+      all_webhooks
     end
 
     # Create a PCO webhook subscription
