@@ -16,6 +16,7 @@ require "dotenv"
 require "json"
 require "time"
 require "parallel"
+require "stringio"
 
 # Load environment variables from .env file (for local development)
 Dotenv.load(File.join(__dir__, ".env")) if File.exist?(File.join(__dir__, ".env"))
