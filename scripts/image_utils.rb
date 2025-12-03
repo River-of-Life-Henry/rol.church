@@ -266,7 +266,9 @@ module ImageUtils
       # Detect image format from file header (magic bytes)
       # This is needed because temp files may not have proper extensions
       format_hint = detect_image_format(input_path)
+      puts "DEBUG: detect_image_format returned: #{format_hint.inspect} for #{input_path}"
       input_spec = format_hint ? "#{format_hint}:#{input_path}" : input_path
+      puts "DEBUG: input_spec = #{input_spec}"
 
       cmd = [
         "convert",
@@ -278,6 +280,7 @@ module ImageUtils
         "\"#{output_path}\""
       ].join(" ")
 
+      puts "DEBUG: Running command: #{cmd}"
       result = system(cmd)
 
       unless result
