@@ -59,8 +59,46 @@ jobs:
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
+        id: git-push
         run: |
+          set -e  # Exit on error
+
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "Update data from Planning Center [automated]"
-          git push
+
+          echo "Committing changes..."
+          if ! git commit -m "Update data from Planning Center [automated]"; then
+            echo "ERROR: Git commit failed"
+            exit 1
+          fi
+
+          echo "Pushing to remote..."
+          # Retry push up to 3 times in case of race conditions
+          for i in 1 2 3; do
+            if git push; then
+              echo "SUCCESS: Changes pushed to remote"
+              exit 0
+            else
+              echo "WARN: Push attempt $i failed, retrying..."
+              sleep 2
+              git pull --rebase
+            fi
+          done
+
+          echo "ERROR: Failed to push after 3 attempts"
+          exit 1
+
+      - name: Verify push succeeded
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          # Verify the push succeeded by checking local and remote are in sync
+          git fetch origin main
+          LOCAL=$(git rev-parse HEAD)
+          REMOTE=$(git rev-parse origin/main)
+
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            echo "ERROR: Local ($LOCAL) and remote ($REMOTE) are out of sync after push"
+            exit 1
+          fi
+
+          echo "SUCCESS: Verified push - local and remote at $LOCAL"
