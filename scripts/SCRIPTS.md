@@ -212,6 +212,14 @@ Photos must meet ALL criteria:
 
 Photos are smart-cropped to 16:9 with faces positioned at 1/3 from top (rule of thirds).
 
+### Storage and Display Limits
+
+- **Planning Center**: ALL qualifying photos are uploaded (no limit) for archival
+- **Website slider**: Only the 5 most recent photos are displayed (see `HeroSlider.astro`)
+- **AWS Rekognition**: Only analyzes NEW photos (tracked by post ID to save costs)
+
+The script never deletes images from Planning Center - it only adds new qualifying photos.
+
 ## File Naming Conventions
 
 ### Hero Images

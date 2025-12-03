@@ -22,8 +22,8 @@
 #
 # How It Works:
 #   1. Fetches photos from Facebook page posts (last 2 years or since last sync)
-#   2. Skips already-synced photos (tracked by post ID)
-#   3. Analyzes each photo with AWS Rekognition:
+#   2. Skips already-synced photos (tracked by post ID) - saves AWS API costs
+#   3. Analyzes each NEW photo with AWS Rekognition:
 #      - Detects faces and smile confidence
 #      - Detects text (rejects screenshots/slides)
 #   4. Qualifies photos meeting criteria:
@@ -31,7 +31,11 @@
 #      - ≥1 smiling OR ≥60% smiling
 #      - ≤3 text elements (filters out graphics/slides)
 #   5. Smart crops to 16:9 with faces at 1/3 from top
-#   6. Uploads to Planning Center Media for backup/management
+#   6. Uploads ALL qualifying photos to Planning Center Media (no limit)
+#   7. Website slider displays only the 5 most recent (see HeroSlider.astro)
+#
+# Important: This script NEVER deletes images from Planning Center. All
+# qualifying photos are uploaded and preserved in PCO for archival.
 #
 # AWS Rekognition Privacy Note:
 #   Images are sent to AWS Rekognition API for face/text detection.
@@ -441,8 +445,8 @@ class FacebookPhotoSync
       next_url = data.dig("paging", "next")
       break unless next_url
 
-      # Safety limit
-      break if photos.length >= 500
+      # Note: No artificial limit - all qualifying photos should be uploaded to PCO
+      # The website slider is limited to 5 images in HeroSlider.astro
     end
 
     photos
