@@ -31,12 +31,18 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
       - name: Install Serverless Framework
         run: |
           npm install -g serverless
           npm install -g serverless-domain-manager
 
       - name: Deploy to AWS
+        id: deploy
         working-directory: webhooks
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ROL }}
@@ -47,5 +53,18 @@ jobs:
           CLOUDFLARE_WEBHOOK_SECRET: ${{ secrets.CLOUDFLARE_WEBHOOK_SECRET }}
         run: |
           STAGE="${{ inputs.stage || 'prod' }}"
+          echo "stage=$STAGE" >> $GITHUB_OUTPUT
           echo "Deploying to stage: $STAGE"
           sls deploy --stage $STAGE --verbose
+
+      - name: Verify and setup webhooks
+        working-directory: webhooks
+        env:
+          ROL_PLANNING_CENTER_CLIENT_ID: ${{ secrets.ROL_PLANNING_CENTER_CLIENT_ID }}
+          ROL_PLANNING_CENTER_SECRET: ${{ secrets.ROL_PLANNING_CENTER_SECRET }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          STAGE="${{ steps.deploy.outputs.stage }}"
+          echo "Verifying webhooks for stage: $STAGE"
+          ruby scripts/verify_and_setup_webhooks.rb --stage $STAGE
