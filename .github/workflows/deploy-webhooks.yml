@@ -44,33 +44,6 @@ jobs:
           npm install -g serverless@3
           # npm install -g serverless-domain-manager  # Enable when custom domain is configured
 
-      - name: Generate or use PCO webhook secret
-        id: pco-secret
-        env:
-          GH_TOKEN: ${{ secrets.WEBHOOKS_GITHUB_PAT || github.token }}
-          EXISTING_SECRET: ${{ secrets.PCO_WEBHOOK_SECRET }}
-          HAS_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT != '' }}
-        run: |
-          if [ -n "$EXISTING_SECRET" ]; then
-            echo "✓ PCO_WEBHOOK_SECRET already exists"
-            echo "secret=$EXISTING_SECRET" >> $GITHUB_OUTPUT
-          else
-            echo "PCO_WEBHOOK_SECRET not set, generating new secret..."
-            NEW_SECRET=$(openssl rand -hex 32)
-            echo "::add-mask::$NEW_SECRET"
-            echo "secret=$NEW_SECRET" >> $GITHUB_OUTPUT
-
-            if [ "$HAS_PAT" = "true" ]; then
-              gh secret set PCO_WEBHOOK_SECRET --body "$NEW_SECRET"
-              echo "✓ Created PCO_WEBHOOK_SECRET in GitHub secrets"
-            else
-              echo "⚠️  WEBHOOKS_GITHUB_PAT not set - cannot save secret to GitHub"
-              echo "Please add PCO_WEBHOOK_SECRET manually:"
-              echo "  Value: $NEW_SECRET"
-              echo "  URL: https://github.com/River-of-Life-Henry/rol.church/settings/secrets/actions"
-            fi
-          fi
-
       - name: Deploy to AWS
         id: deploy
         working-directory: webhooks
@@ -79,7 +52,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
           GITHUB_REPO: River-of-Life-Henry/rol.church
-          PCO_WEBHOOK_SECRET: ${{ steps.pco-secret.outputs.secret }}
           CLOUDFLARE_WEBHOOK_SECRET: ${{ secrets.CLOUDFLARE_WEBHOOK_SECRET }}
         run: |
           STAGE="${{ inputs.stage || 'prod' }}"
@@ -133,7 +105,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
           GITHUB_REPO: River-of-Life-Henry/rol.church
-          PCO_WEBHOOK_SECRET: ${{ steps.pco-secret.outputs.secret }}
           # Use the captured secret since secrets context won't have the new value yet
           CLOUDFLARE_WEBHOOK_SECRET: ${{ steps.verify-webhooks.outputs.cf_secret }}
         run: |
