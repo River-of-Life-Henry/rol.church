@@ -66,15 +66,22 @@
 # ==============================================================================
 
 require "bundler/setup"
-require "dotenv"
 require "json"
 require "time"
 require "parallel"
 require "stringio"
 require "open3"
 
-# Load environment variables from .env file (for local development)
-Dotenv.load(File.join(__dir__, ".env")) if File.exist?(File.join(__dir__, ".env"))
+# Load environment variables from .env file (for local development only)
+env_file = File.join(__dir__, ".env")
+if File.exist?(env_file)
+  begin
+    require "dotenv"
+    Dotenv.load(env_file)
+  rescue LoadError
+    # dotenv gem not available, skip loading .env file
+  end
+end
 
 # Set timezone to Central Time
 ENV['TZ'] = 'America/Chicago'
