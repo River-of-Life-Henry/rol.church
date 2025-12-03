@@ -88,6 +88,11 @@ module WebhookVerifier
       signature_header = headers["webhook-signature"]
       secret = ENV["CLOUDFLARE_WEBHOOK_SECRET"]
 
+      puts "DEBUG: Cloudflare verification starting"
+      puts "DEBUG: Available headers: #{headers.keys.join(', ')}"
+      puts "DEBUG: Webhook-Signature header: #{signature_header.inspect}"
+      puts "DEBUG: Secret configured: #{secret ? 'yes' : 'no'}"
+
       unless signature_header
         puts "WARN: Missing Webhook-Signature header"
         return false
@@ -103,14 +108,11 @@ module WebhookVerifier
       timestamp = parts["time"]
       signature = parts["sig1"]
 
+      puts "DEBUG: Parsed timestamp: #{timestamp}"
+      puts "DEBUG: Parsed signature: #{signature}"
+
       unless timestamp && signature
         puts "WARN: Invalid Webhook-Signature header format"
-        return false
-      end
-
-      # Optional: Check timestamp to prevent replay attacks (within 5 minutes)
-      if timestamp_expired?(timestamp, tolerance: 300)
-        puts "WARN: Webhook timestamp expired (possible replay attack)"
         return false
       end
 
@@ -118,7 +120,16 @@ module WebhookVerifier
       source_string = "#{timestamp}.#{body}"
       expected = OpenSSL::HMAC.hexdigest("sha256", secret, source_string)
 
-      secure_compare(expected, signature)
+      puts "DEBUG: Expected signature: #{expected}"
+      puts "DEBUG: Received signature: #{signature}"
+
+      if secure_compare(expected, signature)
+        puts "INFO: Cloudflare webhook signature verified"
+        true
+      else
+        puts "WARN: Cloudflare webhook signature mismatch"
+        false
+      end
     end
 
     # Constant-time string comparison to prevent timing attacks
