@@ -22,6 +22,7 @@ require "net/http"
 require "uri"
 require "openssl"
 require "time"
+require "parallel"
 
 # Set timezone to Central Time
 ENV['TZ'] = 'America/Chicago'
@@ -34,78 +35,66 @@ $stderr.sync = true
 HERO_DIR = File.join(__dir__, "..", "public", "hero")
 MEDIA_ID = ENV["PCO_WEBSITE_HERO_MEDIA_ID"]
 
+# Parallel threads for downloads
+PARALLEL_THREADS = 4
+
 # Helper method to download a single attachment
 def download_attachment(api, attachment_id, filename)
-  puts "DEBUG: Fetching authenticated download URL for attachment #{attachment_id}"
-  open_response = api.services.v2.attachments[attachment_id].open.post
+  begin
+    open_response = api.services.v2.attachments[attachment_id].open.post
+    download_url = open_response.dig('data', 'attributes', 'attachment_url')
 
-  download_url = open_response.dig('data', 'attributes', 'attachment_url')
-
-  unless download_url
-    puts "WARNING: No download URL returned for attachment #{attachment_id}"
-    return false
-  end
-
-  puts "DEBUG: Got authenticated download URL: #{download_url[0..80]}..."
-
-  # Download the file from the authenticated URL
-  uri = URI(download_url)
-  redirect_limit = 5
-
-  redirect_limit.times do |redirect_count|
-    puts "DEBUG: HTTP request #{redirect_count + 1} to #{uri.host}..."
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = (uri.scheme == 'https')
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    http.open_timeout = 30
-    http.read_timeout = 60
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-
-    puts "DEBUG: Response status: #{response.code} #{response.message}"
-
-    case response
-    when Net::HTTPSuccess
-      # Verify it's actually an image (not HTML)
-      content_type = response['content-type'] || ''
-      if content_type.include?('text/html')
-        puts "ERROR: Got HTML instead of image for #{filename}"
-        return false
-      end
-
-      # Save to temp file first
-      temp_path = File.join(HERO_DIR, "#{filename}.tmp")
-      File.binwrite(temp_path, response.body)
-      original_size = response.body.bytesize
-      puts "INFO: Downloaded hero image: #{filename} (#{original_size} bytes, #{content_type})"
-
-      # Optimize the image for web
-      file_path = File.join(HERO_DIR, filename)
-      ImageUtils.optimize_image(temp_path, file_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
-
-      # Clean up temp file
-      File.delete(temp_path) if File.exist?(temp_path)
-      return true
-    when Net::HTTPRedirection
-      # Follow redirect
-      new_location = response['location']
-      puts "DEBUG: Redirecting to: #{new_location[0..80]}..."
-      uri = URI(new_location)
-    else
-      puts "ERROR: Failed to download #{filename}: HTTP #{response.code} #{response.message}"
-      return false
+    unless download_url
+      return { success: false, error: "No download URL returned" }
     end
-  end
 
-  false
+    # Download the file from the authenticated URL
+    uri = URI(download_url)
+    redirect_limit = 5
+
+    redirect_limit.times do |redirect_count|
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == 'https')
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http.open_timeout = 30
+      http.read_timeout = 60
+
+      request = Net::HTTP::Get.new(uri.request_uri)
+      response = http.request(request)
+
+      case response
+      when Net::HTTPSuccess
+        content_type = response['content-type'] || ''
+        if content_type.include?('text/html')
+          return { success: false, error: "Got HTML instead of image" }
+        end
+
+        # Save to temp file first
+        temp_path = File.join(HERO_DIR, "#{filename}.tmp")
+        File.binwrite(temp_path, response.body)
+
+        # Optimize the image for web
+        file_path = File.join(HERO_DIR, filename)
+        ImageUtils.optimize_image(temp_path, file_path, ImageUtils::HERO_MAX_WIDTH, ImageUtils::HERO_MAX_HEIGHT)
+
+        # Clean up temp file
+        File.delete(temp_path) if File.exist?(temp_path)
+        return { success: true }
+      when Net::HTTPRedirection
+        uri = URI(response['location'])
+      else
+        return { success: false, error: "HTTP #{response.code}" }
+      end
+    end
+
+    { success: false, error: "Too many redirects" }
+  rescue => e
+    { success: false, error: e.message }
+  end
 end
 
 def download_hero_images
   puts "INFO: Starting download_hero_images function"
-  puts "INFO: Media ID: #{MEDIA_ID}"
-  puts "INFO: Hero directory: #{HERO_DIR}"
 
   unless MEDIA_ID
     puts "ERROR: PCO_WEBSITE_HERO_MEDIA_ID environment variable not set"
@@ -117,15 +106,7 @@ def download_hero_images
 
   # Clear existing PCO-sourced hero images (numbered and header_* files)
   # Preserve fb_* files (Facebook-sourced photos synced via sync_facebook_photos.rb)
-  Dir.glob(File.join(HERO_DIR, '*.jpg')).each do |f|
-    basename = File.basename(f)
-    File.delete(f) unless basename.start_with?('fb_')
-  end
-  Dir.glob(File.join(HERO_DIR, '*.png')).each do |f|
-    basename = File.basename(f)
-    File.delete(f) unless basename.start_with?('fb_')
-  end
-  Dir.glob(File.join(HERO_DIR, '*.webp')).each do |f|
+  Dir.glob(File.join(HERO_DIR, '*.{jpg,png,webp}')).each do |f|
     basename = File.basename(f)
     File.delete(f) unless basename.start_with?('fb_')
   end
@@ -134,6 +115,7 @@ def download_hero_images
 
   begin
     api = PCO::Client.api
+    errors = []
 
     # Fetch media attachments
     attachments_response = api.services.v2.media[MEDIA_ID].attachments.get(per_page: 100)
@@ -142,8 +124,7 @@ def download_hero_images
     puts "INFO: Found #{attachments.length} total images"
 
     if attachments.empty?
-      puts "WARNING: No attachments returned from API. Checking for Facebook-sourced images..."
-      # Don't return false - we might have Facebook images
+      puts "INFO: No PCO attachments, checking for Facebook-sourced images..."
     end
 
     # Separate header images from slider images
@@ -161,55 +142,55 @@ def download_hero_images
 
     puts "INFO: Found #{header_attachments.length} page header images and #{slider_attachments.length} slider images"
 
-    # Download header images (keep original filename like header_pastor.jpg)
-    header_files = []
-    header_attachments.each_with_index do |attachment, index|
+    # Prepare download jobs for parallel processing
+    download_jobs = []
+
+    # Header images (keep original filename like header_pastor.jpg)
+    header_attachments.each do |attachment|
       attachment_id = attachment['id']
       original_filename = attachment.dig('attributes', 'filename')
-
-      # Keep the header_* filename but normalize extension
       extension = File.extname(original_filename).downcase
       extension = '.jpg' if extension.empty?
       basename = File.basename(original_filename, '.*').downcase
       filename = "#{basename}#{extension}"
-
-      puts "DEBUG: Processing header image #{index + 1}/#{header_attachments.length}: #{filename}"
-
-      begin
-        if download_attachment(api, attachment_id, filename)
-          header_files << filename
-        end
-      rescue => e
-        puts "ERROR: Failed to download header image #{filename}: #{e.message}"
-      end
+      download_jobs << { id: attachment_id, filename: filename, type: :header }
     end
 
-    # Download slider images (numbered 1.jpg, 2.jpg, etc.)
-    slider_files = []
+    # Slider images (numbered 1.jpg, 2.jpg, etc.)
     slider_attachments.each_with_index do |attachment, index|
       attachment_id = attachment['id']
       original_filename = attachment.dig('attributes', 'filename') || "hero-#{index}.jpg"
-
-      # Rename to numbered format
       extension = File.extname(original_filename).downcase
       extension = '.jpg' if extension.empty?
       filename = "#{index + 1}#{extension}"
+      download_jobs << { id: attachment_id, filename: filename, type: :slider }
+    end
 
-      puts "DEBUG: Processing slider image #{index + 1}/#{slider_attachments.length}: #{filename}"
+    # Download all images in parallel
+    puts "INFO: Downloading #{download_jobs.length} images in parallel..."
+    results = { header: [], slider: [] }
+    mutex = Mutex.new
 
-      begin
-        if download_attachment(api, attachment_id, filename)
-          slider_files << filename
+    Parallel.each(download_jobs, in_threads: PARALLEL_THREADS) do |job|
+      result = download_attachment(api, job[:id], job[:filename])
+      mutex.synchronize do
+        if result[:success]
+          results[job[:type]] << job[:filename]
+        else
+          errors << "#{job[:filename]}: #{result[:error]}"
         end
-      rescue => e
-        puts "ERROR: Failed to download slider image #{filename}: #{e.message}"
       end
     end
 
-    puts "SUCCESS: Finished downloading hero images"
+    puts "SUCCESS: Downloaded #{results[:header].length} header and #{results[:slider].length} slider images"
+
+    # Report errors
+    if errors.any?
+      puts "WARN: #{errors.length} download errors:"
+      errors.first(5).each { |e| puts "  - #{e}" }
+    end
 
     # Validate downloaded PCO images and remove small files
-    # Note: fb_* files are from Facebook sync, not PCO, so we skip them here
     all_files = Dir.glob(File.join(HERO_DIR, '*.{jpg,png}')).sort
     valid_slider_files = []
     valid_header_files = []
@@ -218,15 +199,14 @@ def download_hero_images
       file_size = File.size(file)
       basename = File.basename(file)
 
-      # Skip Facebook-sourced files (they're handled separately)
+      # Skip Facebook-sourced files
       if basename.start_with?('fb_')
-        puts "DEBUG: Verified valid image: #{basename} (#{file_size} bytes)"
         next
       end
 
       # Skip files that are too small (likely HTML error pages)
       if file_size < 20000
-        puts "WARNING: Removing #{basename} - file too small (#{file_size} bytes)"
+        puts "WARN: Removing #{basename} - file too small (#{file_size} bytes)"
         File.delete(file)
         next
       end
@@ -236,11 +216,9 @@ def download_hero_images
       else
         valid_slider_files << basename
       end
-
-      puts "DEBUG: Verified valid PCO image: #{basename} (#{file_size} bytes)"
     end
 
-    puts "INFO: Downloaded #{valid_slider_files.length} valid PCO slider images and #{valid_header_files.length} valid header images"
+    puts "INFO: Validated #{valid_slider_files.length} PCO slider images and #{valid_header_files.length} header images"
 
     # Check if we have Facebook-sourced images even if PCO is empty
     fb_files = Dir.glob(File.join(HERO_DIR, 'fb_*.jpg')).map { |f| File.basename(f) }
@@ -255,17 +233,14 @@ def download_hero_images
     # Generate hero_images.json for the HeroSlider component
     hero_json_path = File.join(__dir__, "..", "src", "data", "hero_images.json")
 
-    # Also include header files mapping for PageHero component
+    # Header files mapping for PageHero component
     header_mapping = {}
     valid_header_files.each do |f|
-      # Extract page key from filename: header_pastor.jpg -> pastor
       page_key = f.sub(/^header_/, '').sub(/\.(jpg|png)$/, '')
       header_mapping[page_key] = "/hero/#{f}"
     end
 
     # Include Facebook-sourced photos (fb_*.jpg files)
-    # These are sorted by date (newest first based on filename: fb_YYYYMMDD_...)
-    # fb_files already loaded above
     fb_files.sort! { |a, b| b <=> a }  # Descending sort (newest first)
     fb_slider_paths = fb_files.map { |f| "/hero/#{f}" }
 
@@ -273,7 +248,6 @@ def download_hero_images
     pco_slider_paths = valid_slider_files.sort_by { |f| f.scan(/\d+/).first.to_i }.map { |f| "/hero/#{f}" }
 
     # Combine: Facebook photos first (newest), then PCO photos
-    # User request: Home slider shows 5 most recent, page backgrounds use rest
     all_slider_paths = fb_slider_paths + pco_slider_paths
 
     File.write(hero_json_path, JSON.pretty_generate({
@@ -282,13 +256,13 @@ def download_hero_images
       headers: header_mapping
     }))
 
-    puts "INFO: Generated hero_images.json with #{all_slider_paths.length} slider images (#{fb_slider_paths.length} from Facebook, #{pco_slider_paths.length} from PCO) and #{header_mapping.length} page headers"
+    puts "INFO: Generated hero_images.json with #{all_slider_paths.length} slider images (#{fb_slider_paths.length} FB, #{pco_slider_paths.length} PCO)"
 
     return true
   rescue => e
     puts "ERROR downloading hero images: #{e.message}"
     puts "ERROR class: #{e.class}"
-    puts e.backtrace.first(10).join("\n")
+    puts e.backtrace.first(5).join("\n")
     return false
   end
 end

@@ -46,11 +46,24 @@ class SyncState
       facebook_photos: { added: [], analyzed: 0, qualifying: 0 }
     }
     @errors = []
+    @alerts = []
     @script_results = {}
   end
 
   def add_error(script, message)
     synchronize { @errors << { script: script, message: message, time: Time.now } }
+  end
+
+  def add_alert(script, message)
+    synchronize { @alerts << { script: script, message: message } }
+  end
+
+  def alerts
+    synchronize { @alerts.dup }
+  end
+
+  def has_alerts?
+    synchronize { @alerts.any? }
   end
 
   def set_result(script, success, duration)
@@ -240,6 +253,17 @@ def build_changelog_email
     lines << ""
   end
 
+  # Show alerts (important notices)
+  alerts = $state.alerts
+  if alerts.any?
+    lines << "⚠️ ALERTS"
+    lines << "-" * 20
+    alerts.each do |alert|
+      lines << "  #{alert[:message]}"
+    end
+    lines << ""
+  end
+
   has_changes = $state.has_changes?
 
   # Events
@@ -319,9 +343,11 @@ def send_changelog_email
   puts "=" * 50
   puts email_body
 
-  # Always send email if there are errors, otherwise only if there are changes
-  unless has_errors || has_changes
-    puts "INFO: No changes or errors to report, skipping email"
+  has_alerts = $state.has_alerts?
+
+  # Always send email if there are errors or alerts, otherwise only if there are changes
+  unless has_errors || has_alerts || has_changes
+    puts "INFO: No changes, errors, or alerts to report, skipping email"
     return
   end
 
@@ -345,6 +371,8 @@ def send_changelog_email
   date_str = Time.now.strftime('%m/%d/%Y')
   subject = if has_errors
     "⚠️ ROL.Church Sync FAILED - #{date_str}"
+  elsif has_alerts
+    "⚠️ ROL.Church Sync Report - #{date_str} (Action Needed)"
   elsif has_changes
     "ROL.Church Sync Report - #{date_str}"
   else
@@ -427,6 +455,12 @@ def run_script(script)
       error_lines = output.lines.select { |l| l =~ /^ERROR[:\s]/i }.map(&:strip).first(3)
       error_lines.each { |err| $state.add_error(script_name, err) }
       success = false
+    end
+
+    # Check for ALERT lines (important notices for email)
+    if output =~ /^ALERT[:\s]/im
+      alert_lines = output.lines.select { |l| l =~ /^ALERT[:\s]/i }.map(&:strip)
+      alert_lines.each { |alert| $state.add_alert(script_name, alert.sub(/^ALERT:\s*/i, '')) }
     end
 
     # Print output with prefix (summarized for parallel readability)
