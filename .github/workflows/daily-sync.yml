@@ -2,9 +2,9 @@ name: Daily Website Sync
 
 on:
   schedule:
-    # Run daily at 6:00 AM Chicago time (12:00 PM UTC for CST, 11:00 AM UTC for CDT)
-    # Using 11:00 AM UTC to cover CDT (summer) - will be 6 AM CDT or 5 AM CST
-    - cron: '0 11 * * *'
+    # Run every 6 hours (4 times daily)
+    # 0:00, 6:00, 12:00, 18:00 UTC = roughly 6 PM, 12 AM, 6 AM, 12 PM Chicago time
+    - cron: '0 */6 * * *'
   workflow_dispatch: # Allow manual trigger or webhook trigger
     inputs:
       triggered_by:

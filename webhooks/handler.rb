@@ -102,7 +102,34 @@ def receive(event:, context:)
   # Parse the webhook payload
   payload = JSON.parse(body) rescue {}
 
-  # Trigger GitHub Actions sync workflow
+  # PCO webhooks: Log only, do not trigger workflow (collecting data to determine which events matter)
+  # Cloudflare webhooks: Trigger workflow immediately
+  if source == "pco"
+    puts "INFO: PCO webhook logged (workflow trigger disabled - collecting event data)"
+
+    # Update log status to logged_only
+    if log_id && log_received_at
+      @webhook_logger.update_status(
+        id: log_id,
+        received_at: log_received_at,
+        status: "logged_only",
+        additional_data: {
+          workflow_triggered: false,
+          reason: "PCO workflow trigger disabled - collecting event data"
+        }
+      )
+    end
+
+    return response(200, {
+      received: true,
+      source: source,
+      workflow_triggered: false,
+      reason: "PCO webhooks are being logged only (sync runs on schedule)",
+      log_id: log_id
+    })
+  end
+
+  # Trigger GitHub Actions sync workflow (Cloudflare only for now)
   result = GithubTrigger.dispatch_sync_workflow(triggered_by: source)
 
   if result[:success]
