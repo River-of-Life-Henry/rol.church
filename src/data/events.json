@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-04T08:40:09-06:00",
+  "updated_at": "2025-12-04T08:46:20-06:00",
   "events": [
     {
       "id": "207164952",
@@ -47,14 +47,14 @@
       "registrationUrl": null
     },
     {
-      "id": "178702112",
+      "id": "207201428",
       "name": "Chillicothe Life Group",
       "slug": "chillicothe-life-group",
       "description": "",
       "summary": null,
-      "startsAt": "2025-12-07T18:00:00-06:00",
-      "endsAt": "2025-12-07T21:00:00-06:00",
-      "location": "",
+      "startsAt": "2025-12-07T17:00:00-06:00",
+      "endsAt": "2025-12-07T20:00:00-06:00",
+      "location": "Plappert Residence - 708 N Stanley Dr, Chillicothe, IL 61523, USA",
       "allDay": false,
       "tags": [],
       "featured": false,
