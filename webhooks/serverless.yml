@@ -14,6 +14,23 @@ provider:
     GITHUB_REPO: River-of-Life-Henry/rol.church
     CLOUDFLARE_WEBHOOK_SECRET: ${env:CLOUDFLARE_WEBHOOK_SECRET}
     STAGE: ${self:provider.stage}
+    WEBHOOK_LOGS_TABLE: ${self:custom.webhookLogsTable}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:UpdateItem
+          Resource:
+            - !GetAtt WebhookLogsTable.Arn
+            - !Sub "${WebhookLogsTable.Arn}/index/*"
+
+custom:
+  webhookLogsTable: rol-webhook-logs-${self:provider.stage}
 
 functions:
   webhook:
@@ -55,3 +72,137 @@ package:
     - '!.env*'
     - '!README.md'
     - '!.gitignore'
+
+resources:
+  Resources:
+    # ==============================================================================
+    # DynamoDB Table: Webhook Logs
+    # ==============================================================================
+    # Stores comprehensive logs of all incoming webhooks for auditing and debugging.
+    #
+    # Primary Key: id (ULID - sortable unique ID with timestamp embedded)
+    # Sort Key: received_at (ISO8601 timestamp in CST)
+    #
+    # Global Secondary Indexes enable flexible querying:
+    #   - PlatformDateIndex: Query by platform + date range
+    #   - EventTypeIndex: Query by event type + date range
+    #   - StatusIndex: Query by processing status + date range
+    #   - PlatformEventIndex: Query by platform + event type combination
+    #   - DateOnlyIndex: Query all webhooks by date (cross-platform)
+    #
+    # ==============================================================================
+    WebhookLogsTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      UpdateReplacePolicy: Retain
+      Properties:
+        TableName: ${self:custom.webhookLogsTable}
+        BillingMode: PAY_PER_REQUEST
+
+        # Primary key design for efficient writes and time-based queries
+        AttributeDefinitions:
+          # Primary key attributes
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: received_at
+            AttributeType: S
+
+          # GSI attributes for flexible querying
+          - AttributeName: platform
+            AttributeType: S
+          - AttributeName: event_type
+            AttributeType: S
+          - AttributeName: status
+            AttributeType: S
+          - AttributeName: date_partition
+            AttributeType: S
+          - AttributeName: platform_event
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: received_at
+            KeyType: RANGE
+
+        GlobalSecondaryIndexes:
+          # Query: All webhooks from a platform within a date range
+          # Example: Get all Planning Center webhooks from last 7 days
+          - IndexName: PlatformDateIndex
+            KeySchema:
+              - AttributeName: platform
+                KeyType: HASH
+              - AttributeName: received_at
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+          # Query: All webhooks of a specific event type within a date range
+          # Example: Get all "event.updated" webhooks from last month
+          - IndexName: EventTypeDateIndex
+            KeySchema:
+              - AttributeName: event_type
+                KeyType: HASH
+              - AttributeName: received_at
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+          # Query: All webhooks by processing status within a date range
+          # Example: Get all failed webhooks for debugging
+          - IndexName: StatusDateIndex
+            KeySchema:
+              - AttributeName: status
+                KeyType: HASH
+              - AttributeName: received_at
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+          # Query: Specific platform + event type combinations
+          # Example: Get all "pco:event.created" webhooks
+          - IndexName: PlatformEventIndex
+            KeySchema:
+              - AttributeName: platform_event
+                KeyType: HASH
+              - AttributeName: received_at
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+          # Query: All webhooks on a specific date (partitioned by YYYY-MM-DD)
+          # Example: Get everything that happened on 2024-01-15
+          - IndexName: DatePartitionIndex
+            KeySchema:
+              - AttributeName: date_partition
+                KeyType: HASH
+              - AttributeName: received_at
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+        # Enable TTL to auto-delete old logs after 90 days
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
+
+        Tags:
+          - Key: Project
+            Value: rol-church
+          - Key: Component
+            Value: webhooks
+          - Key: Stage
+            Value: ${self:provider.stage}
+
+  Outputs:
+    WebhookLogsTableName:
+      Description: Name of the webhook logs DynamoDB table
+      Value: !Ref WebhookLogsTable
+      Export:
+        Name: ${self:service}-${self:provider.stage}-WebhookLogsTable
+
+    WebhookLogsTableArn:
+      Description: ARN of the webhook logs DynamoDB table
+      Value: !GetAtt WebhookLogsTable.Arn
+      Export:
+        Name: ${self:service}-${self:provider.stage}-WebhookLogsTableArn

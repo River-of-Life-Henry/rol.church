@@ -9,3 +9,6 @@ gem "net-http"
 
 # JSON parsing (stdlib, but explicit for Lambda)
 gem "json"
+
+# AWS SDK for DynamoDB webhook logging
+gem "aws-sdk-dynamodb", "~> 1.0"

@@ -180,13 +180,135 @@ webhooks/
 ├── lib/
 │   ├── webhook_verifier.rb  # Signature verification
 │   ├── github_trigger.rb    # GitHub Actions API client
-│   └── webhook_manager.rb   # PCO/CF webhook management
+│   ├── webhook_manager.rb   # PCO/CF webhook management
+│   └── webhook_logger.rb    # DynamoDB webhook logging
 ├── scripts/
 │   ├── setup_webhooks.rb    # Register webhooks
 │   └── teardown_webhooks.rb # Remove webhooks
 ├── .env.example             # Example environment file
 └── README.md                # This file
 ```
+
+## DynamoDB Webhook Logs
+
+All incoming webhooks are logged to a DynamoDB table for auditing, debugging, and analytics.
+
+### Table Structure
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | String | Sortable unique ID (timestamp + random hex) |
+| `received_at` | String | ISO8601 timestamp in CST (sort key) |
+| `platform` | String | Source platform: `planningcenter` or `cloudflare` |
+| `event_type` | String | Event type from payload (e.g., `event.updated`) |
+| `status` | String | Processing status (see below) |
+| `platform_event` | String | Composite key: `platform:event_type` |
+| `date_partition` | String | Date in `YYYY-MM-DD` format for daily queries |
+| `received_at_unix` | Number | Unix timestamp |
+| `received_at_cst` | String | Human-readable CST timestamp |
+| `payload` | Map | Full JSON payload |
+| `payload_raw` | String | Raw request body (truncated if >400KB) |
+| `payload_size_bytes` | Number | Size of raw payload |
+| `headers` | Map | Relevant HTTP headers |
+| `metadata` | Map | Lambda context (request ID, function name, IP, etc.) |
+| `ttl` | Number | TTL timestamp (auto-delete after 90 days) |
+| `error_message` | String | Error details if processing failed |
+| `workflow_triggered` | Boolean | Whether GitHub workflow was triggered |
+| `workflow_run_id` | String | GitHub Actions run ID if triggered |
+
+### Processing Statuses
+
+| Status | Description |
+|--------|-------------|
+| `received` | Webhook received, not yet verified |
+| `signature_failed` | Signature verification failed |
+| `verified` | Signature verified, processing |
+| `processed` | Successfully triggered workflow |
+| `workflow_failed` | Workflow trigger failed |
+
+### Global Secondary Indexes
+
+The table includes 5 GSIs for flexible querying:
+
+| Index | Partition Key | Sort Key | Use Case |
+|-------|--------------|----------|----------|
+| `PlatformDateIndex` | `platform` | `received_at` | All webhooks from PCO in last 7 days |
+| `EventTypeDateIndex` | `event_type` | `received_at` | All "event.updated" webhooks |
+| `StatusDateIndex` | `status` | `received_at` | All failed webhooks for debugging |
+| `PlatformEventIndex` | `platform_event` | `received_at` | All "planningcenter:event.created" |
+| `DatePartitionIndex` | `date_partition` | `received_at` | Everything on 2024-01-15 |
+
+### Example Queries
+
+**Get all Planning Center webhooks from the last 24 hours:**
+```ruby
+logger = WebhookLogger.new
+webhooks = logger.query_by_platform(
+  platform: "planningcenter",
+  start_date: Time.now - 86400
+)
+```
+
+**Get all failed webhooks:**
+```ruby
+webhooks = logger.query_by_status(
+  status: "signature_failed",
+  start_date: Time.now - 604800  # Last 7 days
+)
+```
+
+**Get all webhooks on a specific date:**
+```ruby
+webhooks = logger.query_by_date(date: "2024-01-15")
+```
+
+**Get specific platform + event combinations:**
+```ruby
+webhooks = logger.query_by_platform_event(
+  platform: "planningcenter",
+  event_type: "event.updated",
+  start_date: Time.now - 86400
+)
+```
+
+### AWS CLI Queries
+
+**Query by platform:**
+```bash
+aws dynamodb query \
+  --table-name rol-webhook-logs-prod \
+  --index-name PlatformDateIndex \
+  --key-condition-expression "platform = :p AND received_at > :d" \
+  --expression-attribute-values '{
+    ":p": {"S": "planningcenter"},
+    ":d": {"S": "2024-01-01T00:00:00"}
+  }'
+```
+
+**Query by status (failed webhooks):**
+```bash
+aws dynamodb query \
+  --table-name rol-webhook-logs-prod \
+  --index-name StatusDateIndex \
+  --key-condition-expression "#s = :status" \
+  --expression-attribute-names '{"#s": "status"}' \
+  --expression-attribute-values '{":status": {"S": "signature_failed"}}'
+```
+
+**Get all webhooks for a specific date:**
+```bash
+aws dynamodb query \
+  --table-name rol-webhook-logs-prod \
+  --index-name DatePartitionIndex \
+  --key-condition-expression "date_partition = :d" \
+  --expression-attribute-values '{":d": {"S": "2024-01-15"}}'
+```
+
+### Data Retention
+
+- Logs are automatically deleted after **90 days** via DynamoDB TTL
+- Table uses `DeletionPolicy: Retain` so data survives stack updates/deletes
+- Use `PAY_PER_REQUEST` billing for cost-effective serverless usage
 
 ## Troubleshooting
 

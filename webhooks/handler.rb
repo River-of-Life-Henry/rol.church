@@ -24,9 +24,13 @@
 require "json"
 require_relative "lib/webhook_verifier"
 require_relative "lib/github_trigger"
+require_relative "lib/webhook_logger"
 
 # Main webhook receiver handler
 def receive(event:, context:)
+  # Initialize webhook logger
+  @webhook_logger = WebhookLogger.new
+
   # Extract source from path parameter
   source = event.dig("pathParameters", "source")&.downcase
 
@@ -44,16 +48,56 @@ def receive(event:, context:)
     body = Base64.decode64(body)
   end
 
+  # Build Lambda context for logging
+  lambda_context = {
+    aws_request_id: context.aws_request_id,
+    function_name: context.function_name,
+    function_version: context.function_version,
+    log_group_name: context.log_group_name,
+    log_stream_name: context.log_stream_name
+  }
+
+  # Log webhook receipt to DynamoDB (status: received)
+  log_entry = @webhook_logger.log(
+    source: source,
+    body: body,
+    headers: headers,
+    context: lambda_context,
+    status: "received"
+  )
+  log_id = log_entry&.dig(:id)
+  log_received_at = log_entry&.dig(:received_at)
+
   # Log webhook receipt (CloudWatch)
   log_webhook(source, headers, body)
 
   # Verify webhook signature
   unless WebhookVerifier.verify(source, body, headers)
     puts "ERROR: Invalid signature for #{source} webhook"
+
+    # Update log status to failed
+    if log_id && log_received_at
+      @webhook_logger.update_status(
+        id: log_id,
+        received_at: log_received_at,
+        status: "signature_failed",
+        additional_data: { error_message: "Invalid signature" }
+      )
+    end
+
     return response(401, { error: "Invalid signature" })
   end
 
   puts "INFO: Signature verified for #{source} webhook"
+
+  # Update log status to verified
+  if log_id && log_received_at
+    @webhook_logger.update_status(
+      id: log_id,
+      received_at: log_received_at,
+      status: "verified"
+    )
+  end
 
   # Parse the webhook payload
   payload = JSON.parse(body) rescue {}
@@ -63,18 +107,48 @@ def receive(event:, context:)
 
   if result[:success]
     puts "INFO: Successfully triggered sync workflow"
+
+    # Update log status to processed
+    if log_id && log_received_at
+      @webhook_logger.update_status(
+        id: log_id,
+        received_at: log_received_at,
+        status: "processed",
+        additional_data: {
+          workflow_triggered: true,
+          workflow_run_id: result[:run_id]
+        }
+      )
+    end
+
     response(200, {
       received: true,
       source: source,
-      workflow_triggered: true
+      workflow_triggered: true,
+      log_id: log_id
     })
   else
     puts "ERROR: Failed to trigger workflow: #{result[:error]}"
+
+    # Update log status to failed
+    if log_id && log_received_at
+      @webhook_logger.update_status(
+        id: log_id,
+        received_at: log_received_at,
+        status: "workflow_failed",
+        additional_data: {
+          workflow_triggered: false,
+          error_message: result[:error]
+        }
+      )
+    end
+
     response(500, {
       received: true,
       source: source,
       workflow_triggered: false,
-      error: result[:error]
+      error: result[:error],
+      log_id: log_id
     })
   end
 rescue JSON::ParserError => e
