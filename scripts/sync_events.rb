@@ -25,6 +25,8 @@
 #   - Typical runtime: 3-5 seconds
 #
 # Filtering:
+#   - Only events from the default "River of Life" calendar
+#   - Excludes "Reminders" and "Regular Services" calendars
 #   - Only Church Center-visible events
 #   - Excludes events with "Hidden" tag
 #   - Limited to next 12 weeks
@@ -82,8 +84,10 @@ def sync_events
 
     puts "INFO: Fetching future events (next 12 weeks)..."
 
-    # Step 1: Fetch all event instances first (paginated)
+    # Step 1: Fetch all event instances with included event data (paginated)
+    # Include event data so we can filter by calendar
     all_instances = []
+    included_events = {}
     offset = 0
     loop do
       begin
@@ -91,13 +95,21 @@ def sync_events
           per_page: 100,
           offset: offset,
           filter: "future,church_center_visible",
-          order: "starts_at"
+          order: "starts_at",
+          include: "event"
         )
 
         instances = response["data"] || []
         break if instances.empty?
 
-        # Filter to 12 weeks and collect
+        # Build a lookup of included events by ID
+        (response["included"] || []).each do |item|
+          if item["type"] == "Event"
+            included_events[item["id"]] = item
+          end
+        end
+
+        # Filter to 12 weeks, default calendar only
         instances.each do |instance|
           attrs = instance["attributes"]
           starts_at = attrs["starts_at"]
@@ -105,6 +117,12 @@ def sync_events
 
           event_time = Time.parse(starts_at) rescue nil
           next if event_time.nil? || event_time > twelve_weeks_later
+
+          # Filter by calendar - only include events from the default "River of Life" calendar
+          event_id = instance.dig("relationships", "event", "data", "id")
+          event_data = included_events[event_id]
+          calendar_id = event_data&.dig("relationships", "calendar", "data", "id")
+          next unless calendar_id == "default"
 
           all_instances << instance
         end
