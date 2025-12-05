@@ -184,9 +184,11 @@ def sync_events
 
         is_featured = event_attrs["featured"] == true
 
+        # Get registration URL for ALL events (not just featured)
+        registration_url = event_attrs["registration_url"]
+
         if is_featured
           event_image_url = event_attrs["image_url"]
-          registration_url = event_attrs["registration_url"]
           summary = event_attrs["summary"]
         end
 
