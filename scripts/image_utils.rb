@@ -143,13 +143,20 @@ module ImageUtils
 
       # Try sips (macOS) first, then ImageMagick
       if macos?
+        puts "INFO: Using sips (macOS) for image optimization"
         success = optimize_with_sips(input_path, output_path, max_width, max_height)
       elsif imagemagick_available?
+        cmd = imagemagick_command
+        puts "INFO: Using ImageMagick (#{cmd}) for image optimization"
         success = optimize_with_imagemagick(input_path, output_path, max_width, max_height)
       else
         # No optimization available - just copy the file
         puts "INFO: No image optimization tool available, using original"
+        puts "INFO: Debug - which convert: '#{`which convert 2>/dev/null`.strip}'"
+        puts "INFO: Debug - which cwebp: '#{`which cwebp 2>/dev/null`.strip}'"
         FileUtils.cp(input_path, output_path)
+        # Still try to generate WebP even without optimization
+        generate_webp(output_path)
         return true
       end
 
@@ -227,20 +234,23 @@ module ImageUtils
 
     def imagemagick_available?
       # ImageMagick 7 uses 'magick', ImageMagick 6 uses 'convert'
-      system('which magick > /dev/null 2>&1') || system('which convert > /dev/null 2>&1')
+      # Use backticks and check exit status for more reliable detection
+      `which magick 2>/dev/null`.strip.length > 0 || `which convert 2>/dev/null`.strip.length > 0
     end
 
     def imagemagick_command
       # Return the correct ImageMagick command for this system
-      if system('which magick > /dev/null 2>&1')
+      if `which magick 2>/dev/null`.strip.length > 0
         'magick'
-      else
+      elsif `which convert 2>/dev/null`.strip.length > 0
         'convert'
+      else
+        nil
       end
     end
 
     def cwebp_available?
-      system('which cwebp > /dev/null 2>&1')
+      `which cwebp 2>/dev/null`.strip.length > 0
     end
 
     def optimize_with_sips(input_path, output_path, max_width, max_height)
