@@ -58,6 +58,23 @@ function getEventLocation(location: string): string {
   return location;
 }
 
+function getLocationUrl(location: string): string {
+  if (!location || !location.trim()) return '';
+  // If location contains River of Life or is our church address, link to directions page
+  const lowerLocation = location.toLowerCase();
+  if (lowerLocation.includes('river of life') || lowerLocation.includes('425 university')) {
+    return '/directions';
+  }
+  // Otherwise link to Google Maps
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+}
+
+function isExternalLocation(location: string): boolean {
+  if (!location || !location.trim()) return false;
+  const lowerLocation = location.toLowerCase();
+  return !lowerLocation.includes('river of life') && !lowerLocation.includes('425 university');
+}
+
 // Use event image or fallback to a hero image
 const heroImage = event.imageUrl || '/hero/4.jpg';
 const description = event.summary || event.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Join us for ${event.name} at River of Life Church.`;
@@ -174,7 +191,15 @@ const eventSchema = {
                 </div>
                 <div class="detail-info">
                   <span class="detail-label">Location</span>
-                  <span class="detail-value">{getEventLocation(event.location)}</span>
+                  <a
+                    href={getLocationUrl(event.location)}
+                    class="detail-value location-link"
+                    target={isExternalLocation(event.location) ? "_blank" : undefined}
+                    rel={isExternalLocation(event.location) ? "noopener noreferrer" : undefined}
+                  >
+                    {getEventLocation(event.location)}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="location-arrow"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                  </a>
                 </div>
               </div>
             )}
@@ -349,6 +374,25 @@ const eventSchema = {
   .detail-value {
     color: var(--color-navy);
     font-weight: 600;
+  }
+
+  .location-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-teal-dark);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .location-link:hover {
+    color: var(--color-teal);
+    text-decoration: underline;
+  }
+
+  .location-arrow {
+    flex-shrink: 0;
+    opacity: 0.7;
   }
 
   .back-link {
