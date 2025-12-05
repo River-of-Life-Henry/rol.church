@@ -7,7 +7,7 @@
 
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/shared/PageHero.astro';
-import EventCard from '../../components/shared/EventCard.astro';
+import EventList from '../../components/shared/EventList.astro';
 
 // Load events data and filter to next 6 weeks (or 12 weeks for featured)
 let events = [];
@@ -64,46 +64,12 @@ const groupedEvents = groupEventsByMonth(events);
       {Object.entries(groupedEvents).map(([month, monthEvents]) => (
         <div class="month-group">
           <h2 class="month-header">{month}</h2>
-          <div class="events-list">
-            {monthEvents.map((event) => (
-              <EventCard event={event} />
-            ))}
-          </div>
+          <EventList events={monthEvents} />
         </div>
       ))}
     </div>
   </section>
 
-  <script>
-    // Handle location clicks for clickable event cards (can't nest <a> tags)
-    document.querySelectorAll('span.location-link[data-location-url]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const url = el.getAttribute('data-location-url');
-        const isExternal = el.getAttribute('data-external') === 'true';
-        if (url) {
-          if (isExternal) {
-            window.open(url, '_blank', 'noopener,noreferrer');
-          } else {
-            window.location.href = url;
-          }
-        }
-      });
-    });
-
-    // Handle register clicks for featured events (can't nest <a> tags)
-    document.querySelectorAll('span.register-link[data-register-url]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const url = el.getAttribute('data-register-url');
-        if (url) {
-          window.open(url, '_blank', 'noopener,noreferrer');
-        }
-      });
-    });
-  </script>
 </Base>
 
 <style>
@@ -134,11 +100,5 @@ const groupedEvents = groupEventsByMonth(events);
     margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--color-gold);
-  }
-
-  .events-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
   }
 </style>

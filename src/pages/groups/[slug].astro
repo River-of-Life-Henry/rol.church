@@ -7,7 +7,7 @@
  */
 
 import Base from '../../layouts/Base.astro';
-import EventCard from '../../components/shared/EventCard.astro';
+import EventList from '../../components/shared/EventList.astro';
 import LeaderCard from '../../components/shared/LeaderCard.astro';
 import groupsJson from '../../data/groups.json';
 
@@ -108,12 +108,7 @@ const metaDescription = group.description
       <!-- Upcoming Events Section -->
       {groupEvents.length > 0 && (
         <div class="events-section">
-          <h2>Upcoming Events</h2>
-          <div class="events-list">
-            {groupEvents.map((event) => (
-              <EventCard event={event} />
-            ))}
-          </div>
+          <EventList events={groupEvents} title="Upcoming Events" />
         </div>
       )}
 

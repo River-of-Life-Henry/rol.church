@@ -1,0 +1,95 @@
+---
+/**
+ * EventList Component
+ *
+ * Reusable container for displaying a list of events with proper spacing
+ * and click handlers for location/registration links.
+ *
+ * Usage:
+ *   <EventList events={events} />
+ *   <EventList events={events} title="Upcoming Events" />
+ */
+
+import EventCard from './EventCard.astro';
+
+interface Props {
+  events: Array<{
+    id: string;
+    name: string;
+    slug?: string;
+    description?: string;
+    startsAt: string;
+    endsAt?: string;
+    location?: string;
+    allDay?: boolean;
+    tags?: string[];
+    featured?: boolean;
+    imageUrl?: string;
+    registrationUrl?: string;
+  }>;
+  title?: string;
+}
+
+const { events, title } = Astro.props;
+---
+
+{events.length > 0 && (
+  <div class="event-list-container">
+    {title && <h2 class="event-list-title">{title}</h2>}
+    <div class="events-list">
+      {events.map((event) => (
+        <EventCard event={event} />
+      ))}
+    </div>
+  </div>
+)}
+
+<script>
+  // Handle location clicks for clickable event cards (can't nest <a> tags)
+  document.querySelectorAll('span.location-link[data-location-url]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = el.getAttribute('data-location-url');
+      const isExternal = el.getAttribute('data-external') === 'true';
+      if (url) {
+        if (isExternal) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.href = url;
+        }
+      }
+    });
+  });
+
+  // Handle register clicks for featured events (can't nest <a> tags)
+  document.querySelectorAll('span.register-link[data-register-url]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = el.getAttribute('data-register-url');
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    });
+  });
+</script>
+
+<style>
+  .event-list-container {
+    margin-bottom: 2rem;
+  }
+
+  .event-list-title {
+    color: var(--color-navy);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+</style>
