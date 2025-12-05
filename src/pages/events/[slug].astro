@@ -58,6 +58,23 @@ function getEventLocation(location: string): string {
   return location;
 }
 
+// Parse location into name and address parts
+// Format from PCO is typically: "Name - Address" (e.g., "River of Life - Henry - 425 University Ave, Henry, IL 61537")
+function parseLocation(location: string): { name: string; address: string } {
+  if (!location || !location.trim()) return { name: '', address: '' };
+
+  const parts = location.split(' - ');
+  if (parts.length >= 3) {
+    // Format: "Name - City - Address"
+    return { name: parts[0].trim(), address: parts.slice(2).join(' - ').trim() };
+  } else if (parts.length === 2) {
+    // Format: "Name - Address" or "Name - City"
+    return { name: parts[0].trim(), address: parts[1].trim() };
+  }
+  // Just a name, no address
+  return { name: location.trim(), address: '' };
+}
+
 function getLocationUrl(location: string): string {
   if (!location || !location.trim()) return '';
   // If location contains River of Life or is our church address, link to directions page
@@ -185,23 +202,24 @@ const eventSchema = {
             </div>
 
             {getEventLocation(event.location) && (
-              <div class="detail-item">
+              <a
+                href={getLocationUrl(event.location)}
+                class="detail-item location-item"
+                target={isExternalLocation(event.location) ? "_blank" : undefined}
+                rel={isExternalLocation(event.location) ? "noopener noreferrer" : undefined}
+              >
                 <div class="detail-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                 </div>
                 <div class="detail-info">
                   <span class="detail-label">Location</span>
-                  <a
-                    href={getLocationUrl(event.location)}
-                    class="detail-value location-link"
-                    target={isExternalLocation(event.location) ? "_blank" : undefined}
-                    rel={isExternalLocation(event.location) ? "noopener noreferrer" : undefined}
-                  >
-                    {getEventLocation(event.location)}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="location-arrow"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-                  </a>
+                  <span class="location-name">{parseLocation(event.location).name}</span>
+                  {parseLocation(event.location).address && (
+                    <span class="location-address">{parseLocation(event.location).address}</span>
+                  )}
                 </div>
-              </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="location-arrow"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+              </a>
             )}
           </div>
 
@@ -376,23 +394,46 @@ const eventSchema = {
     font-weight: 600;
   }
 
-  .location-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: var(--color-teal-dark);
+  .location-item {
     text-decoration: none;
-    transition: color 0.2s;
+    color: inherit;
+    transition: background 0.2s;
+    border-radius: 0.5rem;
+    margin: -0.5rem;
+    padding: 1rem 0.5rem !important;
   }
 
-  .location-link:hover {
-    color: var(--color-teal);
+  .location-item:hover {
+    background: rgba(45, 156, 202, 0.08);
+  }
+
+  .location-item .detail-info {
+    flex: 1;
+  }
+
+  .location-name {
+    color: var(--color-teal-dark);
+    font-weight: 600;
+    font-size: 1rem;
+    display: block;
+  }
+
+  .location-item:hover .location-name {
     text-decoration: underline;
+  }
+
+  .location-address {
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.15rem;
   }
 
   .location-arrow {
     flex-shrink: 0;
+    color: var(--color-teal);
     opacity: 0.7;
+    align-self: center;
   }
 
   .back-link {
