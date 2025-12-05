@@ -18,13 +18,29 @@
 #   PCO_WEBHOOK_SECRET      - Secret for verifying Planning Center signatures
 #   CLOUDFLARE_WEBHOOK_SECRET - Secret for verifying Cloudflare signatures
 #   STAGE                   - Deployment stage (dev/prod)
+#   BUGSNAG_API_KEY         - Bugsnag API key for error reporting
 #
 # ==============================================================================
 
 require "json"
+require "bugsnag"
 require_relative "lib/webhook_verifier"
 require_relative "lib/github_trigger"
 require_relative "lib/webhook_logger"
+
+# Configure Bugsnag for error monitoring
+Bugsnag.configure do |config|
+  config.api_key = ENV["BUGSNAG_API_KEY"]
+  config.app_version = "1.0.0"
+  config.release_stage = ENV["STAGE"] || "development"
+  config.enabled_release_stages = %w[prod dev development]
+  config.app_type = "aws_lambda"
+  config.project_root = File.dirname(__FILE__)
+  config.meta_data_filters << "authorization"
+  config.meta_data_filters << "pco_webhook_secret"
+  config.meta_data_filters << "cloudflare_webhook_secret"
+  config.meta_data_filters << "github_pat"
+end
 
 # Main webhook receiver handler
 def receive(event:, context:)
@@ -180,10 +196,19 @@ def receive(event:, context:)
   end
 rescue JSON::ParserError => e
   puts "ERROR: Invalid JSON body: #{e.message}"
+  Bugsnag.notify(e) do |report|
+    report.severity = "warning"
+    report.add_metadata(:webhook, { source: source })
+  end
   response(400, { error: "Invalid JSON body" })
 rescue => e
   puts "ERROR: Unexpected error: #{e.message}"
   puts e.backtrace.first(5).join("\n")
+  Bugsnag.notify(e) do |report|
+    report.severity = "error"
+    report.add_metadata(:webhook, { source: source })
+    report.add_metadata(:lambda, lambda_context) if defined?(lambda_context)
+  end
   response(500, { error: "Internal server error" })
 end
 

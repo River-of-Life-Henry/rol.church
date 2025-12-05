@@ -2,13 +2,32 @@
 /**
  * Analytics Component
  *
- * Includes Google Analytics 4, Microsoft Clarity, and Meta Pixel tracking.
+ * Includes Google Analytics 4, Microsoft Clarity, Meta Pixel, and Bugsnag error tracking.
  * Also includes event tracking for CTAs, forms, navigation, and engagement metrics.
  *
  * Usage:
  *   <Analytics />  (place in <head>)
  */
 ---
+
+<!-- Bugsnag Error Tracking -->
+<script src="https://d2wy8f7a9ursnm.cloudfront.net/v8/bugsnag.min.js"></script>
+<script is:inline>
+  if (typeof Bugsnag !== 'undefined') {
+    Bugsnag.start({
+      apiKey: 'd40fd193e2e3a965cee32be1243fcee3',
+      appVersion: '1.0.0',
+      releaseStage: window.location.hostname === 'rol.church' ? 'production' : 'development',
+      enabledReleaseStages: ['production', 'development'],
+      collectUserIp: false,
+      metadata: {
+        app: {
+          name: 'ROL.Church Website'
+        }
+      }
+    });
+  }
+</script>
 
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1MTDYTX4L7"></script>

@@ -13,6 +13,7 @@ provider:
     GITHUB_PAT: ${env:GITHUB_PAT}
     GITHUB_REPO: River-of-Life-Henry/rol.church
     CLOUDFLARE_WEBHOOK_SECRET: ${env:CLOUDFLARE_WEBHOOK_SECRET}
+    BUGSNAG_API_KEY: ${env:BUGSNAG_API_KEY}
     STAGE: ${self:provider.stage}
     WEBHOOK_LOGS_TABLE: ${self:custom.webhookLogsTable}
   iam:

@@ -21,6 +21,9 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bigdecimal (3.3.1)
+    bugsnag (6.28.0)
+      concurrent-ruby (~> 1.0)
+    concurrent-ruby (1.3.5)
     excon (1.3.1)
       logger
     faraday (2.14.0)
@@ -51,6 +54,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk-rekognition
   aws-sdk-ses
+  bugsnag (~> 6.0)
   parallel
   pco_api
   rexml

@@ -71,6 +71,7 @@ require "time"
 require "parallel"
 require "stringio"
 require "open3"
+require "bugsnag"
 
 # Load environment variables from .env file (for local development only)
 env_file = File.join(__dir__, ".env")
@@ -85,6 +86,16 @@ end
 
 # Set timezone to Central Time
 ENV['TZ'] = 'America/Chicago'
+
+# Configure Bugsnag for error monitoring
+Bugsnag.configure do |config|
+  config.api_key = ENV["BUGSNAG_API_KEY"]
+  config.app_version = "1.0.0"
+  config.release_stage = ENV["GITHUB_ACTIONS"] ? "production" : "development"
+  config.enabled_release_stages = %w[production development]
+  config.app_type = "sync_script"
+  config.project_root = File.dirname(__FILE__)
+end
 
 # Force immediate output
 $stdout.sync = true
@@ -114,7 +125,14 @@ class SyncState
   end
 
   def add_error(script, message)
-    synchronize { @errors << { script: script, message: message, time: Time.now } }
+    synchronize do
+      @errors << { script: script, message: message, time: Time.now }
+      # Report to Bugsnag
+      Bugsnag.notify(RuntimeError.new(message)) do |report|
+        report.severity = "error"
+        report.add_metadata(:sync, { script: script })
+      end
+    end
   end
 
   def add_alert(script, message)

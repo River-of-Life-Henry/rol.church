@@ -53,6 +53,7 @@ jobs:
           GITHUB_PAT: ${{ secrets.WEBHOOKS_GITHUB_PAT }}
           GITHUB_REPO: River-of-Life-Henry/rol.church
           CLOUDFLARE_WEBHOOK_SECRET: ${{ secrets.CLOUDFLARE_WEBHOOK_SECRET }}
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         run: |
           STAGE="${{ inputs.stage || 'prod' }}"
           echo "stage=$STAGE" >> $GITHUB_OUTPUT
@@ -107,6 +108,7 @@ jobs:
           GITHUB_REPO: River-of-Life-Henry/rol.church
           # Use the captured secret since secrets context won't have the new value yet
           CLOUDFLARE_WEBHOOK_SECRET: ${{ steps.verify-webhooks.outputs.cf_secret }}
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         run: |
           STAGE="${{ steps.deploy.outputs.stage }}"
           echo "Redeploying to update Cloudflare webhook secret..."

@@ -41,6 +41,28 @@ jobs:
         with:
           path: ./dist
 
+      - name: Notify Bugsnag of build
+        if: success()
+        env:
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
+        run: |
+          curl -X POST "https://build.bugsnag.com/" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "apiKey": "'"$BUGSNAG_API_KEY"'",
+              "appVersion": "1.0.0",
+              "releaseStage": "production",
+              "sourceControl": {
+                "provider": "github",
+                "repository": "https://github.com/${{ github.repository }}",
+                "revision": "${{ github.sha }}"
+              },
+              "metadata": {
+                "buildNumber": "${{ github.run_number }}",
+                "branch": "${{ github.ref_name }}"
+              }
+            }'
+
   deploy:
     environment:
       name: github-pages

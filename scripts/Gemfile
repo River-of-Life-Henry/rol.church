@@ -12,3 +12,6 @@ gem "aws-sdk-ses"          # Sending changelog emails
 # Utilities
 gem "parallel"             # Concurrent processing
 gem "rexml"                # Required by AWS SDK for XML parsing
+
+# Error monitoring
+gem "bugsnag", "~> 6.0"

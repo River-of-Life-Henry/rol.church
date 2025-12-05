@@ -11,6 +11,7 @@ This is the official website for **River of Life Church**, an Apostolic Pentecos
 - **Data Sync:** Ruby scripts pulling from Planning Center API
 - **Deployment:** GitHub Pages via GitHub Actions
 - **Analytics:** Google Analytics 4, Microsoft Clarity, Meta Pixel
+- **Error Monitoring:** Bugsnag (client-side, Lambda, sync scripts)
 
 ## Project Structure
 
@@ -190,3 +191,37 @@ Include naturally in content:
 - Apostolic Pentecostal church
 - Henry IL church
 - Pentecostal church near me
+
+## Error Monitoring (Bugsnag)
+
+Bugsnag is integrated across all components of the system:
+
+### Client-Side (Browser)
+- **Location:** `src/components/layout/Analytics.astro`
+- **What's tracked:** JavaScript errors on the live website
+- Automatically detects production vs development based on hostname
+- Does not collect user IP addresses
+
+### AWS Lambda (Webhook Handler)
+- **Location:** `webhooks/handler.rb`
+- **What's tracked:** Webhook processing errors, signature failures, GitHub API errors
+- Sensitive data (secrets, tokens) is filtered from reports
+- Environment: `BUGSNAG_API_KEY` set in serverless.yml
+
+### Ruby Sync Scripts
+- **Location:** `scripts/sync_all.rb`
+- **What's tracked:** Errors from all sync scripts (events, groups, hero images, etc.)
+- Errors are reported with script name metadata
+- Environment: `BUGSNAG_API_KEY` passed in GitHub Actions
+
+### GitHub Actions Build Reporting
+- **Location:** `.github/workflows/deploy.yml`
+- **What's tracked:** Successful builds with source control info
+- Associates errors with specific commits/builds
+
+### Required GitHub Secret
+Add `BUGSNAG_API_KEY` to the repository secrets:
+- API Key: `d40fd193e2e3a965cee32be1243fcee3`
+
+### Bugsnag Dashboard
+View errors and releases at: https://app.bugsnag.com/

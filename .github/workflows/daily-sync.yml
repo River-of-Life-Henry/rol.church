@@ -70,6 +70,7 @@ jobs:
           AWS_REGION: us-east-1
           SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL }}
           CHANGELOG_EMAIL: david.plappert@rol.church
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
           SYNC_SOURCE: ${{ inputs.sync_source || 'all' }}
           TRIGGERED_BY: ${{ inputs.triggered_by || 'schedule' }}
         run: |
@@ -114,6 +115,7 @@ jobs:
           AWS_REGION: us-east-1
           SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL }}
           CHANGELOG_EMAIL: david.plappert@rol.church
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
           SYNC_SOURCE: ${{ inputs.sync_source || 'all' }}
         run: |
           set -e  # Exit on error
