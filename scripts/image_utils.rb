@@ -189,7 +189,8 @@ module ImageUtils
           return true
         end
       elsif imagemagick_available?
-        result = system("convert \"#{input_path}\" -quality #{WEBP_QUALITY} \"#{webp_path}\" 2>/dev/null")
+        cmd = imagemagick_command
+        result = system("#{cmd} \"#{input_path}\" -quality #{WEBP_QUALITY} \"#{webp_path}\" 2>/dev/null")
         if result && File.exist?(webp_path)
           webp_size = File.size(webp_path)
           orig_size = File.size(input_path)
@@ -225,7 +226,17 @@ module ImageUtils
     end
 
     def imagemagick_available?
-      system('which convert > /dev/null 2>&1')
+      # ImageMagick 7 uses 'magick', ImageMagick 6 uses 'convert'
+      system('which magick > /dev/null 2>&1') || system('which convert > /dev/null 2>&1')
+    end
+
+    def imagemagick_command
+      # Return the correct ImageMagick command for this system
+      if system('which magick > /dev/null 2>&1')
+        'magick'
+      else
+        'convert'
+      end
     end
 
     def cwebp_available?
@@ -305,9 +316,12 @@ module ImageUtils
       format_hint = detect_image_format(input_path)
       input_spec = format_hint ? "#{format_hint}:#{input_path}" : input_path
 
+      # Use the correct ImageMagick command (magick for v7, convert for v6)
+      cmd = imagemagick_command
+
       # Use array form of system() to avoid shell interpolation issues
       args = [
-        "convert",
+        cmd,
         input_spec,
         "-resize", "#{max_width}x#{max_height}>",
         "-quality", JPEG_QUALITY.to_s,
@@ -319,7 +333,7 @@ module ImageUtils
       result = system(*args)
 
       unless result
-        puts "WARNING: ImageMagick convert failed for #{File.basename(input_path)}"
+        puts "WARNING: ImageMagick #{cmd} failed for #{File.basename(input_path)}"
         return false
       end
 

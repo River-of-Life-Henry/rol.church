@@ -361,3 +361,9 @@ Bugsnag is integrated across all components of the system.
 ### Event Filtering
 - Events are filtered by end time, not start time (prevents showing past events)
 - 6-week window for event display
+
+### Image Processing
+- ImageMagick 7 uses `magick` command, v6 uses `convert` - code detects both
+- WebP generation requires `cwebp` (preferred) or ImageMagick
+- Hero images must have both .jpg and .webp versions (HeroSlider expects both)
+- `image_utils.rb` auto-generates webp when optimizing images
