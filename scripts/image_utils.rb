@@ -152,8 +152,6 @@ module ImageUtils
       else
         # No optimization available - just copy the file
         puts "INFO: No image optimization tool available, using original"
-        puts "INFO: Debug - which convert: '#{`which convert 2>/dev/null`.strip}'"
-        puts "INFO: Debug - which cwebp: '#{`which cwebp 2>/dev/null`.strip}'"
         FileUtils.cp(input_path, output_path)
         # Still try to generate WebP even without optimization
         generate_webp(output_path)
