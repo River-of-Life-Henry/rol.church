@@ -28,7 +28,19 @@ try {
 let featuredEvent = null;
 try {
   const featuredData = await import('../data/featured_event.json');
-  featuredEvent = featuredData.event || null;
+  const event = featuredData.event || null;
+
+  // Only show the hello bar if the event hasn't ended yet
+  if (event && event.endsAt) {
+    const now = new Date();
+    const eventEnd = new Date(event.endsAt);
+    if (now < eventEnd) {
+      featuredEvent = event;
+    }
+  } else if (event) {
+    // If no endsAt, fall back to checking startsAt (show until event starts)
+    featuredEvent = event;
+  }
 } catch (e) {
   console.log('Featured event data not yet generated');
 }
@@ -216,7 +228,7 @@ const churchSchema = {
   </head>
   <body class={featuredEvent ? 'has-hello-bar' : ''}>
     {featuredEvent && (
-      <a href={`/events/${featuredEvent.slug}`} class="hello-bar">
+      <a href={`/events/${featuredEvent.slug}`} class="hello-bar" data-ends-at={featuredEvent.endsAt}>
         <div class="hello-bar-content">
           <span class="hello-bar-text">
             <strong>{featuredEvent.name}</strong> — {formatFeaturedDate(featuredEvent.startsAt)}
@@ -225,6 +237,33 @@ const churchSchema = {
         </div>
       </a>
     )}
+
+    <script>
+      // Hide hello bar after event ends (client-side check)
+      (function() {
+        const helloBar = document.querySelector('.hello-bar');
+        if (!helloBar) return;
+
+        const endsAt = helloBar.getAttribute('data-ends-at');
+        if (!endsAt) return;
+
+        function checkEventEnded() {
+          const now = new Date();
+          const eventEnd = new Date(endsAt);
+
+          if (now >= eventEnd) {
+            helloBar.style.display = 'none';
+            document.body.classList.remove('has-hello-bar');
+          }
+        }
+
+        // Check immediately
+        checkEventEnded();
+
+        // Check every minute in case user has page open during event
+        setInterval(checkEventEnded, 60000);
+      })();
+    </script>
     <header class={headerScrolled ? 'scrolled' : ''}>
       <nav>
         <a href="/" class="logo">
