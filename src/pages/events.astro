@@ -114,16 +114,14 @@ const groupedEvents = groupEventsByMonth(events);
                         {formatEventTime(event.startsAt, event.allDay)}
                       </span>
                       {hasValidLocation(event.location) ? (
-                        <a
-                          href={getLocationUrl(event.location)}
+                        <span
                           class="event-location location-link"
-                          target={isExternalLocation(event.location) ? "_blank" : undefined}
-                          rel={isExternalLocation(event.location) ? "noopener noreferrer" : undefined}
-                          onclick="event.stopPropagation();"
+                          data-location-url={getLocationUrl(event.location)}
+                          data-external={isExternalLocation(event.location) ? "true" : "false"}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                           {getEventLocation(event.location)}
-                        </a>
+                        </span>
                       ) : (
                         <span class="event-location">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -179,6 +177,25 @@ const groupedEvents = groupEventsByMonth(events);
       ))}
     </div>
   </section>
+
+  <script>
+    // Handle location clicks for featured events (can't nest <a> tags)
+    document.querySelectorAll('span.location-link[data-location-url]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = el.getAttribute('data-location-url');
+        const isExternal = el.getAttribute('data-external') === 'true';
+        if (url) {
+          if (isExternal) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+          } else {
+            window.location.href = url;
+          }
+        }
+      });
+    });
+  </script>
 </Base>
 
 <style is:global>
@@ -324,12 +341,22 @@ const groupedEvents = groupEventsByMonth(events);
     flex-shrink: 0;
   }
 
-  .location-link {
+  a.location-link {
     text-decoration: none;
     transition: color 0.2s;
   }
 
-  .location-link:hover {
+  a.location-link:hover {
+    color: var(--color-teal);
+    text-decoration: underline;
+  }
+
+  span.location-link {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  span.location-link:hover {
     color: var(--color-teal);
     text-decoration: underline;
   }
