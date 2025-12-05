@@ -22,7 +22,7 @@ const { scrolled = false } = Astro.props;
 // Load groups for navigation dropdown
 let groups: Array<{ slug: string; name: string }> = [];
 try {
-  const groupsData = await import('../data/groups.json');
+  const groupsData = await import('../../data/groups.json');
   const excludedGroups = ['all-church-events', 'leadership', 'maintenance'];
   groups = (groupsData.groups || []).filter((g: { slug: string }) => !excludedGroups.includes(g.slug));
 } catch (e) {
