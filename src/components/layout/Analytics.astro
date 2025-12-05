@@ -10,30 +10,23 @@
  */
 ---
 
-<!-- Bugsnag Error Tracking -->
+<!-- Bugsnag Error Tracking - Load synchronously before other scripts -->
+<script src="https://d2wy8f7a9ursnm.cloudfront.net/v8/bugsnag.min.js" is:inline></script>
 <script is:inline>
-  // Load Bugsnag synchronously to catch all errors
-  (function() {
-    var script = document.createElement('script');
-    script.src = 'https://d2wy8f7a9ursnm.cloudfront.net/v8/bugsnag.min.js';
-    script.onload = function() {
-      if (typeof Bugsnag !== 'undefined') {
-        Bugsnag.start({
-          apiKey: 'd40fd193e2e3a965cee32be1243fcee3',
-          appVersion: '1.0.0',
-          releaseStage: window.location.hostname === 'rol.church' ? 'production' : 'development',
-          enabledReleaseStages: ['production', 'development'],
-          collectUserIp: false,
-          metadata: {
-            app: {
-              name: 'ROL.Church Website'
-            }
-          }
-        });
+  if (typeof Bugsnag !== 'undefined' && !Bugsnag._client) {
+    Bugsnag.start({
+      apiKey: 'd40fd193e2e3a965cee32be1243fcee3',
+      appVersion: '1.0.0',
+      releaseStage: window.location.hostname === 'rol.church' ? 'production' : 'development',
+      enabledReleaseStages: ['production', 'development'],
+      collectUserIp: false,
+      metadata: {
+        app: {
+          name: 'ROL.Church Website'
+        }
       }
-    };
-    document.head.appendChild(script);
-  })();
+    });
+  }
 </script>
 
 <!-- Google Analytics -->
