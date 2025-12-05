@@ -1,4 +1,18 @@
 {
-  "updated_at": "2025-12-04T13:03:19-06:00",
-  "event": null
+  "updated_at": "2025-12-04T19:17:34-06:00",
+  "event": {
+    "id": "207235515",
+    "name": "Christmas Program",
+    "slug": "christmas-program",
+    "description": "",
+    "summary": null,
+    "startsAt": "2025-12-14T11:00:00-06:00",
+    "endsAt": "2025-12-14T12:30:00-06:00",
+    "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+    "allDay": false,
+    "tags": [],
+    "featured": true,
+    "imageUrl": null,
+    "registrationUrl": null
+  }
 }
