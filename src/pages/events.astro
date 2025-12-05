@@ -132,7 +132,50 @@ const groupedEvents = groupEventsByMonth(events);
                     {event.description && (
                       <p class="event-desc">{event.description.replace(/<[^>]*>/g, '').substring(0, 150)}{event.description.length > 150 ? '...' : ''}</p>
                     )}
-                    <span class="event-link">View Details →</span>
+                    <div class="event-links">
+                      <span class="event-link">View Details →</span>
+                      {event.registrationUrl && (
+                        <span
+                          class="event-link register-link"
+                          data-register-url={event.registrationUrl}
+                        >Register Now →</span>
+                      )}
+                    </div>
+                  </div>
+                </a>
+              ) : event.registrationUrl ? (
+                <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" class="event-card has-registration">
+                  <div class="event-date-badge">
+                    <span class="event-day-num">{new Date(event.startsAt).toLocaleDateString('en-US', { day: 'numeric', timeZone: 'America/Chicago' })}</span>
+                    <span class="event-day-name">{new Date(event.startsAt).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'America/Chicago' })}</span>
+                  </div>
+                  <div class="event-details">
+                    <h3 class="event-name">{event.name}</h3>
+                    <div class="event-meta">
+                      <span class="event-time">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+                        {formatEventTime(event.startsAt, event.allDay)}
+                      </span>
+                      {hasValidLocation(event.location) ? (
+                        <span
+                          class="event-location location-link"
+                          data-location-url={getLocationUrl(event.location)}
+                          data-external={isExternalLocation(event.location) ? "true" : "false"}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                          {getEventLocation(event.location)}
+                        </span>
+                      ) : (
+                        <span class="event-location">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                          {getEventLocation(event.location)}
+                        </span>
+                      )}
+                    </div>
+                    {event.description && (
+                      <p class="event-desc">{event.description.replace(/<[^>]*>/g, '').substring(0, 150)}{event.description.length > 150 ? '...' : ''}</p>
+                    )}
+                    <span class="event-link register-link">Register Now →</span>
                   </div>
                 </a>
               ) : (
@@ -179,7 +222,7 @@ const groupedEvents = groupEventsByMonth(events);
   </section>
 
   <script>
-    // Handle location clicks for featured events (can't nest <a> tags)
+    // Handle location clicks for clickable event cards (can't nest <a> tags)
     document.querySelectorAll('span.location-link[data-location-url]').forEach(el => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
@@ -192,6 +235,18 @@ const groupedEvents = groupEventsByMonth(events);
           } else {
             window.location.href = url;
           }
+        }
+      });
+    });
+
+    // Handle register clicks for featured events (can't nest <a> tags)
+    document.querySelectorAll('span.register-link[data-register-url]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = el.getAttribute('data-register-url');
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer');
         }
       });
     });
@@ -272,15 +327,55 @@ const groupedEvents = groupEventsByMonth(events);
     vertical-align: middle;
   }
 
+  .event-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+  }
+
   .event-link {
     display: inline-block;
-    margin-top: 0.75rem;
     color: var(--color-teal);
     font-weight: 600;
     font-size: 0.9rem;
   }
 
+  .event-links .event-link {
+    margin-top: 0;
+  }
+
+  .event-details > .event-link {
+    margin-top: 0.75rem;
+  }
+
+  .register-link {
+    cursor: pointer;
+  }
+
   .event-card.featured:hover .event-link {
+    color: var(--color-teal-dark);
+  }
+
+  /* Registration event styles */
+  .event-card.has-registration {
+    border: 2px solid var(--color-teal);
+    cursor: pointer;
+  }
+
+  .event-card.has-registration:hover {
+    box-shadow: 0 6px 20px rgba(45, 156, 202, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .event-card.has-registration .event-date-badge {
+    background: var(--color-teal);
+  }
+
+  .event-card.has-registration .event-link {
+    color: var(--color-teal);
+  }
+
+  .event-card.has-registration:hover .event-link {
     color: var(--color-teal-dark);
   }
 
