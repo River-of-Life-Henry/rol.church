@@ -1,0 +1,205 @@
+---
+/**
+ * EventTracking Component
+ *
+ * Client-side event tracking for GA4, Clarity, and Meta Pixel.
+ * Tracks CTAs, forms, navigation, scroll depth, and time on page.
+ *
+ * Usage:
+ *   <EventTracking />  (place before </body>)
+ */
+---
+
+<script>
+  // Universal event tracker - sends to all platforms
+  function trackEvent(eventName: string, params: Record<string, any> = {}) {
+    // Google Analytics 4
+    if (typeof (window as any).gtag !== 'undefined') {
+      (window as any).gtag('event', eventName, params);
+    }
+
+    // Microsoft Clarity (custom tags)
+    if (typeof (window as any).clarity !== 'undefined') {
+      (window as any).clarity('set', eventName, params.event_label || params.category || eventName);
+    }
+
+    // Meta Pixel
+    if (typeof (window as any).fbq !== 'undefined') {
+      (window as any).fbq('trackCustom', eventName, params);
+    }
+  }
+
+  // Track all button/CTA clicks
+  document.querySelectorAll('.btn, .btn-large, .btn-primary, .btn-secondary, .hero-card').forEach(btn => {
+    btn.addEventListener('click', function(this: HTMLElement) {
+      const label = this.textContent?.trim() || this.getAttribute('aria-label') || 'Button';
+      const href = this.getAttribute('href') || '';
+
+      trackEvent('cta_click', {
+        event_category: 'engagement',
+        event_label: label,
+        link_url: href
+      });
+    });
+  });
+
+  // Track Church Center modal opens (forms and giving)
+  document.querySelectorAll('[data-open-in-church-center-modal]').forEach(link => {
+    link.addEventListener('click', function(this: HTMLElement) {
+      const label = this.textContent?.trim() || 'Church Center';
+      const href = this.getAttribute('href') || '';
+
+      let formType = 'general';
+      let formName = 'General Form';
+      if (href.includes('giving')) {
+        formType = 'giving';
+        formName = 'Give';
+      } else if (href.includes('1102408')) {
+        formType = 'visit';
+        formName = 'Plan Your Visit';
+      } else if (href.includes('1102413')) {
+        formType = 'foundations';
+        formName = 'Foundations Class';
+      } else if (href.includes('1102414')) {
+        formType = 'baptism';
+        formName = 'Baptism';
+      } else if (href.includes('1102447')) {
+        formType = 'volunteer';
+        formName = 'Volunteer';
+      } else if (href.includes('1102449')) {
+        formType = 'contact';
+        formName = 'Contact Us';
+      }
+
+      trackEvent('form_open', {
+        event_category: 'conversion',
+        event_label: formName,
+        form_type: formType,
+        form_url: href
+      });
+
+      if (typeof (window as any).gtag !== 'undefined') {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'engagement',
+          event_label: formName,
+          form_type: formType
+        });
+      }
+
+      if (typeof (window as any).clarity !== 'undefined') {
+        (window as any).clarity('set', 'form_opened', formName);
+        (window as any).clarity('set', 'form_type', formType);
+      }
+
+      if (typeof (window as any).fbq !== 'undefined') {
+        (window as any).fbq('track', 'Lead', {
+          content_name: formName,
+          content_category: formType
+        });
+      }
+    });
+  });
+
+  // Track external links
+  document.querySelectorAll('a[target="_blank"]').forEach(link => {
+    link.addEventListener('click', function(this: HTMLElement) {
+      const href = this.getAttribute('href') || '';
+      const label = this.textContent?.trim() || href;
+
+      let linkType = 'external';
+      if (href.includes('youtube.com')) linkType = 'youtube';
+      else if (href.includes('facebook.com')) linkType = 'facebook';
+      else if (href.includes('maps.google.com')) linkType = 'directions';
+      else if (href.includes('churchcenter.com')) linkType = 'church_center';
+
+      trackEvent('outbound_click', {
+        event_category: 'outbound',
+        event_label: label,
+        link_type: linkType,
+        link_url: href
+      });
+    });
+  });
+
+  // Track phone calls
+  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+    link.addEventListener('click', function(this: HTMLElement) {
+      trackEvent('phone_call', {
+        event_category: 'contact',
+        event_label: this.getAttribute('href')
+      });
+
+      if (typeof (window as any).fbq !== 'undefined') {
+        (window as any).fbq('track', 'Contact');
+      }
+    });
+  });
+
+  // Track email clicks
+  document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+    link.addEventListener('click', function(this: HTMLElement) {
+      trackEvent('email_click', {
+        event_category: 'contact',
+        event_label: this.getAttribute('href')
+      });
+
+      if (typeof (window as any).fbq !== 'undefined') {
+        (window as any).fbq('track', 'Contact');
+      }
+    });
+  });
+
+  // Track navigation clicks
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', function(this: HTMLElement) {
+      trackEvent('navigation_click', {
+        event_category: 'navigation',
+        event_label: this.textContent?.trim(),
+        link_url: this.getAttribute('href')
+      });
+    });
+  });
+
+  // Track social media clicks in footer
+  document.querySelectorAll('.social-links a').forEach(link => {
+    link.addEventListener('click', function(this: HTMLElement) {
+      const platform = this.getAttribute('aria-label') || 'social';
+      trackEvent('social_click', {
+        event_category: 'social',
+        event_label: platform,
+        link_url: this.getAttribute('href')
+      });
+    });
+  });
+
+  // Track scroll depth
+  let scrollDepths = [25, 50, 75, 100];
+  let trackedDepths: number[] = [];
+
+  window.addEventListener('scroll', function() {
+    const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+
+    scrollDepths.forEach(depth => {
+      if (scrollPercent >= depth && !trackedDepths.includes(depth)) {
+        trackedDepths.push(depth);
+        trackEvent('scroll_depth', {
+          event_category: 'engagement',
+          event_label: `${depth}%`,
+          percent_scrolled: depth
+        });
+      }
+    });
+  });
+
+  // Track time on page
+  let timeIntervals = [30, 60, 120, 300];
+  timeIntervals.forEach(seconds => {
+    setTimeout(() => {
+      trackEvent('time_on_page', {
+        event_category: 'engagement',
+        event_label: `${seconds}s`,
+        time_seconds: seconds
+      });
+    }, seconds * 1000);
+  });
+</script>

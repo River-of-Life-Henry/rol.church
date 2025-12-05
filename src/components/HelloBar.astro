@@ -1,0 +1,163 @@
+---
+/**
+ * HelloBar Component
+ *
+ * Featured event announcement banner that appears at the top of the page.
+ * Automatically hides after the event ends.
+ *
+ * Props:
+ *   event - Featured event object with name, slug, startsAt, endsAt
+ *
+ * Usage:
+ *   <HelloBar event={featuredEvent} />
+ */
+
+interface Props {
+  event: {
+    name: string;
+    slug: string;
+    startsAt: string;
+    endsAt?: string;
+  } | null;
+}
+
+const { event } = Astro.props;
+
+function formatFeaturedDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'America/Chicago'
+  });
+}
+---
+
+{event && (
+  <a href={`/events/${event.slug}`} class="hello-bar" data-ends-at={event.endsAt}>
+    <div class="hello-bar-content">
+      <span class="hello-bar-text">
+        <strong>{event.name}</strong> — {formatFeaturedDate(event.startsAt)}
+      </span>
+      <span class="hello-bar-arrow">→</span>
+    </div>
+  </a>
+)}
+
+<script>
+  // Hide hello bar after event ends (client-side check)
+  (function() {
+    const helloBar = document.querySelector('.hello-bar') as HTMLElement;
+    if (!helloBar) return;
+
+    const endsAt = helloBar.getAttribute('data-ends-at');
+    if (!endsAt) return;
+
+    function checkEventEnded() {
+      const now = new Date();
+      const eventEnd = new Date(endsAt!);
+
+      if (now >= eventEnd) {
+        helloBar.style.display = 'none';
+        document.body.classList.remove('has-hello-bar');
+      }
+    }
+
+    checkEventEnded();
+    setInterval(checkEventEnded, 60000);
+  })();
+</script>
+
+<style is:global>
+  /* Hello Bar - Featured Event Announcement */
+  .hello-bar {
+    background: linear-gradient(90deg, var(--color-gold) 0%, #f0b429 100%);
+    color: var(--color-navy);
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    height: var(--hello-bar-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .hello-bar:hover {
+    background: linear-gradient(90deg, #f0b429 0%, #e0a420 100%);
+    color: var(--color-navy);
+  }
+
+  /* Push header down when hello bar is present */
+  .has-hello-bar header {
+    top: var(--hello-bar-height);
+  }
+
+  /* Reserve space for hello bar */
+  .has-hello-bar {
+    padding-top: var(--hello-bar-height);
+  }
+
+  .hello-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    max-width: 1200px;
+  }
+
+  .hello-bar-text {
+    font-weight: 500;
+  }
+
+  .hello-bar-text strong {
+    font-weight: 700;
+  }
+
+  .hello-bar-arrow {
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hello-bar {
+      height: var(--hello-bar-height);
+      padding: 0.35rem 0.5rem;
+    }
+
+    .hello-bar-content {
+      gap: 0.4rem;
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+
+    .hello-bar-text {
+      font-size: 0.65rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hello-bar-text strong {
+      font-weight: 600;
+    }
+
+    .has-hello-bar header {
+      position: fixed;
+      top: var(--hello-bar-height);
+      background: var(--color-navy);
+    }
+
+    .has-hello-bar {
+      padding-top: 0;
+    }
+  }
+</style>

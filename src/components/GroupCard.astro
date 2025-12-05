@@ -1,0 +1,170 @@
+---
+/**
+ * GroupCard Component
+ *
+ * Card for displaying a ministry group with header image and leader avatars.
+ *
+ * Props:
+ *   group - Group object with name, slug, description, headerImage, leaders
+ *   cacheVersion - Optional cache buster string
+ *
+ * Usage:
+ *   <GroupCard group={group} />
+ */
+
+interface Leader {
+  id: string;
+  name: string;
+  hasPhoto: boolean;
+  image?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+interface Props {
+  group: {
+    name: string;
+    slug: string;
+    description?: string;
+    headerImage?: string;
+    hasHeaderImage?: boolean;
+    leaders: Leader[];
+  };
+  cacheVersion?: string;
+}
+
+const { group, cacheVersion = '' } = Astro.props;
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, '').trim();
+}
+---
+
+<a href={`/groups/${group.slug}`} class="group-card">
+  <div
+    class="group-card-image"
+    style={group.hasHeaderImage ? `background-image: url('${group.headerImage}${cacheVersion}')` : ''}
+  >
+    <div class="group-card-overlay"></div>
+    <h3>{group.name}</h3>
+  </div>
+  <div class="group-card-content">
+    {group.description && (
+      <p>{stripHtml(group.description).substring(0, 120)}{group.description.length > 120 ? '...' : ''}</p>
+    )}
+    {group.leaders.length > 0 && (
+      <div class="group-leaders-preview">
+        {group.leaders.slice(0, 3).map((leader) => (
+          leader.hasPhoto ? (
+            <img src={`${leader.image}${cacheVersion}`} alt={leader.name} class="leader-avatar" />
+          ) : (
+            <div class="leader-avatar placeholder">
+              {leader.firstName?.charAt(0)}{leader.lastName?.charAt(0)}
+            </div>
+          )
+        ))}
+        {group.leaders.length > 3 && (
+          <div class="leader-avatar more">+{group.leaders.length - 3}</div>
+        )}
+      </div>
+    )}
+  </div>
+</a>
+
+<style>
+  .group-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .group-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  }
+
+  .group-card-image {
+    position: relative;
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-navy);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+  }
+
+  .group-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 58, 74, 0.3) 0%,
+      rgba(26, 58, 74, 0.8) 100%
+    );
+  }
+
+  .group-card-image h3 {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .group-card-content {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .group-card-content p {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+    flex: 1;
+  }
+
+  .group-leaders-preview {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .leader-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .leader-avatar.placeholder {
+    background: var(--color-navy);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .leader-avatar.more {
+    background: var(--color-teal);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+</style>

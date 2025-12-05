@@ -1,6 +1,13 @@
 ---
+/**
+ * Groups Index Page
+ *
+ * Displays all ministry groups with header images and leader avatars.
+ */
+
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import GroupCard from '../../components/GroupCard.astro';
 
 // Load groups data
 let groups = [];
@@ -11,11 +18,6 @@ try {
   groups = (groupsData.groups || []).filter(g => !excludedGroups.includes(g.slug));
 } catch (e) {
   console.log('Groups data not yet generated');
-}
-
-// Strip HTML tags from description
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '').trim();
 }
 ---
 
@@ -35,46 +37,14 @@ function stripHtml(html: string): string {
 
       <div class="groups-grid">
         {groups.map((group) => (
-          <a href={`/groups/${group.slug}`} class="group-card">
-            <div
-              class="group-image"
-              style={group.hasHeaderImage ? `background-image: url('${group.headerImage}')` : ''}
-            >
-              <div class="group-overlay">
-                <h3>{group.name}</h3>
-              </div>
-            </div>
-            <div class="group-info">
-              {group.description && (
-                <p class="group-desc">{stripHtml(group.description)}</p>
-              )}
-              {group.leaders.length > 0 && (
-                <div class="group-leaders">
-                  <span class="leaders-label">Led by</span>
-                  <div class="leader-avatars">
-                    {group.leaders.slice(0, 3).map((leader) => (
-                      leader.hasPhoto ? (
-                        <img src={leader.image} alt={leader.name} class="leader-avatar" />
-                      ) : (
-                        <div class="leader-avatar placeholder">{leader.firstName?.charAt(0)}</div>
-                      )
-                    ))}
-                    {group.leaders.length > 3 && (
-                      <div class="leader-avatar more">+{group.leaders.length - 3}</div>
-                    )}
-                  </div>
-                </div>
-              )}
-              <span class="view-group">Learn More</span>
-            </div>
-          </a>
+          <GroupCard group={group} />
         ))}
       </div>
     </div>
   </section>
 </Base>
 
-<style is:global>
+<style>
   .groups-content {
     padding: 4rem 2rem;
   }
@@ -116,122 +86,23 @@ function stripHtml(html: string): string {
     gap: 2rem;
   }
 
-  .group-card {
-    background: white;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .group-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-  }
-
-  .group-image {
-    height: 180px;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--color-navy);
-    position: relative;
-  }
-
-  .group-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  }
-
-  .group-overlay h3 {
-    color: white;
-    font-size: 1.5rem;
-    margin: 0;
-  }
-
-  .group-info {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .group-desc {
-    color: var(--color-text-light);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    flex: 1;
-  }
-
-  .group-leaders {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .leaders-label {
-    font-size: 0.8rem;
-    color: var(--color-text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .leader-avatars {
-    display: flex;
-    gap: -8px;
-  }
-
-  .leader-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid white;
-    object-fit: cover;
-    margin-left: -8px;
-  }
-
-  .leader-avatar:first-child {
-    margin-left: 0;
-  }
-
-  .leader-avatar.placeholder,
-  .leader-avatar.more {
-    background: var(--color-teal);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .view-group {
-    color: var(--color-teal);
-    font-weight: 600;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .view-group::after {
-    content: '→';
-    transition: transform 0.2s;
-  }
-
-  .group-card:hover .view-group::after {
-    transform: translateX(4px);
-  }
-
   @media (max-width: 768px) {
+    .groups-content {
+      padding: 2rem 1rem;
+    }
+
+    .intro {
+      margin-bottom: 2rem;
+    }
+
+    .intro h2 {
+      font-size: 1.5rem;
+    }
+
+    .intro p {
+      font-size: 1rem;
+    }
+
     .groups-grid {
       grid-template-columns: 1fr;
     }

@@ -1,0 +1,46 @@
+---
+/**
+ * MapEmbed Component
+ *
+ * Google Maps embed showing the church location.
+ *
+ * Props:
+ *   height - Optional height (default: 400px)
+ *
+ * Usage:
+ *   <MapEmbed />
+ *   <MapEmbed height="500px" />
+ */
+
+interface Props {
+  height?: string;
+}
+
+const { height = '400px' } = Astro.props;
+---
+
+<div class="map-container" style={`height: ${height}`}>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2987.4389908595927!2d-89.37619532346546!3d41.10592187133637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880bcd7f0f9c7c13%3A0x7cda490fc2394ad2!2sRiver%20of%20Life%20-%20Henry!5e0!3m2!1sen!2sus!4v1699990000000!5m2!1sen!2sus"
+    width="100%"
+    height="100%"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="River of Life Church Location"
+  ></iframe>
+</div>
+
+<style>
+  .map-container {
+    width: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .map-container iframe {
+    display: block;
+  }
+</style>

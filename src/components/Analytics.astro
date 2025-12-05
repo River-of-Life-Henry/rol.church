@@ -1,0 +1,72 @@
+---
+/**
+ * Analytics Component
+ *
+ * Includes Google Analytics 4, Microsoft Clarity, and Meta Pixel tracking.
+ * Also includes event tracking for CTAs, forms, navigation, and engagement metrics.
+ *
+ * Usage:
+ *   <Analytics />  (place in <head>)
+ */
+---
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1MTDYTX4L7"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', 'G-1MTDYTX4L7');
+</script>
+
+<!-- Microsoft Clarity -->
+<script is:inline>
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    t.setAttribute("data-clarity-tag", i);
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "uby5dkdz7o");
+
+  clarity("set", "mask", false);
+
+  if (typeof window !== 'undefined') {
+    function signalClarityReady() {
+      if (typeof clarity !== 'undefined') {
+        clarity("set", "page_ready", "true");
+      }
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function() {
+        signalClarityReady();
+      });
+    } else {
+      window.addEventListener('load', signalClarityReady);
+    }
+
+    window.addEventListener('load', function() {
+      if (typeof clarity !== 'undefined') {
+        clarity("upgrade", "session");
+      }
+    });
+  }
+</script>
+
+<!-- Meta Pixel Code -->
+<script is:inline>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1073250371492877');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.net/tr?id=1073250371492877&ev=PageView&noscript=1"
+/></noscript>

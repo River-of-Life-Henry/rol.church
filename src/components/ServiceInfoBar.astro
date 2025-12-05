@@ -1,0 +1,109 @@
+---
+/**
+ * ServiceInfoBar Component
+ *
+ * Navy bar displaying service times and location, used on home page.
+ *
+ * Usage:
+ *   <ServiceInfoBar />
+ */
+---
+
+<section class="service-info">
+  <div class="container">
+    <div class="service-block">
+      <span class="label">Sunday</span>
+      <span class="time">10 AM & 11 AM</span>
+    </div>
+    <div class="divider"></div>
+    <div class="service-block">
+      <span class="label">Wednesday</span>
+      <span class="time">7:00 PM</span>
+    </div>
+    <div class="divider"></div>
+    <div class="service-block">
+      <span class="label">Location</span>
+      <a href="/directions" class="location">425 University Ave, Henry, IL</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-info {
+    background: var(--color-navy);
+    color: white;
+    padding: 1.5rem 2rem;
+  }
+
+  .service-info .container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .service-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .service-block .label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+  }
+
+  .service-block .time,
+  .service-block .location {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gold);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .service-block .location:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(255,255,255,0.2);
+  }
+
+  @media (max-width: 900px) {
+    .divider {
+      display: none;
+    }
+    .service-info .container {
+      gap: 1.5rem 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .service-info {
+      padding: 0.75rem;
+    }
+    .service-info .container {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .service-block .label {
+      margin-bottom: 0.15rem;
+      font-size: 0.65rem;
+    }
+    .service-block .time,
+    .service-block .location {
+      font-size: 0.9rem;
+    }
+  }
+</style>

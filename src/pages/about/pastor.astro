@@ -1,10 +1,16 @@
 ---
-import Base from '../layouts/Base.astro';
+/**
+ * Pastor Page
+ *
+ * Pastor bio and photo with split layout design.
+ */
+
+import Base from '../../layouts/Base.astro';
 
 // Load team data from Planning Center sync
 let pastor = null;
 try {
-  const teamData = await import('../data/team.json');
+  const teamData = await import('../../data/team.json');
   pastor = (teamData.team || []).find(m => m.slug === 'andrew_coffield');
 } catch (e) {
   console.log('Team data not yet generated');

@@ -1,6 +1,14 @@
 ---
+/**
+ * Group Detail Page
+ *
+ * Displays individual group information including description, schedule,
+ * upcoming events, and leaders.
+ */
+
 import Base from '../../layouts/Base.astro';
 import EventCard from '../../components/EventCard.astro';
+import LeaderCard from '../../components/LeaderCard.astro';
 import groupsJson from '../../data/groups.json';
 
 // Cache buster version (use updated_at timestamp)
@@ -115,19 +123,7 @@ const metaDescription = group.description
           <h2>Meet the Leaders</h2>
           <div class={`leaders-grid ${group.leaders.length === 1 ? 'single-leader' : ''}`}>
             {group.leaders.map((leader) => (
-              <div class="leader-card">
-                {leader.hasPhoto ? (
-                  <img src={`${leader.image}${cacheVersion}`} alt={leader.name} class="leader-photo" />
-                ) : (
-                  <div class="leader-photo placeholder">
-                    {leader.firstName?.charAt(0)}{leader.lastName?.charAt(0)}
-                  </div>
-                )}
-                <span class="leader-name">{leader.name}</span>
-                {leader.bio && (
-                  <p class="leader-bio">{leader.bio}</p>
-                )}
-              </div>
+              <LeaderCard leader={leader} cacheVersion={cacheVersion} />
             ))}
           </div>
         </div>
@@ -138,7 +134,7 @@ const metaDescription = group.description
         <h2>Want to Join?</h2>
         <p>We'd love to have you! Reach out to connect with this group.</p>
         <div class="join-actions">
-          <a href="/contact" class="btn btn-primary">
+          <a href="/contact" class="btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
             Contact Us
           </a>
@@ -153,7 +149,7 @@ const metaDescription = group.description
   </section>
 </Base>
 
-<style is:global>
+<style>
   .group-hero {
     position: relative;
     background-size: cover;
@@ -209,7 +205,7 @@ const metaDescription = group.description
     margin-bottom: 3rem;
   }
 
-  .group-description div {
+  .group-description :global(div) {
     margin-bottom: 1rem;
   }
 
@@ -284,54 +280,6 @@ const metaDescription = group.description
     max-width: 400px;
   }
 
-  .leader-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1.5rem 1rem;
-    background: var(--color-bg-alt);
-    border-radius: 0.75rem;
-  }
-
-  .leader-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-
-  .leader-photo.placeholder {
-    background: var(--color-navy);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.75rem;
-    font-weight: 600;
-  }
-
-  .leader-name {
-    font-weight: 600;
-    color: var(--color-navy);
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .leader-bio {
-    font-size: 0.85rem;
-    color: var(--color-text-light);
-    line-height: 1.5;
-    text-align: center;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
   .join-section {
     text-align: center;
     background: var(--color-navy);
@@ -357,36 +305,6 @@ const metaDescription = group.description
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: var(--color-teal);
-    color: white !important;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-teal-dark);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: white !important;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    text-decoration: none;
-    border: 2px solid white;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .btn-secondary:hover {
-    background: white;
-    color: var(--color-navy) !important;
   }
 
   .back-link {
@@ -416,24 +334,6 @@ const metaDescription = group.description
     .leaders-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-    }
-
-    .leader-card {
-      padding: 1rem 0.75rem;
-    }
-
-    .leader-photo {
-      width: 80px;
-      height: 80px;
-    }
-
-    .leader-name {
-      font-size: 0.9rem;
-    }
-
-    .leader-bio {
-      font-size: 0.8rem;
-      -webkit-line-clamp: 2;
     }
 
     .join-section {

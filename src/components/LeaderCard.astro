@@ -1,0 +1,112 @@
+---
+/**
+ * LeaderCard Component
+ *
+ * Card displaying a group or ministry leader with photo and optional bio.
+ *
+ * Props:
+ *   leader - Leader object with name, image, hasPhoto, bio, firstName, lastName
+ *   cacheVersion - Optional cache buster string
+ *
+ * Usage:
+ *   <LeaderCard leader={leader} />
+ */
+
+interface Props {
+  leader: {
+    name: string;
+    image?: string;
+    hasPhoto: boolean;
+    bio?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+  cacheVersion?: string;
+}
+
+const { leader, cacheVersion = '' } = Astro.props;
+---
+
+<div class="leader-card">
+  {leader.hasPhoto ? (
+    <img src={`${leader.image}${cacheVersion}`} alt={leader.name} class="leader-photo" />
+  ) : (
+    <div class="leader-photo placeholder">
+      {leader.firstName?.charAt(0)}{leader.lastName?.charAt(0)}
+    </div>
+  )}
+  <span class="leader-name">{leader.name}</span>
+  {leader.bio && (
+    <p class="leader-bio">{leader.bio}</p>
+  )}
+</div>
+
+<style>
+  .leader-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+  }
+
+  .leader-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .leader-photo.placeholder {
+    background: var(--color-navy);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  .leader-name {
+    font-weight: 600;
+    color: var(--color-navy);
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .leader-bio {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .leader-card {
+      padding: 1rem 0.75rem;
+    }
+
+    .leader-photo {
+      width: 80px;
+      height: 80px;
+    }
+
+    .leader-name {
+      font-size: 0.9rem;
+    }
+
+    .leader-bio {
+      font-size: 0.8rem;
+      -webkit-line-clamp: 2;
+    }
+  }
+</style>

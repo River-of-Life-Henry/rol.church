@@ -1,0 +1,277 @@
+---
+/**
+ * TestimonialsCarousel Component
+ *
+ * Rotating testimonials from Google and Facebook reviews.
+ * Features staggered flip animations for 3 columns.
+ *
+ * Usage:
+ *   <TestimonialsCarousel />
+ */
+
+const testimonials = [
+  // Column 1
+  [
+    { quote: "Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering.", author: "Love Farmer" },
+    { quote: "I was privileged to visit last year. Great church, great people!", author: "James Pace" },
+    { quote: "Love the people here! Genuine. True to God's Word. Passionate about loving others.", author: "David A. Brown" },
+  ],
+  // Column 2
+  [
+    { quote: "You feel God before you even go through the doors.", author: "Jasmine Westall" },
+    { quote: "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.", author: "Julia Ray Vann" },
+    { quote: "A very friendly church in an awesome place to worship.", author: "Allan Mathis" },
+  ],
+  // Column 3
+  [
+    { quote: "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.", author: "Melissa Mounts" },
+    { quote: "The best church in Henry!", author: "Ashlynn Fountain" },
+    { quote: "It's a beautiful building, with beautiful people and beautiful moves of God!", author: "Beki Bezely" },
+  ],
+];
+---
+
+<section class="testimonials-section">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="google-rating">
+        <div class="stars">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <span class="rating-text">4.7 on Google • 100% recommend on Facebook</span>
+      </div>
+      <h2>What People Are Saying</h2>
+    </div>
+    <div class="testimonials-carousel" id="testimonials-carousel">
+      {testimonials.map((column, colIndex) => (
+        <div class="testimonial-stack" id={`testimonial-stack-${colIndex + 1}`}>
+          {column.map((testimonial, index) => (
+            <div class={`testimonial ${index === 0 ? 'active' : ''}`}>
+              <p class="quote">"{testimonial.quote}"</p>
+              <p class="author">— {testimonial.author}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div class="reviews-links">
+      <a href="https://www.google.com/maps/place/River+of+Life+-+Henry/@41.1077425,-89.3698345,1774m/data=!3m1!1e3!4m8!3m7!1s0x880bcd7f0f9c7c13:0x7cda490fc2394ad2!8m2!3d41.1059214!4d-89.3740112!9m1!1b1!16s%2Fg%2F1tdb0872?entry=ttu" target="_blank" rel="noopener noreferrer" class="reviews-link">
+        Google Reviews &rarr;
+      </a>
+      <a href="https://www.facebook.com/rolhenry/reviews" target="_blank" rel="noopener noreferrer" class="reviews-link">
+        Facebook Reviews &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Testimonial rotation with staggered timing
+  document.addEventListener('DOMContentLoaded', () => {
+    const stacks = document.querySelectorAll('.testimonial-stack');
+
+    stacks.forEach((stack, stackIndex) => {
+      const testimonials = stack.querySelectorAll('.testimonial');
+      let currentIndex = 0;
+
+      const baseInterval = 5000;
+      const staggerDelay = stackIndex * 1500;
+
+      function rotateTestimonial() {
+        const current = testimonials[currentIndex];
+        const nextIndex = (currentIndex + 1) % testimonials.length;
+        const next = testimonials[nextIndex];
+
+        current.classList.add('exiting');
+        current.classList.remove('active');
+
+        setTimeout(() => {
+          current.classList.remove('exiting');
+          next.classList.add('active');
+        }, 300);
+
+        currentIndex = nextIndex;
+      }
+
+      setTimeout(() => {
+        setInterval(rotateTestimonial, baseInterval);
+      }, staggerDelay);
+    });
+  });
+</script>
+
+<style>
+  .testimonials-section {
+    padding: 5rem 2rem;
+    background: var(--color-bg-alt);
+  }
+
+  .testimonials-section .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .testimonials-header {
+    margin-bottom: 3rem;
+  }
+
+  .google-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .google-rating .stars {
+    display: flex;
+    gap: 0.15rem;
+  }
+
+  .google-rating .stars svg {
+    width: 20px;
+    height: 20px;
+    color: #FBBC04;
+  }
+
+  .rating-text {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+  }
+
+  .testimonials-header h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+  }
+
+  .testimonials-carousel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-stack {
+    position: relative;
+    height: 220px;
+    perspective: 1000px;
+  }
+
+  .testimonial {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    padding: 1.75rem;
+    border-radius: 0.75rem;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: rotateX(-90deg) translateY(-20px);
+    transform-origin: top center;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .testimonial.active {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0);
+  }
+
+  .testimonial.exiting {
+    opacity: 0;
+    transform: rotateX(90deg) translateY(20px);
+    transform-origin: bottom center;
+  }
+
+  .testimonial .quote {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .testimonial .author {
+    font-size: 0.9rem;
+    color: var(--color-teal);
+    font-weight: 600;
+  }
+
+  .reviews-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .reviews-link {
+    color: var(--color-teal);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .reviews-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 900px) {
+    .testimonials-carousel {
+      grid-template-columns: 1fr;
+    }
+    .testimonial-stack {
+      height: 180px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .testimonials-section {
+      padding: 1.5rem 0.75rem;
+    }
+    .testimonials-header {
+      margin-bottom: 1rem;
+    }
+    .testimonials-header h2 {
+      font-size: 1.1rem;
+    }
+    .google-rating .stars svg {
+      width: 16px;
+      height: 16px;
+    }
+    .rating-text {
+      font-size: 0.75rem;
+    }
+    .testimonials-carousel {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .testimonial-stack {
+      height: 160px;
+    }
+    .testimonial {
+      padding: 1rem;
+    }
+    .testimonial .quote {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+    .testimonial .author {
+      font-size: 0.8rem;
+    }
+    .reviews-link {
+      font-size: 0.8rem;
+    }
+  }
+</style>

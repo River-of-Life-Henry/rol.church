@@ -1,0 +1,71 @@
+---
+/**
+ * AboutSection Component
+ *
+ * "Where life begins" intro section for the home page.
+ *
+ * Usage:
+ *   <AboutSection />
+ */
+---
+
+<section class="about-section">
+  <div class="container">
+    <h1 class="sr-only">River of Life - Apostolic Pentecostal Church in Henry, IL</h1>
+    <h2>Where life begins</h2>
+    <p>Whether you're exploring faith for the first time or looking for a church to call home, you'll find a welcoming community here. We're real people on a real journey—and there's a place for you.</p>
+    <a href="/about" class="text-link">Learn more about us &rarr;</a>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .about-section .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .about-section h2 {
+    font-family: var(--font-script);
+    font-size: 3rem;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-section p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+  }
+
+  .text-link {
+    font-weight: 500;
+    color: var(--color-teal);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .text-link:hover {
+    color: var(--color-teal-dark);
+  }
+
+  @media (max-width: 768px) {
+    .about-section {
+      padding: 2rem 1.25rem;
+    }
+    .about-section h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .about-section p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+  }
+</style>

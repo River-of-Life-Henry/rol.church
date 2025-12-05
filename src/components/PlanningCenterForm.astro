@@ -1,0 +1,58 @@
+---
+/**
+ * PlanningCenterForm Component
+ *
+ * Embeds a Planning Center form with consistent styling.
+ * Opens in Church Center modal on click.
+ *
+ * Props:
+ *   formId - The Planning Center form ID
+ *   buttonText - Text for the submit button
+ *   buttonIcon - Optional SVG icon (as string)
+ *
+ * Usage:
+ *   <PlanningCenterForm formId="1102408" buttonText="Submit Your Info" />
+ */
+
+interface Props {
+  formId: string;
+  buttonText: string;
+  buttonIcon?: string;
+}
+
+const { formId, buttonText, buttonIcon } = Astro.props;
+const formUrl = `https://rolhenry.churchcenter.com/people/forms/${formId}`;
+
+// Default calendar icon if none provided
+const defaultIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>`;
+---
+
+<div class="form-container">
+  <a
+    href={formUrl}
+    class="btn btn-large form-btn"
+    data-open-in-church-center-modal="true"
+  >
+    <Fragment set:html={buttonIcon || defaultIcon} />
+    {buttonText}
+  </a>
+</div>
+
+<!-- Church Center Modal Script -->
+<script src="https://js.churchcenter.com/modal/v2" is:inline></script>
+
+<style>
+  .form-container {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .form-btn {
+    font-size: 1.1rem;
+  }
+
+  .form-btn :global(svg) {
+    width: 1.25em;
+    height: 1.25em;
+  }
+</style>
