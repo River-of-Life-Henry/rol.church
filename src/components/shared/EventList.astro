@@ -73,6 +73,40 @@ const { events, title } = Astro.props;
       }
     });
   });
+
+  // Client-side filtering: Hide events that have ended
+  // This runs on page load and every minute to catch events as they end
+  function hideEndedEvents() {
+    const now = new Date();
+    document.querySelectorAll('.event-card[data-event-end]').forEach(card => {
+      const endTime = card.getAttribute('data-event-end');
+      if (endTime) {
+        const eventEnd = new Date(endTime);
+        if (eventEnd < now) {
+          // Hide the event card with a fade out
+          (card as HTMLElement).style.transition = 'opacity 0.3s, height 0.3s, margin 0.3s, padding 0.3s';
+          (card as HTMLElement).style.opacity = '0';
+          setTimeout(() => {
+            (card as HTMLElement).style.display = 'none';
+            // Check if parent container is now empty
+            const container = card.closest('.event-list-container');
+            if (container) {
+              const visibleCards = container.querySelectorAll('.event-card:not([style*="display: none"])');
+              if (visibleCards.length === 0) {
+                (container as HTMLElement).style.display = 'none';
+              }
+            }
+          }, 300);
+        }
+      }
+    });
+  }
+
+  // Run immediately on page load
+  hideEndedEvents();
+
+  // Check every minute for ended events
+  setInterval(hideEndedEvents, 60000);
 </script>
 
 <style>

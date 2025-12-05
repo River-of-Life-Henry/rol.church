@@ -3,50 +3,22 @@
  * Events Page
  *
  * Lists all upcoming events grouped by month.
+ * Events are filtered by end time - once an event ends, it's removed.
  */
 
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/shared/PageHero.astro';
 import EventList from '../../components/shared/EventList.astro';
+import { filterEventsForDisplay, groupEventsByMonth } from '../../utils/eventFilters';
 
-// Load events data and filter to next 6 weeks (or 12 weeks for featured)
-let events = [];
+// Load events data and filter
+let events: any[] = [];
 try {
   const eventsData = await import('../../data/events.json');
   const allEvents = eventsData.events || [];
-
-  // Filter: show events within 6 weeks, or up to 12 weeks if featured
-  const now = new Date();
-  const sixWeeksFromNow = new Date(now.getTime() + (6 * 7 * 24 * 60 * 60 * 1000));
-  const twelveWeeksFromNow = new Date(now.getTime() + (12 * 7 * 24 * 60 * 60 * 1000));
-
-  events = allEvents.filter(event => {
-    const eventDate = new Date(event.startsAt);
-    if (eventDate < now) return false;
-    // Featured events can be up to 12 weeks out
-    if (event.featured) return eventDate <= twelveWeeksFromNow;
-    // Regular events only within 6 weeks
-    return eventDate <= sixWeeksFromNow;
-  });
+  events = filterEventsForDisplay(allEvents);
 } catch (e) {
   console.log('Events data not yet generated');
-}
-
-// Group events by month
-function groupEventsByMonth(events: any[]): Record<string, any[]> {
-  const grouped: Record<string, any[]> = {};
-
-  events.forEach(event => {
-    const date = new Date(event.startsAt);
-    const monthKey = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'America/Chicago' });
-
-    if (!grouped[monthKey]) {
-      grouped[monthKey] = [];
-    }
-    grouped[monthKey].push(event);
-  });
-
-  return grouped;
 }
 
 const groupedEvents = groupEventsByMonth(events);

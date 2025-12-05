@@ -10,15 +10,16 @@ import Base from '../../layouts/Base.astro';
 import EventList from '../../components/shared/EventList.astro';
 import LeaderCard from '../../components/shared/LeaderCard.astro';
 import groupsJson from '../../data/groups.json';
+import { filterPastEvents } from '../../utils/eventFilters';
 
 // Cache buster version (use updated_at timestamp)
 const cacheVersion = groupsJson.updated_at ? `?v=${new Date(groupsJson.updated_at).getTime()}` : '';
 
-// Load events from Calendar
-let allEvents = [];
+// Load events from Calendar (filter out past events)
+let allEvents: any[] = [];
 try {
   const eventsData = await import('../../data/events.json');
-  allEvents = eventsData.events || [];
+  allEvents = filterPastEvents(eventsData.events || []);
 } catch (e) {
   console.log('Events data not yet generated');
 }

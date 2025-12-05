@@ -82,11 +82,14 @@ const dayName = eventDate.toLocaleDateString('en-US', { weekday: 'short', timeZo
 const isFeatured = event.featured;
 const hasRegistration = !!event.registrationUrl;
 const cleanDescription = event.description ? stripHtml(event.description).substring(0, 150) : '';
+
+// Get end time for client-side filtering (use endsAt or startsAt as fallback)
+const eventEndTime = event.endsAt || event.startsAt;
 ---
 
 {isFeatured ? (
   <!-- Featured Event Card - links to detail page -->
-  <a href={`/events/${event.slug}`} class="event-card featured">
+  <a href={`/events/${event.slug}`} class="event-card featured" data-event-end={eventEndTime}>
     <div class="event-date-badge">
       <span class="event-day-num">{dayNum}</span>
       <span class="event-day-name">{dayName}</span>
@@ -133,7 +136,7 @@ const cleanDescription = event.description ? stripHtml(event.description).substr
   </a>
 ) : hasRegistration ? (
   <!-- Registration Event Card - links to registration -->
-  <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" class="event-card has-registration">
+  <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" class="event-card has-registration" data-event-end={eventEndTime}>
     <div class="event-date-badge">
       <span class="event-day-num">{dayNum}</span>
       <span class="event-day-name">{dayName}</span>
@@ -169,7 +172,7 @@ const cleanDescription = event.description ? stripHtml(event.description).substr
   </a>
 ) : (
   <!-- Standard Event Card - no link wrapper -->
-  <div class="event-card">
+  <div class="event-card" data-event-end={eventEndTime}>
     <div class="event-date-badge">
       <span class="event-day-num">{dayNum}</span>
       <span class="event-day-name">{dayName}</span>
