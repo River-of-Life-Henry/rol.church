@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-05T19:13:40-06:00",
+  "updated_at": "2025-12-06T00:23:09-06:00",
   "events": [
-    {
-      "id": "207164952",
-      "name": "Youth Christmas Party",
-      "slug": "youth-christmas-party",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-05T19:00:00-06:00",
-      "endsAt": "2025-12-05T22:00:00-06:00",
-      "location": "Plappert's Residence - Chillicothe, IL 61523, USA",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207235880",
       "name": "CFC Candlelight Service",
