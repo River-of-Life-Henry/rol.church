@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-06T19:24:10-06:00",
+  "updated_at": "2025-12-07T00:23:08-06:00",
   "events": [
     {
       "id": "207235880",
@@ -484,6 +484,23 @@
       "location": "",
       "allDay": false,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206956461",
+      "name": "Leadership Meeting",
+      "slug": "leadership-meeting",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-01T00:00:00-06:00",
+      "endsAt": "2026-03-01T23:59:59-06:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
