@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-06T12:21:42-06:00",
+  "updated_at": "2025-12-06T19:24:10-06:00",
   "events": [
     {
       "id": "207235880",
@@ -466,6 +466,21 @@
       "summary": null,
       "startsAt": "2026-02-25T19:00:00-06:00",
       "endsAt": "2026-02-25T20:00:00-06:00",
+      "location": "",
+      "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206372465",
+      "name": "Hyphen Dinner & Bowling",
+      "slug": "hyphen-dinner-bowling",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-02-28T17:00:00-06:00",
+      "endsAt": "2026-02-28T20:00:00-06:00",
       "location": "",
       "allDay": false,
       "tags": [],
