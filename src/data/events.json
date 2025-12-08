@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-07T12:21:45-06:00",
+  "updated_at": "2025-12-07T19:17:46-06:00",
   "events": [
-    {
-      "id": "207235880",
-      "name": "CFC Candlelight Service",
-      "slug": "cfc-candlelight-service",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-07T11:00:00-06:00",
-      "endsAt": "2025-12-07T12:30:00-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207201428",
       "name": "Chillicothe Life Group",
