@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-07T19:17:46-06:00",
+  "updated_at": "2025-12-08T00:28:54-06:00",
   "events": [
-    {
-      "id": "207201428",
-      "name": "Chillicothe Life Group",
-      "slug": "chillicothe-life-group",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-07T17:00:00-06:00",
-      "endsAt": "2025-12-07T20:00:00-06:00",
-      "location": "Plappert Residence - 708 N Stanley Dr, Chillicothe, IL 61523, USA",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207150180",
       "name": "Ladies Christmas Party",
