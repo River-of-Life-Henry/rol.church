@@ -125,7 +125,7 @@
       "date": "2020-08-30",
       "relative_time": null,
       "review_url": null,
-      "featured": false
+      "featured": true
     },
     {
       "id": "facebook_89bfd27a",
@@ -205,7 +205,7 @@
       "date": "2017-02-02",
       "relative_time": null,
       "review_url": null,
-      "featured": false
+      "featured": true
     },
     {
       "id": "facebook_a125bb6a",
@@ -285,7 +285,7 @@
       "date": "2017-02-02",
       "relative_time": null,
       "review_url": null,
-      "featured": false
+      "featured": true
     },
     {
       "id": "facebook_04b5271c",
