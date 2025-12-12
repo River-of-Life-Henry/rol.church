@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/check-assets.mjs",
+    "build:only": "astro build",
+    "check-assets": "node scripts/check-assets.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
