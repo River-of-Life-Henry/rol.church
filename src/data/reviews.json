@@ -89,6 +89,26 @@
       "featured": true
     },
     {
+      "id": "facebook_ashlynn_fountain",
+      "source": "facebook",
+      "author": {
+        "name": "Ashlynn Fountain",
+        "profile_url": "https://www.facebook.com/rolhenry/reviews",
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "The best church in Henry!",
+      "full_text": "The best church in Henry!",
+      "date": "2018-08-05",
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
       "id": "google_a40eaa6d",
       "source": "google",
       "author": {
