@@ -68,6 +68,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ROL }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           AWS_REGION: us-east-1
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID }}
           SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL }}
           CHANGELOG_EMAIL: david.plappert@rol.church
           BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
@@ -113,6 +115,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ROL }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ROL }}
           AWS_REGION: us-east-1
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID }}
           SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL }}
           CHANGELOG_EMAIL: david.plappert@rol.church
           BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}

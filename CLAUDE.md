@@ -62,6 +62,7 @@ src/
     ├── team.json           # Team member profiles
     ├── hero_images.json    # From Planning Center Media + Facebook
     ├── cloudflare_video.json # Latest service recording
+    ├── reviews.json        # Google and Facebook reviews
     └── facebook_sync_state.json # Facebook photo sync tracking
 
 scripts/                    # Ruby sync scripts (run in GitHub Actions)
@@ -72,6 +73,7 @@ scripts/                    # Ruby sync scripts (run in GitHub Actions)
 ├── sync_facebook_photos.rb # AI-powered photo selection
 ├── sync_team.rb            # Team member profiles
 ├── sync_cloudflare_video.rb # Cloudflare Stream video
+├── sync_reviews.rb         # Google Places + Facebook reviews
 ├── pco_client.rb           # Planning Center API client
 └── image_utils.rb          # Image optimization
 
@@ -329,6 +331,8 @@ Bugsnag is integrated across all components of the system.
 | `SES_FROM_EMAIL` | SES verified sender |
 | `WEBHOOKS_GITHUB_PAT` | GitHub PAT for webhook Lambda |
 | `BUGSNAG_API_KEY` | Error monitoring |
+| `GOOGLE_PLACES_API_KEY` | Google Places API for reviews |
+| `GOOGLE_PLACE_ID` | Google Place ID for the church |
 
 ## Common Gotchas & Lessons Learned
 

@@ -1,0 +1,244 @@
+{
+  "updated_at": "2025-12-11T19:55:00-06:00",
+  "summary": {
+    "google": {
+      "rating": 4.7,
+      "total_reviews": 13,
+      "reviews_url": "https://www.google.com/maps/place/River+of+Life+-+Henry/@41.1077425,-89.3698345,1774m/data=!3m1!1e3!4m8!3m7!1s0x880bcd7f0f9c7c13:0x7cda490fc2394ad2!8m2!3d41.1059214!4d-89.3740112!9m1!1b1!16s%2Fg%2F1tdb0872?entry=ttu"
+    },
+    "facebook": {
+      "recommendation_percent": 100,
+      "reviews_url": "https://www.facebook.com/rolhenry/reviews"
+    }
+  },
+  "reviews": [
+    {
+      "id": "google_love_farmer_2024",
+      "source": "google",
+      "author": {
+        "name": "Love Farmer",
+        "profile_url": "https://www.google.com/maps/contrib/117234567890123456789",
+        "photo_url": null,
+        "is_local_guide": true,
+        "review_count": 195,
+        "photo_count": 36
+      },
+      "rating": 5,
+      "text": "Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering.",
+      "full_text": "Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering. I...",
+      "date": "2024-09-15",
+      "relative_time": "13 weeks ago",
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_andrew_coffield_2024",
+      "source": "google",
+      "author": {
+        "name": "Andrew Coffield",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": 4,
+        "photo_count": 0
+      },
+      "rating": 5,
+      "text": "",
+      "full_text": "",
+      "date": "2024-01-15",
+      "relative_time": "48 weeks ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_c_nags_2024",
+      "source": "google",
+      "author": {
+        "name": "C Nags",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": true,
+        "review_count": 25,
+        "photo_count": 0
+      },
+      "rating": 5,
+      "text": "The new Pastor Andrew Coffield is a godly, caring and loving man. His wife Chelsea is a very loving, caring and godly...",
+      "full_text": "The new Pastor Andrew Coffield is a godly, caring and loving man. His wife Chelsea is a very loving, caring and godly...",
+      "date": "2024-05-22",
+      "relative_time": "May 22, 2024",
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_gemmy_schwartz_2024",
+      "source": "google",
+      "author": {
+        "name": "Gemmy Schwartz",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": 1,
+        "photo_count": 0
+      },
+      "rating": 5,
+      "text": "",
+      "full_text": "",
+      "date": "2024-02-21",
+      "relative_time": "Feb 21, 2024",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_james_pace",
+      "source": "google",
+      "author": {
+        "name": "James Pace",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "I was privileged to visit last year. Great church, great people!",
+      "full_text": "I was privileged to visit last year. Great church, great people!",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_david_brown",
+      "source": "google",
+      "author": {
+        "name": "David A. Brown",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
+      "full_text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_jasmine_westall",
+      "source": "google",
+      "author": {
+        "name": "Jasmine Westall",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "You feel God before you even go through the doors.",
+      "full_text": "You feel God before you even go through the doors.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_julia_ray_vann",
+      "source": "google",
+      "author": {
+        "name": "Julia Ray Vann",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
+      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_allan_mathis",
+      "source": "google",
+      "author": {
+        "name": "Allan Mathis",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "A very friendly church in an awesome place to worship.",
+      "full_text": "A very friendly church in an awesome place to worship.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_melissa_mounts",
+      "source": "google",
+      "author": {
+        "name": "Melissa Mounts",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
+      "full_text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_ashlynn_fountain",
+      "source": "google",
+      "author": {
+        "name": "Ashlynn Fountain",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "The best church in Henry!",
+      "full_text": "The best church in Henry!",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_beki_bezely",
+      "source": "google",
+      "author": {
+        "name": "Beki Bezely",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "It's a beautiful building, with beautiful people and beautiful moves of God!",
+      "full_text": "It's a beautiful building, with beautiful people and beautiful moves of God!",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    }
+  ]
+}

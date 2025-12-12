@@ -117,7 +117,8 @@ class SyncState
       hero_images: { added: [], removed: [] },
       team: { updated: [] },
       video: { updated: nil },
-      facebook_photos: { added: [], analyzed: 0, qualifying: 0 }
+      facebook_photos: { added: [], analyzed: 0, qualifying: 0 },
+      reviews: { google_count: 0, updated: false }
     }
     @errors = []
     @alerts = []
@@ -294,6 +295,23 @@ def track_video_changes(old_data, new_data)
   if old_data["video_id"] != new_data["video_id"]
     $state.update_changelog(:video, :updated, new_data["title"])
   end
+end
+
+# Compare reviews data and track changes
+def track_review_changes(old_data, new_data)
+  return unless new_data
+
+  old_reviews = old_data&.dig("reviews") || []
+  new_reviews = new_data["reviews"] || []
+
+  # Track if reviews were updated (different count or content)
+  if old_reviews.length != new_reviews.length
+    $state.update_changelog(:reviews, :updated, true)
+  end
+
+  # Track Google review count
+  google_count = new_reviews.count { |r| r["source"] == "google" }
+  $state.update_changelog(:reviews, :google_count, google_count)
 end
 
 # Build email body from changelog
@@ -571,6 +589,8 @@ def run_script(script)
         'AWS_ACCESS_KEY_ID' => ENV['AWS_ACCESS_KEY_ID'],
         'AWS_SECRET_ACCESS_KEY' => ENV['AWS_SECRET_ACCESS_KEY'],
         'AWS_REGION' => ENV['AWS_REGION'] || 'us-east-1',
+        'GOOGLE_PLACES_API_KEY' => ENV['GOOGLE_PLACES_API_KEY'],
+        'GOOGLE_PLACE_ID' => ENV['GOOGLE_PLACE_ID'],
         'TZ' => 'America/Chicago',
         'BUNDLE_GEMFILE' => File.join(__dir__, 'Gemfile')
       },
@@ -652,6 +672,7 @@ GROUPS_FILE = File.join(DATA_DIR, "groups.json")
 HERO_IMAGES_FILE = File.join(DATA_DIR, "hero_images.json")
 TEAM_FILE = File.join(DATA_DIR, "team.json")
 VIDEO_FILE = File.join(DATA_DIR, "cloudflare_video.json")
+REVIEWS_FILE = File.join(DATA_DIR, "reviews.json")
 
 # Load previous data for comparison (in parallel)
 puts "Loading previous data..."
@@ -662,9 +683,10 @@ Parallel.each(
     [:groups, GROUPS_FILE],
     [:hero_images, HERO_IMAGES_FILE],
     [:team, TEAM_FILE],
-    [:video, VIDEO_FILE]
+    [:video, VIDEO_FILE],
+    [:reviews, REVIEWS_FILE]
   ],
-  in_threads: 5
+  in_threads: 6
 ) do |key, file|
   prev_data[key] = load_previous_data(file)
 end
@@ -686,6 +708,7 @@ group1_scripts = %w[
   sync_groups.rb
   sync_facebook_photos.rb
   sync_team.rb
+  sync_reviews.rb
 ]
 
 # Only include Cloudflare sync if not skipped
@@ -731,9 +754,10 @@ Parallel.each(
     [:groups, GROUPS_FILE],
     [:hero_images, HERO_IMAGES_FILE],
     [:team, TEAM_FILE],
-    [:video, VIDEO_FILE]
+    [:video, VIDEO_FILE],
+    [:reviews, REVIEWS_FILE]
   ],
-  in_threads: 5
+  in_threads: 6
 ) do |key, file|
   new_data[key] = load_previous_data(file)
 end
@@ -744,6 +768,7 @@ track_group_changes(prev_data[:groups], new_data[:groups])
 track_hero_image_changes(prev_data[:hero_images], new_data[:hero_images])
 track_team_changes(prev_data[:team], new_data[:team])
 track_video_changes(prev_data[:video], new_data[:video])
+track_review_changes(prev_data[:reviews], new_data[:reviews])
 
 puts
 puts "=" * 50

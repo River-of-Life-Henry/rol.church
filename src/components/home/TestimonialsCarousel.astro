@@ -4,31 +4,43 @@
  *
  * Rotating testimonials from Google and Facebook reviews.
  * Features staggered flip animations for 3 columns.
+ * Loads review data from reviews.json including photos, ratings, and profile links.
  *
  * Usage:
  *   <TestimonialsCarousel />
  */
 
-const testimonials = [
-  // Column 1
-  [
-    { quote: "Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering.", author: "Love Farmer" },
-    { quote: "I was privileged to visit last year. Great church, great people!", author: "James Pace" },
-    { quote: "Love the people here! Genuine. True to God's Word. Passionate about loving others.", author: "David A. Brown" },
-  ],
-  // Column 2
-  [
-    { quote: "You feel God before you even go through the doors.", author: "Jasmine Westall" },
-    { quote: "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.", author: "Julia Ray Vann" },
-    { quote: "A very friendly church in an awesome place to worship.", author: "Allan Mathis" },
-  ],
-  // Column 3
-  [
-    { quote: "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.", author: "Melissa Mounts" },
-    { quote: "The best church in Henry!", author: "Ashlynn Fountain" },
-    { quote: "It's a beautiful building, with beautiful people and beautiful moves of God!", author: "Beki Bezely" },
-  ],
-];
+// Load reviews from JSON
+import reviewsData from '../../data/reviews.json';
+
+// Get featured reviews (those with text content)
+const allReviews = reviewsData.reviews.filter(r => r.text && r.text.length > 0 && r.featured);
+
+// Split reviews into 3 columns for the carousel
+const columns = [
+  allReviews.filter((_, i) => i % 3 === 0),
+  allReviews.filter((_, i) => i % 3 === 1),
+  allReviews.filter((_, i) => i % 3 === 2),
+].filter(col => col.length > 0);
+
+// Get summary data
+const googleSummary = reviewsData.summary?.google;
+const facebookSummary = reviewsData.summary?.facebook;
+
+// Build rating text
+let ratingText = '';
+if (googleSummary?.rating) {
+  ratingText = `${googleSummary.rating} on Google`;
+}
+if (facebookSummary?.recommendation_percent) {
+  if (ratingText) ratingText += ' • ';
+  ratingText += `${facebookSummary.recommendation_percent}% recommend on Facebook`;
+}
+
+// Helper to render star rating
+function getStarCount(rating: number): number {
+  return Math.round(rating || 5);
+}
 ---
 
 <section class="testimonials-section">
@@ -36,33 +48,64 @@ const testimonials = [
     <div class="testimonials-header">
       <div class="google-rating">
         <div class="stars">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          {Array(5).fill(0).map((_, i) => (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class={i < getStarCount(googleSummary?.rating) ? 'filled' : 'empty'}>
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          ))}
         </div>
-        <span class="rating-text">4.7 on Google • 100% recommend on Facebook</span>
+        <span class="rating-text">{ratingText || '4.7 on Google • 100% recommend on Facebook'}</span>
       </div>
       <h2>What People Are Saying</h2>
     </div>
     <div class="testimonials-carousel" id="testimonials-carousel">
-      {testimonials.map((column, colIndex) => (
+      {columns.map((column, colIndex) => (
         <div class="testimonial-stack" id={`testimonial-stack-${colIndex + 1}`}>
-          {column.map((testimonial, index) => (
+          {column.map((review, index) => (
             <div class={`testimonial ${index === 0 ? 'active' : ''}`}>
-              <p class="quote">"{testimonial.quote}"</p>
-              <p class="author">— {testimonial.author}</p>
+              <div class="testimonial-content">
+                {review.author?.photo_url && (
+                  <img
+                    src={review.author.photo_url}
+                    alt={review.author.name}
+                    class="author-photo"
+                    loading="lazy"
+                  />
+                )}
+                <div class="testimonial-text">
+                  {review.rating && (
+                    <div class="review-stars">
+                      {Array(5).fill(0).map((_, i) => (
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class={i < review.rating ? 'filled' : 'empty'}>
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </svg>
+                      ))}
+                    </div>
+                  )}
+                  <p class="quote">"{review.text}"</p>
+                  {review.author?.profile_url ? (
+                    <a href={review.author.profile_url} target="_blank" rel="noopener noreferrer" class="author">
+                      — {review.author.name}
+                      {review.author.is_local_guide && <span class="local-guide" title="Local Guide">🏆</span>}
+                    </a>
+                  ) : (
+                    <p class="author">
+                      — {review.author?.name || 'Anonymous'}
+                      {review.author?.is_local_guide && <span class="local-guide" title="Local Guide">🏆</span>}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
         </div>
       ))}
     </div>
     <div class="reviews-links">
-      <a href="https://www.google.com/maps/place/River+of+Life+-+Henry/@41.1077425,-89.3698345,1774m/data=!3m1!1e3!4m8!3m7!1s0x880bcd7f0f9c7c13:0x7cda490fc2394ad2!8m2!3d41.1059214!4d-89.3740112!9m1!1b1!16s%2Fg%2F1tdb0872?entry=ttu" target="_blank" rel="noopener noreferrer" class="reviews-link">
+      <a href={googleSummary?.reviews_url || "https://www.google.com/maps/place/River+of+Life+-+Henry/@41.1077425,-89.3698345,1774m/data=!3m1!1e3!4m8!3m7!1s0x880bcd7f0f9c7c13:0x7cda490fc2394ad2!8m2!3d41.1059214!4d-89.3740112!9m1!1b1!16s%2Fg%2F1tdb0872?entry=ttu"} target="_blank" rel="noopener noreferrer" class="reviews-link">
         Google Reviews &rarr;
       </a>
-      <a href="https://www.facebook.com/rolhenry/reviews" target="_blank" rel="noopener noreferrer" class="reviews-link">
+      <a href={facebookSummary?.reviews_url || "https://www.facebook.com/rolhenry/reviews"} target="_blank" rel="noopener noreferrer" class="reviews-link">
         Facebook Reviews &rarr;
       </a>
     </div>
@@ -76,6 +119,8 @@ const testimonials = [
 
     stacks.forEach((stack, stackIndex) => {
       const testimonials = stack.querySelectorAll('.testimonial');
+      if (testimonials.length <= 1) return; // No rotation needed for single items
+
       let currentIndex = 0;
 
       const baseInterval = 5000;
@@ -136,7 +181,14 @@ const testimonials = [
   .google-rating .stars svg {
     width: 20px;
     height: 20px;
+  }
+
+  .google-rating .stars svg.filled {
     color: #FBBC04;
+  }
+
+  .google-rating .stars svg.empty {
+    color: #e0e0e0;
   }
 
   .rating-text {
@@ -170,7 +222,7 @@ const testimonials = [
     width: 100%;
     height: 100%;
     background: white;
-    padding: 1.75rem;
+    padding: 1.5rem;
     border-radius: 0.75rem;
     text-align: left;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -178,9 +230,6 @@ const testimonials = [
     transform: rotateX(-90deg) translateY(-20px);
     transform-origin: top center;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .testimonial.active {
@@ -194,18 +243,72 @@ const testimonials = [
     transform-origin: bottom center;
   }
 
+  .testimonial-content {
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .author-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .testimonial-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .review-stars {
+    display: flex;
+    gap: 0.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-stars svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .review-stars svg.filled {
+    color: #FBBC04;
+  }
+
+  .review-stars svg.empty {
+    color: #e0e0e0;
+  }
+
   .testimonial .quote {
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 0.95rem;
+    line-height: 1.6;
     color: var(--color-text);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     font-style: italic;
   }
 
   .testimonial .author {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-teal);
     font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .testimonial a.author:hover {
+    text-decoration: underline;
+  }
+
+  .local-guide {
+    font-size: 0.75rem;
   }
 
   .reviews-links {
@@ -230,7 +333,7 @@ const testimonials = [
       grid-template-columns: 1fr;
     }
     .testimonial-stack {
-      height: 180px;
+      height: 200px;
     }
   }
 
@@ -257,10 +360,14 @@ const testimonials = [
       margin-bottom: 0.75rem;
     }
     .testimonial-stack {
-      height: 160px;
+      height: 180px;
     }
     .testimonial {
       padding: 1rem;
+    }
+    .author-photo {
+      width: 40px;
+      height: 40px;
     }
     .testimonial .quote {
       font-size: 0.9rem;
