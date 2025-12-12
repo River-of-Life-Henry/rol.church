@@ -1,0 +1,146 @@
+---
+/**
+ * PrayerRequestButton Component
+ *
+ * A floating button in the lower-right corner that opens a prayer request form.
+ * Shows Pastor Andrew Coffield's photo and name with "How can I pray for you?" text.
+ *
+ * Opens Planning Center form 1112381 in a modal on click.
+ */
+
+// Load pastor image from team.json (synced from Planning Center)
+let pastorImage = "/team/andrew_coffield.jpg";
+try {
+  const teamData = await import('../../data/team.json');
+  const pastor = (teamData.team || []).find(m => m.slug === 'andrew_coffield');
+  if (pastor?.image) {
+    pastorImage = pastor.image;
+  }
+} catch (e) {
+  // Use fallback image
+}
+
+const formUrl = "https://rolhenry.churchcenter.com/people/forms/1112381";
+---
+
+<div class="prayer-request-container">
+  <a
+    href={formUrl}
+    class="prayer-request-btn"
+    data-open-in-church-center-modal="true"
+    aria-label="Submit a prayer request"
+  >
+    <img src={pastorImage} alt="Pastor Andrew Coffield" class="pastor-photo" />
+    <span class="btn-content">
+      <span class="prayer-prompt">How can I pray for you?</span>
+      <span class="pastor-info">Senior Pastor, Andrew Coffield</span>
+    </span>
+  </a>
+</div>
+
+<!-- Church Center Modal Script -->
+<script src="https://js.churchcenter.com/modal/v1" is:inline></script>
+
+<style>
+  .prayer-request-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+  }
+
+  .prayer-request-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: 0.625rem 1.25rem 0.625rem 0.625rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .prayer-request-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .pastor-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--color-teal);
+    flex-shrink: 0;
+  }
+
+  .btn-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .prayer-prompt {
+    font-size: 1rem;
+    color: var(--color-navy);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .pastor-info {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 600px) {
+    .prayer-request-container {
+      bottom: 1rem;
+      right: 1rem;
+    }
+
+    .prayer-request-btn {
+      padding: 0.5rem 1rem 0.5rem 0.5rem;
+      gap: 0.75rem;
+    }
+
+    .pastor-photo {
+      width: 46px;
+      height: 46px;
+    }
+
+    .prayer-prompt {
+      font-size: 0.9rem;
+    }
+
+    .pastor-info {
+      font-size: 0.7rem;
+    }
+  }
+
+  /* Very small screens */
+  @media (max-width: 380px) {
+    .prayer-request-btn {
+      padding: 0.5rem 0.875rem 0.5rem 0.5rem;
+      gap: 0.625rem;
+    }
+
+    .pastor-photo {
+      width: 42px;
+      height: 42px;
+    }
+
+    .prayer-prompt {
+      font-size: 0.8rem;
+    }
+
+    .pastor-info {
+      font-size: 0.65rem;
+    }
+  }
+</style>
