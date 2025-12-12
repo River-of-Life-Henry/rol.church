@@ -30,13 +30,13 @@ import PrayerRequestButton from './PrayerRequestButton.astro';
     </div>
     <div class="footer-section">
       <h4>Location</h4>
-      <a href="/directions" class="location-info">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        <div>
-          <span class="street">425 University Ave</span>
-          <span class="city">Henry, IL 61537</span>
-        </div>
-      </a>
+      <div class="location-links">
+        <a href="/directions" class="location-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          425 University Ave
+        </a>
+        <span class="location-detail">Henry, IL 61537</span>
+      </div>
     </div>
     <div class="footer-section">
       <h4>Contact</h4>
@@ -148,38 +148,34 @@ import PrayerRequestButton from './PrayerRequestButton.astro';
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
   }
 
-  .location-info {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    text-decoration: none;
-  }
-
-  .location-info:hover .street,
-  .location-info:hover .city {
-    text-decoration: underline;
-  }
-
-  .location-info svg {
-    flex-shrink: 0;
-    color: var(--color-teal);
-    margin-top: 2px;
-  }
-
-  .location-info div {
+  .location-links {
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
   }
 
-  .location-info .street {
-    color: white;
-    font-weight: 500;
+  .location-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255,255,255,0.9) !important;
+    font-size: 0.95rem;
+    transition: color 0.2s;
   }
 
-  .location-info .city {
-    color: rgba(255,255,255,0.7);
-    font-size: 0.9rem;
+  .location-item:hover {
+    color: var(--color-teal) !important;
+  }
+
+  .location-item svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .location-detail {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+    padding-left: 1.625rem;
   }
 
   .contact-links {
@@ -264,8 +260,12 @@ import PrayerRequestButton from './PrayerRequestButton.astro';
       padding-right: 0;
     }
 
-    .location-info {
-      justify-content: center;
+    .location-links {
+      align-items: center;
+    }
+
+    .location-detail {
+      padding-left: 0;
     }
 
     .contact-links {
