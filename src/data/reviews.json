@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-11T20:16:10-06:00",
+  "updated_at": "2025-12-12T00:27:43-06:00",
   "summary": {
     "google": {
       "rating": 4.7,
@@ -70,21 +70,22 @@
       "featured": true
     },
     {
-      "id": "google_ff46e43d",
-      "source": "google",
+      "id": "facebook_8a728829",
+      "source": "facebook",
       "author": {
-        "name": "Melissa Mounts",
-        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
-        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
         "is_local_guide": false,
         "review_count": null,
         "photo_count": null
       },
       "rating": 5,
-      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
-      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
-      "date": "2018-01-14",
-      "relative_time": "7 years ago",
+      "recommendation_type": "positive",
+      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Biblical background to prove points. Awesome preaching. Makes you feel like getting in car...",
+      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Biblical background to prove points. Awesome preaching. Makes you feel like getting in car and going in person. .",
+      "date": "2020-08-30",
+      "relative_time": null,
       "review_url": null,
       "featured": true
     },
@@ -109,6 +110,45 @@
       "featured": true
     },
     {
+      "id": "google_ff46e43d",
+      "source": "google",
+      "author": {
+        "name": "Melissa Mounts",
+        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
+      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
+      "date": "2018-01-14",
+      "relative_time": "7 years ago",
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "facebook_4db3d5f2",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "It's a beautiful building, with beautiful people and beautiful moves of God! If you want to feel the presence of God, this is the place to be!!",
+      "full_text": "It's a beautiful building, with beautiful people and beautiful moves of God! If you want to feel the presence of God, this is the place to be!!",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
       "id": "google_a40eaa6d",
       "source": "google",
       "author": {
@@ -128,51 +168,11 @@
       "featured": false
     },
     {
-      "id": "facebook_8a728829",
-      "source": "facebook",
-      "author": {
-        "name": "Julia Ray Vann",
-        "profile_url": "https://www.facebook.com/rolhenry/reviews",
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "recommendation_type": "positive",
-      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Biblical background to prove points. Awesome preaching. Makes you feel like getting in car...",
-      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Biblical background to prove points. Awesome preaching. Makes you feel like getting in car and going in person. .",
-      "date": "2020-08-30",
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "facebook_89bfd27a",
-      "source": "facebook",
-      "author": {
-        "name": "Krystal Marie",
-        "profile_url": "https://www.facebook.com/rolhenry/reviews",
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "recommendation_type": "positive",
-      "text": "Best church ive been in!",
-      "full_text": "Best church ive been in!",
-      "date": "2018-08-05",
-      "relative_time": null,
-      "review_url": null,
-      "featured": false
-    },
-    {
       "id": "facebook_235d98fb",
       "source": "facebook",
       "author": {
-        "name": "Allan Mathis",
-        "profile_url": "https://www.facebook.com/rolhenry/reviews",
+        "name": "Facebook User",
+        "profile_url": null,
         "photo_url": null,
         "is_local_guide": false,
         "review_count": null,
@@ -188,11 +188,50 @@
       "featured": false
     },
     {
+      "id": "facebook_89bfd27a",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "Best church ive been in!",
+      "full_text": "Best church ive been in!",
+      "date": "2018-08-05",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_7dcafafb",
+      "source": "google",
+      "author": {
+        "name": "Melissa Mounts",
+        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
+      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
+      "date": "2018-01-14",
+      "relative_time": "7 years ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
       "id": "facebook_7bc2894d",
       "source": "facebook",
       "author": {
-        "name": "David A. Brown",
-        "profile_url": "https://www.facebook.com/rolhenry/reviews",
+        "name": "Facebook User",
+        "profile_url": null,
         "photo_url": null,
         "is_local_guide": false,
         "review_count": null,
@@ -206,26 +245,6 @@
       "relative_time": null,
       "review_url": null,
       "featured": false
-    },
-    {
-      "id": "facebook_4db3d5f2",
-      "source": "facebook",
-      "author": {
-        "name": "Quentin Hanson",
-        "profile_url": "https://www.facebook.com/rolhenry/reviews",
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "recommendation_type": "positive",
-      "text": "There is nothing like being in the presence of the Lord. At Henry Apostolic Tabernacle the power of the Holy Ghost is always moving. If you've been searching for what's missing in your life, Jesus is the answer, and this church is the place to find him.",
-      "full_text": "There is nothing like being in the presence of the Lord. At Henry Apostolic Tabernacle the power of the Holy Ghost is always moving. If you've been searching for what's missing in your life, Jesus is the answer, and this church is the place to find him. The people are welcoming; the preaching is stellar.",
-      "date": "2017-02-02",
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
     },
     {
       "id": "facebook_a125bb6a",
@@ -268,6 +287,26 @@
       "featured": false
     },
     {
+      "id": "facebook_60884bba",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "Henry Apostolic Tabernacle is a loving, caring, Jesus centered, relationship based church. Pastor Morrison genuinely loves the members and is a...",
+      "full_text": "Henry Apostolic Tabernacle is a loving, caring, Jesus centered, relationship based church. Pastor Morrison genuinely loves the members and is a dedicated and anointed Pastor. There are great moves of God in every service - you will feel something real here. I love this church and it's members.",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
       "id": "facebook_b615ff8c",
       "source": "facebook",
       "author": {
@@ -288,11 +327,11 @@
       "featured": false
     },
     {
-      "id": "facebook_60884bba",
+      "id": "facebook_6a655f85",
       "source": "facebook",
       "author": {
-        "name": "Laura Devore",
-        "profile_url": "https://www.facebook.com/rolhenry/reviews",
+        "name": "Facebook User",
+        "profile_url": null,
         "photo_url": null,
         "is_local_guide": false,
         "review_count": null,
@@ -300,9 +339,9 @@
       },
       "rating": 5,
       "recommendation_type": "positive",
-      "text": "If you don't feel God here, you really are in big trouble!",
-      "full_text": "If you don't feel God here, you really are in big trouble!",
-      "date": "2017-02-12",
+      "text": "I love being at Henry Apostolic Tabernacle! The people are very loving, Pastor and Sis. Morrison are great leaders, and God's presence just seems to...",
+      "full_text": "I love being at Henry Apostolic Tabernacle! The people are very loving, Pastor and Sis. Morrison are great leaders, and God's presence just seems to flow in the services! It's a great place to be!",
+      "date": "2017-02-01",
       "relative_time": null,
       "review_url": null,
       "featured": false
@@ -322,26 +361,6 @@
       "recommendation_type": "positive",
       "text": "Every time I have visited Henry Apostolic Tabernacle, I have been challenged and touch by the Spirit of God. Their first class facilities matches the...",
       "full_text": "Every time I have visited Henry Apostolic Tabernacle, I have been challenged and touch by the Spirit of God. Their first class facilities matches the high level of their services. They do a top job in all their ministries front Nursery to Youth and Ladies and Mens groups. Your whole family will grow and enjoy this church. Pastor Mike Morrison never runs out of smiles to share.",
-      "date": "2017-02-01",
-      "relative_time": null,
-      "review_url": null,
-      "featured": false
-    },
-    {
-      "id": "facebook_6a655f85",
-      "source": "facebook",
-      "author": {
-        "name": "Facebook User",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "recommendation_type": "positive",
-      "text": "I love being at Henry Apostolic Tabernacle! The people are very loving, Pastor and Sis. Morrison are great leaders, and God's presence just seems to...",
-      "full_text": "I love being at Henry Apostolic Tabernacle! The people are very loving, Pastor and Sis. Morrison are great leaders, and God's presence just seems to flow in the services! It's a great place to be!",
       "date": "2017-02-01",
       "relative_time": null,
       "review_url": null,

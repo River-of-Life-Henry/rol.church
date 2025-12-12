@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-11T19:19:15-06:00",
+  "updated_at": "2025-12-12T00:27:42-06:00",
   "events": [
     {
       "id": "178702129",
@@ -499,6 +499,23 @@
       "startsAt": "2026-03-05T00:00:00-06:00",
       "endsAt": "2026-03-05T23:59:59-06:00",
       "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206955771",
+      "name": "Youth Roller Skating",
+      "slug": "youth-roller-skating",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-06T00:00:00-06:00",
+      "endsAt": "2026-03-06T23:59:59-06:00",
+      "location": "Morton Roller Rink - 216 S First Ave, Morton, IL 61550, USA",
       "allDay": true,
       "tags": [
         "David-Import-2026"
