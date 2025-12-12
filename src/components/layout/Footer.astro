@@ -3,10 +3,13 @@
  * Footer Component
  *
  * Site footer with service times, location, contact info, social links, and giving button.
+ * Also includes the floating prayer request button.
  *
  * Usage:
  *   <Footer />
  */
+
+import PrayerRequestButton from './PrayerRequestButton.astro';
 ---
 
 <footer>
@@ -72,6 +75,8 @@
   <p class="tagline">Where life begins</p>
   <p class="copyright">&copy; {new Date().getFullYear()} River of Life, Henry, IL</p>
 </footer>
+
+<PrayerRequestButton />
 
 <style>
   footer {
@@ -231,7 +236,6 @@
     text-align: center;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
   }
 
   .give-btn {
@@ -266,7 +270,6 @@
     text-align: center;
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
     color: var(--color-gold);
     font-family: var(--font-script);
     font-size: 1.5rem;
