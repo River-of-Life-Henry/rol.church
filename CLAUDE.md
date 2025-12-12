@@ -222,7 +222,7 @@ Requires environment variables:
 - **Tagline:** "Where life begins"
 - **Pastor:** Andrew & Chelsea Coffield
 - **Service Times:**
-  - Sunday: 10am (Christian Education), 11am (Main Service)
+  - Sunday: 10am (Christian Education), 11am (Worship Service)
   - Wednesday: 7pm (Bible Study)
 
 ## SEO Keywords
