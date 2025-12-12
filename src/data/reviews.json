@@ -13,196 +13,6 @@
   },
   "reviews": [
     {
-      "id": "google_love_farmer_2024",
-      "source": "google",
-      "author": {
-        "name": "Love Farmer",
-        "profile_url": "https://www.google.com/maps/contrib/117234567890123456789",
-        "photo_url": null,
-        "is_local_guide": true,
-        "review_count": 195,
-        "photo_count": 36
-      },
-      "rating": 5,
-      "text": "Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering.",
-      "full_text": "Our world is filled with hate. This place is filled with love. You literally feel it shortly after entering. I...",
-      "date": "2024-09-15",
-      "relative_time": "13 weeks ago",
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_c_nags_2024",
-      "source": "google",
-      "author": {
-        "name": "C Nags",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": true,
-        "review_count": 25,
-        "photo_count": 0
-      },
-      "rating": 5,
-      "text": "The new Pastor Andrew Coffield is a godly, caring and loving man. His wife Chelsea is a very loving, caring and godly...",
-      "full_text": "The new Pastor Andrew Coffield is a godly, caring and loving man. His wife Chelsea is a very loving, caring and godly...",
-      "date": "2024-05-22",
-      "relative_time": "May 22, 2024",
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_james_pace",
-      "source": "google",
-      "author": {
-        "name": "James Pace",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "I was privileged to visit last year. Great church, great people!",
-      "full_text": "I was privileged to visit last year. Great church, great people!",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_melissa_mounts",
-      "source": "google",
-      "author": {
-        "name": "Melissa Mounts",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
-      "full_text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_allan_mathis",
-      "source": "google",
-      "author": {
-        "name": "Allan Mathis",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "A very friendly church in an awesome place to worship.",
-      "full_text": "A very friendly church in an awesome place to worship.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_julia_ray_vann",
-      "source": "google",
-      "author": {
-        "name": "Julia Ray Vann",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
-      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_jasmine_westall",
-      "source": "google",
-      "author": {
-        "name": "Jasmine Westall",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "You feel God before you even go through the doors.",
-      "full_text": "You feel God before you even go through the doors.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_david_brown",
-      "source": "google",
-      "author": {
-        "name": "David A. Brown",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
-      "full_text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_ashlynn_fountain",
-      "source": "google",
-      "author": {
-        "name": "Ashlynn Fountain",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "The best church in Henry!",
-      "full_text": "The best church in Henry!",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_beki_bezely",
-      "source": "google",
-      "author": {
-        "name": "Beki Bezely",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "It's a beautiful building, with beautiful people and beautiful moves of God!",
-      "full_text": "It's a beautiful building, with beautiful people and beautiful moves of God!",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
       "id": "google_82fe57ee",
       "source": "google",
       "author": {
@@ -219,7 +29,7 @@
       "date": "2025-09-13",
       "relative_time": "2 months ago",
       "review_url": null,
-      "featured": false
+      "featured": true
     },
     {
       "id": "google_b27cbafe",
@@ -238,26 +48,7 @@
       "date": "2024-05-22",
       "relative_time": "a year ago",
       "review_url": null,
-      "featured": false
-    },
-    {
-      "id": "google_a40eaa6d",
-      "source": "google",
-      "author": {
-        "name": "Gemmy Schwartz",
-        "profile_url": "https://www.google.com/maps/contrib/115692974779692958163/reviews",
-        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocLdYuN2LObPRyX96nikskvBogYKwXtAA7U5E3OEcrfC9374OA=s128-c0x00000000-cc-rp-mo",
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 1,
-      "text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the...",
-      "full_text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the image of God, it's not shocking given this is the evil the Pharisee did as well, created laws not of God. They wear wedding rings and adhere to holidays like the Romans of old. They celebrate themselves on their birthdays. None of this is of God. And the worst is the fake tongues. Remember the sign of the holy Ghost ain't tongues it's prophesying. We know that because it's what Paul said. Watch your children around this pastor please, I hate to say it but there's a problem in the priesthood. And there's some older lady there with like 10 kids that aren't hers that starts fights and drama with everyone in the church, shes the reason I'm posting this. Name starts with an L last name starts with a D.",
-      "date": "2024-02-22",
-      "relative_time": "a year ago",
-      "review_url": null,
-      "featured": false
+      "featured": true
     },
     {
       "id": "google_ff46e43c",
@@ -275,6 +66,44 @@
       "full_text": "Do you need a miracle? Are you looking for something different? Our family needed both. With the atmosphere provided here we received a miracle and found something different! We found our home and our family. Praise God for guiding us to River of Life! And I praise Yahweh for leading us to other pastures. River of life is definitely a beginners stepping stone for gaining an understanding of what it's like to live  sanctified, righteous and holy under this particular religion and belief system. If your hope is to be in that category or if you are already in that category and desire a subjective, eclectic, and biased community this is the place to go!",
       "date": "2022-05-14",
       "relative_time": "3 years ago",
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_ff46e43d",
+      "source": "google",
+      "author": {
+        "name": "Melissa Mounts",
+        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
+      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
+      "date": "2018-01-14",
+      "relative_time": "7 years ago",
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_a40eaa6d",
+      "source": "google",
+      "author": {
+        "name": "Gemmy Schwartz",
+        "profile_url": "https://www.google.com/maps/contrib/115692974779692958163/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocLdYuN2LObPRyX96nikskvBogYKwXtAA7U5E3OEcrfC9374OA=s128-c0x00000000-cc-rp-mo",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 1,
+      "text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the...",
+      "full_text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the image of God, it's not shocking given this is the evil the Pharisee did as well, created laws not of God. They wear wedding rings and adhere to holidays like the Romans of old. They celebrate themselves on their birthdays. None of this is of God. And the worst is the fake tongues. Remember the sign of the holy Ghost ain't tongues it's prophesying. We know that because it's what Paul said. Watch your children around this pastor please, I hate to say it but there's a problem in the priesthood. And there's some older lady there with like 10 kids that aren't hers that starts fights and drama with everyone in the church, shes the reason I'm posting this. Name starts with an L last name starts with a D.",
+      "date": "2024-02-22",
+      "relative_time": "a year ago",
       "review_url": null,
       "featured": false
     },
@@ -335,25 +164,6 @@
       "full_text": "A very friendly church in an awesome place to worship",
       "date": "2018-08-05",
       "relative_time": null,
-      "review_url": null,
-      "featured": false
-    },
-    {
-      "id": "google_7dcafafb",
-      "source": "google",
-      "author": {
-        "name": "Melissa Mounts",
-        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
-        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
-      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
-      "date": "2018-01-14",
-      "relative_time": "7 years ago",
       "review_url": null,
       "featured": false
     },
