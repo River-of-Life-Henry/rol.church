@@ -13,8 +13,10 @@
 // Load reviews from JSON
 import reviewsData from '../../data/reviews.json';
 
-// Get featured reviews (those with text content)
-const allReviews = reviewsData.reviews.filter(r => r.text && r.text.length > 0 && r.featured);
+// Get featured reviews (those with text content and 5-star ratings only)
+const allReviews = reviewsData.reviews.filter(r =>
+  r.text && r.text.length > 0 && r.featured && r.rating === 5
+);
 
 // Split reviews into 3 columns for the carousel
 const columns = [
@@ -62,7 +64,12 @@ function getStarCount(rating: number): number {
       {columns.map((column, colIndex) => (
         <div class="testimonial-stack" id={`testimonial-stack-${colIndex + 1}`}>
           {column.map((review, index) => (
-            <div class={`testimonial ${index === 0 ? 'active' : ''}`}>
+            <a
+              href={review.author?.profile_url || '#'}
+              target={review.author?.profile_url ? '_blank' : undefined}
+              rel={review.author?.profile_url ? 'noopener noreferrer' : undefined}
+              class={`testimonial ${index === 0 ? 'active' : ''} ${review.author?.profile_url ? 'clickable' : ''}`}
+            >
               <div class="testimonial-content">
                 {review.author?.photo_url && (
                   <img
@@ -83,20 +90,10 @@ function getStarCount(rating: number): number {
                     </div>
                   )}
                   <p class="quote">"{review.text}"</p>
-                  {review.author?.profile_url ? (
-                    <a href={review.author.profile_url} target="_blank" rel="noopener noreferrer" class="author">
-                      — {review.author.name}
-                      {review.author.is_local_guide && <span class="local-guide" title="Local Guide">🏆</span>}
-                    </a>
-                  ) : (
-                    <p class="author">
-                      — {review.author?.name || 'Anonymous'}
-                      {review.author?.is_local_guide && <span class="local-guide" title="Local Guide">🏆</span>}
-                    </p>
-                  )}
+                  <p class="author">— {review.author?.name || 'Anonymous'}</p>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       ))}
@@ -230,6 +227,18 @@ function getStarCount(rating: number): number {
     transform: rotateX(-90deg) translateY(-20px);
     transform-origin: top center;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .testimonial.clickable {
+    cursor: pointer;
+  }
+
+  .testimonial.clickable:hover {
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    transform: rotateX(0deg) translateY(-2px);
   }
 
   .testimonial.active {
@@ -297,18 +306,6 @@ function getStarCount(rating: number): number {
     font-size: 0.85rem;
     color: var(--color-teal);
     font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-
-  .testimonial a.author:hover {
-    text-decoration: underline;
-  }
-
-  .local-guide {
-    font-size: 0.75rem;
   }
 
   .reviews-links {

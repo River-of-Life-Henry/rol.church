@@ -1,10 +1,10 @@
 {
-  "updated_at": "2025-12-11T19:55:00-06:00",
+  "updated_at": "2025-12-11T20:16:10-06:00",
   "summary": {
     "google": {
       "rating": 4.7,
       "total_reviews": 13,
-      "reviews_url": "https://www.google.com/maps/place/River+of+Life+-+Henry/@41.1077425,-89.3698345,1774m/data=!3m1!1e3!4m8!3m7!1s0x880bcd7f0f9c7c13:0x7cda490fc2394ad2!8m2!3d41.1059214!4d-89.3740112!9m1!1b1!16s%2Fg%2F1tdb0872?entry=ttu"
+      "reviews_url": "https://www.google.com/maps/place/?q=place_id:ChIJE3ycD3_NC4gR0ko5wg9J2nw"
     },
     "facebook": {
       "recommendation_percent": 100,
@@ -32,25 +32,6 @@
       "featured": true
     },
     {
-      "id": "google_andrew_coffield_2024",
-      "source": "google",
-      "author": {
-        "name": "Andrew Coffield",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": 4,
-        "photo_count": 0
-      },
-      "rating": 5,
-      "text": "",
-      "full_text": "",
-      "date": "2024-01-15",
-      "relative_time": "48 weeks ago",
-      "review_url": null,
-      "featured": false
-    },
-    {
       "id": "google_c_nags_2024",
       "source": "google",
       "author": {
@@ -68,25 +49,6 @@
       "relative_time": "May 22, 2024",
       "review_url": null,
       "featured": true
-    },
-    {
-      "id": "google_gemmy_schwartz_2024",
-      "source": "google",
-      "author": {
-        "name": "Gemmy Schwartz",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": 1,
-        "photo_count": 0
-      },
-      "rating": 5,
-      "text": "",
-      "full_text": "",
-      "date": "2024-02-21",
-      "relative_time": "Feb 21, 2024",
-      "review_url": null,
-      "featured": false
     },
     {
       "id": "google_james_pace",
@@ -108,10 +70,10 @@
       "featured": true
     },
     {
-      "id": "google_david_brown",
+      "id": "google_melissa_mounts",
       "source": "google",
       "author": {
-        "name": "David A. Brown",
+        "name": "Melissa Mounts",
         "profile_url": null,
         "photo_url": null,
         "is_local_guide": false,
@@ -119,46 +81,8 @@
         "photo_count": null
       },
       "rating": 5,
-      "text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
-      "full_text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_jasmine_westall",
-      "source": "google",
-      "author": {
-        "name": "Jasmine Westall",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "You feel God before you even go through the doors.",
-      "full_text": "You feel God before you even go through the doors.",
-      "date": null,
-      "relative_time": null,
-      "review_url": null,
-      "featured": true
-    },
-    {
-      "id": "google_julia_ray_vann",
-      "source": "google",
-      "author": {
-        "name": "Julia Ray Vann",
-        "profile_url": null,
-        "photo_url": null,
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
-      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
+      "text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
+      "full_text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
       "date": null,
       "relative_time": null,
       "review_url": null,
@@ -184,10 +108,10 @@
       "featured": true
     },
     {
-      "id": "google_melissa_mounts",
+      "id": "google_julia_ray_vann",
       "source": "google",
       "author": {
-        "name": "Melissa Mounts",
+        "name": "Julia Ray Vann",
         "profile_url": null,
         "photo_url": null,
         "is_local_guide": false,
@@ -195,8 +119,46 @@
         "photo_count": null
       },
       "rating": 5,
-      "text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
-      "full_text": "Greeted in a very loving way. Felt a strong presence of God. Amazing experience.",
+      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
+      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Awesome preaching.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_jasmine_westall",
+      "source": "google",
+      "author": {
+        "name": "Jasmine Westall",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "You feel God before you even go through the doors.",
+      "full_text": "You feel God before you even go through the doors.",
+      "date": null,
+      "relative_time": null,
+      "review_url": null,
+      "featured": true
+    },
+    {
+      "id": "google_david_brown",
+      "source": "google",
+      "author": {
+        "name": "David A. Brown",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
+      "full_text": "Love the people here! Genuine. True to God's Word. Passionate about loving others.",
       "date": null,
       "relative_time": null,
       "review_url": null,
@@ -239,6 +201,321 @@
       "relative_time": null,
       "review_url": null,
       "featured": true
+    },
+    {
+      "id": "google_82fe57ee",
+      "source": "google",
+      "author": {
+        "name": "Love Farmer",
+        "profile_url": "https://www.google.com/maps/contrib/111186523896397131879/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a-/ALV-UjUkZ36qIB-570nr2sIUTkFVvfR7AwT-zrRVQY564BIRImISkX0qmw=s128-c0x00000000-cc-rp-mo-ba4",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Our world is filled with hate.  This place is filled with love.   You literally feel it shortly after entering.   I believe if you start and stay in...",
+      "full_text": "Our world is filled with hate.  This place is filled with love.   You literally feel it shortly after entering.   I believe if you start and stay in this environment long enough,  you will change your life for the better.   What would you lose by trying love?",
+      "date": "2025-09-13",
+      "relative_time": "2 months ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_b27cbafe",
+      "source": "google",
+      "author": {
+        "name": "C Nags",
+        "profile_url": "https://www.google.com/maps/contrib/112521240813461744754/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI6Uv2z-TRXkX6LwAn4LNfSPArzMRSg35yL553D2CaUjQXQpw=s128-c0x00000000-cc-rp-mo-ba2",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "The new Pastor Andrew Coffield is a godly, caring and loving man. His wife Chelsea is a very loving, caring and godly\nIf you are seeking a...",
+      "full_text": "The new Pastor Andrew Coffield is a godly, caring and loving man. His wife Chelsea is a very loving, caring and godly woman.\nIf you are seeking a truth bible based church go and do yourself a favor and check this church out !",
+      "date": "2024-05-22",
+      "relative_time": "a year ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_a40eaa6d",
+      "source": "google",
+      "author": {
+        "name": "Gemmy Schwartz",
+        "profile_url": "https://www.google.com/maps/contrib/115692974779692958163/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocLdYuN2LObPRyX96nikskvBogYKwXtAA7U5E3OEcrfC9374OA=s128-c0x00000000-cc-rp-mo",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 1,
+      "text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the...",
+      "full_text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the image of God, it's not shocking given this is the evil the Pharisee did as well, created laws not of God. They wear wedding rings and adhere to holidays like the Romans of old. They celebrate themselves on their birthdays. None of this is of God. And the worst is the fake tongues. Remember the sign of the holy Ghost ain't tongues it's prophesying. We know that because it's what Paul said. Watch your children around this pastor please, I hate to say it but there's a problem in the priesthood. And there's some older lady there with like 10 kids that aren't hers that starts fights and drama with everyone in the church, shes the reason I'm posting this. Name starts with an L last name starts with a D.",
+      "date": "2024-02-22",
+      "relative_time": "a year ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_ff46e43c",
+      "source": "google",
+      "author": {
+        "name": "Willow",
+        "profile_url": "https://www.google.com/maps/contrib/117907133985801478150/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocKASFfISr78-RungVG19OefZTuWujzeYGogR-thFhvj_mBUB1F_=s128-c0x00000000-cc-rp-mo-ba4",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Do you need a miracle? Are you looking for something different? Our family needed both. With the atmosphere provided here we received a miracle and...",
+      "full_text": "Do you need a miracle? Are you looking for something different? Our family needed both. With the atmosphere provided here we received a miracle and found something different! We found our home and our family. Praise God for guiding us to River of Life! And I praise Yahweh for leading us to other pastures. River of life is definitely a beginners stepping stone for gaining an understanding of what it's like to live  sanctified, righteous and holy under this particular religion and belief system. If your hope is to be in that category or if you are already in that category and desire a subjective, eclectic, and biased community this is the place to go!",
+      "date": "2022-05-14",
+      "relative_time": "3 years ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_8a728829",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "On fire with the Holy Ghost. Preacher tells it like it is. Biblical background to prove points. Awesome preaching. Makes you feel like getting in car...",
+      "full_text": "On fire with the Holy Ghost. Preacher tells it like it is. Biblical background to prove points. Awesome preaching. Makes you feel like getting in car and going in person. .",
+      "date": "2020-08-30",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_89bfd27a",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "Best church ive been in!",
+      "full_text": "Best church ive been in!",
+      "date": "2018-08-05",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_235d98fb",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "A very friendly church in an awesome place to worship",
+      "full_text": "A very friendly church in an awesome place to worship",
+      "date": "2018-08-05",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "google_7dcafafb",
+      "source": "google",
+      "author": {
+        "name": "Melissa Mounts",
+        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
+      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
+      "date": "2018-01-14",
+      "relative_time": "7 years ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_7bc2894d",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "Love the people here!  Genuine.  True to God's Word.  Passionate about loving others.  If you live in or around Henry, you owe to yourself to visit...",
+      "full_text": "Love the people here!  Genuine.  True to God's Word.  Passionate about loving others.  If you live in or around Henry, you owe to yourself to visit this great church!",
+      "date": "2017-02-06",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_4db3d5f2",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "It's a beautiful building, with beautiful people and beautiful moves of God! If you want to feel the presence of God, this is the place to be!!",
+      "full_text": "It's a beautiful building, with beautiful people and beautiful moves of God! If you want to feel the presence of God, this is the place to be!!",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_a125bb6a",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "I like this church because they teach right from the Bible.The people attending and saved is very friendly.we have great moves of  God. And we have a...",
+      "full_text": "I like this church because they teach right from the Bible.The people attending and saved is very friendly.we have great moves of  God. And we have a fantastic preacher and his wife right behind him they are awesome.They are real people of God.",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_1b8b35d5",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "I thought I would just put 5 stars and call it a day but, this church has been my church since I was 10 years old. So here's what I have to say about...",
+      "full_text": "I thought I would just put 5 stars and call it a day but, this church has been my church since I was 10 years old. So here's what I have to say about it --  The individuals that attend there will turn into your family. They are genuine. They are kind. They are loving. They are down to earth. And most importantly, they will encourage you and help you grow in your walk with God. The leadership of this church (Pastor Morrison) cares for people so deeply. He's intentional. He's knowledgeable. He will lead you in the right direction. Last but not least, you WILL feel God and you WILL forever be changed. So, if you're looking for a church in this area -- this IS the church for you. \n\nI LOVE YOU, HAT. Miss you all.",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_b615ff8c",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "A church is only as good as it's leadership. Bro and Sis Morrison are wonderful examples of this. They are genuine and the church is wonderful. We...",
+      "full_text": "A church is only as good as it's leadership. Bro and Sis Morrison are wonderful examples of this. They are genuine and the church is wonderful. We are very thankful that our son was able to become part of this church family when he married and left home. We love HAT and its congregation!!",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_60884bba",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "Henry Apostolic Tabernacle is a loving, caring, Jesus centered, relationship based church. Pastor Morrison genuinely loves the members and is a...",
+      "full_text": "Henry Apostolic Tabernacle is a loving, caring, Jesus centered, relationship based church. Pastor Morrison genuinely loves the members and is a dedicated and anointed Pastor. There are great moves of God in every service - you will feel something real here. I love this church and it's members.",
+      "date": "2017-02-02",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_04b5271c",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "Every time I have visited Henry Apostolic Tabernacle, I have been challenged and touch by the Spirit of God. Their first class facilities matches the...",
+      "full_text": "Every time I have visited Henry Apostolic Tabernacle, I have been challenged and touch by the Spirit of God. Their first class facilities matches the high level of their services. They do a top job in all their ministries front Nursery to Youth and Ladies and Mens groups. Your whole family will grow and enjoy this church. Pastor Mike Morrison never runs out of smiles to share.",
+      "date": "2017-02-01",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
+    },
+    {
+      "id": "facebook_6a655f85",
+      "source": "facebook",
+      "author": {
+        "name": "Facebook User",
+        "profile_url": null,
+        "photo_url": null,
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 5,
+      "recommendation_type": "positive",
+      "text": "I love being at Henry Apostolic Tabernacle! The people are very loving, Pastor and Sis. Morrison are great leaders, and God's presence just seems to...",
+      "full_text": "I love being at Henry Apostolic Tabernacle! The people are very loving, Pastor and Sis. Morrison are great leaders, and God's presence just seems to flow in the services! It's a great place to be!",
+      "date": "2017-02-01",
+      "relative_time": null,
+      "review_url": null,
+      "featured": false
     }
   ]
 }

@@ -58,7 +58,7 @@ $stderr.sync = true
 
 # Configuration
 GOOGLE_PLACES_API_KEY = ENV["GOOGLE_PLACES_API_KEY"]
-GOOGLE_PLACE_ID = ENV["GOOGLE_PLACE_ID"] || "ChIJE3ycD39tzYgR0koZwg9JyQw" # River of Life church
+GOOGLE_PLACE_ID = ENV["GOOGLE_PLACE_ID"] || "ChIJE3ycD3_NC4gR0ko5wg9J2nw" # River of Life church
 FB_PAGE_ID = ENV["FB_PAGE_ID"] || "147553505345372"
 FB_PAGE_ACCESS_TOKEN = ENV["FB_PAGE_ACCESS_TOKEN"]
 
@@ -69,6 +69,7 @@ class ReviewSync
   def initialize
     @errors = []
     @google_reviews = []
+    @facebook_reviews = []
     @facebook_data = nil
   end
 
@@ -127,6 +128,7 @@ class ReviewSync
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE  # Workaround for CRL issues
     http.open_timeout = 30
     http.read_timeout = 30
 
@@ -204,6 +206,7 @@ class ReviewSync
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE  # Workaround for CRL issues
     http.open_timeout = 30
     http.read_timeout = 30
 
@@ -272,6 +275,8 @@ class ReviewSync
     page_token = get_facebook_page_token
     return unless page_token
 
+    @page_token = page_token
+
     # Fetch page ratings data
     uri = URI("https://graph.facebook.com/v18.0/#{FB_PAGE_ID}")
     params = {
@@ -292,7 +297,6 @@ class ReviewSync
     end
 
     # Facebook uses recommendations now (yes/no) rather than star ratings
-    # The overall_star_rating may not be available
     @facebook_data = {
       rating: data["overall_star_rating"],
       rating_count: data["rating_count"],
@@ -304,9 +308,10 @@ class ReviewSync
       puts "  Rating: #{@facebook_data[:rating]} (#{@facebook_data[:rating_count]} ratings)"
     else
       puts "  No star rating available (Facebook uses recommendations)"
-      # Try to get recommendation percentage
-      fetch_facebook_recommendations(page_token)
     end
+
+    # Fetch individual reviews/recommendations
+    fetch_facebook_reviews(page_token)
   rescue => e
     puts "ERROR: Facebook API failed: #{e.message}"
     @errors << "Facebook API: #{e.message}"
@@ -339,35 +344,95 @@ class ReviewSync
     page["access_token"]
   end
 
-  def fetch_facebook_recommendations(page_token)
-    # Facebook Page recommendations endpoint
+  def fetch_facebook_reviews(page_token)
+    puts "INFO: Fetching Facebook reviews..."
+
+    # Facebook Page ratings/recommendations endpoint
+    # Returns reviews with recommendation_type, review_text, reviewer info
     uri = URI("https://graph.facebook.com/v18.0/#{FB_PAGE_ID}/ratings")
     params = {
       access_token: page_token,
+      fields: "reviewer{id,name,picture},recommendation_type,review_text,created_time,open_graph_story{id}",
       limit: 100
     }
     uri.query = URI.encode_www_form(params)
 
-    response = make_facebook_request(uri)
-    return unless response
+    all_reviews = []
+    recommends_count = 0
+    total_count = 0
 
-    data = JSON.parse(response)
+    loop do
+      response = make_facebook_request(uri)
+      break unless response
 
-    if data["error"]
-      # Recommendations may require special permissions
-      puts "  Note: Cannot fetch individual recommendations (requires permissions)"
-      return
+      data = JSON.parse(response)
+
+      if data["error"]
+        error_msg = data.dig('error', 'message')
+        if error_msg&.include?("permissions")
+          puts "  Note: Cannot fetch reviews (requires pages_read_user_content permission)"
+        else
+          puts "  WARN: Facebook reviews API: #{error_msg}"
+        end
+        break
+      end
+
+      ratings = data["data"] || []
+      break if ratings.empty?
+
+      ratings.each do |rating|
+        total_count += 1
+        is_positive = rating["recommendation_type"] == "positive"
+        recommends_count += 1 if is_positive
+
+        # Only include reviews that have text content
+        review_text = rating["review_text"]
+        next unless review_text && review_text.strip.length > 0
+
+        reviewer = rating["reviewer"] || {}
+        created_time = rating["created_time"]
+
+        # Get reviewer photo URL
+        photo_url = reviewer.dig("picture", "data", "url")
+
+        @facebook_reviews << {
+          id: "facebook_#{reviewer['id'] || Digest::MD5.hexdigest(review_text)[0..7]}",
+          source: "facebook",
+          author: {
+            name: reviewer["name"] || "Facebook User",
+            profile_url: reviewer["id"] ? "https://www.facebook.com/#{reviewer['id']}" : nil,
+            photo_url: photo_url,
+            is_local_guide: false,
+            review_count: nil,
+            photo_count: nil
+          },
+          rating: is_positive ? 5 : 1,  # Facebook uses recommend/not recommend
+          recommendation_type: rating["recommendation_type"],
+          text: truncate_text(review_text, 150),
+          full_text: review_text,
+          date: created_time ? Time.parse(created_time).strftime("%Y-%m-%d") : nil,
+          relative_time: nil,
+          review_url: nil,
+          featured: false
+        }
+      end
+
+      # Check for next page
+      next_url = data.dig("paging", "next")
+      break unless next_url
+
+      uri = URI(next_url)
     end
 
-    ratings = data["data"] || []
-    if ratings.any?
-      recommends = ratings.count { |r| r["recommendation_type"] == "positive" }
-      total = ratings.length
-      @facebook_data[:recommendation_percent] = total > 0 ? ((recommends.to_f / total) * 100).round : nil
-      puts "  Recommendations: #{recommends}/#{total} (#{@facebook_data[:recommendation_percent]}%)"
+    # Update summary data
+    if total_count > 0
+      @facebook_data[:recommendation_percent] = ((recommends_count.to_f / total_count) * 100).round
+      @facebook_data[:total_reviews] = total_count
+      puts "  Found #{total_count} total recommendations (#{recommends_count} positive = #{@facebook_data[:recommendation_percent]}%)"
+      puts "  #{@facebook_reviews.length} reviews have text content"
     end
   rescue => e
-    puts "  Note: Could not fetch recommendations: #{e.message}"
+    puts "  WARN: Could not fetch Facebook reviews: #{e.message}"
   end
 
   def make_facebook_request(uri)
@@ -412,16 +477,26 @@ class ReviewSync
       new_reviews << review
     end
 
-    # Keep manual reviews that aren't from Google API
+    # Add Facebook reviews (update existing or add new)
+    @facebook_reviews.each do |review|
+      existing = existing_reviews.find { |r| r["id"] == review[:id] }
+      if existing
+        # Preserve featured status from existing
+        review[:featured] = existing["featured"] || false
+      end
+      new_reviews << review
+    end
+
+    # Keep manual reviews that aren't from API sources
     existing_reviews.each do |review|
-      # Keep reviews that are manually added (don't have google_ prefix from API fetch)
-      # or that weren't found in this sync
-      unless new_reviews.any? { |r| r[:id] == review["id"] }
-        # This is either a manual review or an old Google review not in current API response
-        # Keep it as long as it's marked featured or is manual
-        if review["featured"] || !review["id"]&.start_with?("google_")
-          new_reviews << symbolize_keys(review)
-        end
+      review_id = review["id"]
+      # Skip if already added from API
+      next if new_reviews.any? { |r| r[:id] == review_id }
+
+      # Keep manual reviews (not google_ or facebook_ prefixed) or featured reviews
+      is_api_review = review_id&.start_with?("google_") || review_id&.start_with?("facebook_")
+      if review["featured"] || !is_api_review
+        new_reviews << symbolize_keys(review)
       end
     end
 
@@ -452,7 +527,8 @@ class ReviewSync
     File.write(DATA_FILE, JSON.pretty_generate(output))
     puts "  Saved #{new_reviews.length} reviews to reviews.json"
     puts "  Google: #{@google_reviews.length} from API"
-    puts "  Manual/existing: #{new_reviews.length - @google_reviews.length}"
+    puts "  Facebook: #{@facebook_reviews.length} from API"
+    puts "  Manual/existing: #{new_reviews.length - @google_reviews.length - @facebook_reviews.length}"
   end
 
   # Helper methods
