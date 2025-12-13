@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-13T06:31:30-06:00",
+  "updated_at": "2025-12-13T12:21:38-06:00",
   "events": [
-    {
-      "id": "178702129",
-      "name": "Men's Christmas Breakfast",
-      "slug": "mens-christmas-breakfast",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-13T09:00:00-06:00",
-      "endsAt": "2025-12-13T11:00:00-06:00",
-      "location": "Wildey's Country Diner - 223 N Washington St, Lacon, IL 61540, USA",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207235515",
       "name": "Christmas Program",
