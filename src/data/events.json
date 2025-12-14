@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-13T19:24:30-06:00",
+  "updated_at": "2025-12-14T00:24:59-06:00",
   "events": [
     {
       "id": "207235515",
@@ -501,6 +501,23 @@
       "startsAt": "2026-03-06T00:00:00-06:00",
       "endsAt": "2026-03-06T23:59:59-06:00",
       "location": "Morton Roller Rink - 216 S First Ave, Morton, IL 61550, USA",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257450",
+      "name": "Chillicothe Life Group",
+      "slug": "chillicothe-life-group",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-08T00:00:00-06:00",
+      "endsAt": "2026-03-08T23:59:59-05:00",
+      "location": "Chillicothe, IL",
       "allDay": true,
       "tags": [
         "David-Import-2026"
