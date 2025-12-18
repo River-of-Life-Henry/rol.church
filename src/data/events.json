@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-18T06:36:09-06:00",
+  "updated_at": "2025-12-18T12:26:12-06:00",
   "events": [
     {
       "id": "206325230",
@@ -62,14 +62,14 @@
       "registrationUrl": null
     },
     {
-      "id": "206976620",
-      "name": "New Year's Prayer & Fellowship",
-      "slug": "new-years-prayer-fellowship",
+      "id": "208603402",
+      "name": "No Midweek Bible Study ",
+      "slug": "no-midweek-bible-study",
       "description": "",
       "summary": null,
       "startsAt": "2025-12-31T19:00:00-06:00",
       "endsAt": "2025-12-31T20:00:00-06:00",
-      "location": "",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
       "allDay": false,
       "tags": [],
       "featured": false,
@@ -95,8 +95,8 @@
     },
     {
       "id": "206257439",
-      "name": "Volunteer Appreciation Dinner",
-      "slug": "volunteer-appreciation-dinner",
+      "name": "Volunteer Appreciation Lunch",
+      "slug": "volunteer-appreciation-lunch",
       "description": "",
       "summary": null,
       "startsAt": "2026-01-04T00:00:00-06:00",
