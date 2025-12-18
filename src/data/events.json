@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-17T19:16:13-06:00",
+  "updated_at": "2025-12-18T00:27:08-06:00",
   "events": [
-    {
-      "id": "207226660",
-      "name": "Youth & Hyphen Service",
-      "slug": "youth-hyphen-service",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-17T19:00:00-06:00",
-      "endsAt": "2025-12-17T20:00:00-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206325230",
       "name": "Hyphen Christmas Coffee",
