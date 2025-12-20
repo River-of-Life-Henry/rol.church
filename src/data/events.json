@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-20T06:31:16-06:00",
+  "updated_at": "2025-12-20T12:21:41-06:00",
   "events": [
-    {
-      "id": "206325230",
-      "name": "Hyphen Christmas Coffee",
-      "slug": "hyphen-christmas-coffee",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-20T09:00:00-06:00",
-      "endsAt": "2025-12-20T11:00:00-06:00",
-      "location": "The Coffee Hub - 318 5th St, Lacon, IL 61540, USA",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207235954",
       "name": "Christmas Service",
