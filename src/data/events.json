@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-21T12:23:20-06:00",
+  "updated_at": "2025-12-21T19:22:35-06:00",
   "events": [
-    {
-      "id": "207235954",
-      "name": "Christmas Service",
-      "slug": "christmas-service",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-21T11:00:00-06:00",
-      "endsAt": "2025-12-21T12:30:00-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207225765",
       "name": "No Midweek Bible Study",
