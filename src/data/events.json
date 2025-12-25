@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-24T19:19:21-06:00",
+  "updated_at": "2025-12-25T00:27:33-06:00",
   "events": [
-    {
-      "id": "207225765",
-      "name": "No Midweek Bible Study",
-      "slug": "no-midweek-bible-study",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-24T19:00:00-06:00",
-      "endsAt": "2025-12-24T20:00:00-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "208896693",
       "name": "Varna/Toluca/Wenona Life Group",
