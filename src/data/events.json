@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-25T19:19:40-06:00",
+  "updated_at": "2025-12-26T00:27:16-06:00",
   "events": [
     {
       "id": "208896693",
@@ -464,6 +464,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206384950",
+      "name": "Future Generations Conference",
+      "slug": "future-generations-conference",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-20T00:00:00-05:00",
+      "endsAt": "2026-03-21T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
