@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-27T19:28:13-06:00",
+  "updated_at": "2025-12-28T00:26:04-06:00",
   "events": [
     {
       "id": "208896693",
@@ -479,6 +479,23 @@
       "location": "",
       "allDay": true,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257451",
+      "name": "Varna/Toluca/Wenona Life Group",
+      "slug": "varnatolucawenona-life-group",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-22T00:00:00-05:00",
+      "endsAt": "2026-03-22T23:59:59-05:00",
+      "location": "Varna/Wenona, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
