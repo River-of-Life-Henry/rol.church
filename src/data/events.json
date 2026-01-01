@@ -1,21 +1,6 @@
 {
-  "updated_at": "2025-12-31T19:27:50-06:00",
+  "updated_at": "2026-01-01T00:27:42-06:00",
   "events": [
-    {
-      "id": "208603402",
-      "name": "No Midweek Bible Study ",
-      "slug": "no-midweek-bible-study",
-      "description": "",
-      "summary": null,
-      "startsAt": "2025-12-31T19:00:00-06:00",
-      "endsAt": "2025-12-31T20:00:00-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206538549",
       "name": "Youth Snow Tubing",
