@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-01-03T12:23:45-06:00",
+  "updated_at": "2026-01-03T19:29:02-06:00",
   "events": [
-    {
-      "id": "206538549",
-      "name": "Youth Snow Tubing",
-      "slug": "youth-snow-tubing",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-01-03T06:00:00-06:00",
-      "endsAt": "2026-01-03T14:00:00-06:00",
-      "location": "Snowstar - 9500 126th St W, Andalusia, IL 61232, USA",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": "https://rolhenry.churchcenter.com/registrations/events/3296989"
-    },
     {
       "id": "206257439",
       "name": "Volunteer Appreciation Lunch",
