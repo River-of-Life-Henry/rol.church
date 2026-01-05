@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-01-04T19:27:35-06:00",
+  "updated_at": "2026-01-05T00:33:25-06:00",
   "events": [
-    {
-      "id": "206257439",
-      "name": "Volunteer Appreciation Lunch",
-      "slug": "volunteer-appreciation-lunch",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-01-04T00:00:00-06:00",
-      "endsAt": "2026-01-04T23:59:59-06:00",
-      "location": "",
-      "allDay": true,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": "https://rolhenry.churchcenter.com/registrations/events/3296991"
-    },
     {
       "id": "163984514",
       "name": "Music Practice",
