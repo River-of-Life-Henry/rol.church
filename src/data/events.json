@@ -1,21 +1,6 @@
 {
-  "updated_at": "2026-01-06T19:21:43-06:00",
+  "updated_at": "2026-01-07T00:28:26-06:00",
   "events": [
-    {
-      "id": "163984490",
-      "name": "Family Prayer",
-      "slug": "family-prayer",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-01-06T19:00:00-06:00",
-      "endsAt": "2026-01-06T20:00:00-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206257437",
       "name": "Community Trivia Night",
@@ -434,6 +419,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "207223719",
+      "name": "Illinois Youth Convention",
+      "slug": "illinois-youth-convention",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-01T00:00:00-05:00",
+      "endsAt": "2026-04-03T23:59:59-05:00",
+      "location": "BOS Center - 1 Convention Ctr Plz, Springfield, IL 62701, USA",
+      "allDay": true,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
