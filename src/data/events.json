@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-07T12:27:07-06:00",
+  "updated_at": "2026-01-07T19:22:20-06:00",
   "events": [
     {
       "id": "206257437",
@@ -433,6 +433,21 @@
       "endsAt": "2026-04-03T23:59:59-05:00",
       "location": "BOS Center - 1 Convention Ctr Plz, Springfield, IL 62701, USA",
       "allDay": true,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "210052191",
+      "name": "Growth Groups",
+      "slug": "growth-groups",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-01T19:00:00-05:00",
+      "endsAt": "2026-04-01T20:00:00-05:00",
+      "location": "",
+      "allDay": false,
       "tags": [],
       "featured": false,
       "imageUrl": null,
