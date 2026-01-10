@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-10T06:32:50-06:00",
+  "updated_at": "2026-01-10T12:24:06-06:00",
   "events": [
     {
       "id": "206257436",
@@ -46,6 +46,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "210990927",
+      "name": "Memorial Service - Bro. Joe Randall",
+      "slug": "memorial-service-bro-joe-randall",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-01-27T18:00:00-06:00",
+      "endsAt": "2026-01-27T19:00:00-06:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
