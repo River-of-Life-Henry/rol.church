@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-01-11T12:23:51-06:00",
+  "updated_at": "2026-01-11T19:25:22-06:00",
   "events": [
     {
-      "id": "206257436",
+      "id": "211078356",
       "name": "Chillicothe Life Group",
       "slug": "chillicothe-life-group",
       "description": "",
       "summary": null,
-      "startsAt": "2026-01-11T00:00:00-06:00",
-      "endsAt": "2026-01-11T23:59:59-06:00",
-      "location": "Chillicothe, IL",
+      "startsAt": "2026-01-18T00:00:00-06:00",
+      "endsAt": "2026-01-18T23:59:59-06:00",
+      "location": "Chillicothe, IL - 618 W Pine St, Chillicothe, IL 61523, USA",
       "allDay": true,
       "tags": [
         "David-Import-2026"
