@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-13T12:26:48-06:00",
+  "updated_at": "2026-01-13T19:24:35-06:00",
   "events": [
     {
       "id": "211078356",
@@ -445,6 +445,36 @@
       "startsAt": "2026-04-01T19:00:00-05:00",
       "endsAt": "2026-04-01T20:00:00-05:00",
       "location": "",
+      "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "163984517",
+      "name": "Music Practice",
+      "slug": "music-practice",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-07T18:00:00-05:00",
+      "endsAt": "2026-04-07T19:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "163984493",
+      "name": "Family Prayer",
+      "slug": "family-prayer",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-07T19:00:00-05:00",
+      "endsAt": "2026-04-07T20:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
       "allDay": false,
       "tags": [],
       "featured": false,
