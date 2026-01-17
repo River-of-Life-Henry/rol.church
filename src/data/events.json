@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-16T19:18:39-06:00",
+  "updated_at": "2026-01-17T00:25:31-06:00",
   "events": [
     {
       "id": "211078356",
@@ -477,6 +477,23 @@
       "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
       "allDay": false,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257463",
+      "name": "Men's Breakfast",
+      "slug": "mens-breakfast",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-11T00:00:00-05:00",
+      "endsAt": "2026-04-11T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
