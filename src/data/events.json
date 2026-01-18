@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-17T12:23:28-06:00",
+  "updated_at": "2026-01-17T19:27:51-06:00",
   "events": [
     {
       "id": "211078356",
@@ -494,6 +494,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206956296",
+      "name": "Section 9 Spanish Rally",
+      "slug": "section-9-spanish-rally",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-11T14:00:00-05:00",
+      "endsAt": "2026-04-11T16:00:00-05:00",
+      "location": "First Church - 1830 7th St, Peru, IL 61354, USA",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
