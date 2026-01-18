@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-17T19:27:51-06:00",
+  "updated_at": "2026-01-18T00:26:07-06:00",
   "events": [
     {
       "id": "211078356",
@@ -509,6 +509,23 @@
       "location": "First Church - 1830 7th St, Peru, IL 61354, USA",
       "allDay": false,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257456",
+      "name": "Chillicothe Life Group",
+      "slug": "chillicothe-life-group",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-12T00:00:00-05:00",
+      "endsAt": "2026-04-12T23:59:59-05:00",
+      "location": "Chillicothe, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
