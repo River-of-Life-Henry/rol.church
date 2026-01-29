@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-28T12:32:28-06:00",
+  "updated_at": "2026-01-28T19:44:31-06:00",
   "events": [
     {
       "id": "206976707",
@@ -479,6 +479,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206976710",
+      "name": "Growth Groups",
+      "slug": "growth-groups",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-04-22T19:00:00-05:00",
+      "endsAt": "2026-04-22T20:00:00-05:00",
+      "location": "",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
