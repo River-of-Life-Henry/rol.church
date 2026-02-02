@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-01T19:51:39-06:00",
+  "updated_at": "2026-02-02T00:58:18-06:00",
   "summary": {
     "google": {
       "rating": 4.4,
@@ -149,6 +149,25 @@
       "featured": true
     },
     {
+      "id": "google_61820ed9",
+      "source": "google",
+      "author": {
+        "name": "May Dellio",
+        "profile_url": "https://www.google.com/maps/contrib/110864337265715609181/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a-/ALV-UjUNLxKcJsbKoI3Jq3WmNB1D6zrJejERYbXc56xq9_ZSvCJTAhVt=s128-c0x00000000-cc-rp-mo-ba4",
+        "is_local_guide": false,
+        "review_count": null,
+        "photo_count": null
+      },
+      "rating": 1,
+      "text": "Not accepting or a loving place to be, in my experience. Plenty of other places in the area to try.",
+      "full_text": "Not accepting or a loving place to be, in my experience. Plenty of other places in the area to try.",
+      "date": "2026-01-18",
+      "relative_time": "2 weeks ago",
+      "review_url": null,
+      "featured": false
+    },
+    {
       "id": "google_a40eaa6d",
       "source": "google",
       "author": {
@@ -204,25 +223,6 @@
       "full_text": "Best church ive been in!",
       "date": "2018-08-05",
       "relative_time": null,
-      "review_url": null,
-      "featured": false
-    },
-    {
-      "id": "google_7dcafafb",
-      "source": "google",
-      "author": {
-        "name": "Melissa Mounts",
-        "profile_url": "https://www.google.com/maps/contrib/118330662905891045562/reviews",
-        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocI0UguQTKRxcsOHYj0L8xlYVNNBCGc3ZEx3kGheGq-G-j7ffQ=s128-c0x00000000-cc-rp-mo-ba2",
-        "is_local_guide": false,
-        "review_count": null,
-        "photo_count": null
-      },
-      "rating": 5,
-      "text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship....",
-      "full_text": "Visitors to this Church today and was greeted in a very loving way. Felt a strong presence of God. . Great Holy Ghost filled preaching and worship. Would love to make this my home Church. Amazing experience.",
-      "date": "2018-01-14",
-      "relative_time": "8 years ago",
       "review_url": null,
       "featured": false
     },

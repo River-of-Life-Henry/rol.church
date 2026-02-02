@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-02-01T19:51:39-06:00",
+  "updated_at": "2026-02-02T00:58:19-06:00",
   "events": [
-    {
-      "id": "206330208",
-      "name": "Winter Revival",
-      "slug": "winter-revival",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-01-30T00:00:00-06:00",
-      "endsAt": "2026-02-01T23:59:59-06:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": true,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "163984515",
       "name": "Music Practice",
