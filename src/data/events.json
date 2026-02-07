@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-02-06T19:43:40-06:00",
+  "updated_at": "2026-02-07T00:36:43-06:00",
   "events": [
-    {
-      "id": "206955884",
-      "name": "Section 9 Youth Rally",
-      "slug": "section-9-youth-rally",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-02-06T19:30:00-06:00",
-      "endsAt": "2026-02-06T23:30:00-06:00",
-      "location": "Apostolic Pentecostal Church  - 2810 Tractor Ln, Bloomington, IL 61704, USA",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206257442",
       "name": "Chillicothe Life Group",
@@ -511,6 +494,23 @@
       "location": "",
       "allDay": true,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257467",
+      "name": "Children's Revival",
+      "slug": "childrens-revival",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-02T00:00:00-05:00",
+      "endsAt": "2026-05-02T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
