@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-10T13:00:17-06:00",
+  "updated_at": "2026-02-10T19:59:50-06:00",
   "events": [
     {
       "id": "212911421",
@@ -494,6 +494,36 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "163984518",
+      "name": "Music Practice",
+      "slug": "music-practice",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-05T18:00:00-05:00",
+      "endsAt": "2026-05-05T19:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "163984494",
+      "name": "Family Prayer",
+      "slug": "family-prayer",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-05T19:00:00-05:00",
+      "endsAt": "2026-05-05T20:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
