@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-24T06:57:11-06:00",
+  "updated_at": "2026-02-24T12:56:09-06:00",
   "events": [
     {
       "id": "206976708",
@@ -32,15 +32,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206956461",
+      "id": "216109093",
       "name": "Leadership Meeting",
       "slug": "leadership-meeting",
       "description": "",
       "summary": null,
-      "startsAt": "2026-03-01T00:00:00-06:00",
-      "endsAt": "2026-03-01T23:59:59-06:00",
+      "startsAt": "2026-03-01T12:30:00-06:00",
+      "endsAt": "2026-03-01T14:00:00-06:00",
       "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": true,
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -113,15 +113,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206257450",
+      "id": "216110569",
       "name": "Chillicothe Life Group",
       "slug": "chillicothe-life-group",
       "description": "",
       "summary": null,
-      "startsAt": "2026-03-08T00:00:00-06:00",
-      "endsAt": "2026-03-08T23:59:59-05:00",
-      "location": "Chillicothe, IL",
-      "allDay": true,
+      "startsAt": "2026-03-08T17:00:00-05:00",
+      "endsAt": "2026-03-08T19:00:00-05:00",
+      "location": "",
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -177,15 +177,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206257451",
+      "id": "216112327",
       "name": "Varna/Toluca/Wenona Life Group",
       "slug": "varnatolucawenona-life-group",
       "description": "",
       "summary": null,
-      "startsAt": "2026-03-22T00:00:00-05:00",
-      "endsAt": "2026-03-22T23:59:59-05:00",
-      "location": "Varna/Wenona, IL",
-      "allDay": true,
+      "startsAt": "2026-03-22T17:00:00-05:00",
+      "endsAt": "2026-03-22T19:00:00-05:00",
+      "location": "",
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -271,15 +271,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206257463",
+      "id": "216113642",
       "name": "Men's Breakfast",
       "slug": "mens-breakfast",
       "description": "",
       "summary": null,
-      "startsAt": "2026-04-11T00:00:00-05:00",
-      "endsAt": "2026-04-11T23:59:59-05:00",
+      "startsAt": "2026-04-11T09:00:00-05:00",
+      "endsAt": "2026-04-11T11:00:00-05:00",
       "location": "",
-      "allDay": true,
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -303,15 +303,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206257456",
+      "id": "216113662",
       "name": "Chillicothe Life Group",
       "slug": "chillicothe-life-group",
       "description": "",
       "summary": null,
-      "startsAt": "2026-04-12T00:00:00-05:00",
-      "endsAt": "2026-04-12T23:59:59-05:00",
-      "location": "Chillicothe, IL",
-      "allDay": true,
+      "startsAt": "2026-04-12T17:00:00-05:00",
+      "endsAt": "2026-04-12T19:00:00-05:00",
+      "location": "",
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -350,15 +350,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206257475",
+      "id": "216113724",
       "name": "Princeton Life Group",
       "slug": "princeton-life-group",
       "description": "",
       "summary": null,
-      "startsAt": "2026-04-26T00:00:00-05:00",
-      "endsAt": "2026-04-26T23:59:59-05:00",
-      "location": "Princeton, IL",
-      "allDay": true,
+      "startsAt": "2026-04-26T17:00:00-05:00",
+      "endsAt": "2026-04-26T19:00:00-05:00",
+      "location": "",
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
