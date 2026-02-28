@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-28T06:37:12-06:00",
+  "updated_at": "2026-02-28T12:27:31-06:00",
   "events": [
     {
       "id": "206372465",
@@ -492,6 +492,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206956133",
+      "name": "Section 9 Men's Breakfast",
+      "slug": "section-9-mens-breakfast",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-23T10:00:00-05:00",
+      "endsAt": "2026-05-23T11:30:00-05:00",
+      "location": "",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
