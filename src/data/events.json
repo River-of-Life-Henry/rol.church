@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-01T19:48:46-06:00",
+  "updated_at": "2026-03-02T00:52:19-06:00",
   "events": [
     {
       "id": "163984516",
@@ -489,6 +489,21 @@
       "endsAt": "2026-05-23T20:00:00-05:00",
       "location": "",
       "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206372540",
+      "name": "Memorial Day Picnic",
+      "slug": "memorial-day-picnic",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-25T00:00:00-05:00",
+      "endsAt": "2026-05-25T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
       "tags": [],
       "featured": false,
       "imageUrl": null,
