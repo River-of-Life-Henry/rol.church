@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-04T12:42:17-06:00",
+  "updated_at": "2026-03-04T19:47:50-06:00",
   "events": [
     {
       "id": "206955797",
@@ -474,6 +474,21 @@
       "endsAt": "2026-05-25T23:59:59-05:00",
       "location": "",
       "allDay": true,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206976711",
+      "name": "Growth Groups",
+      "slug": "growth-groups",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-27T19:00:00-05:00",
+      "endsAt": "2026-05-27T20:00:00-05:00",
+      "location": "",
+      "allDay": false,
       "tags": [],
       "featured": false,
       "imageUrl": null,
