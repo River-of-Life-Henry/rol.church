@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-05T06:52:09-06:00",
+  "updated_at": "2026-03-05T13:13:12-06:00",
   "events": [
     {
       "id": "206955797",
@@ -53,18 +53,48 @@
       "registrationUrl": null
     },
     {
-      "id": "206955740",
+      "id": "217071737",
       "name": "March Madness (Revival)",
       "slug": "march-madness-revival",
       "description": "",
       "summary": null,
-      "startsAt": "2026-03-13T00:00:00-05:00",
-      "endsAt": "2026-03-15T23:59:59-05:00",
+      "startsAt": "2026-03-13T19:00:00-05:00",
+      "endsAt": "2026-03-13T21:00:00-05:00",
       "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": true,
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "217071824",
+      "name": "March Madness Gym Night",
+      "slug": "march-madness-gym-night",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-14T18:00:00-05:00",
+      "endsAt": "2026-03-14T20:00:00-05:00",
+      "location": "Henry-Senachwine High School  - 1023 College Ave, Henry, IL 61537, USA",
+      "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "217072096",
+      "name": "March Madness (Revival)",
+      "slug": "march-madness-revival",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-03-15T10:00:00-05:00",
+      "endsAt": "2026-03-15T13:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
