@@ -1,12 +1,12 @@
 {
-  "video_id": "a723efecf9f18bd53431fe4ede8b618c",
-  "title": "Sunday Service",
-  "created": "2026-03-01T15:55:20.608401Z",
-  "duration": 9712.3,
-  "thumbnail": "https://customer-ysn6m98an1n31qj6.cloudflarestream.com/a723efecf9f18bd53431fe4ede8b618c/thumbnails/thumbnail.jpg",
+  "video_id": "cc823fec8fd201985d31240357924a49",
+  "title": "3/8/2026: Wednesday Template Copy - Special Events",
+  "created": "2026-03-08T14:54:02.798401Z",
+  "duration": 9378.83,
+  "thumbnail": "https://customer-ysn6m98an1n31qj6.cloudflarestream.com/cc823fec8fd201985d31240357924a49/thumbnails/thumbnail.jpg",
   "poster_url": null,
   "series_title": null,
-  "plan_title": null,
-  "service_type": null,
-  "updated_at": "2026-03-02T01:48:46Z"
+  "plan_title": "Wednesday Template Copy",
+  "service_type": "Special Events",
+  "updated_at": "2026-03-08T17:31:15Z"
 }
