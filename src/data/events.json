@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-07T19:48:51-06:00",
+  "updated_at": "2026-03-08T00:37:30-06:00",
   "events": [
     {
       "id": "216110569",
@@ -506,6 +506,23 @@
       "featured": false,
       "imageUrl": null,
       "registrationUrl": "https://rolhenry.churchcenter.com/registrations/events/3297006"
+    },
+    {
+      "id": "206257474",
+      "name": "Henry Life Group",
+      "slug": "henry-life-group",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-31T00:00:00-05:00",
+      "endsAt": "2026-05-31T23:59:59-05:00",
+      "location": "Henry, IL",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
     }
   ]
 }
