@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-03-13T20:45:00-05:00",
+  "updated_at": "2026-03-14T01:40:13-05:00",
   "events": [
-    {
-      "id": "217071737",
-      "name": "March Madness (Revival)",
-      "slug": "march-madness-revival",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-03-13T19:00:00-05:00",
-      "endsAt": "2026-03-13T21:00:00-05:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "217071824",
       "name": "March Madness Gym Night",
