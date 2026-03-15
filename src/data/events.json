@@ -1,21 +1,6 @@
 {
-  "updated_at": "2026-03-15T07:43:05-05:00",
+  "updated_at": "2026-03-15T13:33:20-05:00",
   "events": [
-    {
-      "id": "217072096",
-      "name": "March Madness (Revival)",
-      "slug": "march-madness-revival",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-03-15T10:00:00-05:00",
-      "endsAt": "2026-03-15T13:00:00-05:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206384950",
       "name": "Future Generations Conference",
