@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-21T07:39:34-05:00",
+  "updated_at": "2026-03-21T13:30:38-05:00",
   "events": [
     {
       "id": "206384950",
@@ -11,21 +11,6 @@
       "endsAt": "2026-03-21T23:59:59-05:00",
       "location": "",
       "allDay": true,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
-    {
-      "id": "214303155",
-      "name": "Spring Cleaning ",
-      "slug": "spring-cleaning",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-03-21T10:00:00-05:00",
-      "endsAt": "2026-03-21T13:00:00-05:00",
-      "location": "",
-      "allDay": false,
       "tags": [],
       "featured": false,
       "imageUrl": null,
