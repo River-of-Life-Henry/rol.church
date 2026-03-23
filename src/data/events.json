@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-22T20:55:32-05:00",
+  "updated_at": "2026-03-23T02:04:43-05:00",
   "events": [
     {
       "id": "206955687",
@@ -436,6 +436,21 @@
       "summary": null,
       "startsAt": "2026-06-03T00:00:00-05:00",
       "endsAt": "2026-06-05T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206385081",
+      "name": "Sr. High Camp",
+      "slug": "sr-high-camp",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-06-15T00:00:00-05:00",
+      "endsAt": "2026-06-19T23:59:59-05:00",
       "location": "",
       "allDay": true,
       "tags": [],
