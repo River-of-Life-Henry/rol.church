@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-03-27T20:51:23-05:00",
+  "updated_at": "2026-03-28T01:53:55-05:00",
   "events": [
-    {
-      "id": "206955687",
-      "name": "Section 9 Ladies Event",
-      "slug": "section-9-ladies-event",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-03-27T19:30:00-05:00",
-      "endsAt": "2026-03-27T22:30:00-05:00",
-      "location": "River of Life Church - Henry, IL - 425 University Ave",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "207223719",
       "name": "Illinois Youth Convention",
