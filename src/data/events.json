@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-29T21:05:12-05:00",
+  "updated_at": "2026-03-30T02:21:38-05:00",
   "events": [
     {
       "id": "207223719",
@@ -434,6 +434,21 @@
       "summary": null,
       "startsAt": "2026-06-15T00:00:00-05:00",
       "endsAt": "2026-06-19T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206385126",
+      "name": "Kids Camp",
+      "slug": "kids-camp",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-06-22T00:00:00-05:00",
+      "endsAt": "2026-06-26T23:59:59-05:00",
       "location": "",
       "allDay": true,
       "tags": [],
