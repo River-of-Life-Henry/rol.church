@@ -1,21 +1,6 @@
 {
-  "updated_at": "2026-04-03T20:51:30-05:00",
+  "updated_at": "2026-04-04T01:55:31-05:00",
   "events": [
-    {
-      "id": "207223719",
-      "name": "Illinois Youth Convention",
-      "slug": "illinois-youth-convention",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-04-01T00:00:00-05:00",
-      "endsAt": "2026-04-03T23:59:59-05:00",
-      "location": "BOS Center - 1 Convention Ctr Plz, Springfield, IL 62701, USA",
-      "allDay": true,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "163984517",
       "name": "Music Practice",
@@ -452,6 +437,23 @@
       "location": "",
       "allDay": false,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257472",
+      "name": "Men's Fishing",
+      "slug": "mens-fishing",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-06-27T00:00:00-05:00",
+      "endsAt": "2026-06-27T23:59:59-05:00",
+      "location": "TBD",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
