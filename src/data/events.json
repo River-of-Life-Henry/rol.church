@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-04-11T07:49:05-05:00",
+  "updated_at": "2026-04-11T13:38:32-05:00",
   "events": [
-    {
-      "id": "216113642",
-      "name": "Men's Breakfast",
-      "slug": "mens-breakfast",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-04-11T09:00:00-05:00",
-      "endsAt": "2026-04-11T11:00:00-05:00",
-      "location": "Wildey's Country Diner - 223 N Washington St, Lacon, IL 61540, USA",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206956296",
       "name": "Section 9 Spanish Rally",
