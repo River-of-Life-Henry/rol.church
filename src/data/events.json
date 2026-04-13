@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-04-12T13:41:03-05:00",
+  "updated_at": "2026-04-12T21:13:30-05:00",
   "events": [
-    {
-      "id": "216113662",
-      "name": "Chillicothe Life Group",
-      "slug": "chillicothe-life-group",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-04-12T17:00:00-05:00",
-      "endsAt": "2026-04-12T19:00:00-05:00",
-      "location": "",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206384973",
       "name": "IL District Young Mens Encounter",
