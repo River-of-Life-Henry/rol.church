@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-14T14:07:49-05:00",
+  "updated_at": "2026-04-14T21:05:03-05:00",
   "events": [
     {
       "id": "206384973",
@@ -392,6 +392,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "163984496",
+      "name": "Family Prayer",
+      "slug": "family-prayer",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-07-07T19:00:00-05:00",
+      "endsAt": "2026-07-07T20:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
