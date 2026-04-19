@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-19T07:53:56-05:00",
+  "updated_at": "2026-04-19T13:41:54-05:00",
   "events": [
     {
       "id": "206384973",
@@ -50,8 +50,8 @@
     },
     {
       "id": "206257464",
-      "name": "Youth Escape Room",
-      "slug": "youth-escape-room",
+      "name": "Youth Event",
+      "slug": "youth-event",
       "description": "",
       "summary": null,
       "startsAt": "2026-05-01T00:00:00-05:00",
@@ -61,21 +61,6 @@
       "tags": [
         "David-Import-2026"
       ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
-    {
-      "id": "207249788",
-      "name": "IL District Prison Conference",
-      "slug": "il-district-prison-conference",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-01T00:00:00-05:00",
-      "endsAt": "2026-05-02T23:59:59-05:00",
-      "location": "",
-      "allDay": true,
-      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
