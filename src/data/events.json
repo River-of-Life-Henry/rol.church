@@ -1,21 +1,6 @@
 {
-  "updated_at": "2026-04-25T21:24:25-05:00",
+  "updated_at": "2026-04-26T02:23:17-05:00",
   "events": [
-    {
-      "id": "206384973",
-      "name": "IL District Young Mens Encounter",
-      "slug": "il-district-young-mens-encounter",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-04-24T00:00:00-05:00",
-      "endsAt": "2026-04-25T23:59:59-05:00",
-      "location": "",
-      "allDay": true,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "216113724",
       "name": "Princeton Life Group",
@@ -486,6 +471,23 @@
       "startsAt": "2026-07-17T00:00:00-05:00",
       "endsAt": "2026-07-17T23:59:59-05:00",
       "location": "TBD",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206257482",
+      "name": "Varna/Toluca/Wenona Life Group",
+      "slug": "varnatolucawenona-life-group",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-07-19T00:00:00-05:00",
+      "endsAt": "2026-07-19T23:59:59-05:00",
+      "location": "",
       "allDay": true,
       "tags": [
         "David-Import-2026"
