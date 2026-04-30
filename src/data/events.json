@@ -1,38 +1,6 @@
 {
-  "updated_at": "2026-04-29T14:18:32-05:00",
+  "updated_at": "2026-04-29T21:35:15-05:00",
   "events": [
-    {
-      "id": "218658554",
-      "name": "Growth Groups",
-      "slug": "growth-groups",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-04-29T19:00:00-05:00",
-      "endsAt": "2026-04-29T20:00:00-05:00",
-      "location": "",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
-    {
-      "id": "206257464",
-      "name": "Youth Event",
-      "slug": "youth-event",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-01T00:00:00-05:00",
-      "endsAt": "2026-05-01T23:59:59-05:00",
-      "location": "TBD",
-      "allDay": true,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206257467",
       "name": "Children's Revival",
@@ -96,6 +64,23 @@
       "featured": false,
       "imageUrl": null,
       "registrationUrl": "https://rolhenry.churchcenter.com/registrations/events/3297002"
+    },
+    {
+      "id": "221848881",
+      "name": "Youth Hangout",
+      "slug": "youth-hangout",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-15T00:00:00-05:00",
+      "endsAt": "2026-05-15T23:59:59-05:00",
+      "location": "TBD - 708 N Stanley Dr, Chillicothe, IL 61523, USA",
+      "allDay": true,
+      "tags": [
+        "David-Import-2026"
+      ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
     },
     {
       "id": "206257465",
