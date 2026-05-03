@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-05-02T21:32:47-05:00",
+  "updated_at": "2026-05-03T02:56:22-05:00",
   "events": [
-    {
-      "id": "206257467",
-      "name": "Children's Revival",
-      "slug": "childrens-revival",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-02T00:00:00-05:00",
-      "endsAt": "2026-05-02T23:59:59-05:00",
-      "location": "",
-      "allDay": true,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "163984518",
       "name": "Music Practice",
