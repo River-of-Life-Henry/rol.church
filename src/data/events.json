@@ -1,36 +1,6 @@
 {
-  "updated_at": "2026-05-05T14:13:40-05:00",
+  "updated_at": "2026-05-05T21:29:47-05:00",
   "events": [
-    {
-      "id": "163984518",
-      "name": "Music Practice",
-      "slug": "music-practice",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-05T18:00:00-05:00",
-      "endsAt": "2026-05-05T19:00:00-05:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
-    {
-      "id": "163984494",
-      "name": "Family Prayer",
-      "slug": "family-prayer",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-05T19:00:00-05:00",
-      "endsAt": "2026-05-05T20:00:00-05:00",
-      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
-      "allDay": false,
-      "tags": [],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "206257458",
       "name": "SOC Fundraiser",
