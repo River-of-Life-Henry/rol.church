@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-05-06T14:41:27-05:00",
+  "updated_at": "2026-05-06T21:31:59-05:00",
   "events": [
     {
-      "id": "206257458",
+      "id": "222521171",
       "name": "SOC Fundraiser",
       "slug": "soc-fundraiser",
       "description": "",
       "summary": null,
-      "startsAt": "2026-05-09T00:00:00-05:00",
-      "endsAt": "2026-05-09T23:59:59-05:00",
+      "startsAt": "2026-05-09T10:00:00-05:00",
+      "endsAt": "2026-05-09T14:00:00-05:00",
       "location": "",
-      "allDay": true,
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -19,32 +19,30 @@
       "registrationUrl": "https://rolhenry.churchcenter.com/registrations/events/3297002"
     },
     {
-      "id": "221848881",
-      "name": "Youth Hangout",
-      "slug": "youth-hangout",
+      "id": "222521496",
+      "name": "Muffins With Mom",
+      "slug": "muffins-with-mom",
       "description": "",
       "summary": null,
-      "startsAt": "2026-05-15T00:00:00-05:00",
-      "endsAt": "2026-05-15T23:59:59-05:00",
-      "location": "TBD - 708 N Stanley Dr, Chillicothe, IL 61523, USA",
-      "allDay": true,
-      "tags": [
-        "David-Import-2026"
-      ],
+      "startsAt": "2026-05-10T10:00:00-05:00",
+      "endsAt": "2026-05-10T11:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
     },
     {
-      "id": "206257465",
-      "name": "Chillicothe Life Group",
-      "slug": "chillicothe-life-group",
+      "id": "222522077",
+      "name": "Youth Hangout",
+      "slug": "youth-hangout",
       "description": "",
       "summary": null,
-      "startsAt": "2026-05-17T00:00:00-05:00",
-      "endsAt": "2026-05-17T23:59:59-05:00",
-      "location": "Chillicothe, IL",
-      "allDay": true,
+      "startsAt": "2026-05-15T19:00:00-05:00",
+      "endsAt": "2026-05-15T21:00:00-05:00",
+      "location": "TBD - 708 N Stanley Dr, Chillicothe, IL 61523, USA",
+      "allDay": false,
       "tags": [
         "David-Import-2026"
       ],
@@ -63,6 +61,23 @@
       "location": "",
       "allDay": false,
       "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "222522289",
+      "name": "Chillicothe Life Group",
+      "slug": "chillicothe-life-group",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-05-17T17:00:00-05:00",
+      "endsAt": "2026-05-17T19:00:00-05:00",
+      "location": "Chillicothe, IL - 618 W Pine St, Chillicothe, IL 61523, USA",
+      "allDay": false,
+      "tags": [
+        "David-Import-2026"
+      ],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
@@ -92,7 +107,7 @@
       "summary": null,
       "startsAt": "2026-05-23T10:00:00-05:00",
       "endsAt": "2026-05-23T11:30:00-05:00",
-      "location": "",
+      "location": "The Pentecostals of Pekin - 215 State St, Pekin, IL 61554, USA",
       "allDay": false,
       "tags": [],
       "featured": false,
@@ -115,15 +130,15 @@
       "registrationUrl": null
     },
     {
-      "id": "206372540",
+      "id": "222522782",
       "name": "Memorial Day Picnic",
       "slug": "memorial-day-picnic",
       "description": "",
       "summary": null,
-      "startsAt": "2026-05-25T00:00:00-05:00",
-      "endsAt": "2026-05-25T23:59:59-05:00",
-      "location": "",
-      "allDay": true,
+      "startsAt": "2026-05-25T12:00:00-05:00",
+      "endsAt": "2026-05-25T16:00:00-05:00",
+      "location": "Child Memorial Park - 801 Market St, Henry, IL 61537, USA",
+      "allDay": false,
       "tags": [],
       "featured": false,
       "imageUrl": null,
@@ -152,7 +167,7 @@
       "summary": null,
       "startsAt": "2026-05-29T00:00:00-05:00",
       "endsAt": "2026-05-30T23:59:59-05:00",
-      "location": "",
+      "location": "Great Oaks - 1380 County Rd 900 N, Lacon, IL 61540, USA",
       "allDay": true,
       "tags": [
         "David-Import-2026"
@@ -430,6 +445,21 @@
       "tags": [
         "David-Import-2026"
       ],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "218658628",
+      "name": "Growth Groups",
+      "slug": "growth-groups",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-07-29T19:00:00-05:00",
+      "endsAt": "2026-07-29T20:00:00-05:00",
+      "location": "",
+      "allDay": false,
+      "tags": [],
       "featured": false,
       "imageUrl": null,
       "registrationUrl": null
