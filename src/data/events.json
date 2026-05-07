@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-07T08:56:42-05:00",
+  "updated_at": "2026-05-07T14:38:56-05:00",
   "events": [
     {
       "id": "222521171",
@@ -233,6 +233,21 @@
       "endsAt": "2026-06-19T23:59:59-05:00",
       "location": "",
       "allDay": true,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "222611353",
+      "name": "Donuts With Dad",
+      "slug": "donuts-with-dad",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-06-21T10:00:00-05:00",
+      "endsAt": "2026-06-21T11:00:00-05:00",
+      "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
+      "allDay": false,
       "tags": [],
       "featured": false,
       "imageUrl": null,
