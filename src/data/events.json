@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-05-09T13:54:39-05:00",
+  "updated_at": "2026-05-09T21:35:33-05:00",
   "events": [
-    {
-      "id": "222521171",
-      "name": "SOC Fundraiser",
-      "slug": "soc-fundraiser",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-09T10:00:00-05:00",
-      "endsAt": "2026-05-09T14:00:00-05:00",
-      "location": "",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": "https://rolhenry.churchcenter.com/registrations/events/3297002"
-    },
     {
       "id": "222521496",
       "name": "Muffins With Mom",
