@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-14T21:45:21-05:00",
+  "updated_at": "2026-05-15T03:43:53-05:00",
   "events": [
     {
       "id": "222522077",
@@ -472,6 +472,21 @@
       "endsAt": "2026-08-04T20:00:00-05:00",
       "location": "River of Life - Henry - 425 University Ave, Henry, IL 61537",
       "allDay": false,
+      "tags": [],
+      "featured": false,
+      "imageUrl": null,
+      "registrationUrl": null
+    },
+    {
+      "id": "206385223",
+      "name": "MTM Summit",
+      "slug": "mtm-summit",
+      "description": "",
+      "summary": null,
+      "startsAt": "2026-08-07T00:00:00-05:00",
+      "endsAt": "2026-08-08T23:59:59-05:00",
+      "location": "",
+      "allDay": true,
       "tags": [],
       "featured": false,
       "imageUrl": null,
