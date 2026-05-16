@@ -1,23 +1,6 @@
 {
-  "updated_at": "2026-05-15T14:24:24-05:00",
+  "updated_at": "2026-05-15T21:34:26-05:00",
   "events": [
-    {
-      "id": "222522077",
-      "name": "Youth Hangout",
-      "slug": "youth-hangout",
-      "description": "",
-      "summary": null,
-      "startsAt": "2026-05-15T19:00:00-05:00",
-      "endsAt": "2026-05-15T21:00:00-05:00",
-      "location": "TBD - 708 N Stanley Dr, Chillicothe, IL 61523, USA",
-      "allDay": false,
-      "tags": [
-        "David-Import-2026"
-      ],
-      "featured": false,
-      "imageUrl": null,
-      "registrationUrl": null
-    },
     {
       "id": "214302387",
       "name": "Mother's Memorial Cheesecake Auction",
