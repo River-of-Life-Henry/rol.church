@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-31T14:09:56-05:00",
+  "updated_at": "2026-05-31T22:36:45-05:00",
   "groups": [
     {
       "id": "2895651",
@@ -8,8 +8,8 @@
       "description": "<div>This is the default group for all church events that are not department specific. </div>",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": "/groups/all-church-events_header.jpg",
-      "hasHeaderImage": true,
+      "headerImage": null,
+      "hasHeaderImage": false,
       "leaders": [
         {
           "id": "140403632",
@@ -176,8 +176,8 @@
       "description": "",
       "schedule": "",
       "contactEmail": null,
-      "headerImage": "/groups/leadership_header.jpg",
-      "hasHeaderImage": true,
+      "headerImage": null,
+      "hasHeaderImage": false,
       "leaders": [
         {
           "id": "140403632_152738971",
