@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-02T14:02:47-05:00",
+  "updated_at": "2026-08-02T21:24:53-05:00",
   "groups": [
     {
       "id": "2895651",
@@ -62,8 +62,8 @@
       "description": "",
       "schedule": "Meets weekly on Sundays from 10-10:45am",
       "contactEmail": null,
-      "headerImage": "/groups/kids_header.jpg",
-      "hasHeaderImage": true,
+      "headerImage": null,
+      "hasHeaderImage": false,
       "leaders": [
         {
           "id": "140405054",
