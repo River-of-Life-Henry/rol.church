@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-06T08:54:36-05:00",
+  "updated_at": "2026-08-06T18:53:55-05:00",
   "summary": {
     "google": {
-      "rating": 4.2,
-      "total_reviews": 15,
+      "rating": 4.4,
+      "total_reviews": 14,
       "reviews_url": "https://www.google.com/maps/place/?q=place_id:ChIJE3ycD3_NC4gR0ko5wg9J2nw"
     },
     "facebook": {
@@ -149,21 +149,21 @@
       "featured": true
     },
     {
-      "id": "google_a40eaa6d",
+      "id": "google_61820ed9",
       "source": "google",
       "author": {
-        "name": "Gemmy Schwartz",
-        "profile_url": "https://www.google.com/maps/contrib/115692974779692958163/reviews",
-        "photo_url": "https://lh3.googleusercontent.com/a/ACg8ocLdYuN2LObPRyX96nikskvBogYKwXtAA7U5E3OEcrfC9374OA=s128-c0x00000000-cc-rp-mo",
+        "name": "May Dellio",
+        "profile_url": "https://www.google.com/maps/contrib/110864337265715609181/reviews",
+        "photo_url": "https://lh3.googleusercontent.com/a-/ALV-UjUNLxKcJsbKoI3Jq3WmNB1D6zrJejERYbXc56xq9_ZSvCJTAhVt=s128-c0x00000000-cc-rp-mo-ba4",
         "is_local_guide": false,
         "review_count": null,
         "photo_count": null
       },
       "rating": 1,
-      "text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the...",
-      "full_text": "This place is unreal. In order to be a member or be on stage you can't have a beard because apparently It's worldly, although I was created in the image of God, it's not shocking given this is the evil the Pharisee did as well, created laws not of God. They wear wedding rings and adhere to holidays like the Romans of old. They celebrate themselves on their birthdays. None of this is of God. And the worst is the fake tongues. Remember the sign of the holy Ghost ain't tongues it's prophesying. We know that because it's what Paul said. Watch your children around this pastor please, I hate to say it but there's a problem in the priesthood. And there's some older lady there with like 10 kids that aren't hers that starts fights and drama with everyone in the church, shes the reason I'm posting this. Name starts with an L last name starts with a D.",
-      "date": "2024-02-22",
-      "relative_time": "2 years ago",
+      "text": "Not accepting or a loving place to be, in my experience. Plenty of other places in the area to try.",
+      "full_text": "Not accepting or a loving place to be, in my experience. Plenty of other places in the area to try.",
+      "date": "2026-01-18",
+      "relative_time": "6 months ago",
       "review_url": null,
       "featured": false
     },
